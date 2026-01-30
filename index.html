@@ -36,7 +36,53 @@
       white-space:pre-wrap;text-align:center
     }
     .muted{color:#666;font-size:13px;text-align:center}
-  </style>
+ /* ===== Step 1 Design: خلفية غامقة رومانسية بسيطة ===== */
+body{
+  background:
+    radial-gradient(700px 450px at 50% 15%, rgba(255,77,184,.18), transparent 60%),
+    radial-gradient(700px 450px at 15% 30%, rgba(0,200,255,.14), transparent 60%),
+    linear-gradient(180deg, #07070a, #0f1020 70%, #07070a) !important;
+  color:#f3f4f6 !important;
+}
+
+.card{
+  background: rgba(255,255,255,.06) !important;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 18px !important;
+  box-shadow: 0 14px 40px rgba(0,0,0,.35) !important;
+  backdrop-filter: blur(10px);
+}
+
+input, select{
+  background: rgba(255,255,255,.06) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  color:#fff !important;
+}
+
+input::placeholder{
+  color: rgba(255,255,255,.45) !important;
+}
+
+.pill{
+  background: rgba(255,255,255,.08) !important;
+  border: 1px solid rgba(255,255,255,.12) !important;
+  color: rgba(255,255,255,.75) !important;
+}
+
+.pill b{ color:#fff !important; }
+
+h2{ color: rgba(255,255,255,.75) !important; }
+
+/* زر الدخول وخيارات */
+button{
+  background:#ffffff !important;
+  color:#111 !important;
+  font-weight:800 !important;
+  border-radius:14px !important;
+}
+
+button:active{ transform: scale(.98); }
+ </style>
 </head>
 
 <body>
@@ -73,7 +119,7 @@
 
   <div class="card" style="margin-top:14px">
     <div class="q" id="prompt">ابدأ ✨ اختر (سؤال / تحدي)</div>
-    <button onclick="resetPrompt()" style="background:#444;margin-top:12px">🔁 إعادة</button>
+    <button onclick="resetPrompt()" style="background:rgba(255,255,255,.12);color:#fff;margin-top:12px;border:1px solid rgba(255,255,255,.14)">🔁 إعادة</button>
   </div>
 </div>
 
@@ -446,3 +492,4 @@ function resetPrompt(){
 
 </body>
 </html>
+
