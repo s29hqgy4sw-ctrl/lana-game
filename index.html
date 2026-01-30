@@ -110,7 +110,25 @@ button:active{ transform: scale(.98); }
     <span class="pill">الغرفة: <b id="roomLabel"></b></span>
     <span class="pill">أنت: <b id="nameLabel"></b></span>
     <span class="pill">المرحلة: <b id="modeLabel"></b></span>
+
   </div>
+
+  <div class="row" style="margin-top:10px">
+  <button onclick="GO_BACK()" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.14)">⬅️ رجوع</button>
+  <button onclick="TOGGLE_MODE()" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.14)">🎛️ تغيير المرحلة</button>
+</div>
+
+<div class="card" id="modeCard" style="display:none;margin-top:10px">
+  <div class="muted" style="margin-bottom:8px">اختر المرحلة وأنت داخل اللعبة</div>
+  <select id="mode2">
+    <option value="lana1">LANA 1 💖 (مشاعر)</option>
+    <option value="lana2">LANA 2 🤍 (أمان)</option>
+    <option value="lana3">LANA 3 😄 (راحة/سوالف)</option>
+    <option value="lana4">LANA 4 🔥 (جريئة)</option>
+  </select>
+  <button onclick="APPLY_MODE()">✅ تطبيق</button>
+</div>
+
 
   <div class="row" style="margin-top:12px">
     <button onclick="showPrompt('q')">💬 سؤال / سالفة</button>
@@ -469,6 +487,46 @@ function JOIN_NOW(){
     return;
   }
 
+  function GO_BACK(){
+  document.getElementById("game").style.display = "none";
+  document.getElementById("join").style.display = "block";
+  document.getElementById("prompt").innerText = "ابدأ ✨ اختر (سؤال / تحدي)";
+  const mc = document.getElementById("modeCard");
+  if(mc) mc.style.display = "none";
+}
+
+function TOGGLE_MODE(){
+  const mc = document.getElementById("modeCard");
+  mc.style.display = (mc.style.display === "none" || !mc.style.display) ? "block" : "none";
+  const m2 = document.getElementById("mode2");
+  if(m2) m2.value = CURRENT_MODE;
+}
+
+function APPLY_MODE(){
+  const m2 = document.getElementById("mode2").value;
+  CURRENT_MODE = m2;
+  document.getElementById("modeLabel").innerText = modeName(CURRENT_MODE);
+  document.getElementById("prompt").innerText = "تم تغيير المرحلة ✨ اختر (سؤال / تحدي)";
+  document.getElementById("modeCard").style.display = "none";
+}
+
+
+  CURRENT_MODE = mode;
+
+  document.getElementById("join").style.display = "none";
+  document.getElementById("game").style.display = "block";
+
+  document.getElementById("roomLabel").innerText = room;
+  document.getElementById("nameLabel").innerText = name;
+  document.getElementById("modeLabel").innerText = modeName(CURRENT_MODE);
+
+  // تزامن قائمة المرحلة داخل اللعبة
+  const m2 = document.getElementById("mode2");
+  if(m2) m2.value = CURRENT_MODE;
+
+  document.getElementById("prompt").innerText = "جاهز ✨ اختر (سؤال / تحدي)";
+}
+
   CURRENT_MODE = mode;
   document.getElementById("join").style.display = "none";
   document.getElementById("game").style.display = "block";
@@ -492,6 +550,7 @@ function resetPrompt(){
 
 </body>
 </html>
+
 
 
 
