@@ -8,469 +8,611 @@
   <style>
     :root{
       --bg1:#07070a;
-      --bg2:#120818;
-      --bg3:#0b0712;
-      --glass:rgba(255,255,255,.08);
-      --glass2:rgba(255,255,255,.06);
-      --stroke:rgba(255,255,255,.14);
-      --txt:#f7f7fb;
-      --muted:rgba(255,255,255,.72);
-      --pink:#ff3b8d;
-      --pink2:#ff6bb0;
-      --red:#ff2d55;
+      --bg2:#0f1020;
+      --card: rgba(255,255,255,.08);
+      --card2: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.14);
+      --text:#f3f4f6;
+      --muted: rgba(255,255,255,.72);
+      --muted2: rgba(255,255,255,.55);
       --btn:#ffffff;
-      --btnTxt:#111;
+      --btnText:#111;
+      --accent:#ff2d7a;
+      --accent2:#ff4db8;
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
     }
 
-    *{box-sizing:border-box}
+    *{ box-sizing:border-box; }
     body{
-      font-family: system-ui, -apple-system, Segoe UI, Arial;
       margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Arial;
+      color:var(--text);
       min-height:100vh;
-      color:var(--txt);
-      overflow-x:hidden;
       background:
-        radial-gradient(700px 450px at 50% 12%, rgba(255,59,141,.22), transparent 62%),
-        radial-gradient(700px 450px at 22% 35%, rgba(255,107,176,.16), transparent 62%),
-        radial-gradient(700px 450px at 80% 45%, rgba(255,45,85,.12), transparent 62%),
-        linear-gradient(180deg, var(--bg1), var(--bg2) 65%, var(--bg3));
+        radial-gradient(900px 520px at 50% 12%, rgba(255,77,184,.18), transparent 60%),
+        radial-gradient(900px 520px at 15% 28%, rgba(255,0,102,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg2) 70%, var(--bg1));
+      overflow-x:hidden;
     }
 
-    /* Hearts rain layer */
-    #hearts{
+    /* مطر القلوب */
+    .hearts-layer{
       position:fixed;
       inset:0;
       pointer-events:none;
       overflow:hidden;
-      z-index:1;
+      z-index:0;
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,.35));
     }
-    .h{
+    .heart{
       position:absolute;
-      top:-10vh;
-      opacity:.9;
-      filter: drop-shadow(0 10px 18px rgba(255,59,141,.25));
+      top:-60px;
+      font-size:22px;
+      opacity:.85;
       animation: fall linear forwards;
-      user-select:none;
       will-change: transform, opacity;
     }
     @keyframes fall{
-      0%   { transform: translateY(-12vh) translateX(0) rotate(0deg); opacity:0; }
-      10%  { opacity:.95; }
-      100% { transform: translateY(120vh) translateX(var(--drift)) rotate(var(--rot)); opacity:0; }
+      0%{ transform: translateY(-80px) translateX(0) rotate(0deg); opacity:0; }
+      8%{ opacity:.9; }
+      100%{ transform: translateY(calc(100vh + 120px)) translateX(var(--drift)) rotate(360deg); opacity:.05; }
     }
 
-    /* Layout */
     .wrap{
       position:relative;
-      z-index:2;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:22px 14px;
+      z-index:1;
+      max-width:860px;
+      margin:0 auto;
+      padding:26px 14px 40px;
     }
 
     .card{
-      width:min(560px, 96vw);
-      background:var(--glass2);
+      background: var(--card2);
       border:1px solid var(--stroke);
       border-radius:22px;
-      box-shadow: 0 18px 55px rgba(0,0,0,.45);
-      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .center{
+      width:min(860px, 96vw);
+      margin: 0 auto;
+    }
+
+    /* Login */
+    .login-box{
       padding:18px;
+      margin-top:38px;
     }
-
-    .title{
+    .login-title{
       text-align:center;
-      font-weight:800;
-      letter-spacing:.4px;
-      margin:6px 0 14px;
-      font-size:22px;
-      color:rgba(255,255,255,.92);
+      margin:0 0 14px;
+      font-size:34px;
+      letter-spacing:.5px;
+    }
+    .login-sub{
+      text-align:center;
+      margin:0 0 18px;
+      font-size:18px;
+      color:var(--muted);
+      font-weight:500;
+    }
+    .date{
+      text-align:center;
+      margin:-8px 0 18px;
+      font-size:16px;
+      color:var(--muted2);
+      letter-spacing:1px;
     }
 
-    input, select, button{
+    .field{
       width:100%;
       padding:14px 14px;
-      margin:8px 0;
-      font-size:16px;
+      margin:10px 0;
       border-radius:16px;
       border:1px solid var(--stroke);
-      outline:none;
-    }
-    input, select{
-      background:rgba(255,255,255,.06);
+      background: rgba(255,255,255,.06);
       color:#fff;
+      outline:none;
+      font-size:16px;
     }
-    input::placeholder{ color:rgba(255,255,255,.45) }
+    .field::placeholder{ color: rgba(255,255,255,.45); }
 
     .btn{
+      width:100%;
+      padding:14px 14px;
+      border:0;
+      border-radius:18px;
       background:var(--btn);
-      color:var(--btnTxt);
-      border:none;
+      color:var(--btnText);
       font-weight:900;
+      font-size:18px;
       cursor:pointer;
-      border-radius:16px;
-      transition: transform .06s ease;
+      margin-top:10px;
     }
-    .btn:active{ transform:scale(.985); }
+    .btn:active{ transform: scale(.99); }
 
-    .muted{
+    .hint{
       text-align:center;
-      font-size:12.5px;
-      color:var(--muted);
-      margin-top:6px;
-      line-height:1.6;
+      margin:10px 0 0;
+      font-size:13px;
+      color: rgba(255,255,255,.45);
     }
 
-    /* Screens */
-    .screen{ display:none; }
-    .screen.show{ display:block; }
-
-    /* Top bar after login */
+    /* Top bar (home/game) */
     .topbar{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:10px;
-      margin-bottom:10px;
+      gap:12px;
+      padding:14px 14px;
+      border-radius:22px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
     }
-    .hamburger{
-      width:52px;
-      height:44px;
+    .brand{
+      text-align:center;
+      flex:1;
+      font-weight:900;
+      font-size:22px;
+      letter-spacing:.6px;
       display:flex;
       align-items:center;
       justify-content:center;
-      background:rgba(255,255,255,.08);
+      gap:10px;
+    }
+    .brand .small{
+      display:block;
+      font-weight:600;
+      font-size:13px;
+      margin-top:2px;
+      color: var(--muted2);
+    }
+
+    .iconBtn{
+      width:54px;height:54px;
+      display:grid;
+      place-items:center;
+      border-radius:18px;
       border:1px solid var(--stroke);
-      border-radius:14px;
+      background: rgba(255,255,255,.07);
+      color:#fff;
       cursor:pointer;
       user-select:none;
-    }
-    .hamburger span{
       font-size:22px;
-      line-height:1;
-      color:#fff;
-      transform: translateY(-1px);
     }
-    .pill{
-      flex:1;
-      padding:10px 12px;
-      background:rgba(255,255,255,.08);
-      border:1px solid var(--stroke);
-      border-radius:999px;
-      text-align:center;
-      color:rgba(255,255,255,.9);
-      font-weight:800;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-    }
-    .pill .heartIcon{ filter: drop-shadow(0 8px 18px rgba(255,59,141,.25)); }
+    .iconBtn:active{ transform:scale(.98); }
 
-    /* Menu modal */
+    /* Home content */
+    .home-card{
+      margin-top:14px;
+      padding:18px;
+    }
+    .home-title{
+      text-align:center;
+      margin:4px 0 8px;
+      font-size:34px;
+      font-weight:900;
+      letter-spacing:.7px;
+    }
+    .home-sub{
+      text-align:center;
+      margin:0 0 8px;
+      font-size:18px;
+      color:var(--muted);
+      font-weight:600;
+    }
+    .home-date{
+      text-align:center;
+      margin:0 0 18px;
+      color:var(--muted2);
+      letter-spacing:1px;
+    }
+    .home-text{
+      text-align:center;
+      line-height:1.9;
+      font-size:20px;
+      margin:12px auto 0;
+      color: rgba(255,255,255,.92);
+      max-width: 720px;
+    }
+    .pledge{
+      text-align:center;
+      margin:14px auto 0;
+      color: rgba(255,255,255,.72);
+      font-size:14px;
+      max-width: 760px;
+      line-height:1.85;
+    }
+    .love-line{
+      text-align:center;
+      margin-top:10px;
+      font-size:13px;
+      color: rgba(255,255,255,.55);
+    }
+
+    /* Menu overlay */
     .overlay{
       position:fixed;
       inset:0;
-      background:rgba(0,0,0,.55);
-      z-index:5;
       display:none;
       align-items:center;
       justify-content:center;
+      background: rgba(0,0,0,.55);
+      z-index:50;
       padding:18px;
     }
-    .overlay.show{ display:flex; }
     .menu{
-      width:min(620px, 96vw);
-      background:rgba(20,10,26,.78);
-      border:1px solid rgba(255,255,255,.14);
-      border-radius:24px;
-      box-shadow:0 22px 70px rgba(0,0,0,.6);
-      backdrop-filter: blur(14px);
+      width:min(820px, 96vw);
+      border-radius:26px;
       padding:16px;
+      background: rgba(20, 18, 30, .72);
+      border:1px solid rgba(255,255,255,.16);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 70px rgba(0,0,0,.55);
     }
     .menuHead{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:10px;
-      margin-bottom:10px;
+      padding:10px 10px 14px;
     }
-    .menuHead .name{
-      font-weight:900;
-      color:rgba(255,255,255,.92);
+    .menuHead h3{
+      margin:0;
+      font-size:18px;
+      color: rgba(255,255,255,.85);
+      font-weight:800;
     }
-    .menuHead .close{
-      width:46px;height:40px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.08);
+    .closeBtn{
+      width:46px;height:46px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
       color:#fff;
       cursor:pointer;
-      font-weight:900;
+      font-size:20px;
     }
 
     .grid{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
-      gap:10px;
-      margin-top:12px;
+      gap:12px;
+      padding: 0 6px 8px;
     }
-    .opt{
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.14);
+    .menuItem{
+      padding:18px 12px;
       border-radius:18px;
-      padding:14px 12px;
-      text-align:center;
-      cursor:pointer;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
       color:#fff;
       font-weight:900;
-      min-height:56px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
+      cursor:pointer;
+      text-align:center;
+      font-size:18px;
     }
-    .opt:active{ transform:scale(.99); }
+    .menuItem:active{ transform:scale(.99); }
 
     .menuFoot{
       display:flex;
-      gap:10px;
-      margin-top:12px;
+      gap:12px;
+      margin-top:10px;
+      padding: 0 6px 6px;
     }
-    .menuFoot .ghost{
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.14);
-      color:#fff;
-      font-weight:900;
-    }
+    .menuFoot .menuItem{ flex:1; }
 
-    /* Game UI */
-    .row{
+    /* Game */
+    .game-card{
+      margin-top:14px;
+      padding:16px;
+    }
+    .gameTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:10px;
+    }
+    .gameTop .backHome{
+      width:54px;height:54px;
+      border-radius:18px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.07);
+      color:#fff;
+      cursor:pointer;
+      font-size:20px;
+    }
+    .gameTop .modeWrap{
+      flex:1;
       display:flex;
       gap:10px;
-      margin-top:10px;
+      align-items:center;
+      justify-content:center;
     }
-    .row button{ flex:1; }
+    select{
+      width:100%;
+      padding:14px 14px;
+      border-radius:18px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.06);
+      color:#fff;
+      outline:none;
+      font-size:16px;
+    }
 
-    .qbox{
+    .row{
+      display:flex;
+      gap:12px;
       margin-top:12px;
-      background:rgba(255,255,255,.06);
+    }
+    .row .btn2{
+      flex:1;
+      padding:14px 14px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.10);
+      color:#fff;
+      cursor:pointer;
+      font-weight:900;
+      font-size:18px;
+    }
+
+    .promptBox{
+      margin-top:14px;
+      padding:16px;
+      border-radius:22px;
       border:1px solid rgba(255,255,255,.14);
-      border-radius:20px;
-      padding:14px 12px;
+      background: rgba(255,255,255,.05);
     }
     .prompt{
       text-align:center;
-      font-size:18px;
-      line-height:1.75;
+      font-size:20px;
+      line-height:1.9;
       white-space:pre-wrap;
-      color:rgba(255,255,255,.92);
-      padding:6px 6px 10px;
+      padding:10px 8px;
     }
-
-    .smallBtn{
-      background:rgba(255,255,255,.10);
+    .resetBtn{
+      margin-top:10px;
+      width:100%;
+      padding:14px 14px;
+      border-radius:18px;
       border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.10);
       color:#fff;
+      cursor:pointer;
       font-weight:900;
+      font-size:18px;
     }
 
-    @media (max-width:520px){
+    /* Pages */
+    .page{ display:none; }
+    .page.active{ display:block; }
+
+    /* Responsive */
+    @media (max-width:640px){
       .grid{ grid-template-columns: repeat(2, 1fr); }
+      .home-title{ font-size:30px; }
+      .home-text{ font-size:18px; }
     }
   </style>
 </head>
 
 <body>
-  <!-- hearts rain -->
-  <div id="hearts" aria-hidden="true"></div>
+  <!-- مطر القلوب -->
+  <div class="hearts-layer" id="heartsLayer"></div>
 
   <div class="wrap">
-    <!-- LOGIN -->
-    <div class="card screen show" id="loginScreen">
-      <div class="title">✨ Private Love Space ✨</div>
+    <!-- LOGIN PAGE -->
+    <section class="page active" id="pageLogin">
+      <div class="center card login-box">
+        <div class="login-title">LANA ❤️ ANAS</div>
+        <div class="login-sub">I love you</div>
+        <div class="date">24/11</div>
 
-      <input id="u" placeholder="اسم المستخدم" autocomplete="username" />
-      <input id="p" type="password" placeholder="كلمة المرور" autocomplete="current-password" />
+        <input class="field" id="loginUser" placeholder="اسم المستخدم" autocomplete="username">
+        <input class="field" id="loginPass" placeholder="كلمة المرور" type="password" autocomplete="current-password">
+        <button class="btn" onclick="doLogin()">دخول</button>
 
-      <button class="btn" onclick="LOGIN()">دخول</button>
-      <div class="muted">💗</div>
-    </div>
-
-    <!-- HOME (after login) -->
-    <div class="card screen" id="homeScreen">
-      <div class="topbar">
-        <div class="hamburger" onclick="openMenu()" title="الخيارات">
-          <span>☰</span>
-        </div>
-        <div class="pill">
-          <span class="heartIcon">❤️</span>
-          <span id="welcomeText">Welcome</span>
-        </div>
+        <div class="hint" id="loginHint"></div>
       </div>
+    </section>
 
-      <div class="muted" style="margin:10px 0 0">
-        اختر من القائمة ☰
-      </div>
-    </div>
-
-    <!-- GAME -->
-    <div class="card screen" id="gameScreen">
-      <div class="topbar">
-        <div class="hamburger" onclick="openMenu()" title="الخيارات">
-          <span>☰</span>
+    <!-- HOME PAGE -->
+    <section class="page" id="pageHome">
+      <div class="center topbar">
+        <div class="brand">
+          <div>
+            <div>LANA ❤️ ANAS</div>
+            <span class="small">I love you · 24/11</span>
+          </div>
         </div>
 
-        <!-- stage dropdown here (no extra button) -->
-        <div style="flex:1">
-          <select id="mode" onchange="APPLY_MODE()" style="margin:0">
-            <option value="lana1">LANA 1 💖 (مشاعر)</option>
-            <option value="lana2">LANA 2 🤍 (أمان)</option>
-            <option value="lana3">LANA 3 😄 (راحة/سوالف)</option>
-            <option value="lana4">LANA 4 🔥 (جريئة)</option>
-          </select>
+        <!-- زر الخيارات -->
+        <button class="iconBtn" onclick="openMenu()" aria-label="menu">☰</button>
+      </div>
+
+      <div class="center card home-card">
+        <div class="home-title">LANA ❤️ ANAS</div>
+        <div class="home-sub">I love you</div>
+        <div class="home-date">24/11</div>
+
+        <div class="home-text" id="homeText">
+          أهلاً بك لولي بعالمنا الخاص الذي صُنع بكل حب 💗<br>
+          هنا نضحك، نتصالح، نتشارك، ونقترب أكثر حتى وإحنا بعيدين.<br>
+          كل لحظة هنا تصنع لنا ذكرى ما تننسى… تزيدنا قوة وصمود وحب.
+        </div>
+
+        <div class="pledge" id="homePledge">
+          نتعهّد بالإجابة وعدم الرفض لأي تحدّي، ونفعل كل شيء بحب ومشاعر وإحساس.
+        </div>
+
+        <div class="love-line" id="homeLoveLine">أحبك لانا</div>
+      </div>
+    </section>
+
+    <!-- GAME: QUESTIONS -->
+    <section class="page" id="pageGame">
+      <div class="center topbar">
+        <div class="brand">
+          <div>
+            <div>LANA ❤️ ANAS</div>
+            <span class="small">لعبة الأسئلة</span>
+          </div>
+        </div>
+        <!-- رجوع للرئيسية -->
+        <button class="iconBtn" onclick="goHome()" aria-label="home">⌂</button>
+      </div>
+
+      <div class="center card game-card">
+        <div class="gameTop">
+          <button class="backHome" onclick="goHome()" title="رجوع للرئيسية">⌂</button>
+
+          <div class="modeWrap">
+            <select id="modeSelect" onchange="setMode(this.value)">
+              <option value="lana1">❤️ LANA 1 (مشاعر)</option>
+              <option value="lana2">💗 LANA 2 (أمان)</option>
+              <option value="lana3">💞 LANA 3 (راحة/سوالف)</option>
+              <option value="lana4">🔥 LANA 4 (جريئة لطيفة)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <button class="btn2" onclick="showPrompt('q')">💬 سؤال / سالفة</button>
+          <button class="btn2" onclick="showPrompt('c')">🔥 تحدي</button>
+        </div>
+
+        <div class="promptBox">
+          <div class="prompt" id="prompt">ابدأ ✨ اختر (سؤال / تحدي)</div>
+          <button class="resetBtn" onclick="resetPrompt()">🔁 إعادة</button>
         </div>
       </div>
+    </section>
 
-      <div class="row">
-        <button class="btn" onclick="showPrompt('q')">💬 سؤال / سالفة</button>
-        <button class="btn" onclick="showPrompt('c')">🔥 تحدي</button>
-      </div>
-
-      <div class="qbox">
-        <div class="prompt" id="prompt">ابدأ ✨ اختر (سؤال / تحدي)</div>
-        <button class="smallBtn" onclick="resetPrompt()">🔁 إعادة</button>
-      </div>
-    </div>
   </div>
 
   <!-- MENU OVERLAY -->
   <div class="overlay" id="menuOverlay">
     <div class="menu">
       <div class="menuHead">
-        <div class="name" id="menuName">❤️</div>
-        <button class="close" onclick="closeMenu()">✕</button>
+        <h3>خيارات عالمنا ❤️</h3>
+        <button class="closeBtn" onclick="closeMenu()">✕</button>
       </div>
 
       <div class="grid">
-        <div class="opt" onclick="goGame()">① لعبة الأسئلة</div>
-        <div class="opt" onclick="soon(2)">② (قريباً)</div>
-        <div class="opt" onclick="soon(3)">③ (قريباً)</div>
-        <div class="opt" onclick="soon(4)">④ (قريباً)</div>
-        <div class="opt" onclick="soon(5)">⑤ (قريباً)</div>
-        <div class="opt" onclick="soon(6)">⑥ (قريباً)</div>
-        <div class="opt" onclick="soon(7)">⑦ (قريباً)</div>
-        <div class="opt" onclick="soon(8)">⑧ (قريباً)</div>
-        <div class="opt" onclick="soon(9)">⑨ (قريباً)</div>
+        <button class="menuItem" onclick="openGame()">1) لعبة الأسئلة</button>
+        <button class="menuItem" onclick="comingSoon(2)">(قريباً) 2</button>
+        <button class="menuItem" onclick="comingSoon(3)">(قريباً) 3</button>
+        <button class="menuItem" onclick="comingSoon(4)">(قريباً) 4</button>
+        <button class="menuItem" onclick="comingSoon(5)">(قريباً) 5</button>
+        <button class="menuItem" onclick="comingSoon(6)">(قريباً) 6</button>
+        <button class="menuItem" onclick="comingSoon(7)">(قريباً) 7</button>
+        <button class="menuItem" onclick="comingSoon(8)">(قريباً) 8</button>
+        <button class="menuItem" onclick="comingSoon(9)">(قريباً) 9</button>
       </div>
 
       <div class="menuFoot">
-        <button class="btn ghost" onclick="closeMenu()">إغلاق</button>
-        <button class="btn ghost" onclick="LOGOUT()">تسجيل خروج</button>
+        <button class="menuItem" onclick="closeMenu()">إغلاق</button>
+        <button class="menuItem" onclick="logout()">تسجيل خروج</button>
       </div>
     </div>
   </div>
 
 <script>
-/* ===================== Hearts Rain (Pink/Red only) ===================== */
-const HEARTS = ["❤️","💗","💓","💖","💘","💕"];
-const heartsLayer = document.getElementById("hearts");
-
+/* ===================== مطر القلوب ===================== */
+const heartsLayer = document.getElementById('heartsLayer');
+const heartChars = ["❤️","💗","💖","💘","💝","💕"];
 function spawnHeart(){
-  const el = document.createElement("div");
-  el.className = "h";
-  el.textContent = HEARTS[Math.floor(Math.random()*HEARTS.length)];
-
+  const h = document.createElement('div');
+  h.className = 'heart';
+  h.textContent = heartChars[Math.floor(Math.random()*heartChars.length)];
   const left = Math.random()*100;
-  const size = 14 + Math.random()*18;
-  const dur  = 7 + Math.random()*6;           // 7-13s
+  const size = 16 + Math.random()*18;
+  const dur = 6 + Math.random()*7;
   const drift = (Math.random()*120 - 60) + "px";
-  const rot = (Math.random()*240 - 120) + "deg";
+  h.style.left = left + "vw";
+  h.style.fontSize = size + "px";
+  h.style.animationDuration = dur + "s";
+  h.style.setProperty("--drift", drift);
+  heartsLayer.appendChild(h);
+  setTimeout(()=> h.remove(), (dur*1000)+300);
+}
+setInterval(spawnHeart, 260);
+for(let i=0;i<18;i++) setTimeout(spawnHeart, i*140);
 
-  el.style.left = left + "vw";
-  el.style.fontSize = size + "px";
-  el.style.animationDuration = dur + "s";
-  el.style.setProperty("--drift", drift);
-  el.style.setProperty("--rot", rot);
+/* ===================== صفحات ===================== */
+const pageLogin = document.getElementById('pageLogin');
+const pageHome  = document.getElementById('pageHome');
+const pageGame  = document.getElementById('pageGame');
 
-  heartsLayer.appendChild(el);
-  setTimeout(()=> el.remove(), dur*1000);
+function showPage(page){
+  [pageLogin,pageHome,pageGame].forEach(p=>p.classList.remove('active'));
+  page.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-(function startRain(){
-  // كثافة مناسبة (ممكن نزيد/نقلل)
-  setInterval(spawnHeart, 180);
-  // دفعة أولى
-  for(let i=0;i<18;i++) setTimeout(spawnHeart, i*60);
-})();
+/* ===================== تسجيل الدخول ===================== */
+function doLogin(){
+  const u = document.getElementById('loginUser').value.trim().toLowerCase();
+  const p = document.getElementById('loginPass').value.trim();
+  const hint = document.getElementById('loginHint');
 
-/* ===================== Auth ===================== */
-const USERS = new Set(["anas","lana"]);
-const PASS  = "love";
-let CURRENT_USER = null;
+  // الحسابات
+  const okUser = (u === "anas" || u === "lana");
+  const okPass = (p === "love");
 
-function LOGIN(){
-  const u = (document.getElementById("u").value || "").trim().toLowerCase();
-  const p = (document.getElementById("p").value || "").trim();
-
-  if(!USERS.has(u) || p !== PASS){
-    alert("بيانات الدخول غير صحيحة");
+  if(!okUser || !okPass){
+    hint.textContent = "بيانات الدخول غير صحيحة.";
     return;
   }
 
-  CURRENT_USER = u;
-  document.getElementById("u").value = "";
-  document.getElementById("p").value = "";
-
-  showScreen("homeScreen");
-  document.getElementById("welcomeText").innerText =
-    (u === "anas") ? "Welcome ANAS ❤️" : "Welcome LANA ❤️";
-  document.getElementById("menuName").innerText =
-    (u === "anas") ? "ANAS ❤️" : "LANA ❤️";
+  hint.textContent = "";
+  // تقدر لو تبغى: تعرض اسم الداخل
+  // document.getElementById('homeText')... الخ
+  showPage(pageHome);
 }
 
-function LOGOUT(){
-  CURRENT_USER = null;
+function logout(){
+  document.getElementById('loginUser').value = "";
+  document.getElementById('loginPass').value = "";
   closeMenu();
+  showPage(pageLogin);
+}
+
+/* ===================== القائمة ===================== */
+const menuOverlay = document.getElementById('menuOverlay');
+function openMenu(){ menuOverlay.style.display = "flex"; }
+function closeMenu(){ menuOverlay.style.display = "none"; }
+function comingSoon(n){
+  closeMenu();
+  alert("الخيار " + n + " قريباً ✨");
+}
+
+/* ===================== فتح لعبة الأسئلة ===================== */
+function openGame(){
+  closeMenu();
+  showPage(pageGame);
   resetPrompt();
-  showScreen("loginScreen");
 }
-
-function showScreen(id){
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("show"));
-  document.getElementById(id).classList.add("show");
-}
-
-/* ===================== Menu ===================== */
-function openMenu(){
-  document.getElementById("menuOverlay").classList.add("show");
-}
-function closeMenu(){
-  document.getElementById("menuOverlay").classList.remove("show");
-}
-function soon(n){
-  alert("قريباً ✨");
-}
-
-/* ===================== Game ===================== */
-function goGame(){
+function goHome(){
   closeMenu();
-  showScreen("gameScreen");
-  document.getElementById("prompt").innerText = "ابدأ ✨ اختر (سؤال / تحدي)";
+  showPage(pageHome);
 }
 
+/* ===================== لعبة الأسئلة ===================== */
 function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
 let CURRENT_MODE = "lana1";
-function APPLY_MODE(){
-  CURRENT_MODE = document.getElementById("mode").value;
-  document.getElementById("prompt").innerText = "تم تغيير المرحلة ✨ اختر (سؤال / تحدي)";
+function setMode(m){
+  CURRENT_MODE = m;
+  resetPrompt();
 }
 
-/* ========= LANA 1 (مشاعر) ========= */
-
+/* ========= الصق هنا قوائمك الأصلية بالضبط (LANA1/2/3) ========= */
+/* ملاحظة: أنا حاط قوائم قصيرة افتراضية عشان الملف يشتغل.
+   استبدل محتوى المصفوفات التالية بمصفوفاتك الكاملة بدون تغيير الأسماء. */
 
 const lana1_questions = [
 
@@ -1086,7 +1228,6 @@ const lana4_challenges = [
 
 ];
 
-/* ========= PACKS ========= */
 const PACKS = {
   lana1: { questions: lana1_questions, challenges: lana1_challenges },
   lana2: { questions: lana2_questions, challenges: lana2_challenges },
@@ -1095,31 +1236,15 @@ const PACKS = {
 };
 
 function showPrompt(type){
-  const pack = PACKS[CURRENT_MODE];
-  const list = (type === "q") ? pack.questions : pack.challenges;
-  const prefix = (type === "c") ? "🔥 " : "";
-  document.getElementById("prompt").innerText = prefix + pick(list);
+  const pack = PACKS[CURRENT_MODE] || PACKS.lana1;
+  const list = (type==="q") ? pack.questions : pack.challenges;
+  document.getElementById("prompt").innerText =
+    (type==="c" ? "🔥 " : "💬 ") + pick(list);
 }
 
 function resetPrompt(){
   document.getElementById("prompt").innerText = "ابدأ ✨ اختر (سؤال / تحدي)";
 }
-
-/* Start at login */
-showScreen("loginScreen");
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
