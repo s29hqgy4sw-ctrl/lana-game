@@ -8,1031 +8,1110 @@
   <style>
     :root{
       --bg1:#07070a;
-      --bg2:#0f1020;
-      --glass: rgba(255,255,255,.07);
-      --stroke: rgba(255,255,255,.14);
-      --txt: #f3f4f6;
-      --muted: rgba(255,255,255,.72);
-      --btn: #ffffff;
+      --bg2:#120818;
+      --bg3:#0b0712;
+      --glass:rgba(255,255,255,.08);
+      --glass2:rgba(255,255,255,.06);
+      --stroke:rgba(255,255,255,.14);
+      --txt:#f7f7fb;
+      --muted:rgba(255,255,255,.72);
+      --pink:#ff3b8d;
+      --pink2:#ff6bb0;
+      --red:#ff2d55;
+      --btn:#ffffff;
       --btnTxt:#111;
-      --heart:#ff2b55;
     }
 
-    /* خلفية رومانسية */
+    *{box-sizing:border-box}
     body{
-      font-family: system-ui, -apple-system, "Segoe UI", Arial;
+      font-family: system-ui, -apple-system, Segoe UI, Arial;
       margin:0;
       min-height:100vh;
       color:var(--txt);
-      background:
-        radial-gradient(700px 450px at 50% 15%, rgba(255,77,184,.18), transparent 60%),
-        radial-gradient(700px 450px at 15% 30%, rgba(0,200,255,.14), transparent 60%),
-        linear-gradient(180deg, var(--bg1), var(--bg2) 70%, var(--bg1));
       overflow-x:hidden;
+      background:
+        radial-gradient(700px 450px at 50% 12%, rgba(255,59,141,.22), transparent 62%),
+        radial-gradient(700px 450px at 22% 35%, rgba(255,107,176,.16), transparent 62%),
+        radial-gradient(700px 450px at 80% 45%, rgba(255,45,85,.12), transparent 62%),
+        linear-gradient(180deg, var(--bg1), var(--bg2) 65%, var(--bg3));
     }
 
-    /* طبقة مطر القلوب */
-    #rainCanvas{
+    /* Hearts rain layer */
+    #hearts{
       position:fixed;
       inset:0;
-      width:100%;
-      height:100%;
-      z-index:0;
       pointer-events:none;
+      overflow:hidden;
+      z-index:1;
+    }
+    .h{
+      position:absolute;
+      top:-10vh;
       opacity:.9;
+      filter: drop-shadow(0 10px 18px rgba(255,59,141,.25));
+      animation: fall linear forwards;
+      user-select:none;
+      will-change: transform, opacity;
+    }
+    @keyframes fall{
+      0%   { transform: translateY(-12vh) translateX(0) rotate(0deg); opacity:0; }
+      10%  { opacity:.95; }
+      100% { transform: translateY(120vh) translateX(var(--drift)) rotate(var(--rot)); opacity:0; }
     }
 
+    /* Layout */
     .wrap{
       position:relative;
-      z-index:1;
-      max-width: 980px;
-      margin: 24px auto 40px;
-      padding: 14px;
+      z-index:2;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:22px 14px;
     }
 
-    /* رأس الصفحة */
+    .card{
+      width:min(560px, 96vw);
+      background:var(--glass2);
+      border:1px solid var(--stroke);
+      border-radius:22px;
+      box-shadow: 0 18px 55px rgba(0,0,0,.45);
+      backdrop-filter: blur(12px);
+      padding:18px;
+    }
+
     .title{
       text-align:center;
-      margin-top: 6px;
-      margin-bottom: 14px;
-      user-select:none;
-    }
-    .title h1{
-      margin: 6px 0 4px;
-      font-size: 42px;
-      letter-spacing:.5px;
-    }
-    .title h2{
-      margin: 0 0 6px;
-      font-weight:400;
-      color: var(--muted);
-    }
-    .title .date{
-      font-size: 14px;
-      color: rgba(255,255,255,.60);
-      letter-spacing: .8px;
+      font-weight:800;
+      letter-spacing:.4px;
+      margin:6px 0 14px;
+      font-size:22px;
+      color:rgba(255,255,255,.92);
     }
 
-    /* كروت زجاجية */
-    .card{
-      background: var(--glass);
-      border: 1px solid var(--stroke);
-      border-radius: 22px;
-      box-shadow: 0 14px 45px rgba(0,0,0,.38);
-      backdrop-filter: blur(10px);
-      padding: 16px;
-    }
-
-    /* صفحة الدخول */
-    #loginView{
-      display:block;
-    }
-
-    .intro{
-      text-align:center;
-      line-height:1.9;
-      font-size: 22px;
-      margin: 10px 0 10px;
-      color: rgba(255,255,255,.92);
-    }
-    .intro small{
-      display:block;
-      margin-top: 12px;
-      font-size: 13px;
-      color: rgba(255,255,255,.55);
-    }
-
-    /* القلب (زر القائمة) */
-    .heartArea{
-      display:flex;
-      justify-content:center;
-      margin-top: 18px;
-      margin-bottom: 10px; /* عشان ما يغطي النص */
-    }
-
-    .heartBtn{
-      width: 150px;  /* صغّرناه */
-      height: 138px;
-      position:relative;
-      border:none;
-      background:transparent;
-      cursor:pointer;
-      filter: drop-shadow(0 10px 22px rgba(0,0,0,.45));
-      outline:none;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .heartBtn:active{ transform: scale(.98); }
-
-    /* قلب CSS */
-    .heartBtn .heart{
-      position:absolute;
-      inset:0;
-      margin:auto;
-      width: 150px;
-      height: 138px;
-      background: var(--heart);
-      transform: rotate(-45deg);
-      border-radius: 18px;
-      box-shadow: 0 0 0 1px rgba(255,255,255,.10), 0 18px 55px rgba(255,43,85,.20);
-    }
-    .heartBtn .heart:before,
-    .heartBtn .heart:after{
-      content:"";
-      position:absolute;
-      width:150px;
-      height:138px;
-      background: var(--heart);
-      border-radius: 70px 70px 20px 20px;
-    }
-    .heartBtn .heart:before{
-      top:-74px;
-      left:0;
-      transform: rotate(45deg);
-      border-radius: 80px 80px 30px 30px;
-    }
-    .heartBtn .heart:after{
-      left:74px;
-      top:0;
-      transform: rotate(45deg);
-      border-radius: 80px 80px 30px 30px;
-    }
-
-    /* توهج ناعم */
-    .heartBtn .glow{
-      position:absolute;
-      inset:-14px;
-      border-radius: 28px;
-      background: radial-gradient(circle at 40% 35%, rgba(255,140,170,.55), transparent 60%);
-      filter: blur(10px);
-      opacity:.9;
-      pointer-events:none;
-    }
-
-    /* حقول الدخول (واضحة) */
-    .loginFields{
-      max-width: 420px;
-      margin: 18px auto 0;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-    input{
+    input, select, button{
       width:100%;
-      padding: 13px 14px;
-      font-size: 16px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(0,0,0,.18);
-      color: #fff;
+      padding:14px 14px;
+      margin:8px 0;
+      font-size:16px;
+      border-radius:16px;
+      border:1px solid var(--stroke);
       outline:none;
-      box-sizing:border-box;
     }
-    input::placeholder{ color: rgba(255,255,255,.55); }
+    input, select{
+      background:rgba(255,255,255,.06);
+      color:#fff;
+    }
+    input::placeholder{ color:rgba(255,255,255,.45) }
 
     .btn{
-      width:100%;
-      padding: 13px 14px;
-      font-size: 16px;
-      border-radius: 14px;
+      background:var(--btn);
+      color:var(--btnTxt);
       border:none;
-      background: var(--btn);
-      color: var(--btnTxt);
-      font-weight: 850;
+      font-weight:900;
       cursor:pointer;
+      border-radius:16px;
+      transition: transform .06s ease;
     }
-    .btn:active{ transform: scale(.99); }
+    .btn:active{ transform:scale(.985); }
 
-    .err{
+    .muted{
       text-align:center;
-      margin-top: 10px;
-      font-size: 13px;
-      color: rgba(255,120,120,.95);
-      display:none;
+      font-size:12.5px;
+      color:var(--muted);
+      margin-top:6px;
+      line-height:1.6;
     }
 
-    /* صفحة العالم (القائمة ٩ خيارات) */
-    #homeView{
-      display:none;
-    }
+    /* Screens */
+    .screen{ display:none; }
+    .screen.show{ display:block; }
 
-    .topPills{
+    /* Top bar after login */
+    .topbar{
       display:flex;
-      justify-content:center;
+      align-items:center;
+      justify-content:space-between;
       gap:10px;
-      flex-wrap:wrap;
-      margin-bottom: 10px;
+      margin-bottom:10px;
+    }
+    .hamburger{
+      width:52px;
+      height:44px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,255,255,.08);
+      border:1px solid var(--stroke);
+      border-radius:14px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .hamburger span{
+      font-size:22px;
+      line-height:1;
+      color:#fff;
+      transform: translateY(-1px);
     }
     .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.12);
-      color: rgba(255,255,255,.85);
-      font-size: 14px;
-    }
-    .pill b{ color:#fff; }
-
-    .worldText{
+      flex:1;
+      padding:10px 12px;
+      background:rgba(255,255,255,.08);
+      border:1px solid var(--stroke);
+      border-radius:999px;
       text-align:center;
-      line-height:1.95;
-      font-size: 22px;
-      color: rgba(255,255,255,.92);
-      margin: 12px 0 6px;
+      color:rgba(255,255,255,.9);
+      font-weight:800;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
     }
-    .worldText .smallPledge{
-      margin-top: 10px;
-      font-size: 13px;
-      color: rgba(255,255,255,.55);
-      line-height:1.8;
-    }
+    .pill .heartIcon{ filter: drop-shadow(0 8px 18px rgba(255,59,141,.25)); }
 
-    .menuArea{
-      margin-top: 12px;
+    /* Menu modal */
+    .overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.55);
+      z-index:5;
       display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+    .overlay.show{ display:flex; }
+    .menu{
+      width:min(620px, 96vw);
+      background:rgba(20,10,26,.78);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:24px;
+      box-shadow:0 22px 70px rgba(0,0,0,.6);
+      backdrop-filter: blur(14px);
+      padding:16px;
+    }
+    .menuHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:10px;
+    }
+    .menuHead .name{
+      font-weight:900;
+      color:rgba(255,255,255,.92);
+    }
+    .menuHead .close{
+      width:46px;height:40px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      cursor:pointer;
+      font-weight:900;
     }
 
     .grid{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 14px;
+      gap:10px;
+      margin-top:12px;
     }
-    .optBtn{
-      padding: 14px 12px;
-      border-radius: 18px;
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.12);
-      color:#fff;
-      font-weight:850;
-      cursor:pointer;
+    .opt{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:18px;
+      padding:14px 12px;
       text-align:center;
-      font-size: 16px;
-    }
-    .optBtn:active{ transform: scale(.99); }
-
-    .row2{
-      display:flex;
-      gap:12px;
-      margin-top: 12px;
-    }
-    .row2 .optBtn{ flex:1; }
-
-    /* لعبة الأسئلة */
-    #gameView{
-      display:none;
-    }
-
-    .gameTop{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-bottom: 10px;
-    }
-
-    .modeSelect{
-      flex: 1;
-      min-width: 240px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding: 10px 12px;
-      border-radius: 18px;
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.12);
-    }
-
-    .modeSelect .icon{
-      width:34px;
-      height:34px;
-      border-radius: 12px;
-      background: rgba(255,43,85,.20);
+      cursor:pointer;
+      color:#fff;
+      font-weight:900;
+      min-height:56px;
       display:flex;
       align-items:center;
       justify-content:center;
-      font-size: 18px;
+      gap:8px;
     }
+    .opt:active{ transform:scale(.99); }
 
-    select{
-      width:100%;
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(0,0,0,.18);
-      color:#fff;
-      outline:none;
-      font-size: 15px;
-      box-sizing:border-box;
-    }
-
-    .gameBtns{
+    .menuFoot{
       display:flex;
-      gap:12px;
-      margin-top: 10px;
+      gap:10px;
+      margin-top:12px;
     }
-    .gameBtns button{
-      flex:1;
-      padding: 14px 12px;
-      border-radius: 18px;
-      border:none;
-      cursor:pointer;
-      font-weight:900;
-      background: #fff;
-      color:#111;
-      font-size: 16px;
-    }
-    .gameBtns button:active{ transform: scale(.99); }
-
-    .promptCard{
-      margin-top: 12px;
-      padding: 14px;
-      border-radius: 18px;
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.12);
-      text-align:center;
-    }
-    .promptText{
-      font-size: 20px;
-      line-height:1.85;
-      white-space:pre-wrap;
-      padding: 12px 8px;
-    }
-
-    .resetBtn{
-      margin-top: 12px;
-      width:100%;
-      padding: 12px 12px;
-      border-radius: 16px;
-      background: rgba(255,255,255,.10);
-      color:#fff;
+    .menuFoot .ghost{
+      background:rgba(255,255,255,.08);
       border:1px solid rgba(255,255,255,.14);
-      cursor:pointer;
+      color:#fff;
       font-weight:900;
     }
-    .resetBtn:active{ transform: scale(.99); }
 
-    /* ريسبونسف */
-    @media (max-width:620px){
-      .title h1{ font-size: 36px; }
-      .intro, .worldText{ font-size: 20px; }
+    /* Game UI */
+    .row{
+      display:flex;
+      gap:10px;
+      margin-top:10px;
+    }
+    .row button{ flex:1; }
+
+    .qbox{
+      margin-top:12px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:20px;
+      padding:14px 12px;
+    }
+    .prompt{
+      text-align:center;
+      font-size:18px;
+      line-height:1.75;
+      white-space:pre-wrap;
+      color:rgba(255,255,255,.92);
+      padding:6px 6px 10px;
+    }
+
+    .smallBtn{
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.16);
+      color:#fff;
+      font-weight:900;
+    }
+
+    @media (max-width:520px){
       .grid{ grid-template-columns: repeat(2, 1fr); }
-      .heartBtn{ width: 140px; height: 128px; }
-      .heartBtn .heart, .heartBtn .heart:before, .heartBtn .heart:after{ width:140px; height:128px; }
-      .heartBtn .heart:after{ left:64px; }
-      .heartBtn .heart:before{ top:-68px; }
     }
   </style>
 </head>
 
 <body>
-<canvas id="rainCanvas"></canvas>
+  <!-- hearts rain -->
+  <div id="hearts" aria-hidden="true"></div>
 
-<div class="wrap">
-  <div class="title">
-    <h1>LANA ❤️ ANAS</h1>
-    <h2>I love you</h2>
-    <div class="date">24/11</div>
-  </div>
+  <div class="wrap">
+    <!-- LOGIN -->
+    <div class="card screen show" id="loginScreen">
+      <div class="title">✨ Private Love Space ✨</div>
 
-  <!-- ====== LOGIN VIEW ====== -->
-  <div id="loginView" class="card">
-    <div class="intro">
-      أهلاً بك بعالمنا الخاص الذي صُنع بكل حب 💗<br/>
-      هذا المكان لنا… نضحك، نتصالح، نتشارك، ونقرب أكثر حتى واحنا بعيدين.<br/>
-      كل ضغطة هنا = لحظة بيننا تخلّد شعورنا وتزيدنا قرب ✨<br/><br/>
-      <b>وتخلّد بيننا ذكرى أبدية تزيدنا قوة وصمود وحب.</b>
-      <div class="intro smallPledge">
-        نتعهد أن نجاوب ونطبق كل شيء بحب ومشاعر وإحساس،<br/>
-        وأن هذا عالمنا الخاص كامل الحب… عالم أنس و لانا.
+      <input id="u" placeholder="اسم المستخدم" autocomplete="username" />
+      <input id="p" type="password" placeholder="كلمة المرور" autocomplete="current-password" />
+
+      <button class="btn" onclick="LOGIN()">دخول</button>
+      <div class="muted">💗</div>
+    </div>
+
+    <!-- HOME (after login) -->
+    <div class="card screen" id="homeScreen">
+      <div class="topbar">
+        <div class="hamburger" onclick="openMenu()" title="الخيارات">
+          <span>☰</span>
+        </div>
+        <div class="pill">
+          <span class="heartIcon">❤️</span>
+          <span id="welcomeText">Welcome</span>
+        </div>
+      </div>
+
+      <div class="muted" style="margin:10px 0 0">
+        اختر من القائمة ☰
       </div>
     </div>
 
-    <!-- القلب (مُصغّر ومُنزل لتحت) -->
-    <div class="heartArea">
-      <button class="heartBtn" id="loginHeart" type="button" aria-label="heart">
-        <div class="glow"></div>
-        <div class="heart"></div>
-      </button>
-    </div>
+    <!-- GAME -->
+    <div class="card screen" id="gameScreen">
+      <div class="topbar">
+        <div class="hamburger" onclick="openMenu()" title="الخيارات">
+          <span>☰</span>
+        </div>
 
-    <!-- حقول الدخول (واضحة) -->
-    <div class="loginFields">
-      <input id="u" placeholder="اسم المستخدم" autocomplete="off" />
-      <input id="p" placeholder="كلمة المرور" type="password" autocomplete="off" />
-      <button class="btn" id="loginBtn">دخول</button>
-    </div>
+        <!-- stage dropdown here (no extra button) -->
+        <div style="flex:1">
+          <select id="mode" onchange="APPLY_MODE()" style="margin:0">
+            <option value="lana1">LANA 1 💖 (مشاعر)</option>
+            <option value="lana2">LANA 2 🤍 (أمان)</option>
+            <option value="lana3">LANA 3 😄 (راحة/سوالف)</option>
+            <option value="lana4">LANA 4 🔥 (جريئة)</option>
+          </select>
+        </div>
+      </div>
 
-    <div class="err" id="loginErr">اسم المستخدم أو كلمة المرور غير صحيحة</div>
-  </div>
+      <div class="row">
+        <button class="btn" onclick="showPrompt('q')">💬 سؤال / سالفة</button>
+        <button class="btn" onclick="showPrompt('c')">🔥 تحدي</button>
+      </div>
 
-  <!-- ====== HOME VIEW ====== -->
-  <div id="homeView" class="card">
-    <div class="topPills">
-      <span class="pill">أنت: <b id="whoLabel"></b></span>
-      <span class="pill">عالمنا الخاص 💗</span>
-    </div>
-
-    <div class="worldText">
-      أهلًا بك بعالمنا الخاص الذي صُنع بكل حب 💗<br/>
-      هذا المكان لنا… نضحك، نتصالح، نتشارك، ونقرب أكثر حتى واحنا بعيدين.<br/>
-      كل ضغطة هنا = لحظة بيننا تخلّد شعورنا وتزيدنا قرب ✨<br/><br/>
-      <b>وتخلّد بيننا ذكرى أبدية تزيدنا قوة وصمود وحب.</b>
-      <div class="worldText smallPledge">
-        نتعهد أن نجاوب ونطبق كل شيء بحب ومشاعر وإحساس،<br/>
-        وأن هذا عالمنا الخاص كامل الحب… عالم أنس و لانا.
+      <div class="qbox">
+        <div class="prompt" id="prompt">ابدأ ✨ اختر (سؤال / تحدي)</div>
+        <button class="smallBtn" onclick="resetPrompt()">🔁 إعادة</button>
       </div>
     </div>
+  </div>
 
-    <!-- قلب يفتح القائمة -->
-    <div class="heartArea">
-      <button class="heartBtn" id="menuHeart" type="button" aria-label="menu heart">
-        <div class="glow"></div>
-        <div class="heart"></div>
-      </button>
-    </div>
+  <!-- MENU OVERLAY -->
+  <div class="overlay" id="menuOverlay">
+    <div class="menu">
+      <div class="menuHead">
+        <div class="name" id="menuName">❤️</div>
+        <button class="close" onclick="closeMenu()">✕</button>
+      </div>
 
-    <div class="menuArea" id="menuArea">
       <div class="grid">
-        <button class="optBtn" id="openGame">1) لعبة الأسئلة</button>
-        <button class="optBtn">2) (قريباً)</button>
-        <button class="optBtn">3) (قريباً)</button>
-        <button class="optBtn">4) (قريباً)</button>
-        <button class="optBtn">5) (قريباً)</button>
-        <button class="optBtn">6) (قريباً)</button>
-        <button class="optBtn">7) (قريباً)</button>
-        <button class="optBtn">8) (قريباً)</button>
-        <button class="optBtn">9) (قريباً)</button>
+        <div class="opt" onclick="goGame()">① لعبة الأسئلة</div>
+        <div class="opt" onclick="soon(2)">② (قريباً)</div>
+        <div class="opt" onclick="soon(3)">③ (قريباً)</div>
+        <div class="opt" onclick="soon(4)">④ (قريباً)</div>
+        <div class="opt" onclick="soon(5)">⑤ (قريباً)</div>
+        <div class="opt" onclick="soon(6)">⑥ (قريباً)</div>
+        <div class="opt" onclick="soon(7)">⑦ (قريباً)</div>
+        <div class="opt" onclick="soon(8)">⑧ (قريباً)</div>
+        <div class="opt" onclick="soon(9)">⑨ (قريباً)</div>
       </div>
 
-      <div class="row2">
-        <button class="optBtn" id="closeMenu">إغلاق</button>
-        <button class="optBtn" id="logout">تسجيل خروج</button>
+      <div class="menuFoot">
+        <button class="btn ghost" onclick="closeMenu()">إغلاق</button>
+        <button class="btn ghost" onclick="LOGOUT()">تسجيل خروج</button>
       </div>
     </div>
   </div>
-
-  <!-- ====== GAME VIEW ====== -->
-  <div id="gameView" class="card">
-    <div class="gameTop">
-      <!-- تغيير المرحلة من الأعلى فقط -->
-      <div class="modeSelect">
-        <div class="icon">❤️</div>
-        <select id="modeTop">
-          <option value="lana1">LANA 1 (مشاعر)</option>
-          <option value="lana2">LANA 2 (أمان)</option>
-          <option value="lana3">LANA 3 (راحة/سوالف)</option>
-          <option value="lana4">LANA 4 (قريباً)</option>
-        </select>
-      </div>
-
-      <span class="pill">أنت: <b id="playerLabel"></b></span>
-    </div>
-
-    <div class="gameBtns">
-      <button id="qBtn">💬 سؤال / سالفة</button>
-      <button id="cBtn">🔥 تحدي</button>
-    </div>
-
-    <div class="promptCard">
-      <div class="promptText" id="prompt">ابدأ ✨ اختر (سؤال / تحدي)</div>
-      <button class="resetBtn" id="resetBtn">🔁 إعادة</button>
-      <!-- ملاحظة: حذفنا زر تغيير المرحلة اللي كان تحت حسب طلبك -->
-    </div>
-
-    <div class="row2">
-      <button class="optBtn" id="backHome">رجوع للقائمة</button>
-      <button class="optBtn" id="logout2">تسجيل خروج</button>
-    </div>
-  </div>
-</div>
 
 <script>
-/* =============================
-   1) مطر القلوب المتحرك (دائم)
-   ============================= */
-(function heartsRain(){
-  const canvas = document.getElementById('rainCanvas');
-  const ctx = canvas.getContext('2d');
+/* ===================== Hearts Rain (Pink/Red only) ===================== */
+const HEARTS = ["❤️","💗","💓","💖","💘","💕"];
+const heartsLayer = document.getElementById("hearts");
 
-  function resize(){
-    canvas.width = Math.floor(window.innerWidth * devicePixelRatio);
-    canvas.height = Math.floor(window.innerHeight * devicePixelRatio);
-    canvas.style.width = window.innerWidth + 'px';
-    canvas.style.height = window.innerHeight + 'px';
-    ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
-  }
-  window.addEventListener('resize', resize);
-  resize();
+function spawnHeart(){
+  const el = document.createElement("div");
+  el.className = "h";
+  el.textContent = HEARTS[Math.floor(Math.random()*HEARTS.length)];
 
-  const hearts = [];
-  const COLORS = ['rgba(255,43,85,.95)','rgba(255,77,184,.75)','rgba(255,255,255,.55)','rgba(0,200,255,.55)'];
+  const left = Math.random()*100;
+  const size = 14 + Math.random()*18;
+  const dur  = 7 + Math.random()*6;           // 7-13s
+  const drift = (Math.random()*120 - 60) + "px";
+  const rot = (Math.random()*240 - 120) + "deg";
 
-  function makeHeart(){
-    const size = 10 + Math.random()*16;
-    return {
-      x: Math.random()*window.innerWidth,
-      y: -30 - Math.random()*window.innerHeight,
-      s: size,
-      vy: 1 + Math.random()*2.8,
-      vx: -0.6 + Math.random()*1.2,
-      rot: Math.random()*Math.PI*2,
-      vr: (-0.02 + Math.random()*0.04),
-      c: COLORS[Math.floor(Math.random()*COLORS.length)],
-      a: 0.40 + Math.random()*0.55
-    };
-  }
+  el.style.left = left + "vw";
+  el.style.fontSize = size + "px";
+  el.style.animationDuration = dur + "s";
+  el.style.setProperty("--drift", drift);
+  el.style.setProperty("--rot", rot);
 
-  for(let i=0;i<42;i++) hearts.push(makeHeart());
+  heartsLayer.appendChild(el);
+  setTimeout(()=> el.remove(), dur*1000);
+}
 
-  function drawHeart(x,y,size,rot,color,alpha){
-    ctx.save();
-    ctx.translate(x,y);
-    ctx.rotate(rot);
-    ctx.globalAlpha = alpha;
-    ctx.fillStyle = color;
-
-    ctx.beginPath();
-    const s = size;
-    ctx.moveTo(0, s*0.35);
-    ctx.bezierCurveTo(0, -s*0.15, -s*0.6, -s*0.15, -s*0.6, s*0.25);
-    ctx.bezierCurveTo(-s*0.6, s*0.65, 0, s*0.85, 0, s*1.15);
-    ctx.bezierCurveTo(0, s*0.85, s*0.6, s*0.65, s*0.6, s*0.25);
-    ctx.bezierCurveTo(s*0.6, -s*0.15, 0, -s*0.15, 0, s*0.35);
-    ctx.closePath();
-    ctx.fill();
-    ctx.restore();
-  }
-
-  function tick(){
-    ctx.clearRect(0,0,window.innerWidth, window.innerHeight);
-    for(const h of hearts){
-      h.y += h.vy;
-      h.x += h.vx;
-      h.rot += h.vr;
-
-      drawHeart(h.x,h.y,h.s,h.rot,h.c,h.a);
-
-      if(h.y > window.innerHeight + 40){
-        h.x = Math.random()*window.innerWidth;
-        h.y = -40;
-        h.vy = 1 + Math.random()*2.8;
-        h.vx = -0.6 + Math.random()*1.2;
-        h.s = 10 + Math.random()*16;
-        h.c = COLORS[Math.floor(Math.random()*COLORS.length)];
-        h.a = 0.40 + Math.random()*0.55;
-      }
-      if(h.x < -80) h.x = window.innerWidth + 60;
-      if(h.x > window.innerWidth + 80) h.x = -60;
-    }
-    requestAnimationFrame(tick);
-  }
-  tick();
+(function startRain(){
+  // كثافة مناسبة (ممكن نزيد/نقلل)
+  setInterval(spawnHeart, 180);
+  // دفعة أولى
+  for(let i=0;i<18;i++) setTimeout(spawnHeart, i*60);
 })();
 
-/* =============================
-   2) تنقّل الصفحات (Login/Home/Game)
-   ============================= */
-const loginView = document.getElementById('loginView');
-const homeView  = document.getElementById('homeView');
-const gameView  = document.getElementById('gameView');
+/* ===================== Auth ===================== */
+const USERS = new Set(["anas","lana"]);
+const PASS  = "love";
+let CURRENT_USER = null;
 
-function show(view){
-  loginView.style.display = (view==='login') ? 'block' : 'none';
-  homeView.style.display  = (view==='home')  ? 'block' : 'none';
-  gameView.style.display  = (view==='game')  ? 'block' : 'none';
-}
+function LOGIN(){
+  const u = (document.getElementById("u").value || "").trim().toLowerCase();
+  const p = (document.getElementById("p").value || "").trim();
 
-let CURRENT_USER = '';
-function setUser(u){
-  CURRENT_USER = u;
-  document.getElementById('whoLabel').innerText = (u||'');
-  document.getElementById('playerLabel').innerText = (u||'');
-}
-
-/* تسجيل الدخول */
-const loginErr = document.getElementById('loginErr');
-document.getElementById('loginBtn').addEventListener('click', doLogin);
-document.getElementById('loginHeart').addEventListener('click', doLogin); // القلب يساعدك تدخل
-
-function doLogin(){
-  const u = (document.getElementById('u').value || '').trim().toLowerCase();
-  const p = (document.getElementById('p').value || '').trim().toLowerCase();
-
-  const okUser = (u === 'anas' || u === 'lana');
-  const okPass = (p === 'love');
-
-  if(!okUser || !okPass){
-    loginErr.style.display = 'block';
+  if(!USERS.has(u) || p !== PASS){
+    alert("بيانات الدخول غير صحيحة");
     return;
   }
-  loginErr.style.display = 'none';
-  setUser(u.toUpperCase());
-  show('home');
+
+  CURRENT_USER = u;
+  document.getElementById("u").value = "";
+  document.getElementById("p").value = "";
+
+  showScreen("homeScreen");
+  document.getElementById("welcomeText").innerText =
+    (u === "anas") ? "Welcome ANAS ❤️" : "Welcome LANA ❤️";
+  document.getElementById("menuName").innerText =
+    (u === "anas") ? "ANAS ❤️" : "LANA ❤️";
 }
 
-/* قائمة القلب في الصفحة الرئيسية */
-const menuArea = document.getElementById('menuArea');
-document.getElementById('menuHeart').addEventListener('click', ()=>{
-  menuArea.style.display = (menuArea.style.display === 'block') ? 'none' : 'block';
-});
-document.getElementById('closeMenu').addEventListener('click', ()=> menuArea.style.display='none');
-
-document.getElementById('logout').addEventListener('click', logout);
-document.getElementById('logout2').addEventListener('click', logout);
-
-function logout(){
-  document.getElementById('u').value = '';
-  document.getElementById('p').value = '';
-  setUser('');
-  menuArea.style.display='none';
+function LOGOUT(){
+  CURRENT_USER = null;
+  closeMenu();
   resetPrompt();
-  show('login');
+  showScreen("loginScreen");
 }
 
-/* فتح اللعبة من الخيار 1 */
-document.getElementById('openGame').addEventListener('click', ()=>{
-  menuArea.style.display='none';
-  show('game');
-});
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("show"));
+  document.getElementById(id).classList.add("show");
+}
 
-/* رجوع للقائمة */
-document.getElementById('backHome').addEventListener('click', ()=>{
-  resetPrompt();
-  show('home');
-});
+/* ===================== Menu ===================== */
+function openMenu(){
+  document.getElementById("menuOverlay").classList.add("show");
+}
+function closeMenu(){
+  document.getElementById("menuOverlay").classList.remove("show");
+}
+function soon(n){
+  alert("قريباً ✨");
+}
 
-/* =============================
-   3) اللعبة: أسئلة/تحديات + تغيير المرحلة من الأعلى فقط
-   ============================= */
+/* ===================== Game ===================== */
+function goGame(){
+  closeMenu();
+  showScreen("gameScreen");
+  document.getElementById("prompt").innerText = "ابدأ ✨ اختر (سؤال / تحدي)";
+}
+
 function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
+let CURRENT_MODE = "lana1";
+function APPLY_MODE(){
+  CURRENT_MODE = document.getElementById("mode").value;
+  document.getElementById("prompt").innerText = "تم تغيير المرحلة ✨ اختر (سؤال / تحدي)";
+}
+
+/* ========= LANA 1 (مشاعر) ========= */
+
+
 const lana1_questions = [
+
   "متى حسّيت إنك مرتاح معي بدون ما تمثّل؟",
+
   "وش الشي اللي تحبه فيّ وما تقوله كثير؟",
+
   "متى تحس إني أقرب لك: بالكلام ولا بالسكوت؟",
+
   "وش أكثر تصرف بسيط مني يأثر فيك؟",
+
   "وش شعورك لما أطوّل وما أرد؟",
+
   "كيف تحب أتعامل معك وقت زعلك؟",
+
   "وش الشي اللي تتردد تقوله لي؟",
+
   "متى حسّيت إني فهمتك فعلًا؟",
+
   "وش أكثر شي يطمنك بعلاقتنا؟",
+
   "وش أكثر شي يقلقك علينا؟",
+
   "لو نختلف، وش تتمنى ما يصير بينا؟",
+
   "وش الشي اللي تحب أحافظ عليه دايمًا؟",
+
   "متى تحس إنك تحتاجني أكثر؟",
+
   "وش أكثر شي تحب نسويه سوا؟",
+
   "وش شي تتمنى ألاحظه بدون ما تطلب؟",
+
   "كيف تحب أعبّر لك عن حبي؟",
+
   "وش موقف خلاك تتعلّق فيّ أكثر؟",
+
   "وش شعورك لما أكون مشغول؟",
+
   "وش أكثر كلمة تأثر فيك مني؟",
+
   "وش شي بينا تحب يكون خاص؟",
+
   "وش أكثر شي يخليك تحس بالأمان معي؟",
+
   "وش تخاف نخسره لو أهملناه؟",
+
   "وش ودك نطوّره في تواصلنا؟",
+
   "وش أكثر شي يوجعك لو صار بينا؟",
+
   "متى حسّيت إنك تحبني؟",
+
   "وش تتمنى أسويه لما تكون متضايق؟",
+
   "وش تصرف مني يفرق معك أكثر مما أتوقع؟",
+
   "وش شي تحبني أستمر أسويه؟",
+
   "وش شي تحبني أوقّف أسويه؟",
+
   "وش تحس إني أضيفه لحياتك؟",
+
   "لو وصفت علاقتنا بكلمة، وش تكون؟",
+
   "وش أكثر شي يخليك تشتاق لي؟",
+
   "وش لحظة بينا ما تنساها؟",
+
   "وش تحب في طريقة اهتمامي؟",
+
   "وش أكثر شي يطمنك في وجودي؟",
+
   "وش ودك أسمعه منك أكثر؟",
+
   "وش تحس إني أفهمه عنك؟",
+
   "وش تحس إني ما أفهمه عنك؟",
+
   "وش وعد تحب نلتزم فيه سوا؟",
+
   "وش شعورك لما تتخيل مستقبلنا؟",
+
   "وش أكثر شي تحبه في قربنا؟",
+
   "وش شي تتمنى نعيشه سوا؟",
+
   "وش أكثر شي يخليك تحس إنك مهم عندي؟",
+
   "وش تحب تسمعه مني قبل النوم؟",
+
   "وش أكثر شي يخليك تحس بالحب؟"
+
 ];
 
 const lana1_challenges = [
+
   "قول بصوتك: شعورك الآن بصدق.",
+
   "قول: 3 أشياء تحسها بينا وما تحب تضيع.",
+
   "قول: جملة تحب تسمعها مني.",
+
   "قول بصوتك: لحظة حسّيت فيها إنك قريب مني.",
+
   "قول: شي يطمنك بعلاقتنا.",
+
   "صوّر: شيء حولك تحسّه يعبّر عن هدوء.",
+
   "قول: شي ودك أستمر أسويه.",
+
   "قول بصوتك: كيف تحب أواسيك.",
+
   "صوّر: شيء تحبه في مكانك الآن.",
+
   "قول: شي تخاف نخسره بينا.",
+
   "قول بصوتك: ليه وجودي مهم لك.",
+
   "صوّر: لون تحسّه يمثّل شعورك الآن.",
+
   "قول: شي تحب نسويه سوا كثير.",
+
   "صوّر: شيء بسيط يفرّحك.",
+
   "قول بصوتك: أجمل لحظة حسّيت فيها بالحب.",
+
   "قول: شي ودك أقوله لك أكثر.",
+
   "صوّر: شيء يذكّرك بالراحة.",
+
   "قول بصوتك: شي تحبني أقدّره فيك.",
+
   "صوّر: شيء تحسّه دافي.",
+
   "قول: شي يريحك لما تسمعه.",
+
   "قول بصوتك: وش تحس لما أكون جنبك.",
+
   "صوّر: شيء تحب وجوده بحياتك.",
+
   "قول: شي تحبني ألاحظه.",
+
   "صوّر: لقطة تعجبك الآن.",
+
   "قول بصوتك: كلمة تحسها بينا.",
+
   "قول: شي تتمنى نعيشه سوا.",
+
   "صوّر: شيء يخليك تبتسم.",
+
   "قول بصوتك: كيف تشوفنا.",
+
   "صوّر: شيء يعكس مزاجك.",
+
   "قول: شي يخليك تحس بالحب.",
+
   "قول بصوتك: وعد بسيط.",
+
   "صوّر: شيء ودك تشاركني إياه.",
+
   "قول: شي تحب تسمعه مني.",
+
   "صوّر: شيء تحسّه خاص.",
+
   "قول بصوتك: جملة من قلبك.",
+
   "قول: شي تحبني أحافظ عليه.",
+
   "صوّر: شيء تحب شكله.",
+
   "قول بصوتك: (أنا معك لأن…).",
+
   "صوّر: شيء يعبّر عنك اليوم.",
+
   "قول: شي يطمنك فيّ."
+
 ];
 
 /* ========= LANA 2 (أمان) ========= */
+
 const lana2_questions = [
+
   "وش أكثر شي يطمنك في وجودي؟",
+
   "متى تحس إنك على طبيعتك معي؟",
+
   "وش الشي اللي تحب نثبّته بينا وما يتغيّر؟",
+
   "وش أكثر شي تحتاجه مني هالفترة؟",
+
   "كيف تحب أكون جنبك وقت الضغط؟",
+
   "وش يخليك تحس إنك مو لحالك؟",
+
   "وش أكثر تصرّف مني يعطيك أمان؟",
+
   "متى تحس إننا فريق واحد؟",
+
   "وش الشي اللي تحب أستمر أسويه مهما صار؟",
+
   "وش أكثر شي يخليك تثق؟",
+
   "كيف تحب نحل خلافاتنا؟",
+
   "وش الشي اللي يوجعك لو حسّيت إني تجاهلته؟",
+
   "وش أسوأ شعور تحب نتجنبه بينا؟",
+
   "وش التصرّف اللي يخليك تحس إني موجود فعلًا؟",
+
   "وش الشي اللي تحبني أنتبه له أكثر؟",
+
   "وش يخليك تحس بالاستقرار؟",
+
   "وش أكثر شي تخاف يأثر علينا لو ما انتبهنا له؟",
+
   "كيف تحب أرجّعك لنقطة الأمان لو توترت؟",
+
   "وش أسلوبك وقت الزعل وتحبني أتعامل معه كيف؟",
+
   "وش أكثر شي يريحك بالكلام؟",
+
   "وش الشي اللي تحب يكون واضح بينا دايمًا؟",
+
   "وش تحس إننا سويناه صح؟",
+
   "وش ودك نطوّره بدون ضغط؟",
+
   "وش يخليك تحس إنك مسموع؟",
+
   "وش أكثر شي تحب نشاركه مع بعض؟",
+
   "وش الشي اللي يخليك تحس إني معك حتى وأنا بعيد؟",
+
   "وش الحركة الصغيرة اللي تفرق معك كثير؟",
+
   "وش يخليك تطمئن للمستقبل بينا؟",
+
   "وش الشي اللي ودك نتفق عليه بوضوح؟",
+
   "وش أكثر شي تحب في طريقة تواصلنا؟",
+
   "وش يخليك تحس بالراحة وقت الصمت؟",
+
   "وش الشي اللي ودك أحميه لك؟",
+
   "وش أكثر شي يثبتك وقت القلق؟",
+
   "وش تحب يكون ردّي لو كنت محتاج؟",
+
   "وش الشي اللي يخليك تحس إنك مهم؟",
+
   "وش الشي اللي تحب نراجعه بين فترة وفترة؟",
+
   "وش يخليك تحس إننا ثابتين؟",
+
   "وش أكثر شي ودك أكونه لك؟",
+
   "وش الشي اللي تحب نكمّله سوا؟",
+
   "وش شعورك لما تحس إننا متفاهمين؟",
+
   "وش يخليك تحس بالطمأنينة الآن؟",
+
   "وش الشي اللي تحب أذكّرك فيه دايمًا؟",
+
   "وش أكثر شي يخفف عنك؟",
+
   "وش تحب نكون عليه بعد فترة؟",
+
   "وش إحساسك تجاهنا اليوم؟"
+
 ];
 
 const lana2_challenges = [
+
   "ارسل فويس قصير تطمّن فيه الطرف الثاني.",
+
   "صوّر شيء قدامك تحسّه يعبّر عن الأمان.",
+
   "ارسل رسالة تقول فيها شي واحد يريحك.",
+
   "صوّر مكانك الآن لو كان هادئ.",
+
   "ارسل كلمة تطمّن الطرف الثاني.",
+
   "فويس: احكي عن شيء ريّحك اليوم.",
+
   "صوّر شيء تحب وجوده حولك.",
+
   "ارسل رسالة شكر قصيرة.",
+
   "صوّر لون تحسّه يمثّل مزاجك.",
+
   "فويس: احكي عن شعورك الآن.",
+
   "ارسل جملة تحب تسمعها من الطرف الثاني.",
+
   "صوّر شيء ثابت في يومك.",
+
   "فويس: قول شي يخليك تحس بالأمان.",
+
   "صوّر لقطة دافئة (ضوء، قهوة، مكان).",
+
   "ارسل رسالة دعم بسيطة.",
+
   "فويس: احكي متى تحس إنكم فريق.",
+
   "صوّر شيء يعبّر عن الهدوء.",
+
   "ارسل جملة تطمّن الطرف الثاني.",
+
   "صوّر شيء تحب شكله.",
+
   "فويس: احكي شي يخفف توترك.",
+
   "ارسل رسالة تقول فيها إنك موجود.",
+
   "صوّر شيء يعبّر عن القرب.",
+
   "فويس: احكي عن شي تحب نحافظ عليه.",
+
   "صوّر شيء بسيط يفرحك.",
+
   "ارسل كلمة تقدير.",
+
   "فويس: قول وعد صغير.",
+
   "صوّر شيء تحب وجوده بحياتك.",
+
   "ارسل رسالة قصيرة بدون سبب.",
+
   "صوّر شيء تحسّه آمن.",
+
   "فويس: احكي عن شي تحب نكمّله سوا.",
+
   "ارسل جملة تريح الطرف الثاني.",
+
   "صوّر شيء يعكس شعورك الآن.",
+
   "فويس: احكي عن شي خلاك تطمئن.",
+
   "صوّر شيء تحبه اليوم.",
+
   "ارسل كلمة تحسها بينكم.",
+
   "فويس: احكي عن شي يخليك تثق.",
+
   "صوّر شيء يعبّر عن الثبات.",
+
   "ارسل رسالة تقول فيها (أنا معك).",
+
   "صوّر شيء بسيط تحبه.",
+
   "فويس: احكي إحساسك تجاهكم."
+
 ];
 
 /* ========= LANA 3 (راحة/سوالف) ========= */
+
 const lana3_questions = [
+
   "أحس إن أكثر وقت نكون فيه على طبيعتنا هو لما ما نخطط.",
+
   "فيه أشياء بسيطة بينا صارت طبيعية مرة.",
+
   "أحيانًا الصمت بيننا مريح أكثر من الكلام.",
+
   "فيه تصرفات نسويها وما ننتبه لها لكنها تضحك.",
+
   "أرتاح لما يكون الجو خفيف بدون توقعات.",
+
   "أحب فكرة إننا نقدر نكون عفويين.",
+
   "فيه أشياء بينا ما تحتاج تفسير.",
+
   "الراحة الحقيقية لما ما أفكر وش أقول.",
+
   "أضحك لما أفتكر مواقف بسيطة صارت بينا.",
+
   "فيه أوقات أحس إننا نفهم بعض بدون كلام.",
+
   "العفوية بين شخصين نعمة.",
+
   "فيه عادات صغيرة تصنع الراحة.",
+
   "أحب لما يكون المزاج بسيط.",
+
   "أحيانًا السخافة تقرّب أكثر من الجدية.",
+
   "الراحة تظهر في التفاصيل الصغيرة.",
+
   "أحس إن الضحك بدون سبب علامة أمان.",
+
   "فيه أشياء نسويها وتكون عادية لنا وغريبة لغيرنا.",
+
   "الطبيعة تطلع لما نكون مرتاحين.",
+
   "أحب اللحظات اللي ما تكون مثالية.",
+
   "البساطة تخلي الجو دافي.",
+
   "أرتاح لما نكون على سجيتنا.",
+
   "فيه أشياء بينا ما تحتاج ترتيب.",
+
   "أحب المزاج اللي يجي بدون مقدمات.",
+
   "الضحك يخفف أي توتر.",
+
   "العفوية تحرر.",
+
   "فيه لحظات تكون خفيفة بس عميقة.",
+
   "أحب لما نكون صادقين بدون تفكير.",
+
   "أحس إن الراحة تزيد لما نضحك على نفسنا.",
+
   "فيه مواقف بسيطة تبقى في الذاكرة.",
+
   "أحب لما ما نحتاج نثبت شي.",
+
   "الراحة الحقيقية تكون بدون مجهود.",
+
   "أحب لما يكون الجو طبيعي.",
+
   "فيه أشياء بينا صارت جزء من اليوم.",
+
   "الضحك المشترك يقرب.",
+
   "العفوية تخلي الوقت يمشي أسرع.",
+
   "أرتاح لما ما نكون رسميين.",
+
   "فيه أوقات أحس إننا متفاهمين بدون شرح.",
+
   "البساطة تزيد القرب.",
+
   "أحب الجو اللي ما فيه أحكام.",
+
   "الراحة إحساس، مو تصرف."
+
 ];
 
 const lana3_challenges = [
+
   "انبح خمس مرات والهث.",
+
   "قلّد صوت بقرة.",
+
   "قلّد صوت ثعبان.",
+
   "قلّد صوت عجوز.",
+
   "قلّد صوت معزة.",
+
   "قلّد صوت طفل (نونو).",
+
   "قلّد صوت سبونج بوب.",
+
   "قلّد صوت أسد.",
+
   "قلّد صوت ثور.",
+
   "قلّد صوت خنزير.",
+
   "سوّ أكثر حركة مقززة (تمثيل فقط) تكسر الجدية.",
+
   "ارقص رقصة غبية لمدة 10 ثواني.",
+
   "هزّ رجولك وكأنك متوتر جدًا.",
+
   "قول عبارة غبية تختارها.",
+
   "قول: (أنا تيس) خمس مرات بصوت مختلف كل مرة.",
+
   "صوّر سروالك عند ركبك كأنك متجه للحمام.", 
+
   "صوّر إبطك .", 
+
   "صوّر أذنك.",
+
   "صوّر خشمك.",
+
   "صوّر خدك.",
+
   "صوّر أصابع رجلك.",
+
   "صوّر سُرّة بطنك .",
+
   "صوّر لسانك.",
+
   "صوّر وجهك بأغرب تعبير.",
+
   "صوّر لقطة وانت تسوي حركة غبية.",
+
   "مثّل حركة مقززة بدون لمس.",
+
   "قل جملة وانت تغيّر صوتك 3 مرات.",
+
   "مثّل أنك مستعجل جدًا بدون كلام."
+
 ];
 
 /* ========= LANA 4 (جريئة - صراحة/تلميح بدون وصف صريح) ========= */
+
 const lana4_questions = [
+
   "شي اسويه واخليك ترووق اطلبني اسويه.",
+
   "اذا كنا بدون ملابس وباحضان بعض ايش بتسوي الان.",
+
   "اوصف حبك لتملك بجنون اثناء العلاقه.",
+
   "ايش اكثر شي ماتقاومه فيني.",
+
   "قول ايش اكثر شي يشهيك فيني.",
+
   "ايش اكثر كلمه تحب اقولها وقت العلاقه.",
+
   "قول افضل ثلاث وضعيات.",
+
   "اوصف مستوى الشهوه الى تحب توصل له.",
+
   "وين تحب انزل.",
+
   "قول ثلاث اشياء مجنونه ودك نسويها وحنا بالشهوه.",
+
   "اعطيني بوسه بمكان انا اختاره.",
+
   "عبر عن شعورك الان بصوت مثير.",
+
   "امسك مكان بجسمي والعب فيه بهدوء.",
+
   "صارحني بشي جديد تبي نسويه بالعلاقه بس متردد.",
+
   "قول ايش الاشياء الى تفجرك فيني.",
+
   "احضني وحكه فيني مع بوسات.",
+
   "وين اغرب مكان تحس تبي نسويه فيه.",
+
   "شي تتمنى تسويه الان سوه.",
+
   "اذكر صفات عظيمه فيني.",
+
   "أعظمني بشعور شهوتك",
+
   "سو شي تعرف انه يثيرني.",
+
   "شي يخليك تذوب تذوب ما تمسك نفسك.",
+
   "شي اذا سويته تذوب واطلبه مني اسويه خمس مرات.",
+
   "اايش الكلمه الى اذا قلتها لك تعرف اني مشتهيك مره",
+
   "متى تحس رغبتك فيني وصلت اعلى مراحلها اوصف لي بالتفصيل بشهوه.",
+
   "متى تحس رغبتك فيني وصلت اعلى مراحلها اوصف لي بالتفصيل بشهوه.",
+
   "بوس مكان بجسمي يفتنك.",
+
   "أشي تتمنى اسويه معك بجرائه اكثر واطلبني اسويه لك.",
+
   "ايش احلى شي سويناه بالعلاقه واطلبني اسويه.",
+
   "قول لي كلام جريئا."
+
 ];
 
 const lana4_challenges = [
+
   "اطلب مني شي الان وانفذه لك بدون رفض.",
+
   "نصور لبعض مقطع اغراء لمدة اربعين ثانيه.",
+
   "ااختار جزء من ملابسي افصخه.",
+
   "قل أكثر شيء يجذبك في شخصية الطرف الثاني.",
+
   "اختار وضعيه اجلسها”.",
+
   "اختار جزء من ملابسي افصخه.",
+
   "الحس لي بدون ما اقول اه.",
+
   "ربطني واضربني بكسي بقوه وما اقول اي ردة فعل.",
+
   "تنفس على كسي بدون ما اطلع صوت.",
+
   "مصي زبي بدون ما تخليني اسوي ردة فعل.",
+
   "حطي كسك قدام زبي ونقاوم بعض.",
+
   "اجلسي فوقي وارفعي نفسك وقاومي.",
+
   "الحس اكثر مكان تحبه فيني.",
+
   "اعطيني ثلاث اوامر انفذها بدون نقاش.",
+
   "شدي خصوتي بدون ما اتالم.",
+
   "داعب حلمات زوجتك.",
+
   "اغري زوجك بلمسه بشويش.",
+
   "غمض عيونك وخلني افاجئك وانا الحس بمكان ما تتوقعه.",
+
   "دخليه بين شفراتك و بدون ردة فعل.",
+
   "نطي بشويش و حاولي ما تبيني اهاتك",
+
 ];
 
-
+/* ========= PACKS ========= */
 const PACKS = {
-  lana1: {questions: lana1_questions, challenges: lana1_challenges},
-  lana2: {questions: lana2_questions, challenges: lana2_challenges},
-  lana3: {questions: lana3_questions, challenges: lana3_challenges},
-  lana4: {questions: lana4_questions, challenges: lana4_challenges}
+  lana1: { questions: lana1_questions, challenges: lana1_challenges },
+  lana2: { questions: lana2_questions, challenges: lana2_challenges },
+  lana3: { questions: lana3_questions, challenges: lana3_challenges },
+  lana4: { questions: lana4_questions, challenges: lana4_challenges }
 };
 
-let CURRENT_MODE = 'lana1';
-const modeTop = document.getElementById('modeTop');
-const promptEl = document.getElementById('prompt');
-
-modeTop.addEventListener('change', ()=>{
-  CURRENT_MODE = modeTop.value;
-  if(CURRENT_MODE === 'lana4'){
-    promptEl.innerText = "LANA 4 (قريباً) ❤️";
-  }else{
-    promptEl.innerText = "تم تغيير المرحلة ✨ اختر (سؤال / تحدي)";
-  }
-});
-
-document.getElementById('qBtn').addEventListener('click', ()=>{
-  if(CURRENT_MODE === 'lana4'){
-    promptEl.innerText = "LANA 4 (قريباً) ❤️";
-    return;
-  }
-  promptEl.innerText = "💬 " + pick(PACKS[CURRENT_MODE].questions);
-});
-
-document.getElementById('cBtn').addEventListener('click', ()=>{
-  if(CURRENT_MODE === 'lana4'){
-    promptEl.innerText = "LANA 4 (قريباً) ❤️";
-    return;
-  }
-  promptEl.innerText = "🔥 " + pick(PACKS[CURRENT_MODE].challenges);
-});
-
-document.getElementById('resetBtn').addEventListener('click', resetPrompt);
-
-function resetPrompt(){
-  promptEl.innerText = "ابدأ ✨ اختر (سؤال / تحدي)";
+function showPrompt(type){
+  const pack = PACKS[CURRENT_MODE];
+  const list = (type === "q") ? pack.questions : pack.challenges;
+  const prefix = (type === "c") ? "🔥 " : "";
+  document.getElementById("prompt").innerText = prefix + pick(list);
 }
 
-/* افتراضي */
-show('login');
+function resetPrompt(){
+  document.getElementById("prompt").innerText = "ابدأ ✨ اختر (سؤال / تحدي)";
+}
+
+/* Start at login */
+showScreen("loginScreen");
 </script>
 </body>
 </html>
+
+
 
 
 
