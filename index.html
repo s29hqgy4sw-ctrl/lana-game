@@ -14,6 +14,8 @@
       padding:12px;
       background:#fafafa;
       color:#111;
+      position: relative;
+      overflow-x: hidden;
     }
     h1{text-align:center;margin:8px 0 2px;font-size:34px}
     h2{text-align:center;margin:0 0 18px;font-weight:400;color:#555}
@@ -91,128 +93,209 @@
       border-radius:14px !important;
     }
     button:active{ transform: scale(.98); }
+
+    /* ===== Header date ===== */
+    .dateTag{
+      text-align:center;
+      margin-top:6px;
+      margin-bottom:8px;
+      font-weight:700;
+      letter-spacing:.5px;
+      color: rgba(255,255,255,.82);
+    }
+    .dateTag span{
+      display:inline-block;
+      padding:6px 12px;
+      border-radius:999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      backdrop-filter: blur(10px);
+    }
+
+    /* ===== Hearts Rain (مطر قلوب) ===== */
+    #heartRain{
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .heart{
+      position: absolute;
+      top: -40px;
+      font-size: 18px;
+      opacity: .85;
+      filter: drop-shadow(0 8px 20px rgba(0,0,0,.35));
+      animation: fall linear forwards;
+      will-change: transform, opacity;
+    }
+    @keyframes fall{
+      0%{ transform: translateY(-40px) translateX(0) rotate(0deg); opacity:.0; }
+      10%{ opacity:.85; }
+      100%{ transform: translateY(110vh) translateX(40px) rotate(220deg); opacity:0; }
+    }
+
+    /* خليه فوق القلوب */
+    body > *:not(#heartRain){
+      position: relative;
+      z-index: 1;
+    }
   </style>
 </head>
 
 <body>
 
-<h1>LANA ❤️ ANAS</h1>
-<h2>I love you</h2>
+  <!-- مطر قلوب -->
+  <div id="heartRain" aria-hidden="true"></div>
 
-<div class="card" id="join">
-  <input id="room" placeholder="كود الغرفة">
-  <input id="name" placeholder="اسمك">
+  <!-- التاريخ -->
+  <div class="dateTag"><span>24/11</span></div>
 
-  <select id="mode">
-    <option value="lana1">LANA 1 💖 (مشاعر)</option>
-    <option value="lana2">LANA 2 🤍 (أمان)</option>
-    <option value="lana3">LANA 3 😄 (راحة/سوالف)</option>
-    <option value="lana4">LANA 4 🔥 (جريئة)</option>
-  </select>
+  <h1>LANA ❤️ ANAS</h1>
+  <h2>I love you</h2>
 
-  <div class="muted">ادخلوا بنفس كود الغرفة ونفس المرحلة</div>
-  <button id="joinBtn" onclick="JOIN_NOW()">دخول</button>
-</div>
+  <div class="card" id="join">
+    <input id="room" placeholder="كود الغرفة">
+    <input id="name" placeholder="اسمك">
 
-<div class="card" id="game">
-  <div style="text-align:center">
-    <span class="pill">الغرفة: <b id="roomLabel"></b></span>
-    <span class="pill">أنت: <b id="nameLabel"></b></span>
-    <span class="pill">المرحلة: <b id="modeLabel"></b></span>
-  </div>
-
-  <div class="row" style="margin-top:10px">
-    <button onclick="GO_BACK()" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.14)">⬅️ رجوع</button>
-    <button onclick="TOGGLE_MODE()" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.14)">🎛️ تغيير المرحلة</button>
-  </div>
-
-  <div class="card" id="modeCard" style="display:none;margin-top:10px">
-    <div class="muted" style="margin-bottom:8px">اختر المرحلة وأنت داخل اللعبة</div>
-    <select id="mode2">
+    <select id="mode">
       <option value="lana1">LANA 1 💖 (مشاعر)</option>
       <option value="lana2">LANA 2 🤍 (أمان)</option>
       <option value="lana3">LANA 3 😄 (راحة/سوالف)</option>
       <option value="lana4">LANA 4 🔥 (جريئة)</option>
     </select>
-    <button onclick="APPLY_MODE()">✅ تطبيق</button>
+
+    <div class="muted">ادخلوا بنفس كود الغرفة ونفس المرحلة</div>
+    <button id="joinBtn" onclick="JOIN_NOW()">دخول</button>
   </div>
 
-  <div class="row" style="margin-top:12px">
-    <button onclick="showPrompt('q')">💬 سؤال</button>
-    <button onclick="showPrompt('c')">🔥 تحدي</button>
+  <div class="card" id="game">
+    <div style="text-align:center">
+      <span class="pill">الغرفة: <b id="roomLabel"></b></span>
+      <span class="pill">أنت: <b id="nameLabel"></b></span>
+      <span class="pill">المرحلة: <b id="modeLabel"></b></span>
+    </div>
+
+    <div class="card" id="modeCard" style="display:none;margin-top:10px">
+      <div class="muted" style="margin-bottom:8px">اختر المرحلة وأنت داخل اللعبة</div>
+      <select id="mode2">
+        <option value="lana1">LANA 1 💖 (مشاعر)</option>
+        <option value="lana2">LANA 2 🤍 (أمان)</option>
+        <option value="lana3">LANA 3 😄 (راحة/سوالف)</option>
+        <option value="lana4">LANA 4 🔥 (جريئة)</option>
+      </select>
+      <button onclick="APPLY_MODE()">✅ تطبيق</button>
+    </div>
+
+    <div class="row" style="margin-top:12px">
+      <button onclick="showPrompt('q')">💬 سؤال / سالفة</button>
+      <button onclick="showPrompt('c')">🔥 تحدي</button>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="q" id="prompt">ابدأ ✨ اختر (سؤال / تحدي)</div>
+
+      <button onclick="resetPrompt()"
+        style="background:rgba(255,255,255,.12);color:#fff;margin-top:12px;border:1px solid rgba(255,255,255,.14)">
+        🔁 إعادة
+      </button>
+
+      <!-- زر تغيير المرحلة تحت إعادة فقط -->
+      <button onclick="TOGGLE_MODE()"
+        style="background:rgba(255,255,255,.12);color:#fff;margin-top:10px;border:1px solid rgba(255,255,255,.14)">
+        🎛️ تغيير المرحلة
+      </button>
+    </div>
   </div>
 
-  <div class="card" style="margin-top:14px">
-    <div class="q" id="prompt">ابدأ ✨ اختر (سؤال / تحدي)</div>
-    <button onclick="resetPrompt()" style="background:rgba(255,255,255,.12);color:#fff;margin-top:12px;border:1px solid rgba(255,255,255,.14)">🔁 إعادة</button>
-  </div>
-</div>
+  <script>
+    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
-<script>
-  function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-
-  function modeName(m){
-    if(m==="lana1") return "LANA 1 💖";
-    if(m==="lana2") return "LANA 2 🤍";
-    if(m==="lana3") return "LANA 3 😄";
-    return "LANA 4 🔥";
-  }
-
-  let CURRENT_MODE = "lana1";
-
-  function JOIN_NOW(){
-    const room = document.getElementById("room").value.trim();
-    const name = document.getElementById("name").value.trim();
-    const mode = document.getElementById("mode").value;
-
-    if(!room || !name){
-      alert("اكتب كود الغرفة واسمك");
-      return;
+    function modeName(m){
+      if(m==="lana1") return "LANA 1 💖";
+      if(m==="lana2") return "LANA 2 🤍";
+      if(m==="lana3") return "LANA 3 😄";
+      return "LANA 4 🔥";
     }
 
-    CURRENT_MODE = mode;
+    let CURRENT_MODE = "lana1";
 
-    document.getElementById("join").style.display = "none";
-    document.getElementById("game").style.display = "block";
+    function JOIN_NOW(){
+      const room = document.getElementById("room").value.trim();
+      const name = document.getElementById("name").value.trim();
+      const mode = document.getElementById("mode").value;
 
-    document.getElementById("roomLabel").innerText = room;
-    document.getElementById("nameLabel").innerText = name;
-    document.getElementById("modeLabel").innerText = modeName(CURRENT_MODE);
+      if(!room || !name){
+        alert("اكتب كود الغرفة واسمك");
+        return;
+      }
 
-    const m2 = document.getElementById("mode2");
-    if(m2) m2.value = CURRENT_MODE;
+      CURRENT_MODE = mode;
 
-    document.getElementById("prompt").innerText = "جاهز ✨ اختر (سؤال / تحدي)";
-  }
+      document.getElementById("join").style.display = "none";
+      document.getElementById("game").style.display = "block";
 
-  function GO_BACK(){
-    document.getElementById("game").style.display = "none";
-    document.getElementById("join").style.display = "block";
-    document.getElementById("prompt").innerText = "ابدأ ✨ اختر (سؤال / تحدي)";
-    const mc = document.getElementById("modeCard");
-    if(mc) mc.style.display = "none";
-  }
+      document.getElementById("roomLabel").innerText = room;
+      document.getElementById("nameLabel").innerText = name;
+      document.getElementById("modeLabel").innerText = modeName(CURRENT_MODE);
 
-  function TOGGLE_MODE(){
-    const mc = document.getElementById("modeCard");
-    mc.style.display = (mc.style.display === "none" || !mc.style.display) ? "block" : "none";
-    const m2 = document.getElementById("mode2");
-    if(m2) m2.value = CURRENT_MODE;
-  }
+      const m2 = document.getElementById("mode2");
+      if(m2) m2.value = CURRENT_MODE;
 
-  function APPLY_MODE(){
-    const m2 = document.getElementById("mode2").value;
-    CURRENT_MODE = m2;
-    document.getElementById("modeLabel").innerText = modeName(CURRENT_MODE);
-    document.getElementById("prompt").innerText = "تم تغيير المرحلة ✨ اختر (سؤال / تحدي)";
-    document.getElementById("modeCard").style.display = "none";
-  }
+      const mc = document.getElementById("modeCard");
+      if(mc) mc.style.display = "none";
 
-  function resetPrompt(){
-    document.getElementById("prompt").innerText = "ابدأ ✨ اختر (سؤال / تحدي)";
-  }
+      document.getElementById("prompt").innerText = "جاهز ✨ اختر (سؤال / تحدي)";
+    }
 
-  // ===== هنا تبدأ قوائم الأسئلة والتحديات (ارسلها لي بالجزء الثاني) =====
+    function TOGGLE_MODE(){
+      const mc = document.getElementById("modeCard");
+      mc.style.display = (mc.style.display === "none" || !mc.style.display) ? "block" : "none";
+      const m2 = document.getElementById("mode2");
+      if(m2) m2.value = CURRENT_MODE;
+    }
+
+    function APPLY_MODE(){
+      const m2 = document.getElementById("mode2").value;
+      CURRENT_MODE = m2;
+      document.getElementById("modeLabel").innerText = modeName(CURRENT_MODE);
+      document.getElementById("prompt").innerText = "تم تغيير المرحلة ✨ اختر (سؤال / تحدي)";
+      document.getElementById("modeCard").style.display = "none";
+    }
+
+    function resetPrompt(){
+      document.getElementById("prompt").innerText = "ابدأ ✨ اختر (سؤال / تحدي)";
+      const mc = document.getElementById("modeCard");
+      if(mc) mc.style.display = "none";
+    }
+
+    /* ===== Hearts Rain JS ===== */
+    (function(){
+      const box = document.getElementById("heartRain");
+      const hearts = ["💗","💖","💘","💝","💕","❤️"];
+      function spawn(){
+        const el = document.createElement("div");
+        el.className = "heart";
+        el.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+
+        const left = Math.random()*100;               // vw
+        const size = 14 + Math.random()*16;           // px
+        const dur  = 5 + Math.random()*6;             // sec
+
+        el.style.left = left + "vw";
+        el.style.fontSize = size + "px";
+        el.style.animationDuration = dur + "s";
+
+        box.appendChild(el);
+        setTimeout(()=> el.remove(), (dur*1000)+200);
+      }
+
+      // كثافة خفيفة
+      setInterval(spawn, 420);
+    })();
+
+    // ===== هنا تبدأ قوائم الأسئلة والتحديات (ارسلها لي بالجزء الثاني) =====
+  </script>
 
 /* ========= LANA 1 (مشاعر) ========= */
 const lana1_questions = [
@@ -556,6 +639,7 @@ function showPrompt(type){
 </script>
 </body>
 </html>
+
 
 
 
