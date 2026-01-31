@@ -54,7 +54,7 @@
     }
     .card{
       width:100%;
-      max-width:680px;
+      max-width:740px;
       background:rgba(255,255,255,.08);
       border:1px solid rgba(255,255,255,.15);
       border-radius:26px;
@@ -81,87 +81,81 @@
       font-size:14px;
     }
 
-    h1{margin:8px 0 6px; font-size:38px; letter-spacing:.5px}
+    h1{margin:8px 0 6px; font-size:40px; letter-spacing:.5px}
     h2{margin:0 0 18px; font-weight:400; color:rgba(255,255,255,.82)}
+
     .text{
       line-height:1.95;
       font-size:18px;
       color:rgba(255,255,255,.92);
       margin:0 auto;
-      max-width:560px;
+      max-width:600px;
     }
     .text b{color:#fff}
     .pledge{
       margin-top:14px;
       font-size:13px;
-      opacity:.75;
+      opacity:.78;
       line-height:1.9;
     }
 
-    /* ===== قلب الدخول ===== */
+    /* ===== قلب الدخول (كبير + نابض + مشتعل دايم) ===== */
     .heart-stage{
       display:flex;
       justify-content:center;
-      margin:26px 0 6px;
+      margin:22px 0 26px; /* مساحة قبل وبعد عشان ما يتداخل مع الكلام */
     }
 
     .heart-shell{
-      width:170px;
-      height:160px;
+      width:260px;
+      height:240px;
       position:relative;
       transform:rotate(-45deg);
-      background:#ff2d55;
-      cursor:pointer;
-      transition:.45s ease;
-      box-shadow:0 0 30px rgba(255,45,85,.65);
-      border-radius:10px;
-    }
-    .heart-shell:before,
-    .heart-shell:after{
-      content:"";
-      position:absolute;
-      width:170px;
-      height:160px;
-      background:#ff2d55;
-      border-radius:50%;
-    }
-    .heart-shell:before{top:-85px;left:0}
-    .heart-shell:after{left:85px;top:0}
-
-    .heart-shell:hover{
-      box-shadow:0 0 38px rgba(255,45,85,.95), 0 0 80px rgba(255,110,160,.6);
-    }
-
-    /* تأثير نار/اشتعال (Glow) */
-    .heart-shell.active{
-      animation:pulse 1.15s infinite;
+      background:#ff1f4d;
+      border-radius:14px;
       box-shadow:
         0 0 22px rgba(255,140,0,.55),
         0 0 55px rgba(255,70,0,.40),
         0 0 32px rgba(255,45,85,.95),
         0 0 95px rgba(255,110,160,.55);
+      animation:pulse 1.15s infinite;
     }
+    .heart-shell:before,
+    .heart-shell:after{
+      content:"";
+      position:absolute;
+      width:260px;
+      height:240px;
+      background:#ff1f4d;
+      border-radius:50%;
+    }
+    .heart-shell:before{top:-125px;left:0}
+    .heart-shell:after{left:125px;top:0}
+
     @keyframes pulse{
       0%{transform:rotate(-45deg) scale(1)}
       50%{transform:rotate(-45deg) scale(1.06)}
       100%{transform:rotate(-45deg) scale(1)}
     }
 
-    /* نمط لهب حول القلب */
+    /* لهب حول القلب */
     .heart-fire{
       position:absolute;
-      inset:-18px;
-      border-radius:18px;
+      inset:-22px;
+      border-radius:22px;
       pointer-events:none;
-      opacity:0;
-      transition:.35s ease;
+      opacity:1;
       background:
-        radial-gradient(40px 40px at 15% 30%, rgba(255,180,0,.55), transparent 65%),
-        radial-gradient(60px 60px at 85% 35%, rgba(255,80,0,.45), transparent 65%),
-        radial-gradient(70px 70px at 45% 90%, rgba(255,80,0,.35), transparent 70%);
+        radial-gradient(55px 55px at 15% 30%, rgba(255,200,0,.60), transparent 65%),
+        radial-gradient(80px 80px at 85% 35%, rgba(255,90,0,.48), transparent 65%),
+        radial-gradient(95px 95px at 45% 95%, rgba(255,90,0,.38), transparent 70%);
       filter: blur(2px);
+      animation:flicker 1.4s infinite;
     }
-    .heart-shell.active .heart-fire{opacity:1}
+    @keyframes flicker{
+      0%,100%{opacity:.95; transform:scale(1)}
+      50%{opacity:.75; transform:scale(1.02)}
+    }
 
     /* فورم داخل القلب */
     .login-form{
@@ -171,35 +165,28 @@
       flex-direction:column;
       justify-content:center;
       align-items:center;
-      gap:10px;
+      gap:12px;
       transform:rotate(45deg);
-      padding:18px 22px;
-      opacity:0;
-      pointer-events:none;
-      transition:.35s ease;
-    }
-    .heart-shell.active .login-form{
-      opacity:1;
-      pointer-events:auto;
+      padding:24px 26px;
     }
 
     .login-form input{
-      width:150px;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.35);
+      width:190px;
+      padding:12px 14px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.38);
       background:rgba(0,0,0,.22);
       color:#fff;
       outline:none;
       text-align:center;
-      font-size:14px;
+      font-size:15px;
     }
-    .login-form input::placeholder{color:rgba(255,255,255,.7)}
+    .login-form input::placeholder{color:rgba(255,255,255,.78)}
 
     .login-form button{
-      width:150px;
-      padding:10px 12px;
-      border-radius:14px;
+      width:190px;
+      padding:12px 14px;
+      border-radius:16px;
       border:none;
       background:#fff;
       color:#111;
@@ -208,10 +195,11 @@
       transition:.2s;
     }
     .login-form button:active{transform:scale(.98)}
+
     .hint{
-      margin-top:10px;
+      margin-top:6px;
       font-size:12px;
-      opacity:.7;
+      opacity:.78;
     }
     .error{
       margin-top:10px;
@@ -224,27 +212,27 @@
     .menu-heart-wrap{
       display:flex;
       justify-content:center;
-      margin-top:18px;
+      margin-top:20px;
     }
     .menu-heart{
-      width:130px;
-      height:120px;
+      width:150px;
+      height:140px;
       position:relative;
       transform:rotate(-45deg);
-      background:#ff2d55;
+      background:#ff1f4d;
       cursor:pointer;
       transition:.35s ease;
       box-shadow:0 0 25px rgba(255,45,85,.55);
-      border-radius:10px;
+      border-radius:12px;
     }
     .menu-heart:before,.menu-heart:after{
       content:"";
       position:absolute;
-      width:130px;height:120px;
-      background:#ff2d55;border-radius:50%;
+      width:150px;height:140px;
+      background:#ff1f4d;border-radius:50%;
     }
-    .menu-heart:before{top:-65px;left:0}
-    .menu-heart:after{left:65px;top:0}
+    .menu-heart:before{top:-75px;left:0}
+    .menu-heart:after{left:75px;top:0}
     .menu-heart:hover{
       box-shadow:0 0 35px rgba(255,45,85,.95), 0 0 90px rgba(255,110,160,.55);
     }
@@ -315,7 +303,7 @@
       margin:10px 0;
     }
 
-    select,input{
+    select{
       width:100%;
       padding:12px;
       border-radius:16px;
@@ -325,12 +313,11 @@
       outline:none;
       font-size:15px;
     }
-    input::placeholder{color:rgba(255,255,255,.6)}
+
     .muted{font-size:13px; opacity:.75; margin-top:10px}
 
     .hidden{display:none !important;}
 
-    /* زر صغير للعودة للصفحة الرئيسية داخل اللعبة */
     .miniHome{
       margin-top:10px;
       font-size:13px;
@@ -342,13 +329,16 @@
 
     @media (max-width:520px){
       .menu{grid-template-columns:repeat(2,1fr)}
+      .heart-shell{width:230px;height:215px}
+      .heart-shell:before,.heart-shell:after{width:230px;height:215px}
+      .heart-shell:before{top:-112px}
+      .heart-shell:after{left:112px}
     }
   </style>
 </head>
 
 <body>
 
-  <!-- مطر القلوب -->
   <div class="rain-layer" id="rain"></div>
 
   <div class="wrap">
@@ -359,8 +349,9 @@
         <h1>LANA ❤️ ANAS</h1>
         <h2>24 Nov</h2>
 
+        <!-- قلب كبير منفصل عن الكلام -->
         <div class="heart-stage">
-          <div class="heart-shell" id="loginHeart" title="اضغط">
+          <div class="heart-shell" id="loginHeart">
             <div class="heart-fire"></div>
 
             <div class="login-form">
@@ -371,7 +362,7 @@
           </div>
         </div>
 
-        <div class="hint">اضغط القلب أولًا ✨</div>
+        <div class="hint">Username: anas أو lana · Password: love</div>
         <div class="error" id="loginErr"></div>
       </div>
 
@@ -421,33 +412,26 @@
 
       </div>
 
-      <!-- ===== شاشة اللعبة ===== -->
+      <!-- ===== شاشة اللعبة (بدون كود/اسم) ===== -->
       <div id="gameView" class="hidden">
 
         <h2 style="margin-top:0">🎮 لعبة الأسئلة</h2>
 
-        <div class="box" id="joinBox">
-          <input id="room" placeholder="كود الغرفة">
-          <input id="name" placeholder="اسمك">
-
-          <select id="mode">
-            <option value="lana1">LANA 1 💖 (مشاعر)</option>
-            <option value="lana2">LANA 2 🤍 (أمان)</option>
-            <option value="lana3">LANA 3 😄 (راحة/سوالف)</option>
-            <option value="lana4">LANA 4 🔥 (فاضي)</option>
-          </select>
-
-          <div class="muted">ادخلوا بنفس كود الغرفة ونفس المرحلة</div>
-          <button class="btn btn-main" onclick="JOIN_NOW()">دخول</button>
-
-          <div class="miniHome" onclick="backToWorld()">رجوع لعالمنا</div>
-        </div>
-
-        <div class="box hidden" id="playBox">
+        <div class="box" id="playBox">
           <div class="top" style="margin:0 0 10px">
-            <div class="pill">الغرفة: <b id="roomLabel"></b></div>
-            <div class="pill">أنت: <b id="nameLabel"></b></div>
-            <div class="pill">المرحلة: <b id="modeLabel"></b></div>
+            <div class="pill">الغرفة: <b id="roomLabel">our-world</b></div>
+            <div class="pill">أنت: <b id="nameLabel">—</b></div>
+            <div class="pill">المرحلة: <b id="modeLabel">LANA 1 💖</b></div>
+          </div>
+
+          <div class="box" style="margin-top:12px">
+            <div class="muted" style="margin-bottom:10px">اختر المرحلة</div>
+            <select id="mode">
+              <option value="lana1">LANA 1 💖 (مشاعر)</option>
+              <option value="lana2">LANA 2 🤍 (أمان)</option>
+              <option value="lana3">LANA 3 😄 (راحة/سوالف)</option>
+              <option value="lana4">LANA 4 🔥 (فاضي)</option>
+            </select>
           </div>
 
           <div class="row">
@@ -493,9 +477,9 @@
     el.className = "rain-heart";
     el.textContent = Math.random() < 0.5 ? "❤" : "💗";
     const left = Math.random() * 100;
-    const size = 14 + Math.random()*20;
-    const dur  = 4 + Math.random()*4.5;
-    const drift = (Math.random()*120 - 60).toFixed(0) + "px";
+    const size = 14 + Math.random()*22;
+    const dur  = 4 + Math.random()*5;
+    const drift = (Math.random()*130 - 65).toFixed(0) + "px";
     el.style.left = left + "vw";
     el.style.fontSize = size + "px";
     el.style.setProperty("--drift", drift);
@@ -504,16 +488,9 @@
     rain.appendChild(el);
     setTimeout(()=> el.remove(), (dur*1000)+200);
   }
-  setInterval(spawn, 180);
-  for(let i=0;i<18;i++) setTimeout(spawn, i*120);
+  setInterval(spawn, 170);
+  for(let i=0;i<20;i++) setTimeout(spawn, i*110);
 })();
-
-/* ===== قلب الدخول ===== */
-const loginHeart = document.getElementById("loginHeart");
-loginHeart.addEventListener("click", ()=>{
-  loginHeart.classList.toggle("active");
-  document.getElementById("loginErr").textContent = "";
-});
 
 /* ===== تسجيل الدخول ===== */
 let CURRENT_USER = "";
@@ -525,17 +502,15 @@ function doLogin(){
   const okUser = (u === "anas" || u === "lana");
   const okPass = (p === "love");
 
-  if(!loginHeart.classList.contains("active")){
-    err.textContent = "اضغط القلب أولًا ❤️";
-    return;
-  }
   if(!okUser || !okPass){
     err.textContent = "بيانات الدخول غير صحيحة.";
     return;
   }
 
   CURRENT_USER = u.toUpperCase();
+
   document.getElementById("whoPill").innerHTML = "You: <b>" + CURRENT_USER + "</b>";
+  document.getElementById("nameLabel").innerText = CURRENT_USER;
 
   document.getElementById("loginView").classList.add("hidden");
   document.getElementById("homeView").classList.remove("hidden");
@@ -552,12 +527,16 @@ menuHeart.addEventListener("click", ()=>{
 function openGame(){
   document.getElementById("homeView").classList.add("hidden");
   document.getElementById("gameView").classList.remove("hidden");
+
+  // ضبط المرحلة الافتراضية
+  CURRENT_MODE = document.getElementById("mode").value;
+  document.getElementById("modeLabel").innerText = modeName(CURRENT_MODE);
+  document.getElementById("prompt").innerText = "ابدأ ✨ اختر";
 }
 function backToWorld(){
   document.getElementById("gameView").classList.add("hidden");
   document.getElementById("homeView").classList.remove("hidden");
 }
-
 function soon(n){
   alert("الخيار ("+n+") قريبًا ✨");
 }
@@ -897,32 +876,6 @@ const PACKS = {
 
 let CURRENT_MODE = "lana1";
 
-/* ========= دخول اللعبة ========= */
-function JOIN_NOW(){
-  const room = document.getElementById("room").value.trim();
-  const name = document.getElementById("name").value.trim();
-  const mode = document.getElementById("mode").value;
-
-  if(!room || !name){
-    alert("اكتب كود الغرفة واسمك");
-    return;
-  }
-
-  CURRENT_MODE = mode;
-
-  document.getElementById("joinBox").classList.add("hidden");
-  document.getElementById("playBox").classList.remove("hidden");
-
-  document.getElementById("roomLabel").innerText = room;
-  document.getElementById("nameLabel").innerText = name;
-  document.getElementById("modeLabel").innerText = modeName(CURRENT_MODE);
-
-  const m2 = document.getElementById("mode2");
-  if(m2) m2.value = CURRENT_MODE;
-
-  document.getElementById("prompt").innerText = "جاهز ✨ اختر";
-}
-
 /* ========= تغيير المرحلة ========= */
 function TOGGLE_MODE(){
   const mc = document.getElementById("modeCard");
@@ -937,10 +890,20 @@ function APPLY_MODE(){
   document.getElementById("modeLabel").innerText = modeName(CURRENT_MODE);
   document.getElementById("prompt").innerText = "تم تغيير المرحلة ✨ اختر";
   document.getElementById("modeCard").classList.add("hidden");
+
+  // تزامن القائمة الرئيسية
+  const m = document.getElementById("mode");
+  if(m) m.value = CURRENT_MODE;
 }
 
 /* ========= عرض سؤال/تحدي ========= */
 function showPrompt(type){
+  // تحديث الوضع من قائمة اللعبة (لو غيّروها)
+  const m = document.getElementById("mode");
+  if(m) CURRENT_MODE = m.value;
+
+  document.getElementById("modeLabel").innerText = modeName(CURRENT_MODE);
+
   const pack = PACKS[CURRENT_MODE];
   const list = (type==="q") ? pack.questions : pack.challenges;
 
@@ -958,6 +921,8 @@ function resetPrompt(){
 
 </body>
 </html>
+
+
 
 
 
