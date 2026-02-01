@@ -1536,8 +1536,18 @@ const lana4_challenges = [
   setInterval(updateLoveCounter, 1000 * 60 * 60);
 </script>
 
+  // 🔒 خروج تلقائي عند إغلاق الصفحة أو التبويب
+window.addEventListener("beforeunload", () => {
+  try {
+    if (window.fb?.auth?.currentUser) {
+      window.fb.signOut(window.fb.auth);
+    }
+  } catch (e) {}
+});
+
 </body>
 </html>
+
 
 
 
