@@ -415,12 +415,6 @@
       <div class="topbar hide" id="topbar">
         <div class="leftGroup">
           <div class="pill" id="whoPill">💗 ...</div>
-          <select class="select" id="modeSelect" title="تغيير المرحلة (Live)">
-            <option value="lana1">LANA 1</option>
-            <option value="lana2">LANA 2</option>
-            <option value="lana3">LANA 3</option>
-            <option value="lana4">LANA 4</option>
-          </select>
         </div>
         <div class="rightGroup">
           <button class="menuBtn" id="menuBtn" title="القائمة (Live)">☰</button>
@@ -475,9 +469,17 @@
         <section class="page" id="pageGame">
           <div class="gameBox">
             <div class="gameTop">
-              <button class="backBtn" id="backHomeBtn">🏠 رجوع للرئيسية</button>
-              <div class="pill" id="roomPill">Room: our-world</div>
-            </div>
+  <button class="backBtn" id="backHomeBtn">↩ رجوع للرئيسية</button>
+
+  <select class="select" id="modeSelect" title="تغيير المرحلة (Live)">
+    <option value="lana1">LANA 1</option>
+    <option value="lana2">LANA 2</option>
+    <option value="lana3">LANA 3</option>
+    <option value="lana4">LANA 4</option>
+  </select>
+
+  <div class="pill" id="roomPill">Room: our-world</div>
+</div>
 
             <div class="promptCard" id="promptCard">ابدأ ✨ اختر (سؤال / تحدي)</div>
 
@@ -1501,5 +1503,6 @@ const lana4_challenges = [
   </script>
 </body>
 </html>
+
 
 
