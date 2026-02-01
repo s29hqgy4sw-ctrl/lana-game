@@ -445,9 +445,20 @@
         <!-- HOME PAGE -->
         <section class="page" id="pageHome">
           <div class="homeBox">
-            <h2 class="homeTitle">LANA <span>❤️</span> ANAS</h2>
-            <p class="homeSmall">I love you</p>
-            <p class="homeDate">24/11</p>
+            <p id="loveCounter" style="
+  font-weight:900;
+  font-size:22px;
+  letter-spacing:2px;
+  margin-bottom:10px;
+  color:#fff;
+">
+  💗 0 DAY
+</p>
+
+<h2 class="homeTitle">LANA <span>❤️</span> ANAS</h2>
+<p class="homeSmall">I love you</p>
+<p class="homeDate">24/11</p>
+
 
             <p class="homeText" id="homeText">
               أهلاً بك لولي بعالمنا الخاص الذي صُنع بكل حب… هنا نصنع ذكريات ومشاعر تخلّد بيننا،
@@ -1501,8 +1512,33 @@ const lana4_challenges = [
       });
     })();
   </script>
+
+  <script>
+  function updateLoveCounter(){
+    // تاريخ بداية الحب (24 / 11 / 2025)
+    const startDate = new Date(2025, 10, 24); // الشهر 10 = نوفمبر
+    const today = new Date();
+
+    // نحسب الفرق بالأيام
+    const diffTime = today.getTime() - startDate.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    const counterEl = document.getElementById("loveCounter");
+    if(counterEl){
+      counterEl.textContent = `💗 ${diffDays} DAY`;
+    }
+  }
+
+  // شغّلها أول ما الصفحة تفتح
+  updateLoveCounter();
+
+  // تحديث تلقائي كل يوم
+  setInterval(updateLoveCounter, 1000 * 60 * 60);
+</script>
+
 </body>
 </html>
+
 
 
 
