@@ -1246,6 +1246,36 @@ function resetPrompt(){
   document.getElementById("prompt").innerText = "ابدأ ✨ اختر (سؤال / تحدي)";
 }
 </script>
+  
+    </script>
+
+  <!-- 🔥 Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBTr4NrjrEq3Lh23PIJ_Zz-KRr6yqgafyU",
+      authDomain: "lanasnas-8de50.firebaseapp.com",
+      projectId: "lanasnas-8de50",
+      storageBucket: "lanasnas-8de50.firebasestorage.app",
+      messagingSenderId: "847037285771",
+      appId: "1:847037285771:web:096d4a14a984de41955b8e"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+
+    // Services (راح نستخدمها بعدين)
+    window.auth = getAuth(app);
+    window.db   = getFirestore(app);
+  </script>
+
 </body>
 </html>
+
+</body>
+</html>
+
 
