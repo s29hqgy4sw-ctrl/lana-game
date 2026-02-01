@@ -1,4 +1,4 @@
-<!doctype html>
+<!doctype html> 
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
@@ -88,7 +88,9 @@
       padding:28px 28px 22px;
     }
 
-    .center{text-align:center}
+    .center{
+      text-align:center;
+    }
 
     .titleBig{
       font-size: clamp(30px, 4.1vw, 44px);
@@ -100,6 +102,12 @@
       margin:0;
       color:var(--muted);
       font-size: clamp(14px, 2.2vw, 18px);
+      line-height:1.9;
+    }
+    .tiny{
+      margin-top:10px;
+      color:var(--muted2);
+      font-size: 13px;
       line-height:1.9;
     }
 
@@ -215,7 +223,7 @@
       font-weight:800;
     }
 
-    /* pages */
+    /* sections */
     .page{ display:none; }
     .page.active{ display:block; }
 
@@ -234,7 +242,11 @@
       color: var(--accent);
       text-shadow: 0 10px 24px rgba(255,45,85,.22);
     }
-    .homeSmall{ margin:0; color:var(--muted); font-size: 15px; }
+    .homeSmall{
+      margin:0;
+      color:var(--muted);
+      font-size: 15px;
+    }
     .homeDate{
       margin:8px 0 0;
       color:rgba(255,255,255,.78);
@@ -331,9 +343,15 @@
     .opt:hover{ transform: translateY(-1px); background: rgba(255,255,255,.09); }
     .opt small{ font-weight:800; color:rgba(255,255,255,.65); }
 
-    /* generic content box (for future games) */
-    .contentBox{
-      padding:18px 18px 24px;
+    /* game page */
+    .gameBox{ padding:18px 18px 24px; }
+    .gameTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:12px;
+      flex-wrap:wrap;
     }
     .backBtn{
       padding:10px 14px;
@@ -343,26 +361,6 @@
       color:var(--txt);
       cursor:pointer;
       font-weight:900;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-    }
-    .hint{
-      margin-top:12px;
-      color:rgba(255,255,255,.65);
-      font-size:13px;
-      line-height:2;
-      text-align:center;
-    }
-
-    /* game page */
-    .gameBox{ padding:18px 18px 24px; }
-    .gameTop{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:12px;
     }
     .promptCard{
       margin-top:12px;
@@ -401,7 +399,158 @@
       text-align:center;
     }
 
+    /* hide */
     .hide{ display:none !important; }
+
+    /*******************************
+     * OPTION 2: أنا مكانك (ستايل خاص)
+     *******************************/
+    .mkWrap{
+      padding:18px 18px 24px;
+    }
+    .mkHeader{
+      text-align:center;
+      margin:8px 0 10px;
+    }
+    .mkTitle{
+      margin:0;
+      font-weight:1000;
+      letter-spacing:.6px;
+      font-size: clamp(22px, 3.5vw, 34px);
+      text-shadow: 0 14px 40px rgba(255,45,85,.18);
+    }
+    .mkSub{
+      margin:6px 0 0;
+      color: rgba(255,255,255,.70);
+      font-size: 13px;
+      line-height:1.9;
+    }
+
+    .mkQuestionCard{
+      margin-top:12px;
+      border-radius:22px;
+      background: linear-gradient(180deg, rgba(255,45,85,.12), rgba(0,0,0,.14));
+      border:1px solid rgba(255,45,85,.22);
+      padding:18px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.35);
+      position:relative;
+      overflow:hidden;
+    }
+    .mkQuestionCard:before{
+      content:"";
+      position:absolute; inset:-40%;
+      background: radial-gradient(closest-side, rgba(255,45,85,.16), transparent 70%);
+      transform: rotate(12deg);
+      pointer-events:none;
+    }
+    .mkQuestion{
+      position:relative;
+      margin:0;
+      text-align:center;
+      font-size: 22px;
+      line-height:1.9;
+      font-weight:950;
+      color: rgba(255,255,255,.94);
+    }
+    .mkHint{
+      position:relative;
+      margin:10px 0 0;
+      text-align:center;
+      color: rgba(255,255,255,.65);
+      font-size: 13px;
+    }
+    .mkNewQBtn{
+      margin-top:12px;
+      width:100%;
+      border:0;
+      border-radius:16px;
+      padding:12px 14px;
+      cursor:pointer;
+      font-weight:1000;
+      background: #ffffff;
+      color:#111;
+      box-shadow: 0 16px 45px rgba(0,0,0,.35);
+    }
+    .mkNewQBtn:active{ transform: translateY(1px); }
+
+    .mkGrid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width:760px){
+      .mkGrid{ grid-template-columns:1fr; }
+    }
+    .mkCol{
+      border-radius:22px;
+      background: rgba(0,0,0,.14);
+      border:1px solid rgba(255,255,255,.12);
+      padding:14px;
+    }
+    .mkLabel{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:10px;
+      font-weight:950;
+    }
+    .mkLabel small{
+      color: rgba(255,255,255,.65);
+      font-weight:900;
+    }
+    .mkTextArea{
+      width:100%;
+      min-height:160px;
+      resize:vertical;
+      padding:12px 12px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
+      outline:none;
+      background: rgba(0,0,0,.18);
+      color: rgba(255,255,255,.92);
+      font-size: 16px;
+      line-height:1.9;
+    }
+    .mkTextArea::placeholder{
+      color: rgba(255,255,255,.55);
+    }
+
+    .mkSendBtn{
+      margin-top:10px;
+      width:100%;
+      border-radius:16px;
+      padding:12px 14px;
+      cursor:pointer;
+      font-weight:1000;
+      border:1px solid rgba(255,45,85,.30);
+      background: rgba(255,45,85,.16);
+      color: rgba(255,255,255,.92);
+    }
+    .mkSendBtn:active{ transform: translateY(1px); }
+
+    .mkOtherBox{
+      margin-top:10px;
+      border-radius:18px;
+      border:1px dashed rgba(255,255,255,.18);
+      background: rgba(255,255,255,.05);
+      padding:12px;
+      color: rgba(255,255,255,.85);
+      min-height:120px;
+      line-height:1.9;
+      white-space:pre-wrap;
+    }
+    .mkOtherBox.locked{
+      filter: blur(6px);
+      opacity:.75;
+    }
+    .mkStateLine{
+      margin-top:10px;
+      text-align:center;
+      font-size:13px;
+      color: rgba(255,255,255,.60);
+    }
   </style>
 </head>
 
@@ -445,20 +594,9 @@
         <!-- HOME PAGE -->
         <section class="page" id="pageHome">
           <div class="homeBox">
-            <p id="loveCounter" style="
-  font-weight:900;
-  font-size:22px;
-  letter-spacing:2px;
-  margin-bottom:10px;
-  color:#fff;
-">
-  💗 0 DAY
-</p>
-
-<h2 class="homeTitle">LANA <span>❤️</span> ANAS</h2>
-<p class="homeSmall">I love you</p>
-<p class="homeDate">24/11</p>
-
+            <h2 class="homeTitle">LANA <span>❤️</span> ANAS</h2>
+            <p class="homeSmall">I love you</p>
+            <p class="homeDate">24/11</p>
 
             <p class="homeText" id="homeText">
               أهلاً بك لولي بعالمنا الخاص الذي صُنع بكل حب… هنا نصنع ذكريات ومشاعر تخلّد بيننا،
@@ -471,26 +609,25 @@
             </p>
 
             <p class="homeLove">أحبك لانا 🤍</p>
-
-            <div class="hint">💡 افتح القائمة (☰) من فوق واختر من 9 خيارات — كل شيء يتزامن بينكم Live</div>
           </div>
         </section>
 
-        <!-- OPTION 1: GAME (Love Questions) -->
+        <!-- GAME PAGE (Option 1) -->
         <section class="page" id="pageGame">
           <div class="gameBox">
             <div class="gameTop">
-  <button class="backBtn" id="backHomeBtn">↩ رجوع للرئيسية</button>
+              <button class="backBtn" id="backHomeBtn">🏠 رجوع للرئيسية</button>
 
-  <select class="select" id="modeSelect" title="تغيير المرحلة (Live)">
-    <option value="lana1">LANA 1</option>
-    <option value="lana2">LANA 2</option>
-    <option value="lana3">LANA 3</option>
-    <option value="lana4">LANA 4</option>
-  </select>
+              <!-- ✅ اختيار المرحلة داخل لعبة الأسئلة فقط -->
+              <select class="select" id="modeSelect" title="تغيير المرحلة (Live)">
+                <option value="lana1">LANA 1</option>
+                <option value="lana2">LANA 2</option>
+                <option value="lana3">LANA 3</option>
+                <option value="lana4">LANA 4</option>
+              </select>
 
-  <div class="pill" id="roomPill">Room: our-world</div>
-</div>
+              <div class="pill" id="roomPill">Room: our-world</div>
+            </div>
 
             <div class="promptCard" id="promptCard">ابدأ ✨ اختر (سؤال / تحدي)</div>
 
@@ -504,100 +641,83 @@
           </div>
         </section>
 
-        <!-- OPTION 2..9 (PLACEHOLDERS READY FOR PASTE) -->
+        <!-- OPTION 2: أنا مكانك -->
         <section class="page" id="pageOpt2">
-          <div class="contentBox">
-            <button class="backBtn backAny">🏠 رجوع للرئيسية</button>
-            <div class="promptCard">الخيار 2 (جاهز للصق لعبتكم هنا)</div>
-            <!-- =========================
-                 PLACE TO PASTE OPTION 2
-                 ========================= -->
-            <!-- لصق كود اللعبة/الميزة هنا -->
+          <div class="mkWrap">
+            <div class="gameTop">
+              <button class="backBtn backAny">🏠 رجوع للرئيسية</button>
+              <div class="pill" id="mkRoomPill">💗 Live: أنا مكانك</div>
+            </div>
+
+            <div class="mkHeader">
+              <h2 class="mkTitle">أنا مكانك 💗</h2>
+              <p class="mkSub">جاوب كأنك الطرف الثاني… وبعدها تنكشف المقارنة بينكم (Live).</p>
+            </div>
+
+            <div class="mkQuestionCard">
+              <p class="mkQuestion" id="mkQuestion">أنا مكانك… اضغط سؤال جديد ✨</p>
+              <p class="mkHint" id="mkHint">💋 هدوء… وصدق… وخليها من القلب.</p>
+              <button class="mkNewQBtn" id="mkNewQBtn">💗 سؤال جديد (Live)</button>
+            </div>
+
+            <div class="mkGrid">
+              <div class="mkCol">
+                <div class="mkLabel">
+                  <span id="mkMyLabel">إجابتي (كأني الطرف الثاني)</span>
+                  <small id="mkMyState">…</small>
+                </div>
+                <textarea class="mkTextArea" id="mkMyAnswer" placeholder="اكتب من قلبك… وكأنك هو/هي."></textarea>
+                <button class="mkSendBtn" id="mkSendBtn">💌 إرسال إجابتي</button>
+              </div>
+
+              <div class="mkCol">
+                <div class="mkLabel">
+                  <span id="mkOtherLabel">إجابة الطرف الثاني</span>
+                  <small id="mkOtherState">…</small>
+                </div>
+                <div class="mkOtherBox locked" id="mkCompareBox">بانتظار الطرف الثاني…</div>
+              </div>
+            </div>
+
+            <div class="mkStateLine" id="mkSyncLine">…</div>
           </div>
         </section>
 
-        <section class="page" id="pageOpt3">
-          <div class="contentBox">
-            <button class="backBtn backAny">🏠 رجوع للرئيسية</button>
-            <div class="promptCard">الخيار 3 (جاهز للصق لعبتكم هنا)</div>
-            <!-- PLACE TO PASTE OPTION 3 -->
-          </div>
-        </section>
-
-        <section class="page" id="pageOpt4">
-          <div class="contentBox">
-            <button class="backBtn backAny">🏠 رجوع للرئيسية</button>
-            <div class="promptCard">الخيار 4 (جاهز للصق لعبتكم هنا)</div>
-            <!-- PLACE TO PASTE OPTION 4 -->
-          </div>
-        </section>
-
-        <section class="page" id="pageOpt5">
-          <div class="contentBox">
-            <button class="backBtn backAny">🏠 رجوع للرئيسية</button>
-            <div class="promptCard">الخيار 5 (جاهز للصق لعبتكم هنا)</div>
-            <!-- PLACE TO PASTE OPTION 5 -->
-          </div>
-        </section>
-
-        <section class="page" id="pageOpt6">
-          <div class="contentBox">
-            <button class="backBtn backAny">🏠 رجوع للرئيسية</button>
-            <div class="promptCard">الخيار 6 (جاهز للصق لعبتكم هنا)</div>
-            <!-- PLACE TO PASTE OPTION 6 -->
-          </div>
-        </section>
-
-        <section class="page" id="pageOpt7">
-          <div class="contentBox">
-            <button class="backBtn backAny">🏠 رجوع للرئيسية</button>
-            <div class="promptCard">الخيار 7 (جاهز للصق لعبتكم هنا)</div>
-            <!-- PLACE TO PASTE OPTION 7 -->
-          </div>
-        </section>
-
-        <section class="page" id="pageOpt8">
-          <div class="contentBox">
-            <button class="backBtn backAny">🏠 رجوع للرئيسية</button>
-            <div class="promptCard">الخيار 8 (جاهز للصق لعبتكم هنا)</div>
-            <!-- PLACE TO PASTE OPTION 8 -->
-          </div>
-        </section>
-
-        <section class="page" id="pageOpt9">
-          <div class="contentBox">
-            <button class="backBtn backAny">🏠 رجوع للرئيسية</button>
-            <div class="promptCard">الخيار 9 (جاهز للصق لعبتكم هنا)</div>
-            <!-- PLACE TO PASTE OPTION 9 -->
-          </div>
-        </section>
+        <!-- OPTION PLACEHOLDER PAGES -->
+        <section class="page" id="pageOpt3"><div class="gameBox"><button class="backBtn backAny">🏠 رجوع للرئيسية</button><div class="promptCard">قريباً (3)</div></div></section>
+        <section class="page" id="pageOpt4"><div class="gameBox"><button class="backBtn backAny">🏠 رجوع للرئيسية</button><div class="promptCard">قريباً (4)</div></div></section>
+        <section class="page" id="pageOpt5"><div class="gameBox"><button class="backBtn backAny">🏠 رجوع للرئيسية</button><div class="promptCard">قريباً (5)</div></div></section>
+        <section class="page" id="pageOpt6"><div class="gameBox"><button class="backBtn backAny">🏠 رجوع للرئيسية</button><div class="promptCard">قريباً (6)</div></div></section>
+        <section class="page" id="pageOpt7"><div class="gameBox"><button class="backBtn backAny">🏠 رجوع للرئيسية</button><div class="promptCard">قريباً (7)</div></div></section>
+        <section class="page" id="pageOpt8"><div class="gameBox"><button class="backBtn backAny">🏠 رجوع للرئيسية</button><div class="promptCard">قريباً (8)</div></div></section>
+        <section class="page" id="pageOpt9"><div class="gameBox"><button class="backBtn backAny">🏠 رجوع للرئيسية</button><div class="promptCard">قريباً (9)</div></div></section>
 
       </div>
     </div>
   </div>
 
-  <!-- MENU MODAL (9 OPTIONS) -->
+  <!-- MENU MODAL -->
   <div class="modal" id="modal">
     <div class="modalCard">
       <div class="modalHead">
-        <h3>💗 اختَر من عالمنا (Live)</h3>
+        <h3>💗 اختَر من عالمنا</h3>
         <button class="closeBtn" id="closeModal">✕</button>
       </div>
       <div class="grid">
         <button class="opt" data-go="pageGame">1) لعبة الأسئلة</button>
-        <button class="opt" data-go="pageOpt2">2) <small>(جاهز)</small></button>
-        <button class="opt" data-go="pageOpt3">3) <small>(جاهز)</small></button>
-        <button class="opt" data-go="pageOpt4">4) <small>(جاهز)</small></button>
-        <button class="opt" data-go="pageOpt5">5) <small>(جاهز)</small></button>
-        <button class="opt" data-go="pageOpt6">6) <small>(جاهز)</small></button>
-        <button class="opt" data-go="pageOpt7">7) <small>(جاهز)</small></button>
-        <button class="opt" data-go="pageOpt8">8) <small>(جاهز)</small></button>
-        <button class="opt" data-go="pageOpt9">9) <small>(جاهز)</small></button>
+        <button class="opt" data-go="pageOpt2">2) أنا مكانك 💗</button>
+        <button class="opt" data-go="pageOpt3">3) <small>(قريباً)</small></button>
+        <button class="opt" data-go="pageOpt4">4) <small>(قريباً)</small></button>
+        <button class="opt" data-go="pageOpt5">5) <small>(قريباً)</small></button>
+        <button class="opt" data-go="pageOpt6">6) <small>(قريباً)</small></button>
+        <button class="opt" data-go="pageOpt7">7) <small>(قريباً)</small></button>
+        <button class="opt" data-go="pageOpt8">8) <small>(قريباً)</small></button>
+        <button class="opt" data-go="pageOpt9">9) <small>(قريباً)</small></button>
       </div>
     </div>
   </div>
 
-  <!-- 🔥 Firebase (Module) -->
+  <!-- 🔥 Firebase -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
@@ -616,15 +736,16 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
+    // expose
     window.fb = { auth, db, signInWithEmailAndPassword, onAuthStateChanged, signOut, doc, setDoc, updateDoc, onSnapshot, serverTimestamp };
   </script>
 
   <script>
     /********************
-     * Hearts generator
+     * Hearts generator (وردي/أحمر + 💋)
      ********************/
     const heartsEl = document.getElementById("hearts");
-    const HEARTS = ["❤️","💗","💞","💕","💓","💖","💘","💝","💟","🌹"];
+    const HEARTS = ["❤️","💗","💞","💕","💓","💖","💘","💝","💟","🌹","💋"];
     function rand(min,max){ return Math.random()*(max-min)+min; }
     function spawnHearts(){
       heartsEl.innerHTML = "";
@@ -649,50 +770,41 @@
     setInterval(spawnHearts, 12000);
 
     /********************
-     * Wait for Firebase
-     ********************/
-    function waitForFb(){
-      return new Promise((resolve)=>{
-        const t = setInterval(()=>{
-          if(window.fb && window.fb.auth && window.fb.db){
-            clearInterval(t);
-            resolve(true);
-          }
-        }, 50);
-      });
-    }
-
-    /********************
      * Pages
      ********************/
     const pages = Array.from(document.querySelectorAll(".page"));
     const topbar = document.getElementById("topbar");
-
-    function showPageLocal(id){
+    function showPage(id){
       pages.forEach(p=>p.classList.remove("active"));
       const el = document.getElementById(id);
       if(el) el.classList.add("active");
     }
 
     /********************
-     * Menu modal (UI only)
+     * Menu modal
      ********************/
     const modal = document.getElementById("modal");
     const menuBtn = document.getElementById("menuBtn");
     const closeModal = document.getElementById("closeModal");
+    menuBtn?.addEventListener("click", ()=> modal.classList.add("show"));
+    closeModal?.addEventListener("click", ()=> modal.classList.remove("show"));
+    modal?.addEventListener("click", (e)=>{ if(e.target===modal) modal.classList.remove("show"); });
+    document.querySelectorAll(".opt").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const go = btn.getAttribute("data-go");
+        modal.classList.remove("show");
+        showPage(go);
+      });
+    });
 
-    function openModal(){ modal.classList.add("show"); }
-    function closeModalFn(){ modal.classList.remove("show"); }
-
-    menuBtn?.addEventListener("click", openModal);
-    closeModal?.addEventListener("click", closeModalFn);
-    modal?.addEventListener("click", (e)=>{ if(e.target===modal) closeModalFn(); });
+    document.getElementById("backHomeBtn").addEventListener("click", ()=> showPage("pageHome"));
+    document.querySelectorAll(".backAny").forEach(b=> b.addEventListener("click", ()=> showPage("pageHome")));
 
     /********************
-     * Packs (questions/challenges)
-     * + lana4 includes A-4,B-4,C-4 as requested
+     * Love packs (lana1..lana4)
+     * + A-4, B-4, C-4 في lana4
      ********************/
-    const lana1_questions = [
+   const lana1_questions = [
 
   "متى حسّيت إنك مرتاح معي بدون ما تمثّل؟",
 
@@ -1304,8 +1416,6 @@ const lana4_challenges = [
 
   "نطي بشويش و حاولي ما تبيني اهاتك",
 
-];
-
     const PACKS = {
       lana1: { questions: lana1_questions, challenges: lana1_challenges },
       lana2: { questions: lana2_questions, challenges: lana2_challenges },
@@ -1313,7 +1423,9 @@ const lana4_challenges = [
       lana4: { questions: lana4_questions, challenges: lana4_challenges }
     };
 
-    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+    function pick(arr){
+      return arr[Math.floor(Math.random()*arr.length)];
+    }
 
     /********************
      * Auth mapping (username -> email)
@@ -1330,14 +1442,30 @@ const lana4_challenges = [
 
     const whoPill = document.getElementById("whoPill");
     const modeSelect = document.getElementById("modeSelect");
+
+    let currentUser = null;
+    let currentName = null;
+    let CURRENT_MODE = "lana1";
+
+    // Firestore sync (Option 1)
+    const ROOM_ID = "our-world";
+    const roomRef = () => window.fb.doc(window.fb.db, "rooms", ROOM_ID);
+
     const promptCard = document.getElementById("promptCard");
     const syncLine = document.getElementById("syncLine");
 
-    const ROOM_ID = "our-world";
-    const roomRef = ()=> window.fb.doc(window.fb.db, "rooms", ROOM_ID);
-
-    let currentName = null;
-    let CURRENT_MODE = "lana1";
+    async function ensureRoom(){
+      try{
+        await window.fb.setDoc(roomRef(), {
+          roomId: ROOM_ID,
+          currentMode: CURRENT_MODE,
+          promptText: "ابدأ ✨ اختر (سؤال / تحدي)",
+          promptType: "init",
+          lastBy: "system",
+          updatedAt: window.fb.serverTimestamp()
+        }, { merge:true });
+      }catch(e){}
+    }
 
     function setMsg(text, type=""){
       loginMsg.className = "msg " + (type||"");
@@ -1352,23 +1480,9 @@ const lana4_challenges = [
       return raw;
     }
 
-    async function ensureRoom(){
-      try{
-        await window.fb.setDoc(roomRef(), {
-          roomId: ROOM_ID,
-          currentPage: "pageHome",           // 👈 الصفحة المتزامنة
-          currentMode: CURRENT_MODE,         // 👈 المرحلة المتزامنة
-          promptText: "ابدأ ✨ اختر (سؤال / تحدي)",
-          promptType: "init",
-          lastBy: "system",
-          updatedAt: window.fb.serverTimestamp()
-        }, { merge:true });
-      }catch(e){}
-    }
-
     async function doLogin(){
       const email = normalizeToEmail(loginUser.value);
-      const pass = (loginPass.value||"").trim(); // ✅ خيار 1: تكتبون love123 يدويًا
+      const pass = (loginPass.value||"").trim();
       if(!email || !pass){
         setMsg("اكتب اسم المستخدم وكلمة المرور", "bad");
         return;
@@ -1376,8 +1490,8 @@ const lana4_challenges = [
       setMsg("… جاري الدخول");
       try{
         const cred = await window.fb.signInWithEmailAndPassword(window.fb.auth, email, pass);
-        const em = (cred.user.email||"").toLowerCase();
-        currentName = em.startsWith("lana") ? "LANA" : "ANAS";
+        currentUser = cred.user;
+        currentName = (email||"").toLowerCase().startsWith("lana") ? "LANA" : "ANAS";
         setMsg("تم ✅", "ok");
       }catch(err){
         setMsg("الدخول غير صحيح", "bad");
@@ -1389,164 +1503,319 @@ const lana4_challenges = [
     loginUser.addEventListener("keydown", (e)=>{ if(e.key==="Enter") doLogin(); });
 
     /********************
-     * Live sync: page + mode + prompt
+     * After auth state
      ********************/
-    let unsubRoom = null;
+    window.fb?.onAuthStateChanged(window.fb.auth, async (user)=>{
+      if(!user){
+        currentUser = null;
+        currentName = null;
+        topbar.classList.add("hide");
+        showPage("pageLogin");
+        return;
+      }
 
-    async function pushRoomUpdate(payload){
+      currentUser = user;
+      currentName = (user.email||"").toLowerCase().startsWith("lana") ? "LANA" : "ANAS";
+
+      whoPill.textContent = `💗 أنت: ${currentName}`;
+      topbar.classList.remove("hide");
+
+      CURRENT_MODE = (modeSelect?.value) || "lana1";
+
+      await ensureRoom();
+      await ensureMK(); // option 2
+
+      startRoomListener();
+      startMKListener();
+
+      showPage("pageHome");
+    });
+
+    /********************
+     * Mode change (synced) - Option 1
+     ********************/
+    modeSelect?.addEventListener("change", async ()=>{
+      CURRENT_MODE = modeSelect.value;
       try{
         await window.fb.updateDoc(roomRef(),{
-          ...payload,
+          currentMode: CURRENT_MODE,
+          lastBy: currentName || "unknown",
+          updatedAt: window.fb.serverTimestamp()
+        });
+      }catch(e){}
+    });
+
+    /********************
+     * Room listener (Option 1)
+     ********************/
+    let unsubRoom = null;
+    function startRoomListener(){
+      if(unsubRoom) return;
+      unsubRoom = window.fb.onSnapshot(roomRef(), (snap)=>{
+        const data = snap.data() || {};
+        if(data.currentMode && modeSelect.value !== data.currentMode){
+          modeSelect.value = data.currentMode;
+          CURRENT_MODE = data.currentMode;
+        }
+        if(data.promptText){
+          promptCard.textContent = data.promptText;
+        }
+        const by = data.lastBy || "—";
+        syncLine.textContent = `متزامن ✅ | آخر تحديث بواسطة: ${by} | المرحلة: ${CURRENT_MODE}`;
+      });
+    }
+
+    /********************
+     * Prompt actions (Option 1)
+     ********************/
+    async function pushPrompt(type){
+      const pack = PACKS[CURRENT_MODE] || PACKS.lana1;
+      const list = (type==="q") ? pack.questions : pack.challenges;
+      const icon = (type==="q") ? "💗" : "🔥";
+      const text = `${icon} ${pick(list)}`;
+
+      try{
+        await window.fb.updateDoc(roomRef(),{
+          currentMode: CURRENT_MODE,
+          promptText: text,
+          promptType: type,
           lastBy: currentName || "unknown",
           updatedAt: window.fb.serverTimestamp()
         });
       }catch(e){}
     }
 
-    function pushPage(pageId){
-      pushRoomUpdate({ currentPage: pageId });
-    }
-
-    async function pushPrompt(type){
-      const pack = PACKS[CURRENT_MODE] || PACKS.lana1;
-      const list = (type==="q") ? pack.questions : pack.challenges;
-      const icon = (type==="q") ? "💗" : "🔥";
-      const text = `${icon} ${pick(list)}`;
-      await pushRoomUpdate({
-        currentMode: CURRENT_MODE,
-        promptText: text,
-        promptType: type
-      });
-    }
-
-    function startRoomListener(){
-      if(unsubRoom) return;
-      unsubRoom = window.fb.onSnapshot(roomRef(), (snap)=>{
-        const data = snap.data() || {};
-
-        // page sync
-        if(data.currentPage){
-          showPageLocal(data.currentPage);
-        }
-
-        // mode sync
-        if(data.currentMode && modeSelect.value !== data.currentMode){
-          modeSelect.value = data.currentMode;
-          CURRENT_MODE = data.currentMode;
-        }
-
-        // prompt sync
-        if(typeof data.promptText === "string" && promptCard){
-          promptCard.textContent = data.promptText;
-        }
-
-        const by = data.lastBy || "—";
-        if(syncLine){
-          syncLine.textContent = `متزامن ✅ | آخر تحديث: ${by} | المرحلة: ${CURRENT_MODE}`;
-        }
-      });
-    }
-
-    /********************
-     * Bind UI to Live sync
-     ********************/
-    document.getElementById("backHomeBtn")?.addEventListener("click", ()=> pushPage("pageHome"));
-    document.querySelectorAll(".backAny").forEach(b=> b.addEventListener("click", ()=> pushPage("pageHome")));
-
-    document.getElementById("btnQ")?.addEventListener("click", ()=> pushPrompt("q"));
-    document.getElementById("btnC")?.addEventListener("click", ()=> pushPrompt("c"));
-    document.getElementById("btnReset")?.addEventListener("click", ()=> pushRoomUpdate({
-      promptText: "ابدأ ✨ اختر (سؤال / تحدي)",
-      promptType: "init"
-    }));
-
-    modeSelect.addEventListener("change", async ()=>{
-      CURRENT_MODE = modeSelect.value || "lana1";
-      await pushRoomUpdate({ currentMode: CURRENT_MODE });
-    });
-
-    // menu options => synced pages
-    document.querySelectorAll(".opt").forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        const go = btn.getAttribute("data-go");
-        closeModalFn();
-        if(go) pushPage(go);
-      });
+    document.getElementById("btnQ").addEventListener("click", ()=> pushPrompt("q"));
+    document.getElementById("btnC").addEventListener("click", ()=> pushPrompt("c"));
+    document.getElementById("btnReset").addEventListener("click", async ()=>{
+      try{
+        await window.fb.updateDoc(roomRef(),{
+          promptText: "ابدأ ✨ اختر (سؤال / تحدي)",
+          promptType: "init",
+          lastBy: currentName || "unknown",
+          updatedAt: window.fb.serverTimestamp()
+        });
+      }catch(e){}
     });
 
     /********************
-     * Start everything after Firebase ready
+     * OPTION 2: أنا مكانك (Live)
      ********************/
-    (async ()=>{
-      await waitForFb();
+    const MK_ID = "our-world_opt2";
+    const mkRef = () => window.fb.doc(window.fb.db, "rooms", MK_ID);
 
-      // auth state
-      window.fb.onAuthStateChanged(window.fb.auth, async (user)=>{
-        if(!user){
-          currentName = null;
-          topbar.classList.add("hide");
-          showPageLocal("pageLogin");
-          return;
+    const mkQuestionEl = document.getElementById("mkQuestion");
+    const mkHintEl = document.getElementById("mkHint");
+    const mkNewQBtn = document.getElementById("mkNewQBtn");
+
+    const mkMyLabel = document.getElementById("mkMyLabel");
+    const mkOtherLabel = document.getElementById("mkOtherLabel");
+
+    const mkMyState = document.getElementById("mkMyState");
+    const mkOtherState = document.getElementById("mkOtherState");
+
+    const mkMyAnswer = document.getElementById("mkMyAnswer");
+    const mkSendBtn = document.getElementById("mkSendBtn");
+    const mkCompareBox = document.getElementById("mkCompareBox");
+    const mkSyncLine = document.getElementById("mkSyncLine");
+
+    const MK_QUESTIONS = [
+      "أنا مكانك… وش أكثر شيء تتمنى أفهمه عنك بدون ما تشرحه؟",
+      "أنا مكانك… متى تحس إنك مرتاح معي أكثر؟",
+      "أنا مكانك… وش الشيء اللي يخليك تشتاق لي بسرعة؟",
+      "أنا مكانك… كيف تحب أتعامل معك إذا كنت زعلان؟",
+      "أنا مكانك… وش أكثر كلمة تفرق معك مني؟",
+      "أنا مكانك… وش الحركة الصغيرة اللي تذوبك؟",
+      "أنا مكانك… وش الشيء اللي يخليك تحس بالأمان معي؟",
+      "أنا مكانك… وش أكثر لحظة حسّيت فيها إني فهمتك؟",
+      "أنا مكانك… متى تحس إننا فريق واحد؟",
+      "أنا مكانك… وش الشيء اللي تخاف نخسره لو أهملناه؟",
+      "أنا مكانك… وش ودك نكرره كثير؟",
+      "أنا مكانك… وش ودك أغيره (بلطف) عشان نكون أحسن؟",
+      "أنا مكانك… وش الشيء اللي يطمنك في وجودي؟",
+      "أنا مكانك… وش الشيء اللي يزعلك مني غالبًا؟ وكيف أصلحه؟",
+      "أنا مكانك… وش أحلى ذكرى بينا؟",
+      "أنا مكانك… وش الشيء اللي يخليك تحس إنك مهم عندي؟",
+      "أنا مكانك… لو تكتب لي رسالة قبل النوم، وش بتقول؟",
+      "أنا مكانك… متى تحس إننا قريبين حتى وإحنا بعيدين؟",
+      "أنا مكانك… وش الشيء اللي تحب يكون بيننا دايم؟",
+      "أنا مكانك… وش أكثر شي يضحكك عليّ؟",
+      "أنا مكانك… وش الموقف اللي خلاك تتعلق فيّ أكثر؟",
+      "أنا مكانك… وش أكثر تصرف مني تحسه حب؟",
+      "أنا مكانك… كيف تحب أواسيك؟ كلام ولا حضن ولا سكوت؟",
+      "أنا مكانك… وش أكثر شيء تتمنى نسويه سوا قريب؟",
+      "أنا مكانك… وش الشيء اللي يخليك تحس إني جنبك؟",
+      "أنا مكانك… وش الشيء اللي تحس إنك ما قلت لي عنه؟",
+      "أنا مكانك… وش أكثر لحظة حسّيت فيها بالطمأنينة معي؟",
+      "أنا مكانك… وش الشيء اللي ودك ألاحظه عنك؟",
+      "أنا مكانك… وش أكثر عادة “خاصة فينا” تحبها؟",
+      "أنا مكانك… لو صار خلاف، وش تتمنى أسويه أول شيء؟",
+      "أنا مكانك… وش الشيء اللي يخلّي مزاجك يتحسن بسرعة؟",
+      "أنا مكانك… وش أكثر شيء تحبه بصوتي/كلامي؟",
+      "أنا مكانك… وش الشيء اللي يخلّيك تحس بالحنان؟",
+      "أنا مكانك… متى تحس إنك على طبيعتك معي؟",
+      "أنا مكانك… وش أكثر شيء ودك تسمعه مني اليوم؟",
+      "أنا مكانك… وش الشيء اللي ودك نرجع له ونصلحه؟",
+      "أنا مكانك… لو نكتب “قواعد حبنا” وش أهم قاعدة؟",
+      "أنا مكانك… وش أقوى نقطة في علاقتنا؟",
+      "أنا مكانك… وش نقطة الضعف اللي لازم نحميها؟",
+      "أنا مكانك… وش الشيء اللي يسعدك حتى لو كان بسيط جدًا؟",
+      "أنا مكانك… وش الشيء اللي تحسني أتقنه معك؟",
+      "أنا مكانك… وش الشيء اللي تحسني لازم أتعلمه عنك؟",
+      "أنا مكانك… وش أكثر شيء تحب نسويه “بهدوء”؟",
+      "أنا مكانك… وش أكثر شيء تحب نسويه “بضحك”؟",
+      "أنا مكانك… وش الشيء اللي يخليك تحس إن الحب يزيد؟",
+      "أنا مكانك… لو أقول لك اختار “لقب” لي، وش بتختار؟",
+      "أنا مكانك… وش أكثر شيء تفتخر فيه بعلاقتنا؟",
+      "أنا مكانك… وش الشيء اللي تخاف يصير بينا؟ وكيف نتفاداه؟",
+      "أنا مكانك… وش تتمنى منّي للأسبوع الجاي؟"
+    ];
+
+    function mkPickQuestion(){
+      return MK_QUESTIONS[Math.floor(Math.random()*MK_QUESTIONS.length)];
+    }
+
+    function meKey(){
+      return (currentName === "LANA") ? "lana" : "anas";
+    }
+    function otherKey(){
+      return (currentName === "LANA") ? "anas" : "lana";
+    }
+
+    async function ensureMK(){
+      try{
+        await window.fb.setDoc(mkRef(), {
+          roomId: MK_ID,
+          questionText: "أنا مكانك… اضغط سؤال جديد ✨",
+          answer_anas: "",
+          answer_lana: "",
+          sent_anas: false,
+          sent_lana: false,
+          reveal: false,
+          lastBy: "system",
+          updatedAt: window.fb.serverTimestamp()
+        }, { merge:true });
+      }catch(e){}
+    }
+
+    async function mkNewQuestion(){
+      const q = mkPickQuestion();
+      try{
+        await window.fb.updateDoc(mkRef(),{
+          questionText: q,
+          answer_anas: "",
+          answer_lana: "",
+          sent_anas: false,
+          sent_lana: false,
+          reveal: false,
+          lastBy: currentName || "unknown",
+          updatedAt: window.fb.serverTimestamp()
+        });
+      }catch(e){}
+    }
+
+    async function mkSendMyAnswer(){
+      const txt = (mkMyAnswer.value || "").trim();
+      if(!txt){
+        mkSyncLine.textContent = "اكتب إجابتك أولاً 💗";
+        return;
+      }
+      const k = meKey();
+      const payload = {};
+      payload["answer_" + k] = txt;
+      payload["sent_" + k] = true;
+      payload["lastBy"] = currentName || "unknown";
+      payload["updatedAt"] = window.fb.serverTimestamp();
+
+      try{
+        await window.fb.updateDoc(mkRef(), payload);
+      }catch(e){}
+    }
+
+    let unsubMK = null;
+    function startMKListener(){
+      if(unsubMK) return;
+      unsubMK = window.fb.onSnapshot(mkRef(), async (snap)=>{
+        const d = snap.data() || {};
+
+        // Labels (كأني الطرف الثاني)
+        if(currentName === "ANAS"){
+          mkMyLabel.textContent = "إجابتي (كأني لانا)";
+          mkOtherLabel.textContent = "إجابة لانا (كأنها أنس)";
+        }else{
+          mkMyLabel.textContent = "إجابتي (كأني أنس)";
+          mkOtherLabel.textContent = "إجابة أنس (كأنه لانا)";
         }
 
-        const em = (user.email||"").toLowerCase();
-        currentName = em.startsWith("lana") ? "LANA" : "ANAS";
+        const q = d.questionText || "أنا مكانك…";
+        mkQuestionEl.textContent = q;
 
-        whoPill.textContent = `💗 أنت: ${currentName}`;
-        topbar.classList.remove("hide");
+        // states
+        const sentA = !!d.sent_anas;
+        const sentL = !!d.sent_lana;
 
-        CURRENT_MODE = modeSelect.value || "lana1";
+        mkMyState.textContent = (meKey()==="anas" ? (sentA ? "أرسلت ✅" : "اكتب وأرسل") : (sentL ? "أرسلت ✅" : "اكتب وأرسل"));
+        mkOtherState.textContent = (otherKey()==="anas" ? (sentA ? "وصل ✅" : "بانتظار…") : (sentL ? "وصل ✅" : "بانتظار…"));
 
-        await ensureRoom();
-        startRoomListener();
+        // auto reveal when both sent (3A) + بدون زر
+        const both = sentA && sentL;
+        const reveal = !!d.reveal;
 
-        // أول ما يدخل: نروح للرئيسية Live
-        pushPage("pageHome");
-      });
+        if(both && !reveal){
+          try{
+            await window.fb.updateDoc(mkRef(),{
+              reveal: true,
+              lastBy: currentName || d.lastBy || "system",
+              updatedAt: window.fb.serverTimestamp()
+            });
+          }catch(e){}
+        }
 
-      // keep room ensured on return
-      window.addEventListener("visibilitychange", ()=>{
-        if(document.visibilityState==="visible" && window.fb?.auth?.currentUser){
-          ensureRoom();
+        // show compare
+        const otherAns = d["answer_" + otherKey()] || "";
+        const myAns = d["answer_" + meKey()] || "";
+        const nowReveal = !!(d.reveal);
+
+        if(!both){
+          mkCompareBox.classList.add("locked");
+          mkCompareBox.textContent = "بانتظار الطرف الثاني…";
+        }else if(both && !nowReveal){
+          mkCompareBox.classList.add("locked");
+          mkCompareBox.textContent = "لحظة…";
+        }else{
+          mkCompareBox.classList.remove("locked");
+          mkCompareBox.textContent =
+            `💗 إجابتك:\n${myAns}\n\n💋 إجابة الطرف الثاني:\n${otherAns}\n\n—\nيا سلام… كذا نفهم بعض أكثر 😌`;
+        }
+
+        mkSyncLine.textContent = `Live ✅ | آخر تحديث: ${d.lastBy || "—"}`;
+
+        // إذا جاء سؤال جديد (قرارك 1A): نمسح مربع كتابتي محليًا فقط لو تغير السؤال وصارت الإجابات فاضية
+        if((d.answer_anas==="" && d.answer_lana==="" && !d.sent_anas && !d.sent_lana && !d.reveal)){
+          // نخلي نص المستخدم ما يضيع لو كان يكتب… إلا إذا تبغى نفرغه
+          // (حسب قرارك: تختفي الإجابات القديمة فورًا — نخلي مربع الكتابة فاضي)
+          mkMyAnswer.value = "";
         }
       });
-    })();
+    }
+
+    mkNewQBtn.addEventListener("click", mkNewQuestion);
+    mkSendBtn.addEventListener("click", mkSendMyAnswer);
+
+    /********************
+     * خروج عند إغلاق الصفحة
+     ********************/
+    window.addEventListener("beforeunload", () => {
+      try {
+        if (window.fb?.auth?.currentUser) {
+          window.fb.signOut(window.fb.auth);
+        }
+      } catch (e) {}
+    });
   </script>
-
-  <script>
-  function updateLoveCounter(){
-    // تاريخ بداية الحب (24 / 11 / 2025)
-    const startDate = new Date(2025, 10, 24); // الشهر 10 = نوفمبر
-    const today = new Date();
-
-    // نحسب الفرق بالأيام
-    const diffTime = today.getTime() - startDate.getTime();
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-    const counterEl = document.getElementById("loveCounter");
-    if(counterEl){
-      counterEl.textContent = `💗 ${diffDays} DAY`;
-    }
-  }
-
-  // شغّلها أول ما الصفحة تفتح
-  updateLoveCounter();
-
-  // تحديث تلقائي كل يوم
-  setInterval(updateLoveCounter, 1000 * 60 * 60);
-</script>
-
-  // 🔒 خروج تلقائي عند إغلاق الصفحة أو التبويب
-window.addEventListener("beforeunload", () => {
-  try {
-    if (window.fb?.auth?.currentUser) {
-      window.fb.signOut(window.fb.auth);
-    }
-  } catch (e) {}
-});
-
 </body>
 </html>
+
 
 
 
