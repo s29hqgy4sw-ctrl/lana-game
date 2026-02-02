@@ -27,6 +27,16 @@
       --seaGlow: rgba(0,210,255,.18);
       --rain: rgba(255,255,255,.22);
       --wave: rgba(255,255,255,.08);
+
+      /* ✅ Puzzle theme */
+      --puz1:#070b18;
+      --puz2:#101a3a;
+      --puz3:#2a1a4a;
+      --puzGlow: rgba(160,140,255,.18);
+      --puzDrop: rgba(255,255,255,.18);
+      --puzTile: rgba(255,255,255,.07);
+      --puzTile2: rgba(255,255,255,.11);
+      --puzStroke: rgba(255,255,255,.14);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -59,6 +69,7 @@
       overflow:hidden;
       filter: drop-shadow(0 8px 18px rgba(0,0,0,.35));
       transition: opacity .25s ease;
+      z-index:2;
     }
     .heart{
       position:absolute;
@@ -73,7 +84,7 @@
       to{ transform: translateY(130vh) rotate(25deg); }
     }
 
-    /* ===== OPTION 3 SEA + "EMOJI RAIN" THEME ===== */
+    /* ===== OPTION 3 SEA + RAIN THEME (بدون تغيير أماكن المربعات) ===== */
     body.seaTheme{
       background:
         radial-gradient(1100px 700px at 20% 10%, var(--seaGlow), transparent 60%),
@@ -91,28 +102,53 @@
       opacity:0;
       transition: opacity .25s ease;
       filter: drop-shadow(0 14px 25px rgba(0,0,0,.35));
+      z-index:1;
     }
     body.seaTheme .rain{
       display:block;
       opacity:1;
     }
-
-    /* ✨ Emojis falling (fish + hearts + ?) */
     .drop{
       position:absolute;
       top:-25vh;
-      background:none;
-      width:auto;
-      height:auto;
-      border-radius:0;
-      animation: emojiRainFall linear infinite;
+      width:2px;
+      height:18px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0), var(--rain), rgba(255,255,255,0));
+      border-radius:999px;
+      animation: rainFall linear infinite;
       will-change: transform;
-      opacity:.95;
-      text-shadow: 0 14px 24px rgba(0,0,0,.35);
-      user-select:none;
+      opacity:.7;
     }
-    @keyframes emojiRainFall{
-      to{ transform: translateY(140vh) translateX(6vw) rotate(20deg); }
+    @keyframes rainFall{
+      to{ transform: translateY(140vh) translateX(6vw); }
+    }
+
+    /* ✅ NEW: Emoji rain for Option 3 (🐟❤️❓) */
+    .seaEmojis{
+      position:fixed; inset:-22vh 0 0 0;
+      pointer-events:none;
+      overflow:hidden;
+      display:none;
+      opacity:0;
+      transition: opacity .25s ease;
+      filter: drop-shadow(0 14px 25px rgba(0,0,0,.35));
+      z-index:3;
+    }
+    body.seaTheme .seaEmojis{
+      display:block;
+      opacity:1;
+    }
+    .seaEmoji{
+      position:absolute;
+      top:-25vh;
+      font-size:22px;
+      opacity:.95;
+      animation: emojiFall linear infinite;
+      will-change: transform;
+      text-shadow: 0 12px 24px rgba(0,0,0,.35);
+    }
+    @keyframes emojiFall{
+      to{ transform: translateY(140vh) translateX(8vw) rotate(25deg); }
     }
 
     /* waves overlay (visual only) */
@@ -130,6 +166,7 @@
       filter: blur(8px);
       mix-blend-mode: screen;
       animation: waveMove 7s ease-in-out infinite;
+      z-index:1;
     }
     @keyframes waveMove{
       0%{ transform: translateY(0) translateX(0); }
@@ -141,6 +178,65 @@
       opacity:1;
     }
 
+    /* ✅ PUZZLE THEME (Option 4) */
+    body.puzzleTheme{
+      background:
+        radial-gradient(950px 620px at 15% 10%, var(--puzGlow), transparent 62%),
+        radial-gradient(900px 600px at 85% 22%, rgba(110,230,255,.10), transparent 62%),
+        radial-gradient(1000px 700px at 65% 96%, rgba(255,90,190,.10), transparent 58%),
+        linear-gradient(135deg, var(--puz1), var(--puz2), var(--puz3));
+    }
+    body.puzzleTheme .hearts{ opacity:.10; }
+    body.puzzleTheme .rain{ opacity:0; display:none; }
+    body.puzzleTheme .seaEmojis{ opacity:0; display:none; }
+    body.puzzleTheme .waves{ opacity:0; display:none; }
+
+    .puzzleRain{
+      position:fixed; inset:-20vh 0 0 0;
+      pointer-events:none;
+      overflow:hidden;
+      display:none;
+      opacity:0;
+      transition: opacity .25s ease;
+      filter: drop-shadow(0 14px 25px rgba(0,0,0,.35));
+      z-index:1;
+    }
+    body.puzzleTheme .puzzleRain{
+      display:block;
+      opacity:1;
+    }
+    .puzDrop{
+      position:absolute;
+      top:-25vh;
+      width:16px;
+      height:16px;
+      border-radius:6px;
+      background:
+        radial-gradient(12px 12px at 30% 30%, rgba(255,255,255,.18), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.12);
+      animation: puzFall linear infinite;
+      will-change: transform;
+      opacity:.65;
+      transform: rotate(15deg);
+      box-shadow: 0 10px 25px rgba(0,0,0,.20);
+    }
+    /* “نتوء” بسيط يعطي إحساس قطعة بزل */
+    .puzDrop::after{
+      content:"";
+      position:absolute;
+      width:6px; height:6px;
+      border-radius:999px;
+      left:50%; top:-3px;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.10);
+      filter: blur(.2px);
+    }
+    @keyframes puzFall{
+      to{ transform: translateY(145vh) translateX(8vw) rotate(120deg); }
+    }
+
     /* layout */
     .wrap{
       position:relative;
@@ -149,6 +245,7 @@
       align-items:center;
       justify-content:center;
       padding:22px;
+      z-index:5;
     }
 
     .card{
@@ -479,7 +576,7 @@
       text-align:center;
     }
 
-    /* ===== OPTION 2 ===== */
+    /* ===== OPTION 2: "أنا مكانك" ===== */
     .amkWrap{ margin-top:12px; }
     .amkQ{
       margin:12px 0 0;
@@ -676,12 +773,227 @@
     }
 
     .hide{ display:none !important; }
+
+    /* ✅ OPTION 4: PUZZLE (Mobile-first) */
+    .puzWrap{ margin-top:12px; }
+    .puzTopRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      margin-top:10px;
+    }
+    .puzBadge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:var(--txt);
+      font-weight:900;
+      max-width: 100%;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      white-space:nowrap;
+    }
+    .puzCard{
+      margin-top:12px;
+      border-radius:22px;
+      background: rgba(0,0,0,.16);
+      border:1px solid rgba(255,255,255,.14);
+      padding:14px;
+      position:relative;
+      overflow:hidden;
+    }
+    body.puzzleTheme .puzCard{
+      background: rgba(5,8,18,.18);
+      border-color: rgba(255,255,255,.16);
+    }
+
+    .puzLayout{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+    }
+
+    .puzPanel{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      padding:12px;
+    }
+    .puzPanelTitle{
+      font-weight:900;
+      margin:0 0 10px;
+      color:rgba(255,255,255,.92);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .puzMini{
+      font-size:12px;
+      color:rgba(255,255,255,.70);
+      font-weight:800;
+    }
+
+    /* phone-friendly image box */
+    .puzImageBox{
+      width:100%;
+      aspect-ratio: 1 / 1;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
+      overflow:hidden;
+      background: rgba(0,0,0,.15);
+      position:relative;
+    }
+    .puzImageBox img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+      user-select:none;
+      -webkit-user-drag:none;
+      pointer-events:none;
+    }
+    .puzImageGlow{
+      position:absolute; inset:0;
+      background:
+        radial-gradient(60% 55% at 30% 25%, rgba(255,255,255,.10), transparent 62%),
+        radial-gradient(55% 55% at 70% 75%, rgba(255,255,255,.08), transparent 62%);
+      mix-blend-mode: screen;
+      pointer-events:none;
+      opacity:.9;
+    }
+
+    /* board */
+    .puzBoard{
+      width:100%;
+      aspect-ratio: 1 / 1;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.12);
+      padding:10px;
+      display:grid;
+      gap:8px;
+    }
+    body.puzzleTheme .puzBoard{
+      background: rgba(0,0,0,.10);
+    }
+    .puzSlot{
+      border-radius:14px;
+      border:1px dashed rgba(255,255,255,.18);
+      background: rgba(255,255,255,.04);
+      position:relative;
+      overflow:hidden;
+      display:grid;
+      place-items:center;
+      min-height:0;
+      user-select:none;
+      -webkit-user-select:none;
+      touch-action: manipulation;
+    }
+    .puzSlot.filled{
+      border-style:solid;
+      border-color: rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+    }
+
+    /* piece visual (no canvas slicing: background-position trick) */
+    .puzPiece{
+      width:100%;
+      height:100%;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background-repeat:no-repeat;
+      background-size: 100% 100%;
+      box-shadow: 0 10px 25px rgba(0,0,0,.22);
+      position:relative;
+      overflow:hidden;
+      touch-action: manipulation;
+    }
+    .puzPiece::after{
+      content:"";
+      position:absolute; inset:-20%;
+      background:
+        radial-gradient(40% 30% at 30% 25%, rgba(255,255,255,.10), transparent 60%),
+        radial-gradient(40% 30% at 70% 75%, rgba(255,255,255,.08), transparent 60%);
+      opacity:.7;
+      pointer-events:none;
+    }
+
+    .puzTray{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      justify-content:center;
+    }
+    .puzTile{
+      width:60px;
+      aspect-ratio: 1/1;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      overflow:hidden;
+      cursor:pointer;
+      position:relative;
+      user-select:none;
+      -webkit-user-select:none;
+      touch-action: manipulation;
+      box-shadow: 0 12px 28px rgba(0,0,0,.22);
+    }
+    @media (max-width:520px){
+      .puzTile{ width:56px; }
+    }
+    .puzTile.selected{
+      outline: 2px solid rgba(255,255,255,.85);
+      transform: translateY(-1px);
+    }
+    .puzTile .puzPiece{ border-radius:13px; border:0; box-shadow:none; }
+
+    .puzStatus{
+      margin-top:10px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.10);
+      padding:10px 12px;
+      color:rgba(255,255,255,.85);
+      white-space:pre-wrap;
+      line-height:2;
+      font-size:13px;
+      text-align:center;
+    }
+    .puzSuccess{
+      margin-top:10px;
+      border-radius:16px;
+      border:1px solid rgba(34,197,94,.30);
+      background: rgba(34,197,94,.10);
+      padding:10px 12px;
+      color:rgba(255,255,255,.92);
+      white-space:pre-wrap;
+      line-height:2;
+      font-size:13px;
+      text-align:center;
+      display:none;
+    }
+    .puzSuccess.show{ display:block; }
   </style>
 </head>
 
 <body>
   <div class="hearts" id="hearts"></div>
   <div class="rain" id="rain"></div>
+
+  <!-- ✅ NEW: Emoji rain layer for stage 3 -->
+  <div class="seaEmojis" id="seaEmojis"></div>
+
+  <!-- ✅ NEW: Puzzle-piece rain layer for option 4 -->
+  <div class="puzzleRain" id="puzzleRain"></div>
+
   <div class="waves"></div>
   <div class="vignette"></div>
 
@@ -815,7 +1127,7 @@
           <div class="contentBox">
             <button class="backBtn backAny">🏠 رجوع للررئيسية</button>
 
-            <div class="promptCard" style="font-size:20px">🌧️🌊 ألغاز على البحر: احنا أقوى من السمكة</div>
+            <div class="promptCard" style="font-size:20px">🌧️🌊 ألغاز على البحر: احنا أقوى من السمكة ❓🐟❤️</div>
 
             <div class="fishWrap">
               <div class="fishTopRow">
@@ -833,7 +1145,7 @@
                   <button class="fishChoiceBtn" id="fishC3">…</button>
                 </div>
 
-                <div class="fishResult" id="fishResult">اختاروا جواب 👆 (Live) ثم اضغطوا (تأكيد) أنتم الاثنين</div>
+                <div class="fishResult" id="fishResult">اختاروا جواب من الخيارات 👆 (Live)</div>
                 <div class="fishLove" id="fishLove">…</div>
 
                 <div class="fishActions">
@@ -848,18 +1160,74 @@
 
               <div class="hint">
                 ✅ أي واحد يختار → يظهر عند الثاني Live<br/>
-                🔒 النتيجة ما تطلع إلا إذا **أنتم الاثنين** ضغطتم (تأكيد الجواب)<br/>
-                ✅ إذا صح: يكتب (تخسي السمكة احنا أقوى) وينقلكم تلقائيًا للمرحلة اللي بعدها<br/>
-                💌 كل 4 مراحل تطلع رسالة حب
+                🔒 ما تطلع نتيجة صح/غلط إلا إذا **أنتم الاثنين** ضغطتم (تأكيد الجواب)<br/>
+                ✅ إذا طلعت صح: يكتب (تخسي السمكة احنا اقوى) وينقلكم تلقائيًا للمرحلة اللي بعدها
               </div>
             </div>
           </div>
         </section>
 
+        <!-- ✅ OPTION 4: PUZZLE 200 (Live Roles) -->
         <section class="page" id="pageOpt4">
           <div class="contentBox">
             <button class="backBtn backAny">🏠 رجوع للرئيسية</button>
-            <div class="promptCard">الخيار 4 (جاهز للصق لعبتكم هنا)</div>
+
+            <div class="promptCard" style="font-size:20px">🧩 بزل 200 مرحلة — واحد يشوف كامل والثاني يركّب (Live)</div>
+
+            <div class="puzWrap">
+              <div class="puzTopRow">
+                <div class="puzBadge" id="puzStageBadge">المرحلة: 1 / 200</div>
+                <div class="puzBadge" id="puzRoleBadge">الدور: …</div>
+              </div>
+
+              <div class="puzTopRow">
+                <button class="actionBtn" id="puzSwapBtn">🔁 تبديل الأدوار (Live)</button>
+                <button class="actionBtn" id="puzResetBtn">🧹 تصفير المرحلة</button>
+                <button class="actionBtn" id="puzNextBtn" disabled>➡️ التالي</button>
+              </div>
+
+              <div class="puzCard">
+                <div class="puzLayout">
+                  <!-- Viewer Panel -->
+                  <div class="puzPanel" id="puzViewerPanel">
+                    <div class="puzPanelTitle">
+                      <span>👁️ الصورة الكاملة</span>
+                      <span class="puzMini" id="puzViewerMini">…</span>
+                    </div>
+                    <div class="puzImageBox">
+                      <img id="puzFullImg" alt="puzzle" />
+                      <div class="puzImageGlow"></div>
+                    </div>
+                    <div class="hint" id="puzViewerHint">هذا القسم يظهر للشخص “المشاهد” فقط.</div>
+                  </div>
+
+                  <!-- Assembler Panel -->
+                  <div class="puzPanel" id="puzAssemblerPanel">
+                    <div class="puzPanelTitle">
+                      <span>🧩 التركيب</span>
+                      <span class="puzMini" id="puzAssemblerMini">…</span>
+                    </div>
+
+                    <div class="puzBoard" id="puzBoard"></div>
+
+                    <div class="hint">📌 الطريقة: اضغط قطعة من تحت → ثم اضغط مكان فاضي في اللوح. لإزالة قطعة: اضغط عليها داخل اللوح.</div>
+
+                    <div class="divider" style="margin:14px 0;"></div>
+
+                    <div class="puzTray" id="puzTray"></div>
+
+                    <div class="puzSuccess" id="puzSuccess">✅ برافو! خلصتوا المرحلة 💗</div>
+                    <div class="puzStatus" id="puzStatus">…</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="hint">
+                🔥 Live بالكامل: كل حركة تظهر للطرف الثاني فورًا<br/>
+                👁️ واحد يشوف الصورة كاملة، والثاني يركّب — وتقدرون تبدلون الأدوار في أي وقت<br/>
+                ⛔ بدون مؤقت
+              </div>
+            </div>
           </div>
         </section>
 
@@ -913,7 +1281,7 @@
         <button class="opt" data-go="pageGame">1) لعبة الأسئلة</button>
         <button class="opt" data-go="pageOpt2">2) <small>(جاهز)</small></button>
         <button class="opt" data-go="pageOpt3">3) ألغاز البحر <small>(Live)</small></button>
-        <button class="opt" data-go="pageOpt4">4) <small>(جاهز)</small></button>
+        <button class="opt" data-go="pageOpt4">4) بزل 200 <small>(Live)</small></button>
         <button class="opt" data-go="pageOpt5">5) <small>(جاهز)</small></button>
         <button class="opt" data-go="pageOpt6">6) <small>(جاهز)</small></button>
         <button class="opt" data-go="pageOpt7">7) <small>(جاهز)</small></button>
@@ -975,11 +1343,9 @@
     setInterval(spawnHearts, 12000);
 
     /********************
-     * Emoji Rain generator (Option 3 theme)
-     * 🐟 + ❤️ + ❓
+     * Rain generator (Option 3 theme)
      ********************/
     const rainEl = document.getElementById("rain");
-    const SEA_RAIN = ["🐟","🐠","🐡","❤️","💗","❓","❔"];
     function spawnRain(){
       if(!rainEl) return;
       rainEl.innerHTML = "";
@@ -987,17 +1353,65 @@
       for(let i=0;i<count;i++){
         const d = document.createElement("div");
         d.className = "drop";
-        d.textContent = SEA_RAIN[Math.floor(Math.random()*SEA_RAIN.length)];
         d.style.left = rand(0,100) + "vw";
-        d.style.animationDuration = rand(1.2, 2.8) + "s";
+        d.style.animationDuration = rand(0.7, 1.6) + "s";
         d.style.animationDelay = (-rand(0,2.5)) + "s";
-        d.style.fontSize = rand(16, 30) + "px";
-        d.style.opacity = rand(0.35, 0.95);
+        d.style.height = rand(10, 22) + "px";
+        d.style.opacity = rand(0.25, 0.8);
         rainEl.appendChild(d);
       }
     }
     spawnRain();
     setInterval(spawnRain, 9000);
+
+    /********************
+     * ✅ NEW: Emoji rain (🐟❤️❓) for Option 3
+     ********************/
+    const seaEmojisEl = document.getElementById("seaEmojis");
+    const SEA_EMOJIS = ["🐟","❤️","❓","💗","🐠","💕","❔","💘"];
+    function spawnSeaEmojis(){
+      if(!seaEmojisEl) return;
+      seaEmojisEl.innerHTML = "";
+      const count = 34;
+      for(let i=0;i<count;i++){
+        const e = document.createElement("div");
+        e.className = "seaEmoji";
+        e.textContent = SEA_EMOJIS[Math.floor(Math.random()*SEA_EMOJIS.length)];
+        e.style.left = rand(2,98) + "vw";
+        e.style.animationDuration = rand(5.5, 11) + "s";
+        e.style.animationDelay = (-rand(0,7)) + "s";
+        e.style.fontSize = rand(16, 30) + "px";
+        e.style.opacity = rand(.45,.95);
+        seaEmojisEl.appendChild(e);
+      }
+    }
+    spawnSeaEmojis();
+    setInterval(spawnSeaEmojis, 11000);
+
+    /********************
+     * ✅ NEW: Puzzle-piece rain (Option 4)
+     ********************/
+    const puzzleRainEl = document.getElementById("puzzleRain");
+    function spawnPuzzleRain(){
+      if(!puzzleRainEl) return;
+      puzzleRainEl.innerHTML = "";
+      const count = 40;
+      for(let i=0;i<count;i++){
+        const d = document.createElement("div");
+        d.className = "puzDrop";
+        d.style.left = rand(0,100) + "vw";
+        d.style.animationDuration = rand(2.6, 6.2) + "s";
+        d.style.animationDelay = (-rand(0,3.0)) + "s";
+        const size = rand(12, 20);
+        d.style.width = size + "px";
+        d.style.height = size + "px";
+        d.style.opacity = rand(0.30, 0.80);
+        d.style.borderRadius = rand(5, 9) + "px";
+        puzzleRainEl.appendChild(d);
+      }
+    }
+    spawnPuzzleRain();
+    setInterval(spawnPuzzleRain, 11000);
 
     /********************
      * Wait for Firebase
@@ -1024,7 +1438,15 @@
       const el = document.getElementById(id);
       if(el) el.classList.add("active");
 
-      document.body.classList.toggle("seaTheme", id === "pageOpt3");
+      // Theme: Option 3 = sea + rain
+      const isSea = (id === "pageOpt3");
+      document.body.classList.toggle("seaTheme", isSea);
+      if(isSea) spawnSeaEmojis();
+
+      // Theme: Option 4 = puzzle theme
+      const isPuz = (id === "pageOpt4");
+      document.body.classList.toggle("puzzleTheme", isPuz);
+      if(isPuz) spawnPuzzleRain();
     }
 
     /********************
@@ -1366,12 +1788,30 @@
             stage: 1,
             selected: -1,
             solved: false,
-            lastText: "اختاروا جواب 👆 (Live) ثم اضغطوا (تأكيد) أنتم الاثنين",
+            lastText: "اختاروا جواب من الخيارات 👆 (Live)",
             loveText: "",
             showLove: false,
             punishText: "",
             confirmAnas: false,
             confirmLana: false,
+
+            /* ✅ NEW CONTROL FIELDS */
+            evaluatedStage: 0,
+            autoNext: false,
+            autoNextDone: false,
+            updatedBy: "system"
+          },
+
+          /* ✅ NEW: OPTION 4 puzzle state */
+          opt4puz: {
+            stage: 1,
+            grid: 3,
+            img: "",
+            shuffle: [],
+            placed: {},
+            sel: -1,
+            solved: false,
+            roles: { viewer: "ANAS", assembler: "LANA" },
             updatedBy: "system"
           }
         }, { merge:true });
@@ -1540,16 +1980,19 @@
       ["بيت بلا أبواب ولا نوافذ، ما هو؟", ["صندوق","بيضة","قلب","كهف"], 1],
       ["له أسنان ولا يعض، ما هو؟", ["المشط","الكلب","المنشار","الذئب"], 0],
       ["يراك ولا تراه، ما هو؟", ["المرآة","الكاميرا","الظل","الهواء"], 1],
+
       ["ما الشيء الذي يمشي بلا رجلين؟", ["الظل","المطر","النهر","الوقت"], 2],
       ["ما الشيء الذي إذا زاد نقص؟", ["العمر","المال","الضوء","الماء"], 0],
       ["كم شهر في السنة فيه 28 يوم؟", ["1","2","12","يعتمد"], 2],
       ["شيء يكتب ولا يقرأ، ما هو؟", ["القلم","الكتاب","الحبر","المسطرة"], 0],
       ["له وجه ويدان وليس إنسانًا، ما هو؟", ["ساعة","كرسي","ميزان","باب"], 0],
+
       ["شيء إذا فتحته لا يغلق، ما هو؟", ["الباب","الكتاب","الفم","النافذة"], 2],
       ["شيء يولد كبيرًا ويموت صغيرًا، ما هو؟", ["الشمعة","القمر","الظل","الطفل"], 0],
       ["ما الشيء الذي يسمع بلا أذن ويتكلم بلا لسان؟", ["الصدى","الهاتف","الراديو","الرسالة"], 0],
       ["شيء يملك مفاتيح ولا يفتح أبوابًا، ما هو؟", ["البيانو","القفل","السيارة","المفتاح"], 0],
       ["شيء مصنوع من ماء وإذا وضعته في الماء مات، ما هو؟", ["الثلج","الملح","الزبد","البخار"], 0],
+
       ["ما الشيء الذي يزداد كلما شاركته؟", ["المال","العلم","النار","الحزن"], 1],
       ["شيء يقيس ولا يُوزن، ما هو؟", ["الساعة","الحرارة","الطول","الملح"], 0],
       ["شيء له رقبة بلا رأس، ما هو؟", ["زجاجة","قميص","طاولة","زرافة"], 0],
@@ -1621,7 +2064,7 @@
       if(fishC2) fishC2.textContent = choices[2] ?? "—";
       if(fishC3) fishC3.textContent = choices[3] ?? "—";
 
-      if(fishResult) fishResult.textContent = (opt3?.lastText ?? "اختاروا جواب 👆 (Live) ثم اضغطوا (تأكيد) أنتم الاثنين");
+      if(fishResult) fishResult.textContent = (opt3?.lastText ?? "اختاروا جواب من الخيارات 👆 (Live)");
 
       const loveText = opt3?.loveText || "";
       const showLove = !!opt3?.showLove && !!loveText;
@@ -1634,35 +2077,33 @@
       const cL = !!opt3?.confirmLana;
       if(fishConfirmLine){
         fishConfirmLine.textContent =
-          `تأكيد أنس: ${cA ? "✅" : "—"} | تأكيد لانا: ${cL ? "✅" : "—"} | (النتيجة تظهر لما الاثنين ✅)`;
+          `تأكيد أنس: ${cA ? "✅" : "—"} | تأكيد لانا: ${cL ? "✅" : "—"} | (النتيجة ما تطلع إلا إذا الاثنين ✅✅)`;
       }
 
-      // خيارات شغالة دائمًا (النتيجة فقط بالتاكيد)
-      setChoicesEnabled(true);
+      const locked = !!opt3?.autoNext && !opt3?.autoNextDone;
+      setChoicesEnabled(!locked);
 
-      // زر التالي مخفي
-      if(fishNextBtn){
-        fishNextBtn.disabled = true;
-      }
+      if(fishNextBtn) fishNextBtn.disabled = true;
     }
 
+    /********************
+     * ✅ NEW: اختيار بدون نتيجة
+     ********************/
     async function fishChoose(choiceIndex){
       const stageSnap = window.__fishStageCache || 1;
-      const stage = Math.max(1, Math.min(150, parseInt(stageSnap||1,10)));
-      const lvl = fishGetLevel(stage);
-      const choices = lvl?.[1] || ["1","2","3","4"];
-      const chosenText = choices[choiceIndex] ?? "—";
 
-      // ✅ الاختيار ما يعطي صح/غلط
-      // ✅ أي اختيار جديد = يرجّع التأكيدات للصفر
       await pushRoomUpdate({
         "opt3.selected": choiceIndex,
         "opt3.solved": false,
-        "opt3.lastText": `✅ تم اختيار: (${chosenText})\nالآن اضغطوا (تأكيد الجواب) أنتم الاثنين عشان تطلع النتيجة.`,
+        "opt3.lastText": "✅ تم اختيار خيار.\nالآن اضغطوا (تأكيد الجواب) أنتم الاثنين عشان تطلع النتيجة.",
         "opt3.loveText": "",
         "opt3.showLove": false,
+
         "opt3.confirmAnas": false,
         "opt3.confirmLana": false,
+        "opt3.evaluatedStage": 0,
+        "opt3.autoNext": false,
+        "opt3.autoNextDone": false,
         "opt3.updatedBy": currentName || "unknown"
       });
     }
@@ -1681,88 +2122,501 @@
       });
     });
 
-    // ✅ تأكيد الجواب: النتيجة تظهر فقط بعد ما الاثنين يضغطون
+    /********************
+     * ✅ تأكيد الجواب (بدون نتيجة مباشرة)
+     ********************/
     fishConfirmBtn?.addEventListener("click", async ()=>{
-      const stageSnap = window.__fishStageCache || 1;
-      const stage = Math.max(1, Math.min(150, parseInt(stageSnap||1,10)));
-
-      const selected = (typeof window.__fishSelectedCache === "number") ? window.__fishSelectedCache : -1;
-      if(selected < 0){
+      const sel = parseInt(window.__fishSelectedCache ?? -1, 10);
+      if(sel < 0){
         await pushRoomUpdate({
-          "opt3.lastText": "لازم تختارون جواب أولاً 👆 ثم تأكيد ✅",
+          "opt3.lastText": "اختاروا خيار أولاً 👆 ثم اضغطوا تأكيد ✅",
           "opt3.updatedBy": currentName || "unknown"
         });
         return;
       }
 
-      // الحالة الحالية
-      const cA0 = !!window.__fishConfirmAnasCache;
-      const cL0 = !!window.__fishConfirmLanaCache;
-
-      // نحدث تأكيد الشخص اللي ضغط
-      let cA = cA0, cL = cL0;
-      if(currentName === "ANAS") cA = true;
-      else cL = true;
-
-      // اكتب انتظار لو طرف واحد فقط
-      if(!(cA && cL)){
-        await pushRoomUpdate({
-          "opt3.confirmAnas": cA,
-          "opt3.confirmLana": cL,
-          "opt3.lastText": "✅ تم تأكيدك.\nانتظروا تأكيد الطرف الثاني…",
-          "opt3.updatedBy": currentName || "unknown"
-        });
-        return;
+      if(currentName === "ANAS"){
+        await pushRoomUpdate({ "opt3.confirmAnas": true, "opt3.updatedBy": currentName || "unknown" });
+      }else{
+        await pushRoomUpdate({ "opt3.confirmLana": true, "opt3.updatedBy": currentName || "unknown" });
       }
 
-      // ✅ الاثنين أكدوا الآن → نطلع النتيجة
+      await pushRoomUpdate({
+        "opt3.lastText": "✅ تم تأكيدك.\nنستنى تأكيد الطرف الثاني…",
+        "opt3.updatedBy": currentName || "unknown"
+      });
+    });
+
+    /********************
+     * ✅ تقييم بعد تأكيد الاثنين + انتقال تلقائي إذا صح
+     ********************/
+    let __autoNextTimer = null;
+
+    async function evaluateIfNeeded(opt3){
+      if(!currentName) return;
+
+      const stage = Math.max(1, Math.min(150, parseInt(opt3?.stage||1,10)));
+      const selected = parseInt(opt3?.selected ?? -1, 10);
+
+      const bothConfirmed = !!opt3?.confirmAnas && !!opt3?.confirmLana;
+      if(!bothConfirmed) return;
+
+      const evaluatedStage = parseInt(opt3?.evaluatedStage||0, 10);
+      if(evaluatedStage === stage) return;
+
+      if((opt3?.updatedBy || "") !== currentName) return;
+
       const lvl = fishGetLevel(stage);
       const correct = parseInt(lvl?.[2] ?? 0, 10);
       const isCorrect = (selected === correct);
 
-      if(!isCorrect){
+      if(isCorrect){
+        const love = fishLoveTextForStage(stage);
         await pushRoomUpdate({
-          "opt3.confirmAnas": false,
-          "opt3.confirmLana": false,
+          "opt3.solved": true,
+          "opt3.lastText": "✅ تخسي السمكة احنا اقوى 🐟💪",
+          "opt3.loveText": love || "",
+          "opt3.showLove": !!love,
+          "opt3.evaluatedStage": stage,
+          "opt3.autoNext": true,
+          "opt3.autoNextDone": false,
+          "opt3.updatedBy": currentName || "unknown"
+        });
+      }else{
+        await pushRoomUpdate({
           "opt3.solved": false,
-          "opt3.lastText": "❌ غلط… اختاروا خيار ثاني 👀\nوبعدين اضغطوا (تأكيد) أنتم الاثنين.",
+          "opt3.lastText": "❌ غلط… جرّبوا خيار ثاني 👀\n(اختاروا من جديد ثم تأكيد الاثنين)",
           "opt3.loveText": "",
           "opt3.showLove": false,
+          "opt3.evaluatedStage": stage,
+          "opt3.confirmAnas": false,
+          "opt3.confirmLana": false,
           "opt3.updatedBy": currentName || "unknown"
         });
-        return;
       }
+    }
 
-      // ✅ صح
-      if(stage >= 150){
+    async function autoNextIfNeeded(opt3){
+      if(!currentName) return;
+      const stage = Math.max(1, Math.min(150, parseInt(opt3?.stage||1,10)));
+
+      const shouldAuto = !!opt3?.autoNext && !opt3?.autoNextDone && !!opt3?.solved;
+      if(!shouldAuto) return;
+
+      if((opt3?.updatedBy || "") !== currentName) return;
+
+      if(__autoNextTimer) return;
+      __autoNextTimer = setTimeout(async ()=>{
+        __autoNextTimer = null;
+
+        if(stage >= 150){
+          await pushRoomUpdate({
+            "opt3.lastText": "🎉 خلصتوا الـ 150 مرحلة! أنتم أقوى من السمكة ومن كل شي ❤️",
+            "opt3.showLove": true,
+            "opt3.loveText": "أنس ولانا… وصلتوا للنهاية لأنكم ما تتركون بعض.\nأحبكم 💗",
+            "opt3.autoNextDone": true,
+            "opt3.updatedBy": currentName || "unknown"
+          });
+          return;
+        }
+
+        const nextStage = stage + 1;
         await pushRoomUpdate({
-          "opt3.confirmAnas": true,
-          "opt3.confirmLana": true,
-          "opt3.solved": true,
-          "opt3.lastText": "🎉 تخسي السمكة احنا أقوى!\nخلصتوا الـ 150 مرحلة ❤️",
-          "opt3.showLove": true,
-          "opt3.loveText": "أنس ولانا… وصلتوا للنهاية لأنكم ما تتركون بعض.\nأحبكم 💗",
+          "opt3.stage": nextStage,
+          "opt3.selected": -1,
+          "opt3.solved": false,
+          "opt3.lastText": "اختاروا جواب من الخيارات 👆 (Live)",
+          "opt3.loveText": "",
+          "opt3.showLove": false,
+          "opt3.punishText": "",
+          "opt3.confirmAnas": false,
+          "opt3.confirmLana": false,
+          "opt3.evaluatedStage": 0,
+          "opt3.autoNext": false,
+          "opt3.autoNextDone": true,
           "opt3.updatedBy": currentName || "unknown"
         });
-        return;
+      }, 900);
+    }
+
+    /********************
+     * ✅ OPTION 4: PUZZLE 200 (Live Roles)
+     ********************/
+    const puzStageBadge = document.getElementById("puzStageBadge");
+    const puzRoleBadge  = document.getElementById("puzRoleBadge");
+    const puzSwapBtn    = document.getElementById("puzSwapBtn");
+    const puzResetBtn   = document.getElementById("puzResetBtn");
+    const puzNextBtn    = document.getElementById("puzNextBtn");
+    const puzViewerPanel = document.getElementById("puzViewerPanel");
+    const puzAssemblerPanel = document.getElementById("puzAssemblerPanel");
+    const puzFullImg = document.getElementById("puzFullImg");
+    const puzBoard = document.getElementById("puzBoard");
+    const puzTray  = document.getElementById("puzTray");
+    const puzStatus = document.getElementById("puzStatus");
+    const puzSuccess = document.getElementById("puzSuccess");
+    const puzViewerMini = document.getElementById("puzViewerMini");
+    const puzAssemblerMini = document.getElementById("puzAssemblerMini");
+
+    const PUZ_TOTAL = 200;
+
+    /* ✅ هنا تقدر تحط صوركم (روابط) لاحقًا:
+       - اكتب 200 رابط (أو أقل) داخل المصفوفة حسب المراحل
+       - إذا المرحلة ما لها رابط → يستخدم Placeholder تلقائيًا
+    */
+    const PUZ_CUSTOM_IMAGES = [
+      // "https://.../1.jpg",
+      // "https://.../2.jpg",
+      // ...
+    ];
+
+    function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+
+    function puzGridForStage(stage){
+      // تصاعد لطيف للجوال
+      if(stage <= 25) return 3;    // 3x3 = 9
+      if(stage <= 120) return 4;   // 4x4 = 16
+      return 5;                    // 5x5 = 25 (لباقي 200)
+    }
+
+    function puzCategory(stage){
+      const cats = ["Cities","Animals","Hearts","Food"];
+      return cats[(stage-1) % cats.length];
+    }
+
+    function svgToDataUrl(svg){
+      return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+    }
+
+    function puzPlaceholderImage(stage){
+      const cat = puzCategory(stage);
+      const icon = (cat==="Cities") ? "🏙️" : (cat==="Animals") ? "🐾" : (cat==="Hearts") ? "💗" : "🍓";
+      const hue = (stage * 17) % 360;
+      const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="hsl(${hue},80%,18%)"/>
+      <stop offset="1" stop-color="hsl(${(hue+55)%360},80%,22%)"/>
+    </linearGradient>
+    <radialGradient id="r" cx="30%" cy="25%" r="70%">
+      <stop offset="0" stop-color="rgba(255,255,255,.18)"/>
+      <stop offset="1" stop-color="rgba(255,255,255,0)"/>
+    </radialGradient>
+    <pattern id="p" width="70" height="70" patternUnits="userSpaceOnUse">
+      <path d="M0 70 L70 0" stroke="rgba(255,255,255,.10)" stroke-width="2"/>
+      <path d="M-10 35 L35 -10" stroke="rgba(255,255,255,.08)" stroke-width="2"/>
+      <path d="M35 80 L80 35" stroke="rgba(255,255,255,.08)" stroke-width="2"/>
+    </pattern>
+  </defs>
+  <rect width="900" height="900" fill="url(#g)"/>
+  <rect width="900" height="900" fill="url(#p)" opacity="0.85"/>
+  <rect width="900" height="900" fill="url(#r)"/>
+  <circle cx="710" cy="720" r="240" fill="rgba(255,255,255,.06)"/>
+  <circle cx="220" cy="220" r="190" fill="rgba(255,255,255,.05)"/>
+  <text x="450" y="430" text-anchor="middle" font-family="system-ui,Segoe UI,Arial" font-size="110" font-weight="900" fill="rgba(255,255,255,.90)">Stage ${stage}</text>
+  <text x="450" y="520" text-anchor="middle" font-family="system-ui,Segoe UI,Arial" font-size="48" font-weight="800" fill="rgba(255,255,255,.75)">${cat} ${icon}</text>
+  <text x="450" y="610" text-anchor="middle" font-family="system-ui,Segoe UI,Arial" font-size="34" font-weight="700" fill="rgba(255,255,255,.55)">LANA ❤️ ANAS</text>
+</svg>`;
+      return svgToDataUrl(svg);
+    }
+
+    function puzGetImage(stage){
+      const idx = stage - 1;
+      const url = PUZ_CUSTOM_IMAGES[idx];
+      if(url && typeof url === "string" && url.trim()) return url.trim();
+      return puzPlaceholderImage(stage);
+    }
+
+    function makeShuffle(n){
+      const a = Array.from({length:n}, (_,i)=>i);
+      for(let i=n-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]]=[a[j],a[i]];
+      }
+      return a;
+    }
+
+    function objKeysLen(obj){
+      try{ return Object.keys(obj||{}).length; }catch(e){ return 0; }
+    }
+
+    function puzIsSolved(placed, n){
+      // لازم كل السلوطات موجودة وصحيحة
+      for(let i=0;i<n;i++){
+        const v = placed?.[String(i)];
+        if(typeof v !== "number") return false;
+        if(v !== i) return false;
+      }
+      return true;
+    }
+
+    function puzPieceStyle(grid, img, pieceIndex){
+      const row = Math.floor(pieceIndex / grid);
+      const col = pieceIndex % grid;
+      const bgSize = `${grid*100}% ${grid*100}%`;
+      const bgPos = `${(col/(grid-1))*100}% ${(row/(grid-1))*100}%`;
+      // ملاحظة: background-position بالنسب مع grid>1 ممتاز
+      return { bgSize, bgPos };
+    }
+
+    function puzCreatePieceEl(grid, img, pieceIndex){
+      const el = document.createElement("div");
+      el.className = "puzPiece";
+      el.dataset.piece = String(pieceIndex);
+      el.style.backgroundImage = `url("${img}")`;
+      const row = Math.floor(pieceIndex / grid);
+      const col = pieceIndex % grid;
+
+      // background-size big so each piece shows a slice
+      el.style.backgroundSize = `${grid*100}% ${grid*100}%`;
+      el.style.backgroundPosition = `${(col/(grid-1))*100}% ${(row/(grid-1))*100}%`;
+
+      return el;
+    }
+
+    function puzSetRoleUI(isViewer, roles){
+      if(puzRoleBadge){
+        const v = roles?.viewer || "—";
+        const a = roles?.assembler || "—";
+        puzRoleBadge.textContent = `الدور: 👁️ ${v} | 🧩 ${a}`;
+      }
+      if(puzViewerPanel) puzViewerPanel.style.display = isViewer ? "block" : "none";
+      if(puzAssemblerPanel) puzAssemblerPanel.style.display = isViewer ? "none" : "block";
+    }
+
+    async function puzEnsureStageFields(opt4puz){
+      // لو الوثيقة قديمة وما فيها shuffle/img → نولّدها مرة
+      const stage = clamp(parseInt(opt4puz?.stage||1,10), 1, PUZ_TOTAL);
+      const grid = puzGridForStage(stage);
+      const n = grid*grid;
+
+      const img = (opt4puz?.img && typeof opt4puz.img==="string" && opt4puz.img.trim())
+        ? opt4puz.img.trim()
+        : puzGetImage(stage);
+
+      let shuffle = Array.isArray(opt4puz?.shuffle) ? opt4puz.shuffle.slice(0) : [];
+      if(shuffle.length !== n){
+        shuffle = makeShuffle(n);
       }
 
-      const love = fishLoveTextForStage(stage);
-      const nextStage = stage + 1;
+      // إذا فيه فرق، نسوي تحديث خفيف
+      const needUpdate = (opt4puz?.grid !== grid) || (opt4puz?.img !== img) || (!Array.isArray(opt4puz?.shuffle) || opt4puz.shuffle.length !== n);
+      if(needUpdate){
+        await pushRoomUpdate({
+          "opt4puz.grid": grid,
+          "opt4puz.img": img,
+          "opt4puz.shuffle": shuffle,
+          "opt4puz.updatedBy": currentName || "unknown"
+        });
+      }
+    }
+
+    function puzApplyUI(opt4puz){
+      const stage = clamp(parseInt(opt4puz?.stage||1,10), 1, PUZ_TOTAL);
+      const grid = puzGridForStage(stage);
+      const n = grid*grid;
+
+      const roles = opt4puz?.roles || {viewer:"ANAS", assembler:"LANA"};
+      const isViewer = (currentName === (roles.viewer || "ANAS"));
+
+      if(puzStageBadge) puzStageBadge.textContent = `المرحلة: ${stage} / ${PUZ_TOTAL}`;
+      puzSetRoleUI(isViewer, roles);
+
+      const img = (opt4puz?.img && typeof opt4puz.img==="string" && opt4puz.img.trim())
+        ? opt4puz.img.trim()
+        : puzGetImage(stage);
+
+      if(puzFullImg) puzFullImg.src = img;
+
+      const placed = opt4puz?.placed || {};
+      const sel = parseInt(opt4puz?.sel ?? -1, 10);
+      const solved = !!opt4puz?.solved;
+
+      if(puzViewerMini) puzViewerMini.textContent = `فقط للمشاهد • مرحلة ${stage}`;
+      if(puzAssemblerMini) puzAssemblerMini.textContent = `اختيار: ${sel >= 0 ? (sel+1) : "—"} • قطع: ${n}`;
+
+      // Board
+      if(puzBoard){
+        puzBoard.style.gridTemplateColumns = `repeat(${grid}, 1fr)`;
+        puzBoard.innerHTML = "";
+        for(let s=0;s<n;s++){
+          const slot = document.createElement("div");
+          slot.className = "puzSlot";
+          slot.dataset.slot = String(s);
+
+          const p = placed[String(s)];
+          if(typeof p === "number"){
+            slot.classList.add("filled");
+            const piece = puzCreatePieceEl(grid, img, p);
+            slot.appendChild(piece);
+
+            // remove on click (assembler only)
+            slot.addEventListener("click", async ()=>{
+              const rolesNow = window.__puzRolesCache || roles;
+              const isAssemblerNow = (currentName === (rolesNow.assembler || "LANA"));
+              if(!isAssemblerNow) return;
+
+              const nextPlaced = {...(window.__puzPlacedCache||placed)};
+              delete nextPlaced[String(s)];
+              await pushRoomUpdate({
+                "opt4puz.placed": nextPlaced,
+                "opt4puz.sel": -1,
+                "opt4puz.solved": false,
+                "opt4puz.updatedBy": currentName || "unknown"
+              });
+            });
+          }else{
+            // place selected piece (assembler only)
+            slot.addEventListener("click", async ()=>{
+              const rolesNow = window.__puzRolesCache || roles;
+              const isAssemblerNow = (currentName === (rolesNow.assembler || "LANA"));
+              if(!isAssemblerNow) return;
+
+              const selected = parseInt(window.__puzSelCache ?? sel, 10);
+              if(selected < 0) return;
+
+              const nextPlaced = {...(window.__puzPlacedCache||placed)};
+              // ما نسمح تكرار نفس القطعة في سلوط ثاني: نشيلها لو كانت موجودة
+              for(const k of Object.keys(nextPlaced)){
+                if(nextPlaced[k] === selected) delete nextPlaced[k];
+              }
+              nextPlaced[String(s)] = selected;
+
+              const done = puzIsSolved(nextPlaced, n);
+
+              await pushRoomUpdate({
+                "opt4puz.placed": nextPlaced,
+                "opt4puz.sel": -1,
+                "opt4puz.solved": done,
+                "opt4puz.updatedBy": currentName || "unknown"
+              });
+            });
+          }
+
+          puzBoard.appendChild(slot);
+        }
+      }
+
+      // Tray
+      if(puzTray){
+        puzTray.innerHTML = "";
+        const shuffle = Array.isArray(opt4puz?.shuffle) ? opt4puz.shuffle.slice(0) : Array.from({length:n},(_,i)=>i);
+
+        // determine which pieces are already used
+        const used = new Set();
+        for(const k of Object.keys(placed||{})){
+          const v = placed[k];
+          if(typeof v === "number") used.add(v);
+        }
+
+        // show remaining pieces in shuffle order
+        for(const pieceIndex of shuffle){
+          if(used.has(pieceIndex)) continue;
+
+          const tile = document.createElement("div");
+          tile.className = "puzTile";
+          tile.dataset.piece = String(pieceIndex);
+
+          if(pieceIndex === sel) tile.classList.add("selected");
+
+          const pieceEl = puzCreatePieceEl(grid, img, pieceIndex);
+          tile.appendChild(pieceEl);
+
+          tile.addEventListener("click", async ()=>{
+            const rolesNow = window.__puzRolesCache || roles;
+            const isAssemblerNow = (currentName === (rolesNow.assembler || "LANA"));
+            if(!isAssemblerNow) return;
+
+            const currentSel = parseInt(window.__puzSelCache ?? sel, 10);
+            const nextSel = (currentSel === pieceIndex) ? -1 : pieceIndex;
+            await pushRoomUpdate({
+              "opt4puz.sel": nextSel,
+              "opt4puz.updatedBy": currentName || "unknown"
+            });
+          });
+
+          puzTray.appendChild(tile);
+        }
+      }
+
+      // Status / Next
+      const placedCount = objKeysLen(placed);
+      const remain = Math.max(0, n - placedCount);
+
+      if(puzStatus){
+        const by = opt4puz?.updatedBy || "—";
+        puzStatus.textContent = `Live ✅ | آخر تحديث: ${by}\nشبكة: ${grid}x${grid} | باقي: ${remain} قطعة`;
+      }
+
+      if(puzSuccess){
+        puzSuccess.classList.toggle("show", solved);
+      }
+
+      if(puzNextBtn){
+        puzNextBtn.disabled = !solved;
+      }
+    }
+
+    async function puzSwapRoles(){
+      const roles = window.__puzRolesCache || {viewer:"ANAS", assembler:"LANA"};
+      const nextRoles = { viewer: roles.assembler || "LANA", assembler: roles.viewer || "ANAS" };
+      await pushRoomUpdate({
+        "opt4puz.roles": nextRoles,
+        "opt4puz.sel": -1,
+        "opt4puz.updatedBy": currentName || "unknown"
+      });
+    }
+
+    async function puzResetStage(){
+      const stage = clamp(parseInt(window.__puzStageCache||1,10), 1, PUZ_TOTAL);
+      const grid = puzGridForStage(stage);
+      const n = grid*grid;
+
+      const img = puzGetImage(stage);
+      const shuffle = makeShuffle(n);
 
       await pushRoomUpdate({
-        "opt3.stage": nextStage,
-        "opt3.selected": -1,
-        "opt3.solved": false,
-        "opt3.lastText": `✅ تخسي السمكة احنا أقوى 🐟❤️\nانتقلتوا للمرحلة التالية ✨\nاختاروا جواب 👆 ثم تأكيدكم الاثنين.`,
-        "opt3.loveText": love || "",
-        "opt3.showLove": !!love,
-        "opt3.punishText": "",
-        "opt3.confirmAnas": false,
-        "opt3.confirmLana": false,
-        "opt3.updatedBy": currentName || "unknown"
+        "opt4puz.grid": grid,
+        "opt4puz.img": img,
+        "opt4puz.shuffle": shuffle,
+        "opt4puz.placed": {},
+        "opt4puz.sel": -1,
+        "opt4puz.solved": false,
+        "opt4puz.updatedBy": currentName || "unknown"
       });
-    });
+    }
+
+    async function puzNextStage(){
+      const stageNow = clamp(parseInt(window.__puzStageCache||1,10), 1, PUZ_TOTAL);
+      if(stageNow >= PUZ_TOTAL) {
+        await pushRoomUpdate({
+          "opt4puz.solved": true,
+          "opt4puz.updatedBy": currentName || "unknown"
+        });
+        return;
+      }
+      const nextStage = stageNow + 1;
+      const grid = puzGridForStage(nextStage);
+      const n = grid*grid;
+
+      const img = puzGetImage(nextStage);
+      const shuffle = makeShuffle(n);
+
+      await pushRoomUpdate({
+        "opt4puz.stage": nextStage,
+        "opt4puz.grid": grid,
+        "opt4puz.img": img,
+        "opt4puz.shuffle": shuffle,
+        "opt4puz.placed": {},
+        "opt4puz.sel": -1,
+        "opt4puz.solved": false,
+        "opt4puz.updatedBy": currentName || "unknown"
+      });
+    }
+
+    puzSwapBtn?.addEventListener("click", puzSwapRoles);
+    puzResetBtn?.addEventListener("click", puzResetStage);
+    puzNextBtn?.addEventListener("click", puzNextStage);
 
     /********************
      * Room listener
@@ -1806,12 +2660,12 @@
           amkQuestion.textContent = (typeof opt2.q === "string" && opt2.q) ? `❓ ${opt2.q}` : "❓ اضغط (سؤال جديد) 🌹";
         }
 
-        const mine = (opt2[(currentName === "ANAS") ? "anas" : "lana"] || "");
-        const other = (opt2[(currentName === "ANAS") ? "lana" : "anas"] || "");
+        const mine = (opt2[myKey()] || "");
+        const other = (opt2[otherKey()] || "");
 
         safeSetTextareaValue(amkMe, mine);
 
-        const bothReady = !!opt2[(currentName === "ANAS") ? "readyAnas" : "readyLana"] && !!opt2[(currentName === "ANAS") ? "readyLana" : "readyAnas"];
+        const bothReady = !!opt2[myReadyKey()] && !!opt2[otherReadyKey()];
         if(amkOther){
           if(bothReady){
             amkOther.value = other || "—";
@@ -1829,16 +2683,37 @@
         const opt3 = data.opt3 || {};
         const stage = Math.max(1, Math.min(150, parseInt(opt3.stage||1,10)));
         window.__fishStageCache = stage;
-        window.__fishSelectedCache = (typeof opt3.selected === "number") ? opt3.selected : -1;
+        window.__fishSelectedCache = parseInt(opt3.selected ?? -1, 10);
+        window.__fishSolvedCache = !!opt3.solved;
         window.__fishConfirmAnasCache = !!opt3.confirmAnas;
         window.__fishConfirmLanaCache = !!opt3.confirmLana;
 
         applyFishUI(opt3);
+        evaluateIfNeeded(opt3);
+        autoNextIfNeeded(opt3);
 
         if(fishStatus){
           const who = opt3.updatedBy || data.lastBy || "—";
-          fishStatus.textContent = `Live ✅ | آخر تحديث: ${who} | مرحلة: ${stage}`;
+          fishStatus.textContent = `Live ✅ | آخر تحديث: ${who} | مرحلة: ${stage} | اختيار: ${window.__fishSelectedCache}`;
         }
+
+        // ===== ✅ Option 4 puzzle sync =====
+        const opt4puz = data.opt4puz || {};
+        const puzStage = clamp(parseInt(opt4puz.stage||1,10), 1, PUZ_TOTAL);
+
+        window.__puzStageCache = puzStage;
+        window.__puzSelCache = parseInt(opt4puz.sel ?? -1, 10);
+        window.__puzPlacedCache = opt4puz.placed || {};
+        window.__puzRolesCache = opt4puz.roles || {viewer:"ANAS", assembler:"LANA"};
+
+        // ضمان حقول المرحلة (img/shuffle/grid)
+        // (لا نحدث هنا بشكل دائم لتفادي loop، لكن لو ناقص، نحاول مرة واحدة)
+        if((data.currentPage === "pageOpt4") && currentName){
+          // تحديث خفيف فقط إذا ناقص
+          puzEnsureStageFields(opt4puz);
+        }
+
+        puzApplyUI(opt4puz);
       });
     }
 
