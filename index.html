@@ -402,68 +402,60 @@
     }
 
     /* ===== OPTION 2: "أنا مكانك" ===== */
-    /* ===== أنا مكانك (Option 2) ===== */
-.amkWrap{ margin-top:12px; }
-
-.amkQ{
-  margin:12px 0 0;
-  border-radius:22px;
-  background: rgba(0,0,0,.16);
-  border:1px solid rgba(255,255,255,.14);
-  padding:16px 14px;
-  text-align:center;
-  font-size:20px;
-  line-height:1.9;
-}
-
-.amkGrid{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap:12px;
-  margin-top:12px;
-}
-@media (max-width:760px){
-  .amkGrid{ grid-template-columns:1fr; }
-}
-
-.amkCard{
-  border-radius:22px;
-  background: rgba(0,0,0,.14);
-  border:1px solid rgba(255,255,255,.12);
-  padding:14px;
-}
-
-.amkHead{
-  font-weight:900;
-  margin-bottom:10px;
-  color:rgba(255,255,255,.90);
-  text-align:center;
-  line-height:1.8;
-}
-
-.amkArea{
-  width:100%;
-  min-height:120px;
-  resize:vertical;
-  padding:12px 12px;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.14);
-  outline:none;
-  background: rgba(0,0,0,.18);
-  color:var(--txt);
-  font-size:16px;
-  line-height:1.9;
-}
-.amkArea::placeholder{ color: rgba(255,255,255,.55); }
-
-.amkRow{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:12px;
-}
-.amkRow .actionBtn{ flex:1 1 180px; }
-
+    .amkWrap{ margin-top:12px; }
+    .amkQ{
+      margin:12px 0 0;
+      border-radius:22px;
+      background: rgba(0,0,0,.16);
+      border:1px solid rgba(255,255,255,.14);
+      padding:16px 14px;
+      text-align:center;
+      font-size:20px;
+      line-height:1.9;
+    }
+    .amkGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin-top:12px;
+    }
+    @media (max-width:760px){
+      .amkGrid{ grid-template-columns:1fr; }
+    }
+    .amkCard{
+      border-radius:22px;
+      background: rgba(0,0,0,.14);
+      border:1px solid rgba(255,255,255,.12);
+      padding:14px;
+    }
+    .amkHead{
+      font-weight:900;
+      margin-bottom:10px;
+      color:rgba(255,255,255,.90);
+      text-align:center;
+      line-height:1.8;
+    }
+    .amkArea{
+      width:100%;
+      min-height:120px;
+      resize:vertical;
+      padding:12px 12px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.14);
+      outline:none;
+      background: rgba(0,0,0,.18);
+      color:var(--txt);
+      font-size:16px;
+      line-height:1.9;
+    }
+    .amkArea::placeholder{ color: rgba(255,255,255,.55); }
+    .amkRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .amkRow .actionBtn{ flex:1 1 180px; }
 
     .hide{ display:none !important; }
   </style>
@@ -565,52 +557,41 @@
           </div>
         </section>
 
-        <!-- OPTION 2..9 (PLACEHOLDERS READY FOR PASTE) -->
-      <div class="promptCard" style="font-size:20px">💥 لعبة “أنا مكانك”</div>
+        <!-- OPTION 2 -->
+        <section class="page" id="pageOpt2">
+          <div class="contentBox">
+            <button class="backBtn backAny">🏠 رجوع للرئيسية</button>
 
-<div class="amkWrap">
-  <div class="amkQ" id="amkQuestion">…</div>
+            <div class="promptCard" style="font-size:20px">💥 لعبة “أنا مكانك”</div>
 
-  <div class="amkGrid">
-    <div class="amkCard">
-      <div class="amkHead">أنا أجاوب كأني: <b id="amkMeAs">…</b></div>
-      <textarea class="amkArea" id="amkMe" placeholder="اكتب إجابتك هنا…"></textarea>
-      <button class="actionBtn" id="amkSave">💾 حفظ إجابتي (Live)</button>
-      <div class="hint" id="amkHintMe"></div>
-    </div>
+            <div class="amkWrap">
+              <div class="amkQ" id="amkQuestion">…</div>
 
-    <div class="amkCard">
-      <div class="amkHead">الطرف الثاني يجاوب كأنه: <b id="amkOtherAs">…</b></div>
-      <textarea class="amkArea" id="amkOther" placeholder="تظهر هنا إجابة الطرف الثاني بعد ما يحفظ..." readonly></textarea>
-      <div class="hint" id="amkHintOther"></div>
-    </div>
-  </div>
+              <div class="amkGrid">
+                <div class="amkCard">
+                  <div class="amkHead">أنا أجاوب كأني: <b id="amkMeAs">…</b></div>
+                  <textarea class="amkArea" id="amkMe" placeholder="اكتب إجابتك هنا…"></textarea>
+                  <button class="actionBtn" id="amkSave">💾 حفظ إجابتي (Live)</button>
+                  <div class="hint" id="amkHintMe"></div>
+                </div>
 
-  <div class="amkRow">
-    <button class="actionBtn" id="amkNew">🌹 سؤال جديد</button>
-  </div>
+                <div class="amkCard">
+                  <div class="amkHead">الطرف الثاني يجاوب كأنه: <b id="amkOtherAs">…</b></div>
+                  <textarea class="amkArea" id="amkOther" placeholder="تظهر هنا إجابة الطرف الثاني بعد ما يحفظ..." readonly></textarea>
+                  <div class="hint" id="amkHintOther"></div>
+                </div>
+              </div>
 
-  <div class="statusLine" id="amkStatus">…</div>
-</div>
+              <div class="amkRow">
+                <button class="actionBtn" id="amkNew">🌹 سؤال جديد</button>
+              </div>
 
+              <div class="statusLine" id="amkStatus">…</div>
+            </div>
+          </div>
+        </section>
 
-        <div class="amkCard">
-          <div class="amkHead">الطرف الثاني يجاوب كأنه: <b id="amkOtherAs">…</b></div>
-          <textarea class="amkArea" id="amkOther" placeholder="تظهر هنا إجابة الطرف الثاني بعد ما يحفظ..." readonly></textarea>
-          <div class="hint" id="amkHintOther"></div>
-        </div>
-      </div>
-
-      <div class="amkRow">
-        <button class="actionBtn" id="amkNew">🌹 سؤال جديد</button>
-      </div>
-
-      <div class="statusLine" id="amkStatus">…</div>
-    </div>
-  </div>
-</section>
-
-
+        <!-- OPTION 3..9 -->
         <section class="page" id="pageOpt3">
           <div class="contentBox">
             <button class="backBtn backAny">🏠 رجوع للرئيسية</button>
@@ -777,8 +758,7 @@
     modal?.addEventListener("click", (e)=>{ if(e.target===modal) closeModalFn(); });
 
     /********************
-     * Packs (questions/challenges)
-     * + lana4 includes A-4,B-4,C-4 as requested
+     * Packs (questions/challenges) — لعبة 1 (بدون تغيير)
      ********************/
     const lana1_questions = [
       "متى حسّيت إنك مرتاح معي بدون ما تمثّل؟",
@@ -901,7 +881,7 @@
       "وش الحركة الصغيرة اللي تفرق معك كثير؟",
       "وش يخليك تطمئن للمستقبل بينا؟",
       "وش الشي اللي ودك نتفق عليه بوضوح؟",
-      "وش أكثر شي تحب في تواصلنا؟",
+      "وش أكثر شي تحب في طريقة تواصلنا؟",
       "وش يخليك تحس بالراحة وقت الصمت؟",
       "وش الشي اللي ودك أحميه لك؟",
       "وش أكثر شي يثبتك وقت القلق؟",
@@ -1075,34 +1055,35 @@
       return raw;
     }
 
-    unsubRoom = window.fb.onSnapshot(roomRef(), (snap)=>{
+    /********************
+     * Ensure Room (يعمل مرة ويضيف opt2 بدون ما يغير لعبة 1)
+     ********************/
+    async function ensureRoom(){
       try{
         await window.fb.setDoc(roomRef(), {
-  roomId: ROOM_ID,
-  currentPage: "pageHome",
-  currentMode: CURRENT_MODE,
-  promptText: "ابدأ ✨ اختر (سؤال / تحدي)",
-  promptType: "init",
-  lastBy: "system",
-  updatedAt: window.fb.serverTimestamp(),
+          roomId: ROOM_ID,
+          currentPage: "pageHome",
+          currentMode: CURRENT_MODE,
+          promptText: "ابدأ ✨ اختر (سؤال / تحدي)",
+          promptType: "init",
+          lastBy: "system",
+          updatedAt: window.fb.serverTimestamp(),
 
-  opt2: {
-    q: "",
-    anas: "",
-    lana: "",
-    readyAnas: false,
-    readyLana: false,
-    updatedBy: "system"
-  }
-
-}, { merge:true });
-
+          opt2: {
+            q: "",
+            anas: "",
+            lana: "",
+            readyAnas: false,
+            readyLana: false,
+            updatedBy: "system"
+          }
+        }, { merge:true });
       }catch(e){}
     }
 
     async function doLogin(){
       const email = normalizeToEmail(loginUser.value);
-      const pass = (loginPass.value||"").trim(); // ✅ تكتبون love123 يدويًا
+      const pass = (loginPass.value||"").trim();
       if(!email || !pass){
         setMsg("اكتب اسم المستخدم وكلمة المرور", "bad");
         return;
@@ -1125,55 +1106,7 @@
     /********************
      * Live sync: page + mode + prompt
      ********************/
-    let unsubRoom = null; 
-    /********************
- * Option 2: "أنا مكانك" (AMK)
- ********************/
-const amkQuestion = document.getElementById("amkQuestion");
-const amkMe = document.getElementById("amkMe");
-const amkOther = document.getElementById("amkOther");
-const amkSave = document.getElementById("amkSave");
-const amkNew = document.getElementById("amkNew");
-const amkStatus = document.getElementById("amkStatus");
-const amkMeAs = document.getElementById("amkMeAs");
-const amkOtherAs = document.getElementById("amkOtherAs");
-
-function amkMyKey(){ return (currentName === "ANAS") ? "anas" : "lana"; }
-function amkOtherKey(){ return (currentName === "ANAS") ? "lana" : "anas"; }
-
-function safeSetTextareaValue(el, nextValue){
-  // لا نكتب فوقك إذا أنت تكتب الآن
-  if(!el) return;
-  const isTyping = (document.activeElement === el);
-  if(isTyping) return;
-  const v = (typeof nextValue === "string") ? nextValue : "";
-  if(el.value !== v) el.value = v;
-}
-
- // ✅ زر حفظ: يكتب فقط إجابتك أنت (بدون ما يمسح الطرف الثاني)
-amkSave?.addEventListener("click", async ()=>{
-  const my = amkMyKey();
-  const txt = (amkMe?.value || "").trim();
-
-  if(!txt){
-    if(amkStatus) amkStatus.textContent = "اكتب إجابتك أولاً ✍️";
-    return;
-  }
-
-  if(amkStatus) amkStatus.textContent = "… جاري الحفظ";
-
-  await pushRoomUpdate({
-    opt2: {
-      [my]: txt,
-      // نخلي جاهزية كل شخص مستقلة
-      readyAnas: (my === "anas") ? true : undefined,
-      readyLana: (my === "lana") ? true : undefined,
-      updatedBy: currentName || "unknown"
-    }
-  });
-
-  if(amkStatus) amkStatus.textContent = "تم حفظ إجابتك ✅";
-});
+    let unsubRoom = null;
 
     async function pushRoomUpdate(payload){
       try{
@@ -1202,139 +1135,89 @@ amkSave?.addEventListener("click", async ()=>{
     }
 
     /********************
-     * OPTION 2: أنا مكانك (Live)
+     * Option 2: أنا مكانك (DOM)
      ********************/
-    const AMK_QUESTIONS = [
-      "لو كنت مكاني الآن.. وش أول شيء بتحسّه تجاهي؟",
-      "إذا أنت أنا، وش أكبر خوف بتخبيه وما تبي تقوله؟",
-      "وش الشي اللي أتوقعه منك غلط؟ (جاوب كأنك أنا)",
-      "لو أنت أنا.. كيف تفسّر لحظة بيننا ما تنساها؟",
-      "وش أكثر شيء يطمنك مني؟ (جاوب كأنك هي/هو)",
-      "إذا أنت أنا.. وش بتتمنى أغيره بطريقة حنونة؟",
-      "وش الشي اللي يسعدني منك بس ما أطلبه؟ (جاوب مكاني)",
-      "لو صار بيننا سوء فهم.. كيف بتصلحه لو كنت أنا؟",
-      "وش أجمل وصف ممكن تقوليه/تقوله عني بس بصيغة (أنا)؟"
-    ];
-    function amkPick(){ return AMK_QUESTIONS[Math.floor(Math.random()*AMK_QUESTIONS.length)]; }
-
-    const amkQuestionEl = document.getElementById("amkQuestion");
-    const amkMeAs = document.getElementById("amkMeAs");
-    const amkOtherAs = document.getElementById("amkOtherAs");
+    const amkQuestion = document.getElementById("amkQuestion");
     const amkMe = document.getElementById("amkMe");
     const amkOther = document.getElementById("amkOther");
     const amkSave = document.getElementById("amkSave");
-  
     const amkNew = document.getElementById("amkNew");
-    
-    
-   
     const amkStatus = document.getElementById("amkStatus");
+    const amkMeAs = document.getElementById("amkMeAs");
+    const amkOtherAs = document.getElementById("amkOtherAs");
     const amkHintMe = document.getElementById("amkHintMe");
     const amkHintOther = document.getElementById("amkHintOther");
 
-   let AMK = { q:"", anas:"", lana:"", readyAnas:false, readyLana:false };
-
-    function otherOf(name){
-      return (name === "ANAS") ? "LANA" : "ANAS";
+    const AMK_QUESTIONS = [
+      "لو كنت مكاني الآن… وش أكثر شيء تحتاجه مني اليوم؟",
+      "أنا مكانك… وش الشيء اللي يطمنك فورًا؟",
+      "أنا مكانك… وش الشيء اللي يوجعك وما تقوله؟",
+      "أنا مكانك… وش تتوقع إني أفكر فيه الحين؟",
+      "أنا مكانك… وش أمنية بسيطة تبغاني أحققها لك؟"
+    ];
+    function pickAmkQ(){
+      return AMK_QUESTIONS[Math.floor(Math.random()*AMK_QUESTIONS.length)];
     }
 
-    function applyAmkUI(){
-      if(!amkQuestionEl) return;
+    function myKey(){ return (currentName === "ANAS") ? "anas" : "lana"; }
+    function otherKey(){ return (currentName === "ANAS") ? "lana" : "anas"; }
+    function myReadyKey(){ return (currentName === "ANAS") ? "readyAnas" : "readyLana"; }
+    function otherReadyKey(){ return (currentName === "ANAS") ? "readyLana" : "readyAnas"; }
 
-      const me = currentName || "ANAS";
-      const other = otherOf(me);
-
-      amkMeAs.textContent = other;
-      amkOtherAs.textContent = me;
-
-      amkQuestionEl.textContent = AMK.q ? `❓ ${AMK.q}` : "❓ اضغط (سؤال جديد)";
-
-      const myText = (me === "ANAS") ? AMK.anas : AMK.lana;
-      const otherText = (me === "ANAS") ? AMK.lana : AMK.anas;
-
-      if(amkMe) amkMe.value = myText || "";
-      const bothReady = AMK.readyAnas && AMK.readyLana;
-
-if (amkOther){
-  amkOther.value = bothReady ? (otherText || "") : "";
-}
-if (amkOther){
-  amkOther.placeholder = bothReady
-    ? "إجابة الطرف الثاني (Live)"
-    : "لن تظهر إجابة الطرف الثاني إلا بعد ما الاثنين يحفظون ✅";
-}
-
-      if(amkHintMe) amkHintMe.textContent = "اكتب كأنك الطرف الثاني… بضميره ومشاعره.";
-      if(amkHintOther) amkHintOther.textContent = "هذه إجابة الطرف الثاني (Live).";
+    function safeSetTextareaValue(el, nextValue){
+      if(!el) return;
+      if(document.activeElement === el) return; // لا تكتب فوقي إذا أكتب
+      const v = (typeof nextValue === "string") ? nextValue : "";
+      if(el.value !== v) el.value = v;
     }
+
+    // حفظ إجابتي: تحديث جزئي (بدون ما يمسح الطرف الثاني)
+    amkSave?.addEventListener("click", async ()=>{
+      const txt = (amkMe?.value || "").trim();
+      if(!txt){
+        if(amkStatus) amkStatus.textContent = "اكتب إجابتك أولاً ✍️";
+        return;
+      }
+      if(amkStatus) amkStatus.textContent = "… جاري الحفظ";
+
+      if(currentName === "ANAS"){
+        await pushRoomUpdate({
+          "opt2.anas": txt,
+          "opt2.readyAnas": true,
+          "opt2.updatedBy": currentName || "unknown"
+        });
+      }else{
+        await pushRoomUpdate({
+          "opt2.lana": txt,
+          "opt2.readyLana": true,
+          "opt2.updatedBy": currentName || "unknown"
+        });
+      }
+
+      if(amkStatus) amkStatus.textContent = "تم حفظ إجابتك ✅";
+    });
+
+    // سؤال جديد: تصفير الاثنين
+    amkNew?.addEventListener("click", async ()=>{
+      await pushRoomUpdate({
+        "opt2.q": pickAmkQ(),
+        "opt2.anas": "",
+        "opt2.lana": "",
+        "opt2.readyAnas": false,
+        "opt2.readyLana": false,
+        "opt2.updatedBy": currentName || "unknown"
+      });
+      if(amkStatus) amkStatus.textContent = "سؤال جديد 🌹";
+    });
 
     /********************
      * Room listener
      ********************/
     function startRoomListener(){
       if(unsubRoom) return;
+
       unsubRoom = window.fb.onSnapshot(roomRef(), (snap)=>{
-        const data = snap.data() || {}; // ===== Sync Option 2 (أنا مكانك) =====
-const opt2 = (data.opt2 || {});
-if(amkMeAs && amkOtherAs && currentName){
-  amkMeAs.textContent = (currentName === "ANAS") ? "LANA" : "ANAS";
-  amkOtherAs.textContent = (currentName === "ANAS") ? "ANAS" : "LANA";
-}
-
-if(amkQuestion && typeof opt2.q === "string"){
-  amkQuestion.textContent = opt2.q || "اضغط (سؤال جديد) 🌹";
-}
-
-const my = (currentName === "ANAS") ? "anas" : "lana";
-const other = (currentName === "ANAS") ? "lana" : "anas";
-
-// ✅ لا نكتب فوق خانتك إذا أنت تكتب الآن
-safeSetTextareaValue(amkMe, opt2[my] || "");
-
-// ✅ خانة الطرف الثاني (readonly)
-if(amkOther){
-  const bothReady = !!opt2.readyAnas && !!opt2.readyLana;
-
-  if(bothReady){
-    amkOther.value = (opt2[other] || "");
-  }else{
-    amkOther.value = "🔒 لن تظهر إجابة الطرف الثاني حتى تحفظون أنتم الاثنين 💗";
-  }
-}
-
-if(amkStatus){
-  const by = opt2.updatedBy || data.lastBy || "—";
-  amkStatus.textContent = `Live ✅ | حفظ أنس: ${opt2.readyAnas ? "✅" : "—"} | حفظ لانا: ${opt2.readyLana ? "✅" : "—"} | آخر تحديث: ${by}`;
-} const AMK_QUESTIONS = [
-  "أنا مكانك… وش أكثر شيء تحتاجه مني اليوم؟",
-  "أنا مكانك… وش الشيء اللي يطمنك فورًا؟",
-  "أنا مكانك… وش الشيء اللي يوجعك وما تقوله؟",
-  "أنا مكانك… وش تتوقع إني أفكر فيه الحين؟",
-  "أنا مكانك… وش أمنية بسيطة تبغاني أحققها لك؟"
-];
-
-function pickAmkQ(){
-  return AMK_QUESTIONS[Math.floor(Math.random()*AMK_QUESTIONS.length)];
-}
-
-amkNew?.addEventListener("click", async ()=>{
-  await pushRoomUpdate({
-    opt2: {
-      q: pickAmkQ(),
-      anas: "",
-      lana: "",
-      readyAnas: false,
-      readyLana: false,
-      updatedBy: currentName || "unknown"
-    }
-  });
-
-  // تفريغ محلي سريع
-  if(amkMe) amkMe.value = "";
-  if(amkOther) amkOther.value = "🔒 لن تظهر إجابة الطرف الثاني حتى تحفظون أنتم الاثنين 💗";
-});
-
-
+        const data = snap.data() || {};
 
         // page sync
         if(data.currentPage){
@@ -1352,27 +1235,45 @@ amkNew?.addEventListener("click", async ()=>{
           promptCard.textContent = data.promptText;
         }
 
-        // opt2 sync
-        if(data.opt2){
-          AMK = {
-  q: data.opt2.q || "",
-  anas: data.opt2.anas || "",
-  lana: data.opt2.lana || "",
-  readyAnas: !!data.opt2.readyAnas,
-  readyLana: !!data.opt2.readyLana
-};
-
-          applyAmkUI();
-
-          if(amkStatus){
-            const by2 = data.lastBy || "—";
-            amkStatus.textContent = `متزامن ✅ | آخر تحديث: ${by2}`;
-          }
-        }
-
+        // status line for game 1
         const by = data.lastBy || "—";
         if(syncLine){
           syncLine.textContent = `متزامن ✅ | آخر تحديث: ${by} | المرحلة: ${CURRENT_MODE}`;
+        }
+
+        // ===== Option 2 sync =====
+        const opt2 = data.opt2 || {};
+
+        if(amkMeAs && amkOtherAs && currentName){
+          amkMeAs.textContent = (currentName === "ANAS") ? "LANA" : "ANAS";
+          amkOtherAs.textContent = (currentName === "ANAS") ? "ANAS" : "LANA";
+        }
+
+        if(amkHintMe) amkHintMe.textContent = "اكتب كأنك الطرف الثاني… بضميره ومشاعره.";
+        if(amkHintOther) amkHintOther.textContent = "تظهر بعد حفظ الاثنين ✅";
+
+        if(amkQuestion){
+          amkQuestion.textContent = (typeof opt2.q === "string" && opt2.q) ? `❓ ${opt2.q}` : "❓ اضغط (سؤال جديد) 🌹";
+        }
+
+        const mine = (opt2[myKey()] || "");
+        const other = (opt2[otherKey()] || "");
+
+        // لا نمسح كتابتي إذا أنا أكتب الآن
+        safeSetTextareaValue(amkMe, mine);
+
+        const bothReady = !!opt2[myReadyKey()] && !!opt2[otherReadyKey()];
+        if(amkOther){
+          if(bothReady){
+            amkOther.value = other || "—";
+          }else{
+            amkOther.value = "🔒 لن تظهر إجابة الطرف الثاني حتى تحفظون أنتم الاثنين 💗";
+          }
+        }
+
+        if(amkStatus){
+          const by2 = opt2.updatedBy || data.lastBy || "—";
+          amkStatus.textContent = `Live ✅ | حفظ أنس: ${opt2.readyAnas ? "✅" : "—"} | حفظ لانا: ${opt2.readyLana ? "✅" : "—"} | آخر تحديث: ${by2}`;
         }
       });
     }
@@ -1404,49 +1305,12 @@ amkNew?.addEventListener("click", async ()=>{
       });
     });
 
-
-  // ثبّت سؤال إذا فاضي (مرة وحدة)
-  const qToUse = AMK.q || amkPick();
-  if(!AMK.q){
-    await pushRoomUpdate({ "opt2.q": qToUse });
-  }
-
-  // تحديث جزئي بدون ما نطير بيانات الطرف الثاني
-  if(me === "ANAS"){
-    await pushRoomUpdate({
-      "opt2.anas": text,
-      "opt2.readyAnas": true
-    });
-  }else{
-    await pushRoomUpdate({
-      "opt2.lana": text,
-      "opt2.readyLana": true
-    });
-  }
-});
-
-
-
-
-    amkNew?.addEventListener("click", async ()=>{
-  await pushRoomUpdate({
-    opt2: {
-      q: amkPick(),
-      anas: "",
-      lana: "",
-      readyAnas: false,
-      readyLana: false
-    }
-  });
-});
-
     /********************
      * Start everything after Firebase ready
      ********************/
     (async ()=>{
       await waitForFb();
 
-      // auth state
       window.fb.onAuthStateChanged(window.fb.auth, async (user)=>{
         if(!user){
           currentName = null;
@@ -1470,7 +1334,6 @@ amkNew?.addEventListener("click", async ()=>{
         pushPage("pageHome");
       });
 
-      // keep room ensured on return
       window.addEventListener("visibilitychange", ()=>{
         if(document.visibilityState==="visible" && window.fb?.auth?.currentUser){
           ensureRoom();
@@ -1481,25 +1344,19 @@ amkNew?.addEventListener("click", async ()=>{
 
   <script>
     function updateLoveCounter(){
-      // تاريخ بداية الحب (24 / 11 / 2025)
-      const startDate = new Date(2025, 10, 24); // الشهر 10 = نوفمبر
+      const startDate = new Date(2025, 10, 24);
       const today = new Date();
-
-      // نحسب الفرق بالأيام
       const diffTime = today.getTime() - startDate.getTime();
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
       const counterEl = document.getElementById("loveCounter");
       if(counterEl){
         counterEl.textContent = `💗 ${diffDays} DAY`;
       }
     }
-
     updateLoveCounter();
     setInterval(updateLoveCounter, 1000 * 60 * 60);
   </script>
 
-  <!-- ✅ FIX: الخروج داخل Script (كان خطأ برا) -->
   <script>
     // 🔒 خروج تلقائي عند إغلاق الصفحة أو التبويب
     window.addEventListener("beforeunload", () => {
@@ -1513,5 +1370,3 @@ amkNew?.addEventListener("click", async ()=>{
 
 </body>
 </html>
-
-
