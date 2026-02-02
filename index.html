@@ -611,15 +611,9 @@
               </div>
 
               <div class="amkRow">
-                <button class="actionBtn" id="amkReveal">💗 إظهار المقارنة</button>
                 <button class="actionBtn" id="amkNew">🌹 سؤال جديد</button>
               </div>
 
-              <div class="amkCompare hide" id="amkCompare">
-                <div class="amkCompareCard">
-                  <div class="amkCmpTitle">أنا مكانك: <b id="amkCmpLeftTitle">…</b></div>
-                  <div class="amkCmpBody" id="amkCmpLeft">—</div>
-                </div>
                 <div class="amkCompareCard">
                   <div class="amkCmpTitle">أنت مكاني: <b id="amkCmpRightTitle">…</b></div>
                   <div class="amkCmpBody" id="amkCmpRight">—</div>
@@ -1105,11 +1099,13 @@
           promptType: "init",
 
           /* ===== OPT2: أنا مكانك ===== */
-          opt2: {
-            q: "",
-            anas: "",
-            lana: "",
-            reveal: false
+         opt2: {
+  q: "",
+  anas: "",
+  lana: "",
+  readyAnas: false,
+  readyLana: false
+
           },
 
           lastBy: "system",
@@ -1193,18 +1189,16 @@
     const amkMe = document.getElementById("amkMe");
     const amkOther = document.getElementById("amkOther");
     const amkSave = document.getElementById("amkSave");
-    const amkReveal = document.getElementById("amkReveal");
+  
     const amkNew = document.getElementById("amkNew");
-    const amkCompare = document.getElementById("amkCompare");
-    const amkCmpLeftTitle = document.getElementById("amkCmpLeftTitle");
-    const amkCmpRightTitle = document.getElementById("amkCmpRightTitle");
-    const amkCmpLeft = document.getElementById("amkCmpLeft");
-    const amkCmpRight = document.getElementById("amkCmpRight");
+    
+    
+   
     const amkStatus = document.getElementById("amkStatus");
     const amkHintMe = document.getElementById("amkHintMe");
     const amkHintOther = document.getElementById("amkHintOther");
 
-    let AMK = { q:"", anas:"", lana:"", reveal:false };
+   let AMK = { q:"", anas:"", lana:"", readyAnas:false, readyLana:false };
 
     function otherOf(name){
       return (name === "ANAS") ? "LANA" : "ANAS";
@@ -1225,17 +1219,16 @@
       const otherText = (me === "ANAS") ? AMK.lana : AMK.anas;
 
       if(amkMe) amkMe.value = myText || "";
-      if(amkOther) amkOther.value = otherText || "";
+      const bothReady = AMK.readyAnas && AMK.readyLana;
 
-      if(AMK.reveal){
-        amkCompare.classList.remove("hide");
-        amkCmpLeftTitle.textContent = other;
-        amkCmpRightTitle.textContent = me;
-        amkCmpLeft.textContent = myText || "—";
-        amkCmpRight.textContent = otherText || "—";
-      }else{
-        amkCompare.classList.add("hide");
-      }
+if (amkOther){
+  amkOther.value = bothReady ? (otherText || "") : "";
+}
+if (amkOther){
+  amkOther.placeholder = bothReady
+    ? "إجابة الطرف الثاني (Live)"
+    : "لن تظهر إجابة الطرف الثاني إلا بعد ما الاثنين يحفظون ✅";
+}
 
       if(amkHintMe) amkHintMe.textContent = "اكتب كأنك الطرف الثاني… بضميره ومشاعره.";
       if(amkHintOther) amkHintOther.textContent = "هذه إجابة الطرف الثاني (Live).";
@@ -1268,11 +1261,13 @@
         // opt2 sync
         if(data.opt2){
           AMK = {
-            q: data.opt2.q || "",
-            anas: data.opt2.anas || "",
-            lana: data.opt2.lana || "",
-            reveal: !!data.opt2.reveal
-          };
+  q: data.opt2.q || "",
+  anas: data.opt2.anas || "",
+  lana: data.opt2.lana || "",
+  readyAnas: !!data.opt2.readyAnas,
+  readyLana: !!data.opt2.readyLana
+};
+
           applyAmkUI();
 
           if(amkStatus){
@@ -1316,28 +1311,44 @@
     });
 
     // option 2 actions
-    amkSave?.addEventListener("click", async ()=>{
-      const me = currentName || "ANAS";
-      const text = (amkMe?.value || "").trim();
+  amkSave?.addEventListener("click", async ()=>{
+  const me = currentName || "ANAS";
+  const text = (amkMe?.value || "").trim();
 
-      const next = { ...AMK };
-      next.q = next.q || amkPick();
+  // ثبّت سؤال إذا فاضي (مرة وحدة)
+  const qToUse = AMK.q || amkPick();
+  if(!AMK.q){
+    await pushRoomUpdate({ "opt2.q": qToUse });
+  }
 
-      if(me === "ANAS") next.anas = text;
-      else next.lana = text;
-
-      await pushRoomUpdate({ opt2: next });
+  // تحديث جزئي بدون ما نطير بيانات الطرف الثاني
+  if(me === "ANAS"){
+    await pushRoomUpdate({
+      "opt2.anas": text,
+      "opt2.readyAnas": true
     });
-
-    amkReveal?.addEventListener("click", async ()=>{
-      await pushRoomUpdate({ opt2: { ...AMK, reveal: true } });
+  }else{
+    await pushRoomUpdate({
+      "opt2.lana": text,
+      "opt2.readyLana": true
     });
+  }
+});
+
+
+
 
     amkNew?.addEventListener("click", async ()=>{
-      await pushRoomUpdate({
-        opt2: { q: amkPick(), anas: "", lana: "", reveal: false }
-      });
-    });
+  await pushRoomUpdate({
+    opt2: {
+      q: amkPick(),
+      anas: "",
+      lana: "",
+      readyAnas: false,
+      readyLana: false
+    }
+  });
+});
 
     /********************
      * Start everything after Firebase ready
@@ -1412,3 +1423,4 @@
 
 </body>
 </html>
+
