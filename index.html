@@ -1233,7 +1233,6 @@
             <div class="promptCard" style="font-size:20px">🧩 بزل — قسمين (Live): مشترك + تحدّي</div>
 
             <div class="puzWrap">
-              <!-- ✅ NEW: Tabs like stages/sections -->
               <div class="puzTabs">
                 <div class="seg" aria-label="أقسام البزل">
                   <button class="segBtn" id="puzTabCoop">🤝 مشترك (100)</button>
@@ -1250,12 +1249,12 @@
               <div class="puzTopRow">
                 <button class="actionBtn" id="puzSwapBtn">🔁 تبديل الأدوار (Live)</button>
                 <button class="actionBtn" id="puzResetBtn">🧹 تصفير المرحلة</button>
-                <button class="actionBtn" id="puzNextBtn" disabled>➡️ التالي</button>
+                <!-- ✅ الجديد: التالي صار زر جاهزية (لا ينقلكم إلا بعد تأكيد الاثنين) -->
+                <button class="actionBtn" id="puzNextBtn" disabled>✅ أنا جاهز للتالي</button>
               </div>
 
               <div class="puzCard">
                 <div class="puzLayout">
-                  <!-- Viewer Panel -->
                   <div class="puzPanel" id="puzViewerPanel">
                     <div class="puzPanelTitle">
                       <span>👁️ الصورة الكاملة</span>
@@ -1266,7 +1265,6 @@
                       <div class="puzImageGlow"></div>
                     </div>
 
-                    <!-- ✅ NEW: helper window to see other side -->
                     <div class="puzMiniBoardWrap" id="puzMiniBoardWrap">
                       <div class="puzMiniBoardTitle">
                         <span>🪟 نافذة لمتابعة تركيب الطرف الثاني (Live)</span>
@@ -1279,7 +1277,6 @@
                     <div class="hint" id="puzViewerHint">هذا القسم يظهر للشخص “المشاهد” فقط في وضع التحدّي.</div>
                   </div>
 
-                  <!-- Assembler Panel -->
                   <div class="puzPanel" id="puzAssemblerPanel">
                     <div class="puzPanelTitle">
                       <span>🧩 التركيب</span>
@@ -1302,7 +1299,7 @@
               <div class="hint">
                 ✅ قسم <b>مشترك</b>: الاثنين يركّبون سوا (بدون أدوار)<br/>
                 🔥 قسم <b>تحدّي</b>: واحد يشوف كامل والثاني يركّب — وتقدرون تبدلون الأدوار<br/>
-                ⛔ بدون مؤقت
+                🔒 زر “التالي” لازم تأكيد الاثنين (جاهز) عشان ينتقل
               </div>
             </div>
           </div>
@@ -1876,7 +1873,7 @@
             updatedBy: "system"
           },
 
-          /* ✅ UPDATED: OPTION 4 puzzle state (section + 100/100) */
+          /* ✅ UPDATED: OPTION 4 puzzle state (section + 100/100 + gate for next) */
           opt4puz: {
             section: "challenge",     // "coop" | "challenge"
             stage: 1,                 // 1..100 داخل القسم
@@ -1887,6 +1884,14 @@
             sel: -1,
             solved: false,
             roles: { viewer: "ANAS", assembler: "LANA" },
+
+            // ✅ NEW: next gate (لازم الاثنين)
+            nextReadyAnas: false,
+            nextReadyLana: false,
+            gateStage: 1,
+            gateDone: false,
+            cheer: "",
+
             updatedBy: "system"
           }
         }, { merge:true });
@@ -2304,7 +2309,7 @@
     }
 
     /********************
-     * ✅ OPTION 4: PUZZLE (2 sections, 100 each)
+     * ✅ OPTION 4: PUZZLE (2 sections, 100 each + Gate Next)
      ********************/
     const puzStageBadge = document.getElementById("puzStageBadge");
     const puzRoleBadge  = document.getElementById("puzRoleBadge");
@@ -2330,12 +2335,7 @@
     const puzMiniBoardWrap = document.getElementById("puzMiniBoardWrap");
     const puzViewerHint = document.getElementById("puzViewerHint");
 
-    const PUZ_PER_SECTION = 100; // ✅ 100 + 100
-
-    const PUZ_CUSTOM_IMAGES = [
-      // إجمالي 200 رابط (أول 100 للمشترك، ثاني 100 للتحدّي) إذا تبغى
-      // "https://.../1.jpg",
-    ];
+    const PUZ_PER_SECTION = 100;
 
     function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
 
@@ -2345,47 +2345,19 @@
       return 5;
     }
 
-    function puzCategory(globalStage){
-      const cats = ["Cities","Animals","Hearts","Food"];
-      return cats[(globalStage-1) % cats.length];
-    }
+    // ✅ 200 صورة تلقائية متنوعة (100 مشترك + 100 تحدي) + Batman + Hello Kitty
+    const PUZ_KEYWORDS_POOL = [
+      "cute animal","cat","dog","horse","lion","tiger","panda","fox","bear","elephant",
+      "paris","tokyo","new york city","london","dubai skyline","rome","istanbul","maldives","saudi arabia",
+      "mountains","waterfall","forest","ocean","sunset","night sky","galaxy","nebula","space",
+      "coffee","dessert","strawberry","chocolate","pizza","sushi","flowers","roses","hearts",
+      "supercar","classic car","motorcycle","architecture","art","abstract",
+      "batman","hello kitty"
+    ];
 
-    function svgToDataUrl(svg){
-      return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
-    }
-
-    function puzPlaceholderImage(globalStage){
-      const cat = puzCategory(globalStage);
-      const icon = (cat==="Cities") ? "🏙️" : (cat==="Animals") ? "🐾" : (cat==="Hearts") ? "💗" : "🍓";
-      const hue = (globalStage * 17) % 360;
-      const svg = `
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="hsl(${hue},80%,18%)"/>
-      <stop offset="1" stop-color="hsl(${(hue+55)%360},80%,22%)"/>
-    </linearGradient>
-    <radialGradient id="r" cx="30%" cy="25%" r="70%">
-      <stop offset="0" stop-color="rgba(255,255,255,.18)"/>
-      <stop offset="1" stop-color="rgba(255,255,255,0)"/>
-    </radialGradient>
-    <pattern id="p" width="70" height="70" patternUnits="userSpaceOnUse">
-      <path d="M0 70 L70 0" stroke="rgba(255,255,255,.10)" stroke-width="2"/>
-      <path d="M-10 35 L35 -10" stroke="rgba(255,255,255,.08)" stroke-width="2"/>
-      <path d="M35 80 L80 35" stroke="rgba(255,255,255,.08)" stroke-width="2"/>
-    </pattern>
-  </defs>
-  <rect width="900" height="900" fill="url(#g)"/>
-  <rect width="900" height="900" fill="url(#p)" opacity="0.85"/>
-  <rect width="900" height="900" fill="url(#r)"/>
-  <circle cx="710" cy="720" r="240" fill="rgba(255,255,255,.06)"/>
-  <circle cx="220" cy="220" r="190" fill="rgba(255,255,255,.05)"/>
-  <text x="450" y="430" text-anchor="middle" font-family="system-ui,Segoe UI,Arial" font-size="110" font-weight="900" fill="rgba(255,255,255,.90)">Stage ${globalStage}</text>
-  <text x="450" y="520" text-anchor="middle" font-family="system-ui,Segoe UI,Arial" font-size="48" font-weight="800" fill="rgba(255,255,255,.75)">${cat} ${icon}</text>
-  <text x="450" y="610" text-anchor="middle" font-family="system-ui,Segoe UI,Arial" font-size="34" font-weight="700" fill="rgba(255,255,255,.55)">LANA ❤️ ANAS</text>
-</svg>`;
-      return svgToDataUrl(svg);
-    }
+    // مواقع نثبت فيها Batman/Hello Kitty ضمن الـ 200
+    const SPECIAL_BATMAN_GLOBAL = new Set([9, 50, 120, 180]);     // أمثلة
+    const SPECIAL_KITTY_GLOBAL  = new Set([18, 70, 160, 199]);    // أمثلة
 
     function puzGlobalStage(section, stage){
       const s = clamp(parseInt(stage||1,10), 1, PUZ_PER_SECTION);
@@ -2393,12 +2365,27 @@
       return base + s; // 1..200
     }
 
+    function buildUnsplashUrl(keyword, sig){
+      // Unsplash Source (يتغير تلقائيًا + متنوع)
+      const q = encodeURIComponent(keyword);
+      return `https://source.unsplash.com/900x900/?${q}&sig=${sig}`;
+    }
+
+    function puzPickKeyword(globalStage){
+      // تنويع أكثر حسب رقم المرحلة
+      const idx = (globalStage * 7) % PUZ_KEYWORDS_POOL.length;
+      return PUZ_KEYWORDS_POOL[idx];
+    }
+
     function puzGetImage(section, stage){
       const g = puzGlobalStage(section, stage);
-      const idx = g - 1;
-      const url = PUZ_CUSTOM_IMAGES[idx];
-      if(url && typeof url === "string" && url.trim()) return url.trim();
-      return puzPlaceholderImage(g);
+
+      // ✅ ضمنهم Batman و Hello Kitty
+      if(SPECIAL_BATMAN_GLOBAL.has(g)) return buildUnsplashUrl("batman", g);
+      if(SPECIAL_KITTY_GLOBAL.has(g))  return buildUnsplashUrl("hello kitty", g);
+
+      const keyword = puzPickKeyword(g);
+      return buildUnsplashUrl(keyword, g);
     }
 
     function makeShuffle(n){
@@ -2444,13 +2431,13 @@
     }
 
     function canAssembleNow(section, roles){
-      if(section === "coop") return true; // ✅ الاثنين يقدرون
+      if(section === "coop") return true;
       const r = roles || {viewer:"ANAS", assembler:"LANA"};
       return (currentName === (r.assembler || "LANA"));
     }
 
     function isViewerNow(section, roles){
-      if(section === "coop") return false; // في المشترك ما نقيّد عرض المشاهد
+      if(section === "coop") return false;
       const r = roles || {viewer:"ANAS", assembler:"LANA"};
       return (currentName === (r.viewer || "ANAS"));
     }
@@ -2460,13 +2447,12 @@
         if(puzRoleBadge) puzRoleBadge.textContent = `الدور: 🤝 الاثنين يركّبون سوا`;
         if(puzViewerPanel) puzViewerPanel.style.display = "block";
         if(puzAssemblerPanel) puzAssemblerPanel.style.display = "block";
-        if(puzSwapBtn) puzSwapBtn.style.display = "none"; // لا أدوار
+        if(puzSwapBtn) puzSwapBtn.style.display = "none";
         if(puzMiniBoardWrap) puzMiniBoardWrap.style.display = "none";
         if(puzViewerHint) puzViewerHint.textContent = "في المشترك: الاثنين يركّبون سوا ✅";
         return;
       }
 
-      // challenge
       if(puzSwapBtn) puzSwapBtn.style.display = "inline-flex";
       const v = roles?.viewer || "—";
       const a = roles?.assembler || "—";
@@ -2479,15 +2465,28 @@
       if(puzViewerHint) puzViewerHint.textContent = "هذا القسم يظهر للشخص “المشاهد” فقط في وضع التحدّي.";
     }
 
+    // ✅ عبارات تشجيع بعد الانتقال
+    const PUZ_CHEERS = [
+      "يا سلام عليكم… فريق واحد وقلب واحد 💗",
+      "كل مرحلة تخلّصونها تثبت إنكم أقوى سوا 🤍",
+      "أنتم ماشيين صح… كملوا بنفس الروح 🌹",
+      "أنا فخور فيكم… كذا الحب يكون 🫶",
+      "قربكم يكبر حتى وأنتم بعيدين ❤️",
+      "برافو! اللي بينكم يلمع مع كل مرحلة ✨",
+      "هذا عالمكم… وما فيه شي يوقفكم 💞",
+      "يا حلو تعاونكم… يكسر أي صعوبة 🧩"
+    ];
+    function pickCheer(stageGlobal){
+      return PUZ_CHEERS[(stageGlobal * 3) % PUZ_CHEERS.length];
+    }
+
     async function puzEnsureStageFields(opt4puz){
       const section = (opt4puz?.section === "coop") ? "coop" : "challenge";
       const stage = clamp(parseInt(opt4puz?.stage||1,10), 1, PUZ_PER_SECTION);
       const grid = puzGridForStage(stage);
       const n = grid*grid;
 
-      const img = (opt4puz?.img && typeof opt4puz.img==="string" && opt4puz.img.trim())
-        ? opt4puz.img.trim()
-        : puzGetImage(section, stage);
+      const img = puzGetImage(section, stage);
 
       let shuffle = Array.isArray(opt4puz?.shuffle) ? opt4puz.shuffle.slice(0) : [];
       if(shuffle.length !== n){
@@ -2498,7 +2497,8 @@
         (opt4puz?.section !== section) ||
         (opt4puz?.grid !== grid) ||
         (opt4puz?.img !== img) ||
-        (!Array.isArray(opt4puz?.shuffle) || opt4puz.shuffle.length !== n);
+        (!Array.isArray(opt4puz?.shuffle) || opt4puz.shuffle.length !== n) ||
+        (parseInt(opt4puz?.gateStage||0,10) !== stage);
 
       if(needUpdate){
         await pushRoomUpdate({
@@ -2506,6 +2506,13 @@
           "opt4puz.grid": grid,
           "opt4puz.img": img,
           "opt4puz.shuffle": shuffle,
+
+          // ✅ reset gate on stage align
+          "opt4puz.nextReadyAnas": false,
+          "opt4puz.nextReadyLana": false,
+          "opt4puz.gateStage": stage,
+          "opt4puz.gateDone": false,
+
           "opt4puz.updatedBy": currentName || "unknown"
         });
       }
@@ -2544,6 +2551,103 @@
       }
     }
 
+    // ✅ زر "التالي" صار "جاهز للتالي" (لازم الاثنين)
+    async function puzToggleReady(){
+      const section = window.__puzSectionCache || "challenge";
+      const stage = clamp(parseInt(window.__puzStageCache||1,10), 1, PUZ_PER_SECTION);
+      const solvedNow = !!window.__puzSolvedCache;
+      if(!solvedNow) return;
+
+      const gStage = parseInt(window.__puzGateStageCache||stage,10);
+      if(gStage !== stage){
+        await pushRoomUpdate({
+          "opt4puz.gateStage": stage,
+          "opt4puz.nextReadyAnas": false,
+          "opt4puz.nextReadyLana": false,
+          "opt4puz.gateDone": false,
+          "opt4puz.updatedBy": currentName || "unknown"
+        });
+      }
+
+      const isAnas = (currentName === "ANAS");
+      const curA = !!window.__puzNextReadyAnasCache;
+      const curL = !!window.__puzNextReadyLanaCache;
+
+      const nextA = isAnas ? !curA : curA;
+      const nextL = isAnas ? curL : !curL;
+
+      await pushRoomUpdate({
+        "opt4puz.nextReadyAnas": nextA,
+        "opt4puz.nextReadyLana": nextL,
+        "opt4puz.updatedBy": currentName || "unknown"
+      });
+    }
+
+    // ✅ تنفيذ الانتقال تلقائيًا بعد ما الاثنين يصيرون جاهزين
+    let __puzGateTimer = null;
+    async function puzAutoAdvanceIfReady(opt4puz){
+      if(!currentName) return;
+      const section = (opt4puz?.section === "coop") ? "coop" : "challenge";
+      const stageNow = clamp(parseInt(opt4puz?.stage||1,10), 1, PUZ_PER_SECTION);
+      const solvedNow = !!opt4puz?.solved;
+
+      const gateStage = clamp(parseInt(opt4puz?.gateStage||stageNow,10), 1, PUZ_PER_SECTION);
+      const gateDone = !!opt4puz?.gateDone;
+      const readyA = !!opt4puz?.nextReadyAnas;
+      const readyL = !!opt4puz?.nextReadyLana;
+
+      if(!solvedNow) return;
+      if(gateDone) return;
+      if(gateStage !== stageNow) return;
+      if(!(readyA && readyL)) return;
+
+      // ✅ قائد الانتقال: ANAS فقط (عشان ما يصير double advance)
+      if(currentName !== "ANAS") return;
+      if(__puzGateTimer) return;
+
+      __puzGateTimer = setTimeout(async ()=>{
+        __puzGateTimer = null;
+
+        if(stageNow >= PUZ_PER_SECTION){
+          const cheer = pickCheer(puzGlobalStage(section, stageNow));
+          await pushRoomUpdate({
+            "opt4puz.cheer": `🎉 خلصتوا قسم ${section==="coop" ? "مشترك" : "تحدّي"} بالكامل!\n${cheer}`,
+            "opt4puz.gateDone": true,
+            "opt4puz.updatedBy": currentName || "unknown"
+          });
+          return;
+        }
+
+        const nextStage = stageNow + 1;
+        const grid = puzGridForStage(nextStage);
+        const n = grid*grid;
+        const img = puzGetImage(section, nextStage);
+        const shuffle = makeShuffle(n);
+        const cheer = pickCheer(puzGlobalStage(section, nextStage));
+
+        await pushRoomUpdate({
+          "opt4puz.stage": nextStage,
+          "opt4puz.grid": grid,
+          "opt4puz.img": img,
+          "opt4puz.shuffle": shuffle,
+          "opt4puz.placed": {},
+          "opt4puz.sel": -1,
+          "opt4puz.solved": false,
+
+          // reset gate
+          "opt4puz.nextReadyAnas": false,
+          "opt4puz.nextReadyLana": false,
+          "opt4puz.gateStage": nextStage,
+          "opt4puz.gateDone": true,
+
+          // cheer message
+          "opt4puz.cheer": cheer,
+
+          "opt4puz.updatedBy": currentName || "unknown"
+        });
+      }, 350);
+    }
+
     function puzApplyUI(opt4puz){
       const section = (opt4puz?.section === "coop") ? "coop" : "challenge";
       const stage = clamp(parseInt(opt4puz?.stage||1,10), 1, PUZ_PER_SECTION);
@@ -2556,15 +2660,15 @@
       const roles = opt4puz?.roles || {viewer:"ANAS", assembler:"LANA"};
       puzSetRoleUI(section, roles);
 
-      const img = (opt4puz?.img && typeof opt4puz.img==="string" && opt4puz.img.trim())
-        ? opt4puz.img.trim()
-        : puzGetImage(section, stage);
-
+      const img = puzGetImage(section, stage);
       if(puzFullImg) puzFullImg.src = img;
 
       const placed = opt4puz?.placed || {};
       const sel = parseInt(opt4puz?.sel ?? -1, 10);
       const solved = !!opt4puz?.solved;
+
+      const readyA = !!opt4puz?.nextReadyAnas;
+      const readyL = !!opt4puz?.nextReadyLana;
 
       if(puzViewerMini){
         const g = puzGlobalStage(section, stage);
@@ -2574,7 +2678,6 @@
         puzAssemblerMini.textContent = `اختيار: ${sel >= 0 ? (sel+1) : "—"} • قطع: ${n}`;
       }
 
-      // ✅ viewer mini window
       renderMiniBoard(section, grid, img, placed);
 
       // Board
@@ -2593,7 +2696,6 @@
             slot.appendChild(piece);
 
             slot.addEventListener("click", async ()=>{
-              // ✅ في المشترك الاثنين يقدرون، في التحدي فقط assembler
               const rolesNow = window.__puzRolesCache || roles;
               const sectionNow = window.__puzSectionCache || section;
               if(!canAssembleNow(sectionNow, rolesNow)) return;
@@ -2604,6 +2706,13 @@
                 "opt4puz.placed": nextPlaced,
                 "opt4puz.sel": -1,
                 "opt4puz.solved": false,
+
+                // ✅ reset gate if you change puzzle
+                "opt4puz.nextReadyAnas": false,
+                "opt4puz.nextReadyLana": false,
+                "opt4puz.gateStage": stage,
+                "opt4puz.gateDone": false,
+
                 "opt4puz.updatedBy": currentName || "unknown"
               });
             });
@@ -2628,6 +2737,13 @@
                 "opt4puz.placed": nextPlaced,
                 "opt4puz.sel": -1,
                 "opt4puz.solved": done,
+
+                // ✅ gate resets until both press ready
+                "opt4puz.nextReadyAnas": false,
+                "opt4puz.nextReadyLana": false,
+                "opt4puz.gateStage": stage,
+                "opt4puz.gateDone": false,
+
                 "opt4puz.updatedBy": currentName || "unknown"
               });
             });
@@ -2680,19 +2796,39 @@
       const placedCount = objKeysLen(placed);
       const remain = Math.max(0, n - placedCount);
 
-      if(puzStatus){
-        const by = opt4puz?.updatedBy || "—";
-        puzStatus.textContent =
-          `Live ✅ | آخر تحديث: ${by}\nقسم: ${section==="coop" ? "مشترك" : "تحدّي"} | شبكة: ${grid}x${grid} | باقي: ${remain} قطعة`;
-      }
-
       if(puzSuccess){
         puzSuccess.classList.toggle("show", solved);
+        if(solved){
+          const cheer = (typeof opt4puz?.cheer === "string" && opt4puz.cheer.trim()) ? opt4puz.cheer.trim() : "";
+          puzSuccess.textContent = cheer
+            ? `✅ برافو! خلصتوا المرحلة 💗\n${cheer}`
+            : `✅ برافو! خلصتوا المرحلة 💗`;
+        }else{
+          puzSuccess.textContent = "✅ برافو! خلصتوا المرحلة 💗";
+        }
       }
 
-      // ✅ Fix: next enabled only when solved (for both)
+      // ✅ زر جاهزية: يتفعّل فقط إذا solved
       if(puzNextBtn){
+        const myReady = (currentName === "ANAS") ? readyA : readyL;
+
         puzNextBtn.disabled = !solved;
+        puzNextBtn.textContent = !solved
+          ? "✅ أنا جاهز للتالي"
+          : (myReady ? "✅ جاهز (تم) — انتظر الطرف الثاني" : "✅ أنا جاهز للتالي");
+
+        // لون بسيط بالحالة (بدون تغيير css أساسي)
+        puzNextBtn.style.opacity = (!solved ? 0.6 : 1);
+      }
+
+      if(puzStatus){
+        const by = opt4puz?.updatedBy || "—";
+        const gateLine = solved
+          ? `جاهزية أنس: ${readyA ? "✅" : "—"} | جاهزية لانا: ${readyL ? "✅" : "—"}`
+          : `ركّبوا الصورة أولاً ثم يفتح زر الجاهزية`;
+
+        puzStatus.textContent =
+          `Live ✅ | آخر تحديث: ${by}\nقسم: ${section==="coop" ? "مشترك" : "تحدّي"} | شبكة: ${grid}x${grid} | باقي: ${remain} قطعة\n${gateLine}`;
       }
     }
 
@@ -2714,13 +2850,21 @@
         "opt4puz.placed": {},
         "opt4puz.sel": -1,
         "opt4puz.solved": false,
+
+        // reset gate
+        "opt4puz.nextReadyAnas": false,
+        "opt4puz.nextReadyLana": false,
+        "opt4puz.gateStage": stage,
+        "opt4puz.gateDone": false,
+        "opt4puz.cheer": "",
+
         "opt4puz.updatedBy": currentName || "unknown"
       });
     }
 
     async function puzSwapRoles(){
       const section = window.__puzSectionCache || "challenge";
-      if(section === "coop") return; // no roles
+      if(section === "coop") return;
 
       const roles = window.__puzRolesCache || {viewer:"ANAS", assembler:"LANA"};
       const nextRoles = { viewer: roles.assembler || "LANA", assembler: roles.viewer || "ANAS" };
@@ -2747,45 +2891,14 @@
         "opt4puz.placed": {},
         "opt4puz.sel": -1,
         "opt4puz.solved": false,
-        "opt4puz.updatedBy": currentName || "unknown"
-      });
-    }
 
-    async function puzNextStage(){
-      const section = window.__puzSectionCache || "challenge";
-      const stageNow = clamp(parseInt(window.__puzStageCache||1,10), 1, PUZ_PER_SECTION);
+        // reset gate
+        "opt4puz.nextReadyAnas": false,
+        "opt4puz.nextReadyLana": false,
+        "opt4puz.gateStage": stage,
+        "opt4puz.gateDone": false,
+        "opt4puz.cheer": "",
 
-      const solvedNow = !!window.__puzSolvedCache;
-      if(!solvedNow){
-        await pushRoomUpdate({
-          "opt4puz.updatedBy": currentName || "unknown"
-        });
-        return;
-      }
-
-      if(stageNow >= PUZ_PER_SECTION){
-        await pushRoomUpdate({
-          "opt4puz.solved": true,
-          "opt4puz.updatedBy": currentName || "unknown"
-        });
-        return;
-      }
-
-      const nextStage = stageNow + 1;
-      const grid = puzGridForStage(nextStage);
-      const n = grid*grid;
-
-      const img = puzGetImage(section, nextStage);
-      const shuffle = makeShuffle(n);
-
-      await pushRoomUpdate({
-        "opt4puz.stage": nextStage,
-        "opt4puz.grid": grid,
-        "opt4puz.img": img,
-        "opt4puz.shuffle": shuffle,
-        "opt4puz.placed": {},
-        "opt4puz.sel": -1,
-        "opt4puz.solved": false,
         "opt4puz.updatedBy": currentName || "unknown"
       });
     }
@@ -2794,7 +2907,7 @@
     puzTabChallenge?.addEventListener("click", ()=> puzSwitchSection("challenge"));
     puzSwapBtn?.addEventListener("click", puzSwapRoles);
     puzResetBtn?.addEventListener("click", puzResetStage);
-    puzNextBtn?.addEventListener("click", puzNextStage);
+    puzNextBtn?.addEventListener("click", puzToggleReady);
 
     /********************
      * Room listener
@@ -2884,11 +2997,16 @@
         window.__puzRolesCache = opt4puz.roles || {viewer:"ANAS", assembler:"LANA"};
         window.__puzSolvedCache = !!opt4puz.solved;
 
+        window.__puzNextReadyAnasCache = !!opt4puz.nextReadyAnas;
+        window.__puzNextReadyLanaCache = !!opt4puz.nextReadyLana;
+        window.__puzGateStageCache = parseInt(opt4puz.gateStage||puzStage,10);
+
         if((data.currentPage === "pageOpt4") && currentName){
           puzEnsureStageFields(opt4puz);
         }
 
         puzApplyUI(opt4puz);
+        puzAutoAdvanceIfReady(opt4puz);
       });
     }
 
