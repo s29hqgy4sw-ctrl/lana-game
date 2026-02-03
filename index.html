@@ -53,7 +53,6 @@
       transition: background .35s ease;
     }
 
-    /* subtle blur overlay */
     .vignette{
       position:fixed; inset:0;
       pointer-events:none;
@@ -62,7 +61,6 @@
       mix-blend-mode: screen;
     }
 
-    /* hearts rain (default) */
     .hearts{
       position:fixed; inset:-20vh 0 0 0;
       pointer-events:none;
@@ -84,7 +82,6 @@
       to{ transform: translateY(130vh) rotate(25deg); }
     }
 
-    /* ===== OPTION 3 SEA + RAIN THEME (بدون تغيير أماكن المربعات) ===== */
     body.seaTheme{
       background:
         radial-gradient(1100px 700px at 20% 10%, var(--seaGlow), transparent 60%),
@@ -123,7 +120,6 @@
       to{ transform: translateY(140vh) translateX(6vw); }
     }
 
-    /* ✅ NEW: Emoji rain for Option 3 (🐟❤️❓) */
     .seaEmojis{
       position:fixed; inset:-22vh 0 0 0;
       pointer-events:none;
@@ -151,7 +147,6 @@
       to{ transform: translateY(140vh) translateX(8vw) rotate(25deg); }
     }
 
-    /* waves overlay (visual only) */
     .waves{
       position:fixed; left:0; right:0; bottom:-12vh; height:40vh;
       pointer-events:none;
@@ -178,7 +173,6 @@
       opacity:1;
     }
 
-    /* ✅ PUZZLE THEME (Option 4) */
     body.puzzleTheme{
       background:
         radial-gradient(950px 620px at 15% 10%, var(--puzGlow), transparent 62%),
@@ -221,7 +215,6 @@
       transform: rotate(15deg);
       box-shadow: 0 10px 25px rgba(0,0,0,.20);
     }
-    /* “نتوء” بسيط يعطي إحساس قطعة بزل */
     .puzDrop::after{
       content:"";
       position:absolute;
@@ -237,7 +230,6 @@
       to{ transform: translateY(145vh) translateX(8vw) rotate(120deg); }
     }
 
-    /* layout */
     .wrap{
       position:relative;
       height:100%;
@@ -284,7 +276,6 @@
       margin:18px 0;
     }
 
-    /* login panel */
     .loginPanel{
       width:min(700px, 92vw);
       margin:0 auto;
@@ -338,7 +329,6 @@
     .msg.bad{ color: rgba(239,68,68,.95); }
     .msg.ok{ color: rgba(34,197,94,.95); }
 
-    /* top bar */
     .topbar{
       display:flex;
       align-items:center;
@@ -390,11 +380,9 @@
       font-weight:800;
     }
 
-    /* pages */
     .page{ display:none; }
     .page.active{ display:block; }
 
-    /* home content */
     .homeBox{
       padding:22px 22px 26px;
       text-align:center;
@@ -436,7 +424,6 @@
       font-size: 12px;
     }
 
-    /* modal menu */
     .modal{
       position:fixed; inset:0;
       display:none;
@@ -506,7 +493,6 @@
     .opt:hover{ transform: translateY(-1px); background: rgba(255,255,255,.09); }
     .opt small{ font-weight:800; color:rgba(255,255,255,.65); }
 
-    /* generic content box (for future games) */
     .contentBox{
       padding:18px 18px 24px;
     }
@@ -530,7 +516,6 @@
       text-align:center;
     }
 
-    /* game page */
     .gameBox{ padding:18px 18px 24px; }
     .gameTop{
       display:flex;
@@ -576,7 +561,7 @@
       text-align:center;
     }
 
-    /* ===== OPTION 2: "أنا مكانك" ===== */
+    /* ===== OPTION 2 ===== */
     .amkWrap{ margin-top:12px; }
     .amkQ{
       margin:12px 0 0;
@@ -632,7 +617,7 @@
     }
     .amkRow .actionBtn{ flex:1 1 180px; }
 
-    /* ===== OPTION 3: احنا أقوى من السمكة ===== */
+    /* ===== OPTION 3 ===== */
     .fishWrap{ margin-top:12px; }
     .fishTopRow{
       display:flex;
@@ -720,6 +705,7 @@
       opacity:.55;
       cursor:not-allowed;
       transform:none !important;
+      pointer-events:none;
     }
 
     .fishResult{
@@ -774,7 +760,7 @@
 
     .hide{ display:none !important; }
 
-    /* ✅ OPTION 4: PUZZLE (Mobile-first) */
+    /* ✅ OPTION 4: PUZZLE */
     .puzWrap{ margin-top:12px; }
     .puzTopRow{
       display:flex;
@@ -841,7 +827,6 @@
       font-weight:800;
     }
 
-    /* phone-friendly image box */
     .puzImageBox{
       width:100%;
       aspect-ratio: 1 / 1;
@@ -870,7 +855,6 @@
       opacity:.9;
     }
 
-    /* board */
     .puzBoard{
       width:100%;
       aspect-ratio: 1 / 1;
@@ -903,7 +887,6 @@
       background: rgba(255,255,255,.06);
     }
 
-    /* piece visual (no canvas slicing: background-position trick) */
     .puzPiece{
       width:100%;
       height:100%;
@@ -981,17 +964,96 @@
       display:none;
     }
     .puzSuccess.show{ display:block; }
+
+    /* ✅ NEW: Section tabs (مشترك/تحدي) */
+    .puzTabs{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      margin-top:10px;
+    }
+    .seg{
+      display:flex;
+      gap:6px;
+      padding:6px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+    }
+    .segBtn{
+      padding:10px 14px;
+      border-radius:999px;
+      border:0;
+      cursor:pointer;
+      font-weight:900;
+      color:rgba(255,255,255,.88);
+      background: transparent;
+    }
+    .segBtn.active{
+      background: rgba(255,255,255,.14);
+      color:#fff;
+      box-shadow: 0 10px 25px rgba(0,0,0,.18);
+    }
+
+    /* ✅ NEW: Viewer helper window (mini board preview) */
+    .puzMiniBoardWrap{
+      margin-top:12px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.10);
+      padding:10px;
+    }
+    .puzMiniBoardTitle{
+      font-weight:900;
+      font-size:13px;
+      color:rgba(255,255,255,.88);
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:8px;
+    }
+    .puzMiniBoard{
+      width:100%;
+      aspect-ratio: 1/1;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.08);
+      padding:8px;
+      display:grid;
+      gap:6px;
+      pointer-events:none; /* read-only */
+      opacity:.98;
+    }
+    .puzMiniSlot{
+      border-radius:12px;
+      border:1px dashed rgba(255,255,255,.18);
+      background: rgba(255,255,255,.03);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+    }
+    .puzMiniSlot.filled{
+      border-style:solid;
+      border-color: rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+    }
+    .puzMiniPiece{
+      width:100%;
+      height:100%;
+      border-radius:10px;
+      background-repeat:no-repeat;
+      box-shadow:none;
+      border:0;
+    }
   </style>
 </head>
 
 <body>
   <div class="hearts" id="hearts"></div>
   <div class="rain" id="rain"></div>
-
-  <!-- ✅ NEW: Emoji rain layer for stage 3 -->
   <div class="seaEmojis" id="seaEmojis"></div>
-
-  <!-- ✅ NEW: Puzzle-piece rain layer for option 4 -->
   <div class="puzzleRain" id="puzzleRain"></div>
 
   <div class="waves"></div>
@@ -999,7 +1061,6 @@
 
   <div class="wrap">
     <div class="card">
-      <!-- TOPBAR (بعد الدخول) -->
       <div class="topbar hide" id="topbar">
         <div class="leftGroup">
           <div class="pill" id="whoPill">💗 ...</div>
@@ -1057,11 +1118,11 @@
 
             <p class="homeLove">أحبك لانا 🤍</p>
 
-            <div class="hint">💡 افتح القائمة (☰) من فوق واختر من 9 خيارات — كل شيء يتزامن بينكم Live</div>
+            <div class="hint">💡 افتح القائمة (☰) من فوق واختر من 9 خيارات — كل شيء يتفازن بينكم Live</div>
           </div>
         </section>
 
-        <!-- OPTION 1: GAME (Love Questions) -->
+        <!-- OPTION 1: GAME -->
         <section class="page" id="pageGame">
           <div class="gameBox">
             <div class="gameTop">
@@ -1092,7 +1153,6 @@
         <section class="page" id="pageOpt2">
           <div class="contentBox">
             <button class="backBtn backAny">🏠 رجوع للرئيسية</button>
-
             <div class="promptCard" style="font-size:20px">💥 لعبة “أنا مكانك”</div>
 
             <div class="amkWrap">
@@ -1122,7 +1182,7 @@
           </div>
         </section>
 
-        <!-- OPTION 3: احنا أقوى من السمكة -->
+        <!-- OPTION 3 -->
         <section class="page" id="pageOpt3">
           <div class="contentBox">
             <button class="backBtn backAny">🏠 رجوع للررئيسية</button>
@@ -1154,7 +1214,6 @@
                 </div>
 
                 <div class="confirmLine" id="fishConfirmLine">…</div>
-
                 <div class="statusLine" id="fishStatus">…</div>
               </div>
 
@@ -1167,16 +1226,24 @@
           </div>
         </section>
 
-        <!-- ✅ OPTION 4: PUZZLE 200 (Live Roles) -->
+        <!-- ✅ OPTION 4 -->
         <section class="page" id="pageOpt4">
           <div class="contentBox">
             <button class="backBtn backAny">🏠 رجوع للرئيسية</button>
-
-            <div class="promptCard" style="font-size:20px">🧩 بزل 200 مرحلة — واحد يشوف كامل والثاني يركّب (Live)</div>
+            <div class="promptCard" style="font-size:20px">🧩 بزل — قسمين (Live): مشترك + تحدّي</div>
 
             <div class="puzWrap">
+              <!-- ✅ NEW: Tabs like stages/sections -->
+              <div class="puzTabs">
+                <div class="seg" aria-label="أقسام البزل">
+                  <button class="segBtn" id="puzTabCoop">🤝 مشترك (100)</button>
+                  <button class="segBtn" id="puzTabChallenge">🔥 تحدّي (100)</button>
+                </div>
+                <div class="puzBadge" id="puzSectionBadge">القسم: …</div>
+              </div>
+
               <div class="puzTopRow">
-                <div class="puzBadge" id="puzStageBadge">المرحلة: 1 / 200</div>
+                <div class="puzBadge" id="puzStageBadge">المرحلة: 1 / 100</div>
                 <div class="puzBadge" id="puzRoleBadge">الدور: …</div>
               </div>
 
@@ -1198,7 +1265,18 @@
                       <img id="puzFullImg" alt="puzzle" />
                       <div class="puzImageGlow"></div>
                     </div>
-                    <div class="hint" id="puzViewerHint">هذا القسم يظهر للشخص “المشاهد” فقط.</div>
+
+                    <!-- ✅ NEW: helper window to see other side -->
+                    <div class="puzMiniBoardWrap" id="puzMiniBoardWrap">
+                      <div class="puzMiniBoardTitle">
+                        <span>🪟 نافذة لمتابعة تركيب الطرف الثاني (Live)</span>
+                        <span style="color:rgba(255,255,255,.65);font-weight:800;font-size:12px" id="puzMiniBoardInfo">…</span>
+                      </div>
+                      <div class="puzMiniBoard" id="puzMiniBoard"></div>
+                      <div class="hint" style="margin-top:8px">هذا العرض قراءة فقط للمشاهد — عشان تساعده ويضبط القطع 💗</div>
+                    </div>
+
+                    <div class="hint" id="puzViewerHint">هذا القسم يظهر للشخص “المشاهد” فقط في وضع التحدّي.</div>
                   </div>
 
                   <!-- Assembler Panel -->
@@ -1209,8 +1287,7 @@
                     </div>
 
                     <div class="puzBoard" id="puzBoard"></div>
-
-                    <div class="hint">📌 الطريقة: اضغط قطعة من تحت → ثم اضغط مكان فاضي في اللوح. لإزالة قطعة: اضغط عليها داخل اللوح.</div>
+                    <div class="hint">📌 اضغط قطعة من تحت → ثم اضغط مكان فاضي في اللوح. لإزالة قطعة: اضغط عليها داخل اللوح.</div>
 
                     <div class="divider" style="margin:14px 0;"></div>
 
@@ -1223,8 +1300,8 @@
               </div>
 
               <div class="hint">
-                🔥 Live بالكامل: كل حركة تظهر للطرف الثاني فورًا<br/>
-                👁️ واحد يشوف الصورة كاملة، والثاني يركّب — وتقدرون تبدلون الأدوار في أي وقت<br/>
+                ✅ قسم <b>مشترك</b>: الاثنين يركّبون سوا (بدون أدوار)<br/>
+                🔥 قسم <b>تحدّي</b>: واحد يشوف كامل والثاني يركّب — وتقدرون تبدلون الأدوار<br/>
                 ⛔ بدون مؤقت
               </div>
             </div>
@@ -1270,7 +1347,7 @@
     </div>
   </div>
 
-  <!-- MENU MODAL (9 OPTIONS) -->
+  <!-- MENU MODAL -->
   <div class="modal" id="modal">
     <div class="modalCard">
       <div class="modalHead">
@@ -1281,7 +1358,7 @@
         <button class="opt" data-go="pageGame">1) لعبة الأسئلة</button>
         <button class="opt" data-go="pageOpt2">2) <small>(جاهز)</small></button>
         <button class="opt" data-go="pageOpt3">3) ألغاز البحر <small>(Live)</small></button>
-        <button class="opt" data-go="pageOpt4">4) بزل 200 <small>(Live)</small></button>
+        <button class="opt" data-go="pageOpt4">4) بزل قسمين <small>(Live)</small></button>
         <button class="opt" data-go="pageOpt5">5) <small>(جاهز)</small></button>
         <button class="opt" data-go="pageOpt6">6) <small>(جاهز)</small></button>
         <button class="opt" data-go="pageOpt7">7) <small>(جاهز)</small></button>
@@ -1365,7 +1442,7 @@
     setInterval(spawnRain, 9000);
 
     /********************
-     * ✅ NEW: Emoji rain (🐟❤️❓) for Option 3
+     * Emoji rain (🐟❤️❓) for Option 3
      ********************/
     const seaEmojisEl = document.getElementById("seaEmojis");
     const SEA_EMOJIS = ["🐟","❤️","❓","💗","🐠","💕","❔","💘"];
@@ -1389,7 +1466,7 @@
     setInterval(spawnSeaEmojis, 11000);
 
     /********************
-     * ✅ NEW: Puzzle-piece rain (Option 4)
+     * Puzzle-piece rain (Option 4)
      ********************/
     const puzzleRainEl = document.getElementById("puzzleRain");
     function spawnPuzzleRain(){
@@ -1438,12 +1515,10 @@
       const el = document.getElementById(id);
       if(el) el.classList.add("active");
 
-      // Theme: Option 3 = sea + rain
       const isSea = (id === "pageOpt3");
       document.body.classList.toggle("seaTheme", isSea);
       if(isSea) spawnSeaEmojis();
 
-      // Theme: Option 4 = puzzle theme
       const isPuz = (id === "pageOpt4");
       document.body.classList.toggle("puzzleTheme", isPuz);
       if(isPuz) spawnPuzzleRain();
@@ -1464,7 +1539,7 @@
     modal?.addEventListener("click", (e)=>{ if(e.target===modal) closeModalFn(); });
 
     /********************
-     * Packs (questions/challenges) — لعبة 1 (بدون تغيير)
+     * Packs — لعبة 1
      ********************/
     const lana1_questions = [
       "متى حسّيت إنك مرتاح معي بدون ما تمثّل؟",
@@ -1795,16 +1870,16 @@
             confirmAnas: false,
             confirmLana: false,
 
-            /* ✅ NEW CONTROL FIELDS */
             evaluatedStage: 0,
             autoNext: false,
             autoNextDone: false,
             updatedBy: "system"
           },
 
-          /* ✅ NEW: OPTION 4 puzzle state */
+          /* ✅ UPDATED: OPTION 4 puzzle state (section + 100/100) */
           opt4puz: {
-            stage: 1,
+            section: "challenge",     // "coop" | "challenge"
+            stage: 1,                 // 1..100 داخل القسم
             grid: 3,
             img: "",
             shuffle: [],
@@ -1841,7 +1916,7 @@
     loginUser.addEventListener("keydown", (e)=>{ if(e.key==="Enter") doLogin(); });
 
     /********************
-     * Live sync
+     * Live sync helpers
      ********************/
     let unsubRoom = null;
 
@@ -1946,7 +2021,7 @@
     });
 
     /********************
-     * OPTION 3: احنا أقوى من السمكة (DATA)
+     * OPTION 3: DATA
      ********************/
     const FISH_PUNISH = [
       "صوّر 3 ثواني وأنت تسوي أغرب تعبير وجه 😵‍💫",
@@ -2027,7 +2102,7 @@
     }
 
     /********************
-     * Option 3: DOM
+     * Option 3 DOM
      ********************/
     const fishStageBadge = document.getElementById("fishStageBadge");
     const fishQ = document.getElementById("fishQ");
@@ -2086,12 +2161,7 @@
       if(fishNextBtn) fishNextBtn.disabled = true;
     }
 
-    /********************
-     * ✅ NEW: اختيار بدون نتيجة
-     ********************/
     async function fishChoose(choiceIndex){
-      const stageSnap = window.__fishStageCache || 1;
-
       await pushRoomUpdate({
         "opt3.selected": choiceIndex,
         "opt3.solved": false,
@@ -2122,9 +2192,6 @@
       });
     });
 
-    /********************
-     * ✅ تأكيد الجواب (بدون نتيجة مباشرة)
-     ********************/
     fishConfirmBtn?.addEventListener("click", async ()=>{
       const sel = parseInt(window.__fishSelectedCache ?? -1, 10);
       if(sel < 0){
@@ -2147,9 +2214,6 @@
       });
     });
 
-    /********************
-     * ✅ تقييم بعد تأكيد الاثنين + انتقال تلقائي إذا صح
-     ********************/
     let __autoNextTimer = null;
 
     async function evaluateIfNeeded(opt3){
@@ -2204,8 +2268,8 @@
       if(!shouldAuto) return;
 
       if((opt3?.updatedBy || "") !== currentName) return;
-
       if(__autoNextTimer) return;
+
       __autoNextTimer = setTimeout(async ()=>{
         __autoNextTimer = null;
 
@@ -2240,7 +2304,7 @@
     }
 
     /********************
-     * ✅ OPTION 4: PUZZLE 200 (Live Roles)
+     * ✅ OPTION 4: PUZZLE (2 sections, 100 each)
      ********************/
     const puzStageBadge = document.getElementById("puzStageBadge");
     const puzRoleBadge  = document.getElementById("puzRoleBadge");
@@ -2257,40 +2321,43 @@
     const puzViewerMini = document.getElementById("puzViewerMini");
     const puzAssemblerMini = document.getElementById("puzAssemblerMini");
 
-    const PUZ_TOTAL = 200;
+    const puzTabCoop = document.getElementById("puzTabCoop");
+    const puzTabChallenge = document.getElementById("puzTabChallenge");
+    const puzSectionBadge = document.getElementById("puzSectionBadge");
 
-    /* ✅ هنا تقدر تحط صوركم (روابط) لاحقًا:
-       - اكتب 200 رابط (أو أقل) داخل المصفوفة حسب المراحل
-       - إذا المرحلة ما لها رابط → يستخدم Placeholder تلقائيًا
-    */
+    const puzMiniBoard = document.getElementById("puzMiniBoard");
+    const puzMiniBoardInfo = document.getElementById("puzMiniBoardInfo");
+    const puzMiniBoardWrap = document.getElementById("puzMiniBoardWrap");
+    const puzViewerHint = document.getElementById("puzViewerHint");
+
+    const PUZ_PER_SECTION = 100; // ✅ 100 + 100
+
     const PUZ_CUSTOM_IMAGES = [
+      // إجمالي 200 رابط (أول 100 للمشترك، ثاني 100 للتحدّي) إذا تبغى
       // "https://.../1.jpg",
-      // "https://.../2.jpg",
-      // ...
     ];
 
     function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
 
     function puzGridForStage(stage){
-      // تصاعد لطيف للجوال
-      if(stage <= 25) return 3;    // 3x3 = 9
-      if(stage <= 120) return 4;   // 4x4 = 16
-      return 5;                    // 5x5 = 25 (لباقي 200)
+      if(stage <= 25) return 3;
+      if(stage <= 80) return 4;
+      return 5;
     }
 
-    function puzCategory(stage){
+    function puzCategory(globalStage){
       const cats = ["Cities","Animals","Hearts","Food"];
-      return cats[(stage-1) % cats.length];
+      return cats[(globalStage-1) % cats.length];
     }
 
     function svgToDataUrl(svg){
       return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
     }
 
-    function puzPlaceholderImage(stage){
-      const cat = puzCategory(stage);
+    function puzPlaceholderImage(globalStage){
+      const cat = puzCategory(globalStage);
       const icon = (cat==="Cities") ? "🏙️" : (cat==="Animals") ? "🐾" : (cat==="Hearts") ? "💗" : "🍓";
-      const hue = (stage * 17) % 360;
+      const hue = (globalStage * 17) % 360;
       const svg = `
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900">
   <defs>
@@ -2313,18 +2380,25 @@
   <rect width="900" height="900" fill="url(#r)"/>
   <circle cx="710" cy="720" r="240" fill="rgba(255,255,255,.06)"/>
   <circle cx="220" cy="220" r="190" fill="rgba(255,255,255,.05)"/>
-  <text x="450" y="430" text-anchor="middle" font-family="system-ui,Segoe UI,Arial" font-size="110" font-weight="900" fill="rgba(255,255,255,.90)">Stage ${stage}</text>
+  <text x="450" y="430" text-anchor="middle" font-family="system-ui,Segoe UI,Arial" font-size="110" font-weight="900" fill="rgba(255,255,255,.90)">Stage ${globalStage}</text>
   <text x="450" y="520" text-anchor="middle" font-family="system-ui,Segoe UI,Arial" font-size="48" font-weight="800" fill="rgba(255,255,255,.75)">${cat} ${icon}</text>
   <text x="450" y="610" text-anchor="middle" font-family="system-ui,Segoe UI,Arial" font-size="34" font-weight="700" fill="rgba(255,255,255,.55)">LANA ❤️ ANAS</text>
 </svg>`;
       return svgToDataUrl(svg);
     }
 
-    function puzGetImage(stage){
-      const idx = stage - 1;
+    function puzGlobalStage(section, stage){
+      const s = clamp(parseInt(stage||1,10), 1, PUZ_PER_SECTION);
+      const base = (section === "coop") ? 0 : PUZ_PER_SECTION;
+      return base + s; // 1..200
+    }
+
+    function puzGetImage(section, stage){
+      const g = puzGlobalStage(section, stage);
+      const idx = g - 1;
       const url = PUZ_CUSTOM_IMAGES[idx];
       if(url && typeof url === "string" && url.trim()) return url.trim();
-      return puzPlaceholderImage(stage);
+      return puzPlaceholderImage(g);
     }
 
     function makeShuffle(n){
@@ -2341,22 +2415,12 @@
     }
 
     function puzIsSolved(placed, n){
-      // لازم كل السلوطات موجودة وصحيحة
       for(let i=0;i<n;i++){
         const v = placed?.[String(i)];
         if(typeof v !== "number") return false;
         if(v !== i) return false;
       }
       return true;
-    }
-
-    function puzPieceStyle(grid, img, pieceIndex){
-      const row = Math.floor(pieceIndex / grid);
-      const col = pieceIndex % grid;
-      const bgSize = `${grid*100}% ${grid*100}%`;
-      const bgPos = `${(col/(grid-1))*100}% ${(row/(grid-1))*100}%`;
-      // ملاحظة: background-position بالنسب مع grid>1 ممتاز
-      return { bgSize, bgPos };
     }
 
     function puzCreatePieceEl(grid, img, pieceIndex){
@@ -2366,43 +2430,79 @@
       el.style.backgroundImage = `url("${img}")`;
       const row = Math.floor(pieceIndex / grid);
       const col = pieceIndex % grid;
-
-      // background-size big so each piece shows a slice
       el.style.backgroundSize = `${grid*100}% ${grid*100}%`;
       el.style.backgroundPosition = `${(col/(grid-1))*100}% ${(row/(grid-1))*100}%`;
-
       return el;
     }
 
-    function puzSetRoleUI(isViewer, roles){
-      if(puzRoleBadge){
-        const v = roles?.viewer || "—";
-        const a = roles?.assembler || "—";
-        puzRoleBadge.textContent = `الدور: 👁️ ${v} | 🧩 ${a}`;
+    function puzSetTabsUI(section){
+      if(puzTabCoop) puzTabCoop.classList.toggle("active", section==="coop");
+      if(puzTabChallenge) puzTabChallenge.classList.toggle("active", section==="challenge");
+      if(puzSectionBadge){
+        puzSectionBadge.textContent = `القسم: ${section==="coop" ? "مشترك 🤝" : "تحدّي 🔥"}`;
       }
-      if(puzViewerPanel) puzViewerPanel.style.display = isViewer ? "block" : "none";
-      if(puzAssemblerPanel) puzAssemblerPanel.style.display = isViewer ? "none" : "block";
+    }
+
+    function canAssembleNow(section, roles){
+      if(section === "coop") return true; // ✅ الاثنين يقدرون
+      const r = roles || {viewer:"ANAS", assembler:"LANA"};
+      return (currentName === (r.assembler || "LANA"));
+    }
+
+    function isViewerNow(section, roles){
+      if(section === "coop") return false; // في المشترك ما نقيّد عرض المشاهد
+      const r = roles || {viewer:"ANAS", assembler:"LANA"};
+      return (currentName === (r.viewer || "ANAS"));
+    }
+
+    function puzSetRoleUI(section, roles){
+      if(section === "coop"){
+        if(puzRoleBadge) puzRoleBadge.textContent = `الدور: 🤝 الاثنين يركّبون سوا`;
+        if(puzViewerPanel) puzViewerPanel.style.display = "block";
+        if(puzAssemblerPanel) puzAssemblerPanel.style.display = "block";
+        if(puzSwapBtn) puzSwapBtn.style.display = "none"; // لا أدوار
+        if(puzMiniBoardWrap) puzMiniBoardWrap.style.display = "none";
+        if(puzViewerHint) puzViewerHint.textContent = "في المشترك: الاثنين يركّبون سوا ✅";
+        return;
+      }
+
+      // challenge
+      if(puzSwapBtn) puzSwapBtn.style.display = "inline-flex";
+      const v = roles?.viewer || "—";
+      const a = roles?.assembler || "—";
+      if(puzRoleBadge) puzRoleBadge.textContent = `الدور: 👁️ ${v} | 🧩 ${a}`;
+
+      const viewer = isViewerNow(section, roles);
+      if(puzViewerPanel) puzViewerPanel.style.display = viewer ? "block" : "none";
+      if(puzAssemblerPanel) puzAssemblerPanel.style.display = viewer ? "none" : "block";
+      if(puzMiniBoardWrap) puzMiniBoardWrap.style.display = viewer ? "block" : "none";
+      if(puzViewerHint) puzViewerHint.textContent = "هذا القسم يظهر للشخص “المشاهد” فقط في وضع التحدّي.";
     }
 
     async function puzEnsureStageFields(opt4puz){
-      // لو الوثيقة قديمة وما فيها shuffle/img → نولّدها مرة
-      const stage = clamp(parseInt(opt4puz?.stage||1,10), 1, PUZ_TOTAL);
+      const section = (opt4puz?.section === "coop") ? "coop" : "challenge";
+      const stage = clamp(parseInt(opt4puz?.stage||1,10), 1, PUZ_PER_SECTION);
       const grid = puzGridForStage(stage);
       const n = grid*grid;
 
       const img = (opt4puz?.img && typeof opt4puz.img==="string" && opt4puz.img.trim())
         ? opt4puz.img.trim()
-        : puzGetImage(stage);
+        : puzGetImage(section, stage);
 
       let shuffle = Array.isArray(opt4puz?.shuffle) ? opt4puz.shuffle.slice(0) : [];
       if(shuffle.length !== n){
         shuffle = makeShuffle(n);
       }
 
-      // إذا فيه فرق، نسوي تحديث خفيف
-      const needUpdate = (opt4puz?.grid !== grid) || (opt4puz?.img !== img) || (!Array.isArray(opt4puz?.shuffle) || opt4puz.shuffle.length !== n);
+      const needUpdate =
+        (opt4puz?.section !== section) ||
+        (opt4puz?.grid !== grid) ||
+        (opt4puz?.img !== img) ||
+        (!Array.isArray(opt4puz?.shuffle) || opt4puz.shuffle.length !== n);
+
       if(needUpdate){
         await pushRoomUpdate({
+          "opt4puz.section": section,
           "opt4puz.grid": grid,
           "opt4puz.img": img,
           "opt4puz.shuffle": shuffle,
@@ -2411,20 +2511,54 @@
       }
     }
 
+    function renderMiniBoard(section, grid, img, placed){
+      if(!puzMiniBoard) return;
+      if(section === "coop") return;
+
+      puzMiniBoard.style.gridTemplateColumns = `repeat(${grid}, 1fr)`;
+      puzMiniBoard.innerHTML = "";
+
+      const n = grid*grid;
+      let filled = 0;
+      for(let s=0;s<n;s++){
+        const slot = document.createElement("div");
+        slot.className = "puzMiniSlot";
+        const p = placed?.[String(s)];
+        if(typeof p === "number"){
+          filled++;
+          slot.classList.add("filled");
+          const piece = document.createElement("div");
+          piece.className = "puzMiniPiece";
+          piece.style.backgroundImage = `url("${img}")`;
+          const row = Math.floor(p / grid);
+          const col = p % grid;
+          piece.style.backgroundSize = `${grid*100}% ${grid*100}%`;
+          piece.style.backgroundPosition = `${(col/(grid-1))*100}% ${(row/(grid-1))*100}%`;
+          slot.appendChild(piece);
+        }
+        puzMiniBoard.appendChild(slot);
+      }
+
+      if(puzMiniBoardInfo){
+        puzMiniBoardInfo.textContent = `مركّب: ${filled}/${n}`;
+      }
+    }
+
     function puzApplyUI(opt4puz){
-      const stage = clamp(parseInt(opt4puz?.stage||1,10), 1, PUZ_TOTAL);
+      const section = (opt4puz?.section === "coop") ? "coop" : "challenge";
+      const stage = clamp(parseInt(opt4puz?.stage||1,10), 1, PUZ_PER_SECTION);
       const grid = puzGridForStage(stage);
       const n = grid*grid;
 
-      const roles = opt4puz?.roles || {viewer:"ANAS", assembler:"LANA"};
-      const isViewer = (currentName === (roles.viewer || "ANAS"));
+      puzSetTabsUI(section);
 
-      if(puzStageBadge) puzStageBadge.textContent = `المرحلة: ${stage} / ${PUZ_TOTAL}`;
-      puzSetRoleUI(isViewer, roles);
+      if(puzStageBadge) puzStageBadge.textContent = `المرحلة: ${stage} / ${PUZ_PER_SECTION}`;
+      const roles = opt4puz?.roles || {viewer:"ANAS", assembler:"LANA"};
+      puzSetRoleUI(section, roles);
 
       const img = (opt4puz?.img && typeof opt4puz.img==="string" && opt4puz.img.trim())
         ? opt4puz.img.trim()
-        : puzGetImage(stage);
+        : puzGetImage(section, stage);
 
       if(puzFullImg) puzFullImg.src = img;
 
@@ -2432,8 +2566,16 @@
       const sel = parseInt(opt4puz?.sel ?? -1, 10);
       const solved = !!opt4puz?.solved;
 
-      if(puzViewerMini) puzViewerMini.textContent = `فقط للمشاهد • مرحلة ${stage}`;
-      if(puzAssemblerMini) puzAssemblerMini.textContent = `اختيار: ${sel >= 0 ? (sel+1) : "—"} • قطع: ${n}`;
+      if(puzViewerMini){
+        const g = puzGlobalStage(section, stage);
+        puzViewerMini.textContent = `مرحلة ${stage} • Global ${g}`;
+      }
+      if(puzAssemblerMini){
+        puzAssemblerMini.textContent = `اختيار: ${sel >= 0 ? (sel+1) : "—"} • قطع: ${n}`;
+      }
+
+      // ✅ viewer mini window
+      renderMiniBoard(section, grid, img, placed);
 
       // Board
       if(puzBoard){
@@ -2450,11 +2592,11 @@
             const piece = puzCreatePieceEl(grid, img, p);
             slot.appendChild(piece);
 
-            // remove on click (assembler only)
             slot.addEventListener("click", async ()=>{
+              // ✅ في المشترك الاثنين يقدرون، في التحدي فقط assembler
               const rolesNow = window.__puzRolesCache || roles;
-              const isAssemblerNow = (currentName === (rolesNow.assembler || "LANA"));
-              if(!isAssemblerNow) return;
+              const sectionNow = window.__puzSectionCache || section;
+              if(!canAssembleNow(sectionNow, rolesNow)) return;
 
               const nextPlaced = {...(window.__puzPlacedCache||placed)};
               delete nextPlaced[String(s)];
@@ -2466,17 +2608,15 @@
               });
             });
           }else{
-            // place selected piece (assembler only)
             slot.addEventListener("click", async ()=>{
               const rolesNow = window.__puzRolesCache || roles;
-              const isAssemblerNow = (currentName === (rolesNow.assembler || "LANA"));
-              if(!isAssemblerNow) return;
+              const sectionNow = window.__puzSectionCache || section;
+              if(!canAssembleNow(sectionNow, rolesNow)) return;
 
               const selected = parseInt(window.__puzSelCache ?? sel, 10);
               if(selected < 0) return;
 
               const nextPlaced = {...(window.__puzPlacedCache||placed)};
-              // ما نسمح تكرار نفس القطعة في سلوط ثاني: نشيلها لو كانت موجودة
               for(const k of Object.keys(nextPlaced)){
                 if(nextPlaced[k] === selected) delete nextPlaced[k];
               }
@@ -2502,14 +2642,12 @@
         puzTray.innerHTML = "";
         const shuffle = Array.isArray(opt4puz?.shuffle) ? opt4puz.shuffle.slice(0) : Array.from({length:n},(_,i)=>i);
 
-        // determine which pieces are already used
         const used = new Set();
         for(const k of Object.keys(placed||{})){
           const v = placed[k];
           if(typeof v === "number") used.add(v);
         }
 
-        // show remaining pieces in shuffle order
         for(const pieceIndex of shuffle){
           if(used.has(pieceIndex)) continue;
 
@@ -2524,8 +2662,8 @@
 
           tile.addEventListener("click", async ()=>{
             const rolesNow = window.__puzRolesCache || roles;
-            const isAssemblerNow = (currentName === (rolesNow.assembler || "LANA"));
-            if(!isAssemblerNow) return;
+            const sectionNow = window.__puzSectionCache || section;
+            if(!canAssembleNow(sectionNow, rolesNow)) return;
 
             const currentSel = parseInt(window.__puzSelCache ?? sel, 10);
             const nextSel = (currentSel === pieceIndex) ? -1 : pieceIndex;
@@ -2539,25 +2677,51 @@
         }
       }
 
-      // Status / Next
       const placedCount = objKeysLen(placed);
       const remain = Math.max(0, n - placedCount);
 
       if(puzStatus){
         const by = opt4puz?.updatedBy || "—";
-        puzStatus.textContent = `Live ✅ | آخر تحديث: ${by}\nشبكة: ${grid}x${grid} | باقي: ${remain} قطعة`;
+        puzStatus.textContent =
+          `Live ✅ | آخر تحديث: ${by}\nقسم: ${section==="coop" ? "مشترك" : "تحدّي"} | شبكة: ${grid}x${grid} | باقي: ${remain} قطعة`;
       }
 
       if(puzSuccess){
         puzSuccess.classList.toggle("show", solved);
       }
 
+      // ✅ Fix: next enabled only when solved (for both)
       if(puzNextBtn){
         puzNextBtn.disabled = !solved;
       }
     }
 
+    async function puzSwitchSection(nextSection){
+      const section = (nextSection === "coop") ? "coop" : "challenge";
+      const stage = 1;
+      const grid = puzGridForStage(stage);
+      const n = grid*grid;
+
+      const img = puzGetImage(section, stage);
+      const shuffle = makeShuffle(n);
+
+      await pushRoomUpdate({
+        "opt4puz.section": section,
+        "opt4puz.stage": stage,
+        "opt4puz.grid": grid,
+        "opt4puz.img": img,
+        "opt4puz.shuffle": shuffle,
+        "opt4puz.placed": {},
+        "opt4puz.sel": -1,
+        "opt4puz.solved": false,
+        "opt4puz.updatedBy": currentName || "unknown"
+      });
+    }
+
     async function puzSwapRoles(){
+      const section = window.__puzSectionCache || "challenge";
+      if(section === "coop") return; // no roles
+
       const roles = window.__puzRolesCache || {viewer:"ANAS", assembler:"LANA"};
       const nextRoles = { viewer: roles.assembler || "LANA", assembler: roles.viewer || "ANAS" };
       await pushRoomUpdate({
@@ -2568,11 +2732,12 @@
     }
 
     async function puzResetStage(){
-      const stage = clamp(parseInt(window.__puzStageCache||1,10), 1, PUZ_TOTAL);
+      const section = window.__puzSectionCache || "challenge";
+      const stage = clamp(parseInt(window.__puzStageCache||1,10), 1, PUZ_PER_SECTION);
       const grid = puzGridForStage(stage);
       const n = grid*grid;
 
-      const img = puzGetImage(stage);
+      const img = puzGetImage(section, stage);
       const shuffle = makeShuffle(n);
 
       await pushRoomUpdate({
@@ -2587,19 +2752,30 @@
     }
 
     async function puzNextStage(){
-      const stageNow = clamp(parseInt(window.__puzStageCache||1,10), 1, PUZ_TOTAL);
-      if(stageNow >= PUZ_TOTAL) {
+      const section = window.__puzSectionCache || "challenge";
+      const stageNow = clamp(parseInt(window.__puzStageCache||1,10), 1, PUZ_PER_SECTION);
+
+      const solvedNow = !!window.__puzSolvedCache;
+      if(!solvedNow){
+        await pushRoomUpdate({
+          "opt4puz.updatedBy": currentName || "unknown"
+        });
+        return;
+      }
+
+      if(stageNow >= PUZ_PER_SECTION){
         await pushRoomUpdate({
           "opt4puz.solved": true,
           "opt4puz.updatedBy": currentName || "unknown"
         });
         return;
       }
+
       const nextStage = stageNow + 1;
       const grid = puzGridForStage(nextStage);
       const n = grid*grid;
 
-      const img = puzGetImage(nextStage);
+      const img = puzGetImage(section, nextStage);
       const shuffle = makeShuffle(n);
 
       await pushRoomUpdate({
@@ -2614,6 +2790,8 @@
       });
     }
 
+    puzTabCoop?.addEventListener("click", ()=> puzSwitchSection("coop"));
+    puzTabChallenge?.addEventListener("click", ()=> puzSwitchSection("challenge"));
     puzSwapBtn?.addEventListener("click", puzSwapRoles);
     puzResetBtn?.addEventListener("click", puzResetStage);
     puzNextBtn?.addEventListener("click", puzNextStage);
@@ -2645,7 +2823,7 @@
           syncLine.textContent = `متزامن ✅ | آخر تحديث: ${by} | المرحلة: ${CURRENT_MODE}`;
         }
 
-        // ===== Option 2 sync =====
+        // Option 2 sync
         const opt2 = data.opt2 || {};
 
         if(amkMeAs && amkOtherAs && currentName){
@@ -2679,14 +2857,11 @@
           amkStatus.textContent = `Live ✅ | حفظ أنس: ${opt2.readyAnas ? "✅" : "—"} | حفظ لانا: ${opt2.readyLana ? "✅" : "—"} | آخر تحديث: ${by2}`;
         }
 
-        // ===== Option 3 sync =====
+        // Option 3 sync
         const opt3 = data.opt3 || {};
         const stage = Math.max(1, Math.min(150, parseInt(opt3.stage||1,10)));
         window.__fishStageCache = stage;
         window.__fishSelectedCache = parseInt(opt3.selected ?? -1, 10);
-        window.__fishSolvedCache = !!opt3.solved;
-        window.__fishConfirmAnasCache = !!opt3.confirmAnas;
-        window.__fishConfirmLanaCache = !!opt3.confirmLana;
 
         applyFishUI(opt3);
         evaluateIfNeeded(opt3);
@@ -2697,19 +2872,19 @@
           fishStatus.textContent = `Live ✅ | آخر تحديث: ${who} | مرحلة: ${stage} | اختيار: ${window.__fishSelectedCache}`;
         }
 
-        // ===== ✅ Option 4 puzzle sync =====
+        // ✅ Option 4 sync
         const opt4puz = data.opt4puz || {};
-        const puzStage = clamp(parseInt(opt4puz.stage||1,10), 1, PUZ_TOTAL);
+        const section = (opt4puz.section === "coop") ? "coop" : "challenge";
+        const puzStage = clamp(parseInt(opt4puz.stage||1,10), 1, PUZ_PER_SECTION);
 
+        window.__puzSectionCache = section;
         window.__puzStageCache = puzStage;
         window.__puzSelCache = parseInt(opt4puz.sel ?? -1, 10);
         window.__puzPlacedCache = opt4puz.placed || {};
         window.__puzRolesCache = opt4puz.roles || {viewer:"ANAS", assembler:"LANA"};
+        window.__puzSolvedCache = !!opt4puz.solved;
 
-        // ضمان حقول المرحلة (img/shuffle/grid)
-        // (لا نحدث هنا بشكل دائم لتفادي loop، لكن لو ناقص، نحاول مرة واحدة)
         if((data.currentPage === "pageOpt4") && currentName){
-          // تحديث خفيف فقط إذا ناقص
           puzEnsureStageFields(opt4puz);
         }
 
@@ -2791,7 +2966,6 @@
   </script>
 
   <script>
-    // 🔒 خروج تلقائي عند إغلاق الصفحة أو التبويب
     window.addEventListener("beforeunload", () => {
       try {
         if (window.fb?.auth?.currentUser) {
