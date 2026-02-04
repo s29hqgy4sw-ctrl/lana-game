@@ -2310,28 +2310,26 @@ async function ensureRoom() {
         },
 
         /* ✅ OPTION 5 Kitchen state (PART 5-A) */
-        opt5kitchen: {
-          step: "recipe", // recipe | prep | cook | decorate | serve
-          category: "sweet", // sweet | savory
-          recipeId: "",
-          recipeName: "",
-          agreedRecipeAnas: false,
-          agreedRecipeLana: false,
+       opt5kitchen: {
+  section: "sweet",          // sweet | savory
+  recipeId: "",
+  recipeName: "",
+  pickAnas: "",
+  pickLana: "",
+  confirmRecipeAnas: false,
+  confirmRecipeLana: false,
+  recipeLocked: false,
 
-          prepDoneAnas: false,
-          prepDoneLana: false,
+  stepIndex: 0,              // 0..4
+  stepDone: false,
+  readyNextAnas: false,
+  readyNextLana: false,
 
-          cookDoneAnas: false,
-          cookDoneLana: false,
+  decoItems: [],
+  madeByUs: false,
 
-          deco: [], // [{type:"sauce|fruit|sprinkle|candle|heart", value:"..."}]
-          decoBy: "",
-
-          saved: [], // [{name, date, imgDataUrl, recipeName}]
-          lastNote: "ابدأوا باختيار الوصفة 💗",
-
-          updatedBy: "system",
-        },
+  album: [],
+  updatedBy: "system",
       },
       { merge: true }
     );
@@ -4418,6 +4416,7 @@ puzAutoAdvanceIfReady(opt4puz);
 
 </body>
 </html>
+
 
 
 
