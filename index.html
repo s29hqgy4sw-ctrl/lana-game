@@ -2310,7 +2310,7 @@
         
 
           /* ✅ OPTION 5 Kitchen state (PART 5-A) */
-          opt5Kitchen: {
+          opt5kitchen: {
             step: "recipe",           // recipe | prep | cook | decorate | serve
             category: "sweet",        // sweet | savory
             recipeId: "",             // id للوصفة المختارة
@@ -2974,8 +2974,8 @@
       return PUZ_CHEERS[(stageGlobal * 3) % PUZ_CHEERS.length];
     }
 
-    async function puzEnsureStag
-      eFields(opt4puz){
+    async function puzEnsureStageFields(opt4puz){
+
       const section = (opt4puz?.section === "coop") ? "coop" : "challenge";
       const stage = clamp(parseInt(opt4puz?.stage||1,10), 1, PUZ_PER_SECTION);
       const grid = puzGridForStage(stage);
@@ -4420,5 +4420,6 @@ puzAutoAdvanceIfReady(opt4puz);
 
 </body>
 </html>
+
 
 
