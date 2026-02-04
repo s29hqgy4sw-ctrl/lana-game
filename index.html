@@ -2287,10 +2287,9 @@ async function ensureRoom() {
           updatedBy: "system",
         },
 
-        /* ✅ OPTION 4 puzzle state */
         opt4puz: {
-          section: "challenge", // "coop" | "challenge"
-          stage: 1, // 1..100 داخل القسم
+          section: "challenge",
+          stage: 1,
           grid: 3,
           img: "",
           shuffle: [],
@@ -2299,7 +2298,6 @@ async function ensureRoom() {
           solved: false,
           roles: { viewer: "ANAS", assembler: "LANA" },
 
-          // ✅ Gate next (لازم الاثنين)
           nextReadyAnas: false,
           nextReadyLana: false,
           gateStage: 1,
@@ -2309,32 +2307,33 @@ async function ensureRoom() {
           updatedBy: "system",
         },
 
-        /* ✅ OPTION 5 Kitchen state (PART 5-A) */
-       opt5kitchen: {
-  section: "sweet",          // sweet | savory
-  recipeId: "",
-  recipeName: "",
-  pickAnas: "",
-  pickLana: "",
-  confirmRecipeAnas: false,
-  confirmRecipeLana: false,
-  recipeLocked: false,
+        opt5kitchen: {
+          section: "sweet",
+          recipeId: "",
+          recipeName: "",
+          pickAnas: "",
+          pickLana: "",
+          confirmRecipeAnas: false,
+          confirmRecipeLana: false,
+          recipeLocked: false,
 
-  stepIndex: 0,              // 0..4
-  stepDone: false,
-  readyNextAnas: false,
-  readyNextLana: false,
+          stepIndex: 0,
+          stepDone: false,
+          readyNextAnas: false,
+          readyNextLana: false,
 
-  decoItems: [],
-  madeByUs: false,
+          decoItems: [],
+          madeByUs: false,
 
-  album: [],
-  updatedBy: "system",
+          album: [],
+          updatedBy: "system",
+        },
       },
       { merge: true }
     );
   } catch (e) {}
 }
+
 
 
     async function doLogin(){
@@ -4416,6 +4415,7 @@ puzAutoAdvanceIfReady(opt4puz);
 
 </body>
 </html>
+
 
 
 
