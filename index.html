@@ -2245,101 +2245,99 @@
       return raw;
     }
 
-    /********************
-     * Ensure Room
-     ********************/
-    async function ensureRoom(){
-      try{
-        await window.fb.setDoc(roomRef(), {
-          roomId: ROOM_ID,
-          currentPage: "pageHome",
-          currentMode: CURRENT_MODE,
-          promptText: "ابدأ ✨ اختر (سؤال / تحدي)",
-          promptType: "init",
-          lastBy: "system",
-          updatedAt: window.fb.serverTimestamp(),
+   /********************
+ * Ensure Room
+ ********************/
+async function ensureRoom() {
+  try {
+    await window.fb.setDoc(
+      roomRef(),
+      {
+        roomId: ROOM_ID,
+        currentPage: "pageHome",
+        currentMode: CURRENT_MODE,
+        promptText: "ابدأ ✨ اختر (سؤال / تحدي)",
+        promptType: "init",
+        lastBy: "system",
+        updatedAt: window.fb.serverTimestamp(),
 
-          opt2: {
-            q: "",
-            anas: "",
-            lana: "",
-            readyAnas: false,
-            readyLana: false,
-            updatedBy: "system"
-          },
-
-          opt3: {
-            stage: 1,
-            selected: -1,
-            solved: false,
-            lastText: "اختاروا جواب من الخيارات 👆 (Live)",
-            loveText: "",
-            showLove: false,
-            punishText: "",
-            confirmAnas: false,
-            confirmLana: false,
-
-            evaluatedStage: 0,
-            autoNext: false,
-            autoNextDone: false,
-            updatedBy: "system"
-          },
-
-          /* ✅ UPDATED: OPTION 4 puzzle state */
-          opt4puz: {
-            section: "challenge",     // "coop" | "challenge"
-            stage: 1,                 // 1..100 داخل القسم
-            grid: 3,
-            img: "",
-            shuffle: [],
-            placed: {},
-            sel: -1,
-            solved: false,
-            roles: { viewer: "ANAS", assembler: "LANA" },
-
-            // ✅ Gate next (لازم الاثنين) — يسمح حتى لو مو محلول بس ما ينتقل إلا اذا حلّ
-            nextReadyAnas: false,
-            nextReadyLana: false,
-            gateStage: 1,
-            gateDone: false,
-            cheer: "",
-
-           updatedBy: "system"
+        opt2: {
+          q: "",
+          anas: "",
+          lana: "",
+          readyAnas: false,
+          readyLana: false,
+          updatedBy: "system",
         },
 
-        
+        opt3: {
+          stage: 1,
+          selected: -1,
+          solved: false,
+          lastText: "اختاروا جواب من الخيارات 👆 (Live)",
+          loveText: "",
+          showLove: false,
+          punishText: "",
+          confirmAnas: false,
+          confirmLana: false,
 
-          /* ✅ OPTION 5 Kitchen state (PART 5-A) */
-          opt5kitchen: {
-            step: "recipe",           // recipe | prep | cook | decorate | serve
-            category: "sweet",        // sweet | savory
-            recipeId: "",             // id للوصفة المختارة
-            recipeName: "",           // اسم الوصفة بالعربي
-            agreedRecipeAnas: false,
-            agreedRecipeLana: false,
+          evaluatedStage: 0,
+          autoNext: false,
+          autoNextDone: false,
+          updatedBy: "system",
+        },
 
-            prepDoneAnas: false,
-            prepDoneLana: false,
+        /* ✅ OPTION 4 puzzle state */
+        opt4puz: {
+          section: "challenge", // "coop" | "challenge"
+          stage: 1, // 1..100 داخل القسم
+          grid: 3,
+          img: "",
+          shuffle: [],
+          placed: {},
+          sel: -1,
+          solved: false,
+          roles: { viewer: "ANAS", assembler: "LANA" },
 
-            cookDoneAnas: false,
-            cookDoneLana: false,
+          // ✅ Gate next (لازم الاثنين)
+          nextReadyAnas: false,
+          nextReadyLana: false,
+          gateStage: 1,
+          gateDone: false,
+          cheer: "",
 
-            // تزيين (قائمة عناصر تزيين)
-            deco: [],                 // [{type:"sauce|fruit|sprinkle|candle|heart", value:"..."}]
-            decoBy: "",               // آخر شخص عدّل التزيين
+          updatedBy: "system",
+        },
 
-            // حفظ النتيجة
-            saved: [],                // [{name, date, imgDataUrl, recipeName}]
-            lastNote: "ابدأوا باختيار الوصفة 💗",
+        /* ✅ OPTION 5 Kitchen state (PART 5-A) */
+        opt5kitchen: {
+          step: "recipe", // recipe | prep | cook | decorate | serve
+          category: "sweet", // sweet | savory
+          recipeId: "",
+          recipeName: "",
+          agreedRecipeAnas: false,
+          agreedRecipeLana: false,
 
-            updatedBy: "system"
-          }
+          prepDoneAnas: false,
+          prepDoneLana: false,
 
-          
+          cookDoneAnas: false,
+          cookDoneLana: false,
 
-        }, { merge:true });
-      }catch(e){}
-    }
+          deco: [], // [{type:"sauce|fruit|sprinkle|candle|heart", value:"..."}]
+          decoBy: "",
+
+          saved: [], // [{name, date, imgDataUrl, recipeName}]
+          lastNote: "ابدأوا باختيار الوصفة 💗",
+
+          updatedBy: "system",
+        },
+      },
+      { merge: true }
+    );
+  } catch (e) {}
+}
+
 
     async function doLogin(){
       const email = normalizeToEmail(loginUser.value);
@@ -4420,6 +4418,7 @@ puzAutoAdvanceIfReady(opt4puz);
 
 </body>
 </html>
+
 
 
 
