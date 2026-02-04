@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>LANA ❤️ ANAS</title>
   <style>
     :root{
@@ -40,11 +40,13 @@
     }
     *{box-sizing:border-box}
     html,body{height:100%}
+
+    /* ✅ FIX: لا نخلي body مقفول (كان overflow:hidden) */
     body{
       margin:0;
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans Arabic", "Noto Kufi Arabic", sans-serif;
       color:var(--txt);
-      overflow:hidden;
+      overflow:auto; /* ✅ مهم */
       background:
         radial-gradient(1100px 700px at 10% 10%, rgba(255,45,85,.18), transparent 60%),
         radial-gradient(900px 600px at 90% 20%, rgba(255,77,125,.16), transparent 60%),
@@ -59,6 +61,7 @@
       background: radial-gradient(900px 600px at 50% 0%, rgba(255,255,255,.06), transparent 60%),
                   radial-gradient(900px 700px at 50% 100%, rgba(0,0,0,.35), transparent 55%);
       mix-blend-mode: screen;
+      z-index:0;
     }
 
     .hearts{
@@ -230,18 +233,23 @@
       to{ transform: translateY(145vh) translateX(8vw) rotate(120deg); }
     }
 
+    /* ✅ FIX: wrap يسمح بالتمرير + safe area */
     .wrap{
       position:relative;
-      height:100%;
+      min-height:100%;
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       justify-content:center;
-      padding:22px;
+      padding: calc(22px + env(safe-area-inset-top)) 22px calc(22px + env(safe-area-inset-bottom));
       z-index:5;
     }
 
+    /* ✅ FIX: card = عمود + inner scroll */
     .card{
       width:min(860px, 96vw);
+      max-height: calc(100vh - 44px);
+      display:flex;
+      flex-direction:column;
       border-radius:26px;
       background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
       border:1px solid var(--stroke);
@@ -251,8 +259,16 @@
       overflow:hidden;
     }
 
+    /* ✅ inner يصير قابل للسكرول */
     .inner{
       padding:28px 28px 22px;
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
+      flex:1;
+    }
+    @media (max-width:520px){
+      .inner{ padding:18px 16px 18px; }
+      .card{ max-height: calc(100vh - 24px); }
     }
 
     .center{text-align:center}
@@ -329,14 +345,20 @@
     .msg.bad{ color: rgba(239,68,68,.95); }
     .msg.ok{ color: rgba(34,197,94,.95); }
 
+    /* ✅ FIX: topbar sticky داخل الكرت */
     .topbar{
+      position:sticky;
+      top:0;
+      z-index:30;
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:14px;
       padding:16px 18px;
       border-bottom:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.10);
+      background: rgba(0,0,0,.20);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
     }
     .pill{
       display:inline-flex;
@@ -443,6 +465,9 @@
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
       overflow:hidden;
+      max-height: calc(100vh - 40px);
+      display:flex;
+      flex-direction:column;
     }
     .modalHead{
       padding:16px 18px;
@@ -471,6 +496,8 @@
       display:grid;
       grid-template-columns: repeat(3, 1fr);
       gap:12px;
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
     }
     @media (max-width:760px){
       .grid{ grid-template-columns:1fr; }
@@ -523,6 +550,7 @@
       justify-content:space-between;
       gap:12px;
       margin-bottom:12px;
+      flex-wrap:wrap;
     }
     .promptCard{
       margin-top:12px;
@@ -554,6 +582,7 @@
       cursor:pointer;
       font-weight:900;
     }
+    .actionBtn:active{ transform: translateY(1px); }
     .statusLine{
       margin-top:10px;
       color:rgba(255,255,255,.55);
@@ -965,7 +994,7 @@
     }
     .puzSuccess.show{ display:block; }
 
-    /* ✅ NEW: Section tabs (مشترك/تحدي) */
+    /* ✅ Tabs */
     .puzTabs{
       display:flex;
       gap:10px;
@@ -997,7 +1026,7 @@
       box-shadow: 0 10px 25px rgba(0,0,0,.18);
     }
 
-    /* ✅ NEW: Viewer helper window (mini board preview) */
+    /* ✅ Mini board */
     .puzMiniBoardWrap{
       margin-top:12px;
       border-radius:18px;
@@ -1023,7 +1052,7 @@
       padding:8px;
       display:grid;
       gap:6px;
-      pointer-events:none; /* read-only */
+      pointer-events:none;
       opacity:.98;
     }
     .puzMiniSlot{
@@ -1249,8 +1278,8 @@
               <div class="puzTopRow">
                 <button class="actionBtn" id="puzSwapBtn">🔁 تبديل الأدوار (Live)</button>
                 <button class="actionBtn" id="puzResetBtn">🧹 تصفير المرحلة</button>
-                <!-- ✅ الجديد: التالي صار زر جاهزية (لا ينقلكم إلا بعد تأكيد الاثنين) -->
-                <button class="actionBtn" id="puzNextBtn" disabled>✅ أنا جاهز للتالي</button>
+                <!-- ✅ FIX: الزر صار شغّال دايم -->
+                <button class="actionBtn" id="puzNextBtn">✅ أنا جاهز للتالي</button>
               </div>
 
               <div class="puzCard">
@@ -1261,7 +1290,7 @@
                       <span class="puzMini" id="puzViewerMini">…</span>
                     </div>
                     <div class="puzImageBox">
-                      <img id="puzFullImg" alt="puzzle" />
+                      <img id="puzFullImg" alt="puzzle" loading="lazy" />
                       <div class="puzImageGlow"></div>
                     </div>
 
@@ -1299,7 +1328,7 @@
               <div class="hint">
                 ✅ قسم <b>مشترك</b>: الاثنين يركّبون سوا (بدون أدوار)<br/>
                 🔥 قسم <b>تحدّي</b>: واحد يشوف كامل والثاني يركّب — وتقدرون تبدلون الأدوار<br/>
-                🔒 زر “التالي” لازم تأكيد الاثنين (جاهز) عشان ينتقل
+                🔒 الانتقال للمرحلة التالية: لازم <b>تأكيد الاثنين</b> + تكون المرحلة <b>محلولة</b>
               </div>
             </div>
           </div>
@@ -1519,6 +1548,11 @@
       const isPuz = (id === "pageOpt4");
       document.body.classList.toggle("puzzleTheme", isPuz);
       if(isPuz) spawnPuzzleRain();
+
+      // ✅ Helpful: نرجع أعلى المحتوى أول ما تفتح صفحة
+      try{
+        document.querySelector(".inner")?.scrollTo({ top: 0, behavior: "smooth" });
+      }catch(e){}
     }
 
     /********************
@@ -1873,7 +1907,7 @@
             updatedBy: "system"
           },
 
-          /* ✅ UPDATED: OPTION 4 puzzle state (section + 100/100 + gate for next) */
+          /* ✅ UPDATED: OPTION 4 puzzle state */
           opt4puz: {
             section: "challenge",     // "coop" | "challenge"
             stage: 1,                 // 1..100 داخل القسم
@@ -1885,7 +1919,7 @@
             solved: false,
             roles: { viewer: "ANAS", assembler: "LANA" },
 
-            // ✅ NEW: next gate (لازم الاثنين)
+            // ✅ Gate next (لازم الاثنين) — يسمح حتى لو مو محلول بس ما ينتقل إلا اذا حلّ
             nextReadyAnas: false,
             nextReadyLana: false,
             gateStage: 1,
@@ -2309,7 +2343,7 @@
     }
 
     /********************
-     * ✅ OPTION 4: PUZZLE (2 sections, 100 each + Gate Next)
+     * ✅ OPTION 4: PUZZLE
      ********************/
     const puzStageBadge = document.getElementById("puzStageBadge");
     const puzRoleBadge  = document.getElementById("puzRoleBadge");
@@ -2339,25 +2373,17 @@
 
     function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
 
+    /* ✅ صعّبنا البزل أكثر: يوصل 6×6 */
     function puzGridForStage(stage){
-      if(stage <= 25) return 3;
-      if(stage <= 80) return 4;
-      return 5;
+      if(stage <= 15) return 3;
+      if(stage <= 55) return 4;
+      if(stage <= 90) return 5;
+      return 6;
     }
 
-    // ✅ 200 صورة تلقائية متنوعة (100 مشترك + 100 تحدي) + Batman + Hello Kitty
-    const PUZ_KEYWORDS_POOL = [
-      "cute animal","cat","dog","horse","lion","tiger","panda","fox","bear","elephant",
-      "paris","tokyo","new york city","london","dubai skyline","rome","istanbul","maldives","saudi arabia",
-      "mountains","waterfall","forest","ocean","sunset","night sky","galaxy","nebula","space",
-      "coffee","dessert","strawberry","chocolate","pizza","sushi","flowers","roses","hearts",
-      "supercar","classic car","motorcycle","architecture","art","abstract",
-      "batman","hello kitty"
-    ];
-
-    // مواقع نثبت فيها Batman/Hello Kitty ضمن الـ 200
-    const SPECIAL_BATMAN_GLOBAL = new Set([9, 50, 120, 180]);     // أمثلة
-    const SPECIAL_KITTY_GLOBAL  = new Set([18, 70, 160, 199]);    // أمثلة
+    // ✅ مراحل خاصة داخل الـ 200 (100 مشترك + 100 تحدي)
+    const SPECIAL_BATMAN_GLOBAL = new Set([9, 50, 120, 180]);
+    const SPECIAL_KITTY_GLOBAL  = new Set([18, 70, 160, 199]);
 
     function puzGlobalStage(section, stage){
       const s = clamp(parseInt(stage||1,10), 1, PUZ_PER_SECTION);
@@ -2365,27 +2391,87 @@
       return base + s; // 1..200
     }
 
-    function buildUnsplashUrl(keyword, sig){
-      // Unsplash Source (يتغير تلقائيًا + متنوع)
-      const q = encodeURIComponent(keyword);
-      return `https://source.unsplash.com/900x900/?${q}&sig=${sig}`;
+    /* ✅ FIX: صور مستقرة جدًا بدل Unsplash */
+    function picsumUrl(seed){
+      return `https://picsum.photos/seed/${encodeURIComponent(seed)}/900/900`;
     }
 
-    function puzPickKeyword(globalStage){
-      // تنويع أكثر حسب رقم المرحلة
-      const idx = (globalStage * 7) % PUZ_KEYWORDS_POOL.length;
-      return PUZ_KEYWORDS_POOL[idx];
+    /* ✅ صور Batman / Hello Kitty مولدة Canvas (مضمونة تظهر) */
+    const PUZ_IMG_CACHE = new Map();
+
+    function makePosterDataUrl(opts){
+      const { bg1, bg2, emoji, title, subtitle } = opts;
+      const c = document.createElement("canvas");
+      c.width = 900;
+      c.height = 900;
+      const ctx = c.getContext("2d");
+
+      const grad = ctx.createLinearGradient(0, 0, 900, 900);
+      grad.addColorStop(0, bg1);
+      grad.addColorStop(1, bg2);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 900, 900);
+
+      // dots
+      ctx.globalAlpha = 0.18;
+      for(let i=0;i<120;i++){
+        ctx.beginPath();
+        ctx.arc(rand(0,900), rand(0,900), rand(2,10), 0, Math.PI*2);
+        ctx.fillStyle = "white";
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+
+      // emoji
+      ctx.font = "160px system-ui, -apple-system, Segoe UI, Arial";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = "rgba(255,255,255,.95)";
+      ctx.fillText(emoji, 450, 330);
+
+      // title
+      ctx.font = "900 88px system-ui, -apple-system, Segoe UI, Arial";
+      ctx.fillStyle = "rgba(255,255,255,.96)";
+      ctx.fillText(title, 450, 520);
+
+      // subtitle
+      ctx.font = "700 34px system-ui, -apple-system, Segoe UI, Arial";
+      ctx.fillStyle = "rgba(255,255,255,.78)";
+      ctx.fillText(subtitle, 450, 600);
+
+      // frame
+      ctx.strokeStyle = "rgba(255,255,255,.18)";
+      ctx.lineWidth = 10;
+      ctx.strokeRect(30,30,840,840);
+
+      return c.toDataURL("image/png");
     }
 
     function puzGetImage(section, stage){
       const g = puzGlobalStage(section, stage);
+      if(PUZ_IMG_CACHE.has(g)) return PUZ_IMG_CACHE.get(g);
 
-      // ✅ ضمنهم Batman و Hello Kitty
-      if(SPECIAL_BATMAN_GLOBAL.has(g)) return buildUnsplashUrl("batman", g);
-      if(SPECIAL_KITTY_GLOBAL.has(g))  return buildUnsplashUrl("hello kitty", g);
+      let url = "";
+      if(SPECIAL_BATMAN_GLOBAL.has(g)){
+        url = makePosterDataUrl({
+          bg1:"#0b0f1e", bg2:"#eab308",
+          emoji:"🦇",
+          title:"BATMAN",
+          subtitle:"مرحلة خاصة لكم 💛"
+        });
+      }else if(SPECIAL_KITTY_GLOBAL.has(g)){
+        url = makePosterDataUrl({
+          bg1:"#ff4d7d", bg2:"#7c3aed",
+          emoji:"🎀🐱",
+          title:"HELLO KITTY",
+          subtitle:"مرحلة خاصة لكم 💗"
+        });
+      }else{
+        url = picsumUrl(`puz-${g}`);
+      }
 
-      const keyword = puzPickKeyword(g);
-      return buildUnsplashUrl(keyword, g);
+      PUZ_IMG_CACHE.set(g, url);
+      return url;
     }
 
     function makeShuffle(n){
@@ -2465,7 +2551,6 @@
       if(puzViewerHint) puzViewerHint.textContent = "هذا القسم يظهر للشخص “المشاهد” فقط في وضع التحدّي.";
     }
 
-    // ✅ عبارات تشجيع بعد الانتقال
     const PUZ_CHEERS = [
       "يا سلام عليكم… فريق واحد وقلب واحد 💗",
       "كل مرحلة تخلّصونها تثبت إنكم أقوى سوا 🤍",
@@ -2507,9 +2592,7 @@
           "opt4puz.img": img,
           "opt4puz.shuffle": shuffle,
 
-          // ✅ reset gate on stage align
-          "opt4puz.nextReadyAnas": false,
-          "opt4puz.nextReadyLana": false,
+          // gate align
           "opt4puz.gateStage": stage,
           "opt4puz.gateDone": false,
 
@@ -2551,19 +2634,15 @@
       }
     }
 
-    // ✅ زر "التالي" صار "جاهز للتالي" (لازم الاثنين)
+    /* ✅ FIX: زر الجاهزية شغال دايم، بس الانتقال ما يصير إلا (حل + تأكيد الاثنين) */
     async function puzToggleReady(){
       const section = window.__puzSectionCache || "challenge";
       const stage = clamp(parseInt(window.__puzStageCache||1,10), 1, PUZ_PER_SECTION);
-      const solvedNow = !!window.__puzSolvedCache;
-      if(!solvedNow) return;
 
       const gStage = parseInt(window.__puzGateStageCache||stage,10);
       if(gStage !== stage){
         await pushRoomUpdate({
           "opt4puz.gateStage": stage,
-          "opt4puz.nextReadyAnas": false,
-          "opt4puz.nextReadyLana": false,
           "opt4puz.gateDone": false,
           "opt4puz.updatedBy": currentName || "unknown"
         });
@@ -2583,10 +2662,10 @@
       });
     }
 
-    // ✅ تنفيذ الانتقال تلقائيًا بعد ما الاثنين يصيرون جاهزين
     let __puzGateTimer = null;
     async function puzAutoAdvanceIfReady(opt4puz){
       if(!currentName) return;
+
       const section = (opt4puz?.section === "coop") ? "coop" : "challenge";
       const stageNow = clamp(parseInt(opt4puz?.stage||1,10), 1, PUZ_PER_SECTION);
       const solvedNow = !!opt4puz?.solved;
@@ -2596,12 +2675,13 @@
       const readyA = !!opt4puz?.nextReadyAnas;
       const readyL = !!opt4puz?.nextReadyLana;
 
+      // ✅ الانتقال فقط إذا المرحلة محلولة + الاثنين جاهزين
       if(!solvedNow) return;
       if(gateDone) return;
       if(gateStage !== stageNow) return;
       if(!(readyA && readyL)) return;
 
-      // ✅ قائد الانتقال: ANAS فقط (عشان ما يصير double advance)
+      // ✅ قائد الانتقال: ANAS فقط
       if(currentName !== "ANAS") return;
       if(__puzGateTimer) return;
 
@@ -2640,7 +2720,6 @@
           "opt4puz.gateStage": nextStage,
           "opt4puz.gateDone": true,
 
-          // cheer message
           "opt4puz.cheer": cheer,
 
           "opt4puz.updatedBy": currentName || "unknown"
@@ -2661,7 +2740,16 @@
       puzSetRoleUI(section, roles);
 
       const img = puzGetImage(section, stage);
-      if(puzFullImg) puzFullImg.src = img;
+
+      // ✅ FIX: لو فشل تحميل صورة (نادر)، نرجع Picsum
+      if(puzFullImg){
+        puzFullImg.onerror = null;
+        puzFullImg.src = img;
+        puzFullImg.onerror = ()=>{
+          puzFullImg.onerror = null;
+          puzFullImg.src = picsumUrl(`fallback-${section}-${stage}`);
+        };
+      }
 
       const placed = opt4puz?.placed || {};
       const sel = parseInt(opt4puz?.sel ?? -1, 10);
@@ -2707,7 +2795,7 @@
                 "opt4puz.sel": -1,
                 "opt4puz.solved": false,
 
-                // ✅ reset gate if you change puzzle
+                // ✅ أي تغيير يصفّر الجاهزية للطرفين
                 "opt4puz.nextReadyAnas": false,
                 "opt4puz.nextReadyLana": false,
                 "opt4puz.gateStage": stage,
@@ -2738,7 +2826,7 @@
                 "opt4puz.sel": -1,
                 "opt4puz.solved": done,
 
-                // ✅ gate resets until both press ready
+                // ✅ gate stays until confirm both
                 "opt4puz.nextReadyAnas": false,
                 "opt4puz.nextReadyLana": false,
                 "opt4puz.gateStage": stage,
@@ -2808,25 +2896,23 @@
         }
       }
 
-      // ✅ زر جاهزية: يتفعّل فقط إذا solved
+      /* ✅ FIX: زر جاهز دايم شغال */
       if(puzNextBtn){
         const myReady = (currentName === "ANAS") ? readyA : readyL;
+        const bothReady = readyA && readyL;
 
-        puzNextBtn.disabled = !solved;
-        puzNextBtn.textContent = !solved
-          ? "✅ أنا جاهز للتالي"
-          : (myReady ? "✅ جاهز (تم) — انتظر الطرف الثاني" : "✅ أنا جاهز للتالي");
+        if(solved){
+          puzNextBtn.textContent = myReady ? "✅ جاهز (تم) — انتظر الطرف الثاني" : "✅ أنا جاهز للتالي";
+        }else{
+          puzNextBtn.textContent = myReady ? "✅ جاهز (تم) — بس لازم تكملون التركيب" : "✅ أنا جاهز للتالي";
+        }
 
-        // لون بسيط بالحالة (بدون تغيير css أساسي)
-        puzNextBtn.style.opacity = (!solved ? 0.6 : 1);
+        puzNextBtn.style.opacity = (bothReady ? 0.95 : 1);
       }
 
       if(puzStatus){
         const by = opt4puz?.updatedBy || "—";
-        const gateLine = solved
-          ? `جاهزية أنس: ${readyA ? "✅" : "—"} | جاهزية لانا: ${readyL ? "✅" : "—"}`
-          : `ركّبوا الصورة أولاً ثم يفتح زر الجاهزية`;
-
+        const gateLine = `جاهزية أنس: ${readyA ? "✅" : "—"} | جاهزية لانا: ${readyL ? "✅" : "—"}\n(الانتقال: لازم ✅✅ + حل البزل)`;
         puzStatus.textContent =
           `Live ✅ | آخر تحديث: ${by}\nقسم: ${section==="coop" ? "مشترك" : "تحدّي"} | شبكة: ${grid}x${grid} | باقي: ${remain} قطعة\n${gateLine}`;
       }
@@ -2851,7 +2937,6 @@
         "opt4puz.sel": -1,
         "opt4puz.solved": false,
 
-        // reset gate
         "opt4puz.nextReadyAnas": false,
         "opt4puz.nextReadyLana": false,
         "opt4puz.gateStage": stage,
@@ -2892,7 +2977,6 @@
         "opt4puz.sel": -1,
         "opt4puz.solved": false,
 
-        // reset gate
         "opt4puz.nextReadyAnas": false,
         "opt4puz.nextReadyLana": false,
         "opt4puz.gateStage": stage,
