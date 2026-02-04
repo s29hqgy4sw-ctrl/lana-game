@@ -4328,9 +4328,9 @@ puzAutoAdvanceIfReady(opt4puz);
         }
 
 
-}); // ← هذا يقفل onSnapshot (لا تحط شيء بعده خاص بالـ sync)
+      }); // ← يقفل onSnapshot
+    } // ✅ يقفل startRoomListener
 
-       
     /********************
      * Bind UI
      ********************/
@@ -4416,6 +4416,7 @@ puzAutoAdvanceIfReady(opt4puz);
 
 </body>
 </html>
+
 
 
 
