@@ -4006,418 +4006,389 @@ function kitApplyUI(opt5){
 
   // badges
   const idx = parseInt(opt5.stepIndex||0,10);
-  const stepName = KIT_STEPS[idx]?.title || "…";
-  if(kitStageBadge) kitStageBadge.textContent = `المرحلة: ${stepName}`;
-  if(kitRecipeBadge){
-    kitRecipeBadge.textContent = `الوصفة: ${opt5.recipeName ? opt5.recipeName : "—"}`;
-  }
+  /********************
+ * ✅ OPTION 5: KITCHEN (Live) — تكملة UI + ربط الأحداث
+ ********************/
+function kitApplyUI(opt5){
+  opt5 = opt5 || {};
+  window.__kitCache = opt5;
 
-  // live line + progress
-  const by = opt5.updatedBy || "—";
-  const locked = !!opt5.recipeLocked;
-  if(kitLiveLine) kitLiveLine.textContent = `Live ✅ | آخر تحديث: ${by} | مقفل: ${locked ? "✅" : "—"}`;
+  const section = (opt5.section === "savory") ? "savory" : "sweet";
+  if(kitTabSweet)  kitTabSweet.classList.toggle("active", section === "sweet");
+  if(kitTabSavory) kitTabSavory.classList.toggle("active", section === "savory");
+
+  // badges
+  const idx = parseInt(opt5.stepIndex||0,10);
+  const stepObj = KIT_STEPS[idx] || KIT_STEPS[0];
+  const stageLabel = `المرحلة: ${idx+1} / ${KIT_STEPS.length} — ${stepObj.title.replace(/^.+?\s/,"")}`;
+  if(kitStageBadge) kitStageBadge.textContent = stageLabel;
+
+  const recipeName = (opt5.recipeName || "—");
+  if(kitRecipeBadge) kitRecipeBadge.textContent = `الوصفة: ${recipeName}`;
+
+  const lock = !!opt5.recipeLocked;
+  const aPick = (opt5.pickAnas || "");
+  const lPick = (opt5.pickLana || "");
+  const aC = !!opt5.confirmRecipeAnas;
+  const lC = !!opt5.confirmRecipeLana;
+
+  if(kitLiveLine){
+    kitLiveLine.textContent =
+      `اختيار أنس: ${aPick ? "✅" : "—"} | اختيار لانا: ${lPick ? "✅" : "—"} | ` +
+      `تأكيد أنس: ${aC ? "✅" : "—"} | تأكيد لانا: ${lC ? "✅" : "—"}`;
+  }
 
   // recipe grid
   kitRenderRecipeGrid(section, opt5.recipeId || "");
 
-  // recipe confirm line
-  const aPick = opt5.pickAnas || "";
-  const lPick = opt5.pickLana || "";
-  const aC = !!opt5.confirmRecipeAnas;
-  const lC = !!opt5.confirmRecipeLana;
+  // hints + confirm line
   if(kitRecipeConfirmLine){
-    kitRecipeConfirmLine.textContent =
-      `اختيار أنس: ${aPick ? "✅" : "—"} | اختيار لانا: ${lPick ? "✅" : "—"}\n` +
-      `تأكيد أنس: ${aC ? "✅" : "—"} | تأكيد لانا: ${lC ? "✅" : "—"} | (القفل يبدأ بعد ✅✅)`;
-  }
-
-  if(kitConfirmRecipeBtn){
-    kitConfirmRecipeBtn.disabled = locked;
-    kitConfirmRecipeBtn.style.opacity = locked ? 0.6 : 1;
-  }
-
-  // steps bar
-  if(kitStepBar){
-    kitStepBar.innerHTML = "";
-    KIT_STEPS.forEach((s,i)=>{
-      const p = document.createElement("div");
-      p.className = "kitStepPill";
-      p.textContent = s.title.replace(/^[^ ]+ /,""); // يشيل الإيموجي في البِل
-      p.classList.toggle("active", i === idx);
-      kitStepBar.appendChild(p);
-    });
-  }
-
-  // step info
-  if(kitStepMini){
-    kitStepMini.textContent = `خطوة ${idx+1} / ${KIT_STEPS.length} • تم التنفيذ: ${opt5.stepDone ? "✅" : "—"}`;
-  }
-  if(kitStepTitle) kitStepTitle.textContent = KIT_STEPS[idx]?.title || "…";
-  if(kitStepDesc) kitStepDesc.textContent = KIT_STEPS[idx]?.desc || "…";
-
-  if(kitProgressText){
-    if(!locked){
-      kitProgressText.textContent = "اختاروا وصفة من تحت… ثم (تأكيد الوصفة) من الطرفين ✅";
+    if(!lock){
+      kitRecipeConfirmLine.textContent =
+        `🔓 الوصفة غير مقفولة.\nاختروا نفس الوصفة ثم اضغطوا (تأكيد الوصفة) — لازم الاثنين ✅✅`;
     }else{
-      if(idx === 3) kitProgressText.textContent = "🎨 تزيين حر… اضغطوا الأدوات تحت! (Live) 💗";
-      else if(idx === 4) kitProgressText.textContent = "🍽️ جاهزين للحفظ؟ اضغطوا (حفظ في الألبوم) ✅";
-      else kitProgressText.textContent = "✨ نفّذوا المرحلة ثم جاهزية الاثنين للتقدم ✅✅";
+      kitRecipeConfirmLine.textContent =
+        `🔒 الوصفة مقفولة ✅\nالآن تلعبون بالمراحل تحت.`;
     }
   }
 
-  // do step button
+  // progress text
+  if(kitProgressText){
+    if(!lock){
+      kitProgressText.textContent = "اختاروا وصفة وابدأوا 👇";
+    }else{
+      const done = !!opt5.stepDone;
+      const readyA = !!opt5.readyNextAnas;
+      const readyL = !!opt5.readyNextLana;
+      kitProgressText.textContent =
+        `${stepObj.title}\n` +
+        `${done ? "✨ تم تنفيذ المرحلة" : "… باقي تنفيذ المرحلة"}\n` +
+        `جاهزية أنس: ${readyA?"✅":"—"} | جاهزية لانا: ${readyL?"✅":"—"}`;
+    }
+  }
+
+  // step bar
+  if(kitStepBar){
+    kitStepBar.innerHTML = "";
+    KIT_STEPS.forEach((s,i)=>{
+      const pill = document.createElement("div");
+      pill.className = "kitStepPill" + (i===idx ? " active" : "");
+      pill.textContent = `${i+1}) ${s.key}`;
+      kitStepBar.appendChild(pill);
+    });
+  }
+
+  // step card
+  if(kitStepMini)  kitStepMini.textContent = lock ? `الوصفة مقفولة ✅` : `اختيار الوصفة أولاً`;
+  if(kitStepTitle) kitStepTitle.textContent = stepObj.title;
+  if(kitStepDesc)  kitStepDesc.textContent  = stepObj.desc;
+
+  // buttons enable/disable
   if(kitDoStepBtn){
-    const can = locked && idx > 0 && idx < 4 && !opt5.stepDone; // ما نحتاج “نفذ” في التزيين/التقديم
-    kitDoStepBtn.disabled = !can;
-    kitDoStepBtn.style.opacity = can ? 1 : 0.6;
+    const canDo =
+      lock &&
+      idx > 0 &&
+      idx < KIT_STEPS.length &&
+      idx !== 3 && // deco stage ما فيها "نفذ"
+      idx !== 4 && // serve stage ما فيها "نفذ"
+      !opt5.stepDone;
+    kitDoStepBtn.disabled = !canDo;
+    kitDoStepBtn.style.opacity = canDo ? 1 : .55;
   }
 
-  // ready button
   if(kitReadyNextBtn){
-    const myReady = !!opt5[kitMyReadyKey()];
-    const lockedOk = locked && idx > 0 && idx < 4; // جاهزية التقدم بين مراحل الطبخ
-    kitReadyNextBtn.disabled = !lockedOk;
-    kitReadyNextBtn.style.opacity = lockedOk ? 1 : 0.6;
-    kitReadyNextBtn.textContent = myReady ? "✅ جاهز (تم) — انتظر الطرف الثاني" : "✅ أنا جاهز للي بعدها";
+    const canReady = lock && idx > 0;
+    kitReadyNextBtn.disabled = !canReady;
+    kitReadyNextBtn.style.opacity = canReady ? 1 : .55;
+
+    const mine = !!opt5[kitMyReadyKey()];
+    if(!lock){
+      kitReadyNextBtn.textContent = "✅ أنا جاهز للي بعدها";
+    }else{
+      kitReadyNextBtn.textContent = mine ? "✅ جاهز (تم) — انتظر الطرف الثاني" : "✅ أنا جاهز للي بعدها";
+    }
   }
 
-  const rA = !!opt5.readyNextAnas;
-  const rL = !!opt5.readyNextLana;
+  // step confirm line
   if(kitStepConfirmLine){
-    kitStepConfirmLine.textContent =
-      `جاهزية أنس: ${rA ? "✅" : "—"} | جاهزية لانا: ${rL ? "✅" : "—"}\n` +
-      `(الانتقال: لازم تنفيذ المرحلة ✅ + جاهزية الاثنين ✅✅)`;
+    if(!lock){
+      kitStepConfirmLine.textContent = "🔒 لازم تقفلوا الوصفة أولاً بتأكيد الاثنين ✅✅";
+    }else{
+      const done = !!opt5.stepDone;
+      const rA = !!opt5.readyNextAnas;
+      const rL = !!opt5.readyNextLana;
+      kitStepConfirmLine.textContent =
+        `تنفيذ المرحلة: ${done ? "✅" : "—"} | ` +
+        `جاهزية أنس: ${rA ? "✅" : "—"} | جاهزية لانا: ${rL ? "✅" : "—"}\n` +
+        `الانتقال: لازم (تنفيذ ✅) + (جاهزية الاثنين ✅✅)`;
+    }
   }
 
   // deco board
-  const canDeco = locked && kitCanDecorate(idx);
+  const canDeco = lock && kitCanDecorate(idx);
   if(kitDecoHint){
     kitDecoHint.style.display = canDeco ? "none" : "grid";
+    kitDecoHint.textContent = canDeco
+      ? ""
+      : "ابدأوا التزيين بعد الوصول لمرحلة “التزيين” 💗";
   }
 
   // render deco items
   if(kitDecoBoard){
-    // امسح كل العناصر القديمة (وخلي hint)
-    Array.from(kitDecoBoard.querySelectorAll(".kitDecoItem")).forEach(n=>n.remove());
+    // امسح العناصر القديمة (خلي hint)
+    Array.from(kitDecoBoard.querySelectorAll(".kitDecoItem")).forEach(x=>x.remove());
 
     const items = Array.isArray(opt5.decoItems) ? opt5.decoItems : [];
     items.forEach(it=>{
-      const d = document.createElement("div");
-      d.className = "kitDecoItem";
-      d.dataset.id = it.id;
+      const div = document.createElement("div");
+      div.className = "kitDecoItem";
+      div.dataset.id = it.id;
 
-      const px = (it.x||0.5)*100;
-      const py = (it.y||0.5)*100;
+      // position
+      const x = (it.x||0.5) * 100;
+      const y = (it.y||0.5) * 100;
+      div.style.left = `${x}%`;
+      div.style.top  = `${y}%`;
+      div.style.transform =
+        `translate(-50%,-50%) rotate(${it.rot||0}deg) scale(${it.scale||1})`;
 
-      d.style.left = px + "%";
-      d.style.top = py + "%";
-
-      const sc = it.scale || 1;
-      const rot = it.rot || 0;
-
-      d.style.transform = `translate(-50%,-50%) rotate(${rot}deg) scale(${sc})`;
-
+      // content
       if(it.type === "text"){
-        d.textContent = (it.text || ""); // نص
-        d.style.fontWeight = "900";
-        d.style.fontSize = "28px";
-        d.style.padding = "10px 12px";
-        d.style.borderRadius = "999px";
-        d.style.border = "1px solid rgba(255,255,255,.18)";
-        d.style.background = "rgba(0,0,0,.10)";
+        div.textContent = (it.text || "").slice(0,18);
+        div.style.fontWeight = "900";
+        div.style.fontSize = "22px";
       }else{
-        d.textContent = it.emoji || "✨";
-        d.style.fontSize = "36px";
+        div.textContent = it.emoji || "✨";
+        div.style.fontSize = "44px";
       }
 
-      // حذف بالضغط (في مرحلة التزيين فقط)
-      d.addEventListener("click", async ()=>{
+      // remove on click (أمان: بس في مرحلة التزيين)
+      div.addEventListener("click", async (e)=>{
+        e.stopPropagation();
         if(!canDeco) return;
         await kitRemoveDeco(it.id);
       });
 
-      kitDecoBoard.appendChild(d);
+      kitDecoBoard.appendChild(div);
     });
-  }
-
-  // status
-  if(kitStatus){
-    const recipeLine = opt5.recipeName ? `🍽️ ${opt5.recipeName}` : "🍽️ —";
-    const decoCount = Array.isArray(opt5.decoItems) ? opt5.decoItems.length : 0;
-    kitStatus.textContent =
-      `Live ✅ | ${recipeLine}\n` +
-      `تزيين: ${decoCount} عنصر | صنع يدنا: ${opt5.madeByUs ? "✅" : "—"}\n` +
-      `ألبوم: ${(Array.isArray(opt5.album)?opt5.album.length:0)} حفظة`;
   }
 
   // album
   kitRenderAlbum(opt5.album);
 
-  // auto behaviors
-  kitAutoLockRecipeIfBoth(opt5);
-  kitAutoAdvanceIfReady(opt5);
+  // status line
+  if(kitStatus){
+    const by = opt5.updatedBy || "—";
+    kitStatus.textContent =
+      `Live ✅ | آخر تحديث: ${by}\n` +
+      `قسم: ${section==="sweet" ? "🍰 الحلويات" : "🍳 الموالح"} | ` +
+      `وصفة: ${recipeName}\n` +
+      `مرحلة: ${idx+1}/${KIT_STEPS.length} | ` +
+      `MadeByUs: ${opt5.madeByUs ? "✅" : "—"} | ` +
+      `Album: ${(Array.isArray(opt5.album)?opt5.album.length:0)}`;
+  }
 }
 
-    /********************
- * ✅ OPTION 5: Bind UI
+// tabs events
+kitTabSweet?.addEventListener("click", ()=> kitSwitchSection("sweet"));
+kitTabSavory?.addEventListener("click", ()=> kitSwitchSection("savory"));
+
+kitConfirmRecipeBtn?.addEventListener("click", kitConfirmRecipe);
+kitResetAllBtn?.addEventListener("click", async ()=>{
+  await pushRoomUpdate({
+    "opt5kitchen.section": "sweet",
+    "opt5kitchen.recipeId": "",
+    "opt5kitchen.recipeName": "",
+    "opt5kitchen.pickAnas": "",
+    "opt5kitchen.pickLana": "",
+    "opt5kitchen.confirmRecipeAnas": false,
+    "opt5kitchen.confirmRecipeLana": false,
+    "opt5kitchen.recipeLocked": false,
+    "opt5kitchen.stepIndex": 0,
+    "opt5kitchen.stepDone": false,
+    "opt5kitchen.readyNextAnas": false,
+    "opt5kitchen.readyNextLana": false,
+    "opt5kitchen.decoItems": [],
+    "opt5kitchen.madeByUs": false,
+    "opt5kitchen.album": (window.__kitCache?.album || []), // نحافظ على الألبوم
+    "opt5kitchen.updatedBy": currentName || "unknown"
+  });
+});
+
+// step buttons
+kitDoStepBtn?.addEventListener("click", kitDoStep);
+kitReadyNextBtn?.addEventListener("click", kitToggleReadyNext);
+
+// deco tools
+document.querySelectorAll(".kitTool").forEach(btn=>{
+  btn.addEventListener("click", async ()=>{
+    const t = btn.getAttribute("data-tool") || "random";
+    await kitAddDeco(t);
+  });
+});
+kitMadeByUsBtn?.addEventListener("click", kitMadeByUs);
+kitSaveBtn?.addEventListener("click", kitSaveToAlbum);
+
+// album modal
+kitAlbumBtn?.addEventListener("click", kitOpenAlbum);
+kitAlbumClose?.addEventListener("click", kitCloseAlbum);
+kitAlbumModal?.addEventListener("click", (e)=>{ if(e.target===kitAlbumModal) kitCloseAlbum(); });
+
+
+/********************
+ * Love Counter (Home)
  ********************/
-(function bindKitchenUI(){
-  // Tabs
-  kitTabSweet?.addEventListener("click", ()=> kitSwitchSection("sweet"));
-  kitTabSavory?.addEventListener("click", ()=> kitSwitchSection("savory"));
+const loveCounter = document.getElementById("loveCounter");
+function setLoveCounter(){
+  // تاريخكم ثابت عندك 24/11 — نخليه كـ 24 نوفمبر من السنة الحالية إذا تبغى
+  // أو عدله يدويًا هنا:
+  const start = new Date("2025-11-24T00:00:00"); // عدله لو تبغاه 2024/11/24
+  const now = new Date();
+  const days = Math.floor((now - start) / (1000*60*60*24));
+  if(loveCounter) loveCounter.textContent = `💗 ${Math.max(0,days)} DAY`;
+}
+setInterval(setLoveCounter, 60000);
+setLoveCounter();
 
-  // Confirm recipe + reset
-  kitConfirmRecipeBtn?.addEventListener("click", kitConfirmRecipe);
-  kitResetAllBtn?.addEventListener("click", async ()=>{
-    await pushRoomUpdate({
-      "opt5kitchen.section": "sweet",
-      "opt5kitchen.recipeId": "",
-      "opt5kitchen.recipeName": "",
-      "opt5kitchen.pickAnas": "",
-      "opt5kitchen.pickLana": "",
-      "opt5kitchen.confirmRecipeAnas": false,
-      "opt5kitchen.confirmRecipeLana": false,
-      "opt5kitchen.recipeLocked": false,
 
-      "opt5kitchen.stepIndex": 0,
-      "opt5kitchen.stepDone": false,
-      "opt5kitchen.readyNextAnas": false,
-      "opt5kitchen.readyNextLana": false,
+/********************
+ * Navigation (back buttons)
+ ********************/
+document.getElementById("backHomeBtn")?.addEventListener("click", ()=> pushPage("pageHome"));
+document.querySelectorAll(".backAny").forEach(btn=>{
+  btn.addEventListener("click", ()=> pushPage("pageHome"));
+});
 
-      "opt5kitchen.decoItems": [],
-      "opt5kitchen.madeByUs": false,
-
-      "opt5kitchen.updatedBy": currentName || "unknown"
-    });
+// menu options
+document.querySelectorAll(".opt").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    const id = b.getAttribute("data-go");
+    if(!id) return;
+    closeModalFn();
+    pushPage(id);
   });
-
-  // Steps
-  kitDoStepBtn?.addEventListener("click", kitDoStep);
-  kitReadyNextBtn?.addEventListener("click", kitToggleReadyNext);
-
-  // Tools
-  document.querySelectorAll(".kitTool").forEach(btn=>{
-    btn.addEventListener("click", async ()=>{
-      const type = btn.getAttribute("data-tool") || "random";
-      await kitAddDeco(type);
-    });
-  });
-
-  // Made by us + Save
-  kitMadeByUsBtn?.addEventListener("click", kitMadeByUs);
-  kitSaveBtn?.addEventListener("click", kitSaveToAlbum);
-
-  // Album modal
-  kitAlbumBtn?.addEventListener("click", kitOpenAlbum);
-  kitAlbumClose?.addEventListener("click", kitCloseAlbum);
-  kitAlbumModal?.addEventListener("click", (e)=>{
-    if(e.target === kitAlbumModal) kitCloseAlbum();
-  });
-})();
+});
 
 
-    /********************
-     * Room listener
-     ********************/
-    function startRoomListener(){
-      if(unsubRoom) return;
+/********************
+ * ✅ Live room listener (كل شيء يتزامن هنا)
+ ********************/
+async function startLive(){
+  await waitForFb();
+  await ensureRoom();
 
-      unsubRoom = window.fb.onSnapshot(roomRef(), (snap)=>{
+  // auth watcher
+  window.fb.onAuthStateChanged(window.fb.auth, async (user)=>{
+    if(user){
+      const em = (user.email||"").toLowerCase();
+      currentName = em.startsWith("lana") ? "LANA" : "ANAS";
+
+      // UI
+      if(topbar) topbar.classList.remove("hide");
+      if(whoPill) whoPill.textContent = `💗 ${currentName}`;
+      setMsg("");
+      pushPage("pageHome");
+
+      // listen room
+      if(unsubRoom) unsubRoom();
+      unsubRoom = window.fb.onSnapshot(roomRef(), async (snap)=>{
         const data = snap.data() || {};
 
-        if(data.currentPage){
-          showPageLocal(data.currentPage);
-        }
+        // caches for opt3/4/5
+        window.__fishSelectedCache = data?.opt3?.selected ?? -1;
 
-        if(data.currentMode && modeSelect.value !== data.currentMode){
-          modeSelect.value = data.currentMode;
-          CURRENT_MODE = data.currentMode;
-        }
+        window.__puzSectionCache = data?.opt4puz?.section || "challenge";
+        window.__puzStageCache = data?.opt4puz?.stage || 1;
+        window.__puzPlacedCache = data?.opt4puz?.placed || {};
+        window.__puzSelCache = data?.opt4puz?.sel ?? -1;
+        window.__puzRolesCache = data?.opt4puz?.roles || {viewer:"ANAS", assembler:"LANA"};
+        window.__puzNextReadyAnasCache = !!data?.opt4puz?.nextReadyAnas;
+        window.__puzNextReadyLanaCache = !!data?.opt4puz?.nextReadyLana;
+        window.__puzGateStageCache = data?.opt4puz?.gateStage || (data?.opt4puz?.stage||1);
 
-        if(typeof data.promptText === "string" && promptCard){
-          promptCard.textContent = data.promptText;
-        }
+        // routing pages
+        const page = data.currentPage || "pageHome";
+        showPageLocal(page);
 
-        const by = data.lastBy || "—";
+        // topbar pills
+        const who = currentName || "…";
+        if(whoPill) whoPill.textContent = `💗 ${who}`;
+        const roomPill = document.getElementById("roomPill");
+        if(roomPill) roomPill.textContent = `Room: ${ROOM_ID}`;
+
+        // option1
+        CURRENT_MODE = data.currentMode || CURRENT_MODE;
+        if(modeSelect && modeSelect.value !== CURRENT_MODE) modeSelect.value = CURRENT_MODE;
+        if(promptCard) promptCard.textContent = data.promptText || "ابدأ ✨ اختر (سؤال / تحدي)";
         if(syncLine){
-          syncLine.textContent = `متزامن ✅ | آخر تحديث: ${by} | المرحلة: ${CURRENT_MODE}`;
+          const by = data.lastBy || "—";
+          syncLine.textContent = `Live ✅ | آخر تحديث: ${by}`;
         }
 
-        // Option 2 sync
-        const opt2 = data.opt2 || {};
+        // option2
+        if(data.opt2){
+          if(amkQuestion) amkQuestion.textContent = data.opt2.q || "اضغط (سؤال جديد) 🌹";
+          if(amkMeAs) amkMeAs.textContent = (currentName==="ANAS") ? "أنس" : "لانا";
+          if(amkOtherAs) amkOtherAs.textContent = (currentName==="ANAS") ? "لانا" : "أنس";
 
-        if(amkMeAs && amkOtherAs && currentName){
-          amkMeAs.textContent = (currentName === "ANAS") ? "LANA" : "ANAS";
-          amkOtherAs.textContent = (currentName === "ANAS") ? "ANAS" : "LANA";
+          const my = (currentName==="ANAS") ? (data.opt2.anas||"") : (data.opt2.lana||"");
+          const other = (currentName==="ANAS") ? (data.opt2.lana||"") : (data.opt2.anas||"");
+
+          safeSetTextareaValue(amkMe, my);
+          safeSetTextareaValue(amkOther, other);
+
+          const rA = !!data.opt2.readyAnas;
+          const rL = !!data.opt2.readyLana;
+
+          if(amkHintMe) amkHintMe.textContent = `جاهزيتك: ${ (currentName==="ANAS" ? rA : rL) ? "✅" : "—" }`;
+          if(amkHintOther) amkHintOther.textContent = `جاهزية الطرف الثاني: ${ (currentName==="ANAS" ? rL : rA) ? "✅" : "—" }`;
+          if(amkStatus) amkStatus.textContent = `Live ✅ | آخر تحديث: ${data.opt2.updatedBy || "—"}`;
         }
 
-        if(amkHintMe) amkHintMe.textContent = "اكتب كأنك الطرف الثاني… بضميره ومشاعره.";
-        if(amkHintOther) amkHintOther.textContent = "تظهر بعد حفظ الاثنين ✅";
-
-        if(amkQuestion){
-          amkQuestion.textContent = (typeof opt2.q === "string" && opt2.q) ? `❓ ${opt2.q}` : "❓ اضغط (سؤال جديد) 🌹";
+        // option3
+        if(data.opt3){
+          applyFishUI(data.opt3);
+          await evaluateIfNeeded(data.opt3);
+          await autoNextIfNeeded(data.opt3);
         }
 
-        const mine = (opt2[myKey()] || "");
-        const other = (opt2[otherKey()] || "");
-
-        safeSetTextareaValue(amkMe, mine);
-
-        const bothReady = !!opt2[myReadyKey()] && !!opt2[otherReadyKey()];
-        if(amkOther){
-          if(bothReady){
-            amkOther.value = other || "—";
-          }else{
-            amkOther.value = "🔒 لن تظهر إجابة الطرف الثاني حتى تحفظون أنتم الاثنين 💗";
-          }
+        // option4
+        if(data.opt4puz){
+          // تأكد الحقول الأساسية
+          await puzEnsureStageFields(data.opt4puz);
+          puzApplyUI(data.opt4puz);
+          await puzAutoAdvanceIfReady(data.opt4puz);
         }
 
-        if(amkStatus){
-          const by2 = opt2.updatedBy || data.lastBy || "—";
-          amkStatus.textContent = `Live ✅ | حفظ أنس: ${opt2.readyAnas ? "✅" : "—"} | حفظ لانا: ${opt2.readyLana ? "✅" : "—"} | آخر تحديث: ${by2}`;
-        }
-
-        // Option 3 sync
-        const opt3 = data.opt3 || {};
-        const stage = Math.max(1, Math.min(150, parseInt(opt3.stage||1,10)));
-        window.__fishStageCache = stage;
-        window.__fishSelectedCache = parseInt(opt3.selected ?? -1, 10);
-
-        applyFishUI(opt3);
-        evaluateIfNeeded(opt3);
-        autoNextIfNeeded(opt3);
-
-        if(fishStatus){
-          const who = opt3.updatedBy || data.lastBy || "—";
-          fishStatus.textContent = `Live ✅ | آخر تحديث: ${who} | مرحلة: ${stage} | اختيار: ${window.__fishSelectedCache}`;
-        }
-
-        // ✅ Option 4 sync
-        const opt4puz = data.opt4puz || {};
-        const section = (opt4puz.section === "coop") ? "coop" : "challenge";
-        const puzStage = clamp(parseInt(opt4puz.stage||1,10), 1, PUZ_PER_SECTION);
-
-        window.__puzSectionCache = section;
-        window.__puzStageCache = puzStage;
-        window.__puzSelCache = parseInt(opt4puz.sel ?? -1, 10);
-        window.__puzPlacedCache = opt4puz.placed || {};
-        window.__puzRolesCache = opt4puz.roles || {viewer:"ANAS", assembler:"LANA"};
-        window.__puzSolvedCache = !!opt4puz.solved;
-
-        window.__puzNextReadyAnasCache = !!opt4puz.nextReadyAnas;
-        window.__puzNextReadyLanaCache = !!opt4puz.nextReadyLana;
-        window.__puzGateStageCache = parseInt(opt4puz.gateStage||puzStage,10);
-
-        if((data.currentPage === "pageOpt4") && currentName){
-          puzEnsureStageFields(opt4puz);
-        }
-
-      puzApplyUI(opt4puz);
-puzAutoAdvanceIfReady(opt4puz);
-
-        // ✅ Option 5 sync (Kitchen)
-        const opt5 = data.opt5kitchen || {};
-        window.__kitCache = opt5;
-
-        if(data.currentPage === "pageOpt5" && currentName){
-          kitApplyUI(opt5);
-        }else{
-          // حتى لو مو فاتح الصفحة، نحدّث الألبوم للجاهزية
-          kitRenderAlbum(opt5.album);
-        }
-
-
-      }); // ← يقفل onSnapshot
-    } // ✅ يقفل startRoomListener
-
-    /********************
-     * Bind UI
-     ********************/
-    document.getElementById("backHomeBtn")?.addEventListener("click", ()=> pushPage("pageHome"));
-    document.querySelectorAll(".backAny").forEach(b=> b.addEventListener("click", ()=> pushPage("pageHome")));
-
-    document.getElementById("btnQ")?.addEventListener("click", ()=> pushPrompt("q"));
-    document.getElementById("btnC")?.addEventListener("click", ()=> pushPrompt("c"));
-
-    modeSelect.addEventListener("change", async ()=>{
-      CURRENT_MODE = modeSelect.value || "lana1";
-      await pushRoomUpdate({ currentMode: CURRENT_MODE });
-    });
-
-    document.querySelectorAll(".opt").forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        const go = btn.getAttribute("data-go");
-        closeModalFn();
-        if(go) pushPage(go);
-      });
-    });
-
-    /********************
-     * Start after Firebase
-     ********************/
-    (async ()=>{
-      await waitForFb();
-
-      window.fb.onAuthStateChanged(window.fb.auth, async (user)=>{
-        if(!user){
-          currentName = null;
-          topbar.classList.add("hide");
-          showPageLocal("pageLogin");
-          return;
-        }
-
-        const em = (user.email||"").toLowerCase();
-        currentName = em.startsWith("lana") ? "LANA" : "ANAS";
-
-        whoPill.textContent = `💗 أنت: ${currentName}`;
-        topbar.classList.remove("hide");
-
-        CURRENT_MODE = modeSelect.value || "lana1";
-
-        await ensureRoom();
-        startRoomListener();
-
-        pushPage("pageHome");
-      });
-
-      window.addEventListener("visibilitychange", ()=>{
-        if(document.visibilityState==="visible" && window.fb?.auth?.currentUser){
-          ensureRoom();
+        // option5
+        if(data.opt5kitchen){
+          kitApplyUI(data.opt5kitchen);
+          await kitAutoLockRecipeIfBoth(data.opt5kitchen);
+          await kitAutoAdvanceIfReady(data.opt5kitchen);
         }
       });
-    })();
-  </script>
 
-  <script>
-    function updateLoveCounter(){
-      const startDate = new Date(2025, 10, 24);
-      const today = new Date();
-      const diffTime = today.getTime() - startDate.getTime();
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      const counterEl = document.getElementById("loveCounter");
-      if(counterEl){
-        counterEl.textContent = `💗 ${diffDays} DAY`;
-      }
+    }else{
+      // not logged
+      currentName = null;
+      if(topbar) topbar.classList.add("hide");
+      showPageLocal("pageLogin");
     }
-    updateLoveCounter();
-    setInterval(updateLoveCounter, 1000 * 60 * 60);
-  </script>
+  });
+}
 
-  <script>
-    window.addEventListener("beforeunload", () => {
-      try {
-        if (window.fb?.auth?.currentUser) {
-          window.fb.signOut(window.fb.auth);
-        }
-      } catch (e) {}
-    });
-  </script>
+// option1 buttons
+document.getElementById("btnQ")?.addEventListener("click", ()=> pushPrompt("q"));
+document.getElementById("btnC")?.addEventListener("click", ()=> pushPrompt("c"));
+modeSelect?.addEventListener("change", ()=>{
+  CURRENT_MODE = modeSelect.value || "lana1";
+  pushRoomUpdate({ currentMode: CURRENT_MODE });
+});
 
-</body>
-</html>
+// start
+startLive().catch(()=>{});
 
-
-
+  </script> </body> </html>
 
 
 
