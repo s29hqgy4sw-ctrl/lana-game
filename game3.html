@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Game 3 - ألغاز البحر</title>
+  <style>
+    body{margin:0;font-family:system-ui;background:#160614;color:#fff;min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:18px}
+    .card{width:min(980px,96vw);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:22px;overflow:hidden}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.20);flex-wrap:wrap}
+    .pill{padding:10px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);font-weight:900}
+    .btn{padding:10px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:#fff;font-weight:900;cursor:pointer}
+    .btnWhite{background:#fff;color:#111;border:0}
+    .inner{padding:16px}
+    .title{border-radius:18px;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.16);padding:14px;text-align:center;font-weight:900}
+    .sea{margin-top:12px;border-radius:18px;border:1px solid rgba(255,255,255,.14);background:linear-gradient(180deg, rgba(0,0,0,.14), rgba(0,0,0,.22));padding:16px}
+    .riddle{border-radius:18px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.18);padding:16px;text-align:center;font-size:18px;line-height:2;min-height:74px;display:flex;align-items:center;justify-content:center}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    @media (max-width:860px){.grid{grid-template-columns:1fr}}
+    .box{border-radius:18px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.14);padding:14px}
+    .head{font-weight:900;text-align:center;line-height:1.8;margin-bottom:10px}
+    input{width:100%;padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.18);color:#fff;outline:none;font-size:15px}
+    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .row .btn{flex:1 1 180px}
+    .hint{margin-top:10px;color:rgba(255,255,255,.75);text-align:center;font-size:13px;line-height:1.9}
+    .status{margin-top:10px;color:rgba(255,255,255,.72);text-align:center;font-size:12px;line-height:1.9}
+    .chip{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);font-weight:900;font-size:12px}
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="top">
+      <div class="pill" id="who">🌊 ...</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn" id="home">🏠 الرئيسية</button>
+        <button class="btn btnWhite" id="logout">تسجيل خروج</button>
+      </div>
+    </div>
+
+    <div class="inner">
+      <div class="title">🌊 ألغاز البحر (Live) — كل واحد يحل وبعدين نكشف</div>
+
+      <div class="sea">
+        <div class="riddle" id="riddle">اضغط (لغز جديد) 🐚</div>
+
+        <div class="row" style="margin-top:12px">
+          <button class="btn" id="newRiddle">🐚 لغز جديد</button>
+          <button class="btn" id="reveal">👀 كشف الحل</button>
+        </div>
+
+        <div class="hint">
+          الفكرة: كل واحد يكتب تخمينه… وما ينكشف إلا إذا ضغطت “كشف الحل” ✅
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="box">
+          <div class="head">تخمينك أنت <span class="chip" id="meTag">—</span></div>
+          <input id="meGuess" placeholder="اكتب تخمينك…" />
+          <div class="row">
+            <button class="btn btnWhite" id="saveGuess">💾 حفظ تخميني (Live)</button>
+          </div>
+          <div class="hint">اكتب كلمة/جملة قصيرة.</div>
+        </div>
+
+        <div class="box">
+          <div class="head">تخمين الطرف الثاني <span class="chip" id="otherTag">—</span></div>
+          <input id="otherGuess" readonly value="🔒 مخفي لين تكشفون" />
+          <div class="hint">ما يبان إلا عند “كشف الحل”.</div>
+        </div>
+      </div>
+
+      <div class="status" id="status">…</div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, updateDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBTr4NrjrEq3Lh23PIJ_Zz-KRr6yqgafyU",
+      authDomain: "lanasnas-8de50.firebaseapp.com",
+      projectId: "lanasnas-8de50",
+      storageBucket: "lanasnas-8de50.firebasestorage.app",
+      messagingSenderId: "847037285771",
+      appId: "1:847037285771:web:096d4a14a984de41955b8e"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const ROOM_ID = "our-world";
+    const roomRef = doc(db, "rooms", ROOM_ID);
+
+    const who = document.getElementById("who");
+    const status = document.getElementById("status");
+    const riddleEl = document.getElementById("riddle");
+    const meGuess = document.getElementById("meGuess");
+    const otherGuess = document.getElementById("otherGuess");
+    const meTag = document.getElementById("meTag");
+    const otherTag = document.getElementById("otherTag");
+
+    const RIDDLES = [
+      {q:"شيء في البحر.. له أسنان ولا يعض؟", a:"المشط"},
+      {q:"يمشي بلا رجلين.. ويدخل الماء وما يبتل؟", a:"الضوء"},
+      {q:"شيء إذا أخذت منه كبر.. وش هو؟", a:"الحفرة"},
+      {q:"له عين وحدة وما يشوف.. من هو؟", a:"الإبرة"},
+      {q:"أسمعك ولا أشوفك.. وإذا شفتك اختفيت.. وش أنا؟", a:"الصدى"},
+      {q:"على ظهره بيت ويحمل نفسه.. من هو؟", a:"السلحفاة"},
+      {q:"شيء كل ما زاد نقص.. وش هو؟", a:"العمر"},
+      {q:"يمتلئ كلما أُفرغ.. وش هو؟", a:"البئر"}
+    ];
+
+    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+    let currentName = null; // "ANAS" | "LANA"
+    function myKey(){ return (currentName==="ANAS") ? "anas" : "lana"; }
+    function otherKey(){ return (currentName==="ANAS") ? "lana" : "anas"; }
+    function mySavedKey(){ return (currentName==="ANAS") ? "savedAnas" : "savedLana"; }
+    function otherSavedKey(){ return (currentName==="ANAS") ? "savedLana" : "savedAnas"; }
+
+    async function ensureRoom(){
+      await setDoc(roomRef, {
+        roomId: ROOM_ID,
+        g3: {
+          q: "",
+          a: "",
+          anas: "",
+          lana: "",
+          savedAnas: false,
+          savedLana: false,
+          revealed: false,
+          updatedBy: "system"
+        },
+        updatedAt: serverTimestamp()
+      }, { merge:true });
+    }
+
+    function safeSetInput(el, v){
+      if(!el) return;
+      if(document.activeElement===el) return;
+      el.value = (typeof v==="string") ? v : "";
+    }
+
+    async function push(payload){
+      await updateDoc(roomRef, { ...payload, updatedAt: serverTimestamp() });
+    }
+
+    onAuthStateChanged(auth, async (user)=>{
+      if(!user){
+        location.href = "index.html";
+        return;
+      }
+      const em = (user.email||"").toLowerCase();
+      currentName = em.startsWith("lana") ? "LANA" : "ANAS";
+      who.textContent = `🌊 أنت: ${currentName}`;
+      meTag.textContent = currentName;
+      otherTag.textContent = (currentName==="ANAS") ? "LANA" : "ANAS";
+
+      await ensureRoom();
+
+      onSnapshot(roomRef, (snap)=>{
+        const data = snap.data() || {};
+        const g3 = data.g3 || {};
+
+        riddleEl.textContent = g3.q ? `🐚 ${g3.q}` : "اضغط (لغز جديد) 🐚";
+
+        safeSetInput(meGuess, g3[myKey()] || "");
+
+        const otherTxt = g3.revealed ? (g3[otherKey()] || "—") : "🔒 مخفي لين تكشفون";
+        otherGuess.value = otherTxt;
+
+        const solvedMe = g3[mySavedKey()] ? "✅" : "—";
+        const solvedOther = g3[otherSavedKey()] ? "✅" : "—";
+        status.textContent =
+          `Live ✅ | حلّ ${currentName}: ${solvedMe} | حلّ الطرف الثاني: ${solvedOther} | كشف: ${g3.revealed ? "✅" : "—"} | آخر تحديث: ${g3.updatedBy || "—"}`;
+      });
+    });
+
+    document.getElementById("newRiddle").onclick = async ()=>{
+      const item = pick(RIDDLES);
+      await push({
+        "g3.q": item.q,
+        "g3.a": item.a,
+        "g3.anas": "",
+        "g3.lana": "",
+        "g3.savedAnas": false,
+        "g3.savedLana": false,
+        "g3.revealed": false,
+        "g3.updatedBy": currentName || "unknown"
+      });
+    };
+
+    document.getElementById("saveGuess").onclick = async ()=>{
+      const txt = (meGuess.value||"").trim();
+      if(!txt){ status.textContent="اكتب تخمينك أولاً ✍️"; return; }
+      const payload = {};
+      payload[`g3.${myKey()}`] = txt;
+      payload[`g3.${mySavedKey()}`] = true;
+      payload["g3.updatedBy"] = currentName || "unknown";
+      await push(payload);
+    };
+
+    document.getElementById("reveal").onclick = async ()=>{
+      await push({
+        "g3.revealed": true,
+        "g3.updatedBy": currentName || "unknown"
+      });
+    };
+
+    document.getElementById("home").onclick = ()=> location.href = "index.html";
+
+    document.getElementById("logout").onclick = async ()=>{
+      try{ await signOut(auth); }catch(e){}
+      location.href = "index.html";
+    };
+  </script>
+</body>
+</html>
