@@ -1320,6 +1320,55 @@
   aspect-ratio:16/10;
 }
 .kitServePlate img{ width:100%; height:100%; object-fit:cover; display:block; }
+    /* ✅ Kitchen Buttons + Animations */
+.kitMiniBtns{
+  margin-top:10px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.kitMiniBtns .actionBtn{ flex:1 1 160px; }
+
+.kitEgg.cracked{
+  transform: translateY(18px) rotate(-18deg) scale(0.9);
+  opacity:.4;
+  transition: transform .25s ease, opacity .25s ease;
+}
+.kitEggArea.crackShake{
+  animation: kitShake .35s ease;
+}
+@keyframes kitShake{
+  0%{ transform: translateX(0); }
+  25%{ transform: translateX(-6px); }
+  50%{ transform: translateX(6px); }
+  75%{ transform: translateX(-4px); }
+  100%{ transform: translateX(0); }
+}
+
+.kitMixSplash{
+  position:absolute;
+  top:20px;
+  font-size:26px;
+  opacity:0;
+  transform: translateY(6px) scale(.95);
+  transition: opacity .2s ease, transform .2s ease;
+  pointer-events:none;
+}
+.kitMixSplash.show{
+  opacity:1;
+  transform: translateY(0) scale(1);
+}
+
+.kitSpoon.mixAnim{
+  animation: kitMix 0.55s ease;
+}
+@keyframes kitMix{
+  0%{ transform: rotate(0) translateY(0); }
+  25%{ transform: rotate(18deg) translateY(6px); }
+  50%{ transform: rotate(-18deg) translateY(10px); }
+  75%{ transform: rotate(14deg) translateY(6px); }
+  100%{ transform: rotate(0) translateY(0); }
+}
   </style>
 </head>
 
@@ -1718,21 +1767,30 @@
                   <div class="kitCookDesc" id="kitStepDesc">…</div>
 
                   <!-- PREP: Egg crack + mix -->
-                  <div class="kitMiniGame hide" id="kitMiniPrep">
-                    <div class="kitMiniHint">اسحب البيضة لأسفل عشان تنكسر 🥚⬇️</div>
-                    <div class="kitEggArea" id="kitEggArea">
-                      <div class="kitEgg" id="kitEgg">🥚</div>
-                      <div class="kitBowl">🥣</div>
-                      <div class="kitEggFX" id="kitEggFX">✨</div>
-                    </div>
+                 <div class="kitMiniGame hide" id="kitMiniPrep">
+  <div class="kitMiniHint">اضغط زر “اكسر البيضة” وشوف التأثير قدامك 🥚✨</div>
 
-                    <div class="kitMiniHint" style="margin-top:10px">حرّك الملعقة داخل الوعاء عشان “تخلط” 🥄</div>
-                    <div class="kitMixArea" id="kitMixArea">
-                      <div class="kitBowl2">🥣</div>
-                      <div class="kitSpoon" id="kitSpoon">🥄</div>
-                      <div class="kitMixMeter"><span id="kitMixFill"></span></div>
-                    </div>
-                  </div>
+  <div class="kitEggArea" id="kitEggArea">
+    <div class="kitEgg" id="kitEgg">🥚</div>
+    <div class="kitBowl">🥣</div>
+    <div class="kitEggFX" id="kitEggFX">✨</div>
+  </div>
+
+  <div class="kitMiniBtns">
+    <button class="actionBtn" id="kitCrackBtn">🥚 اكسر البيضة</button>
+    <button class="actionBtn" id="kitMixBtn">🥄 اخلط</button>
+  </div>
+
+  <div class="kitMiniHint" style="margin-top:10px">زر “اخلط” يعطي حركة خلط مباشرة (بدون انتظار عدّاد) ✅</div>
+
+  <div class="kitMixArea" id="kitMixArea">
+    <div class="kitBowl2">🥣</div>
+    <div class="kitSpoon" id="kitSpoon">🥄</div>
+    <!-- نخلي الميتر اختياري للمنظر بس ما يمنع الانتقال -->
+    <div class="kitMixMeter"><span id="kitMixFill"></span></div>
+    <div class="kitMixSplash" id="kitMixSplash">✨✨✨</div>
+  </div>
+</div>
 
                   <!-- COOK: Oven -->
                   <div class="kitMiniGame hide" id="kitMiniOven">
@@ -3598,6 +3656,9 @@ const kitAlbumBtn = document.getElementById("kitAlbumBtn");
 const kitAlbumModal = document.getElementById("kitAlbumModal");
 const kitAlbumClose = document.getElementById("kitAlbumClose");
 const kitAlbumGrid = document.getElementById("kitAlbumGrid");
+const kitCrackBtn = document.getElementById("kitCrackBtn");
+const kitMixBtn   = document.getElementById("kitMixBtn");
+const kitMixSplash = document.getElementById("kitMixSplash");    
 
 function kitNowDateStr(){
   const d = new Date();
@@ -3821,6 +3882,9 @@ function kitDefaultState(){
     ovenDone:false,
     ovenTemp:180,
     ovenLeft:20,
+    mixPct:0,
+mixDone:false,
+    "opt5kitchen.mixDone": false,
 
     decoItems:[],
     madeByUs:false,
@@ -3842,6 +3906,60 @@ async function kitGoScene(sceneName){
     "opt5kitchen.updatedBy": currentName || "unknown"
   });
 }
+    function kitFxCrackLocal(){
+  if(kitEggArea) kitEggArea.classList.add("crackShake");
+  setTimeout(()=> kitEggArea && kitEggArea.classList.remove("crackShake"), 400);
+
+  if(kitEgg) kitEgg.classList.add("cracked");
+
+  if(kitEggFX){
+    kitEggFX.style.opacity = "1";
+    setTimeout(()=>{ kitEggFX.style.opacity = "0"; }, 600);
+  }
+}
+
+function kitFxMixLocal(){
+  if(kitSpoon){
+    kitSpoon.classList.remove("mixAnim");
+    // force reflow
+    void kitSpoon.offsetWidth;
+    kitSpoon.classList.add("mixAnim");
+  }
+  if(kitMixSplash){
+    kitMixSplash.classList.add("show");
+    setTimeout(()=> kitMixSplash && kitMixSplash.classList.remove("show"), 450);
+  }
+}
+
+// زر كسر البيضة
+kitCrackBtn?.addEventListener("click", async ()=>{
+  kitFxCrackLocal();
+
+  await pushRoomUpdate({
+    "opt5kitchen.eggDone": true,
+    // أي تغيير يصفّر جاهزية الانتقال للطرفين (عشان ما ينطون بالغلط)
+    "opt5kitchen.readyNextAnas": false,
+    "opt5kitchen.readyNextLana": false,
+    "opt5kitchen.updatedBy": currentName || "unknown"
+  });
+});
+
+// زر الخلط (بدون انتظار عدّاد)
+kitMixBtn?.addEventListener("click", async ()=>{
+  kitFxMixLocal();
+
+  const opt5 = window.__kitCache || kitDefaultState();
+  const cur = Math.max(0, Math.min(100, parseInt(opt5.mixPct||0,10)));
+  const next = Math.min(100, cur + 35); // يتقدم للمنظر فقط
+
+  await pushRoomUpdate({
+    "opt5kitchen.mixPct": next,
+    "opt5kitchen.mixDone": true,   // ✅ هذا المهم (يكفي ضغطة واحدة)
+    "opt5kitchen.readyNextAnas": false,
+    "opt5kitchen.readyNextLana": false,
+    "opt5kitchen.updatedBy": currentName || "unknown"
+  });
+});
 
 async function kitChooseSection(section){
   const next = (section==="savory") ? "savory" : "sweet";
@@ -3986,7 +4104,9 @@ async function kitDoStep(){
 
   // ✅ شرط كل مرحلة:
   if(step.key === "prep"){
-    if(!opt5.eggDone || (opt5.mixPct||0) < 100) return;
+  // ✅ يكفي: تكسر البيضة + تضغط خلط مرة وحدة (بدون انتظار عدّاد)
+  if(!opt5.eggDone || !opt5.mixDone) return;
+}
   }
   if(step.key === "cook"){
     if(!opt5.ovenDone) return;
@@ -4863,6 +4983,7 @@ puzAutoAdvanceIfReady(opt4puz);
 
 </body>
 </html>
+
 
 
 
