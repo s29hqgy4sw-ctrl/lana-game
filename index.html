@@ -1,433 +1,4637 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>LANA ❤️ ANAS</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>LANA ❤️ ANAS</title>
+<style>
+:root{
+--bg1:#160614;
+--bg2:#2a0b22;
+--bg3:#3a0f2d;
 
-  <!-- نفس ستايلك الأساسي (مختصر للّوبي) -->
-  <style>
-    :root{
-      --bg1:#160614; --bg2:#2a0b22; --bg3:#3a0f2d;
-      --glass: rgba(255,255,255,.08);
-      --stroke: rgba(255,255,255,.16);
-      --txt: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.70);
-      --accent:#ff2d55;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans Arabic", "Noto Kufi Arabic", sans-serif;
-      color:var(--txt);
-      overflow:auto;
-      background:
-        radial-gradient(1100px 700px at 10% 10%, rgba(255,45,85,.18), transparent 60%),
-        radial-gradient(900px 600px at 90% 20%, rgba(255,77,125,.16), transparent 60%),
-        radial-gradient(1000px 700px at 70% 95%, rgba(255,45,85,.14), transparent 55%),
-        linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
-    }
+--glass: rgba(255,255,255,.08);
+--glass2: rgba(255,255,255,.12);
+--stroke: rgba(255,255,255,.16);
+--txt: rgba(255,255,255,.92);
+--muted: rgba(255,255,255,.70);
+--muted2: rgba(255,255,255,.55);
+--accent:#ff2d55;
+--accent2:#ff4d7d;
+--ok:#22c55e;
+--bad:#ef4444;
 
-    .hearts{ position:fixed; inset:-20vh 0 0 0; pointer-events:none; overflow:hidden; z-index:2; }
-    .heart{ position:absolute; top:-20vh; font-size:22px; opacity:.95; animation: fall linear infinite; will-change: transform; text-shadow: 0 12px 24px rgba(0,0,0,.35); }
-    @keyframes fall{ to{ transform: translateY(130vh) rotate(25deg); } }
+--sea1:#051b2c;
+--sea2:#06354a;
+--sea3:#0b5d70;
+--seaGlow: rgba(0,210,255,.18);
+--rain: rgba(255,255,255,.22);
+--wave: rgba(255,255,255,.08);
 
-    .wrap{
-      position:relative; min-height:100%;
-      display:flex; align-items:flex-start; justify-content:center;
-      padding: calc(22px + env(safe-area-inset-top)) 22px calc(22px + env(safe-area-inset-bottom));
-      z-index:5;
-    }
-    .card{
-      width:min(860px, 96vw);
-      max-height: calc(100vh - 44px);
-      display:flex; flex-direction:column;
-      border-radius:26px;
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
-      border:1px solid var(--stroke);
-      box-shadow: 0 18px 60px rgba(0,0,0,.45);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      overflow:hidden;
-    }
-    .inner{ padding:28px 28px 22px; overflow:auto; flex:1; -webkit-overflow-scrolling: touch; }
-    @media (max-width:520px){ .inner{padding:18px 16px} .card{max-height: calc(100vh - 24px);} }
+/* ✅ Puzzle theme */
+--puz1:#070b18;
+--puz2:#101a3a;
+--puz3:#2a1a4a;
+--puzGlow: rgba(160,140,255,.18);
+--puzDrop: rgba(255,255,255,.18);
+--puzTile: rgba(255,255,255,.07);
+--puzTile2: rgba(255,255,255,.11);
+--puzStroke: rgba(255,255,255,.14);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
 
-    .center{text-align:center}
-    .titleBig{ font-size: clamp(30px, 4.1vw, 44px); margin:0 0 8px; font-weight:800; }
-    .sub{ margin:0; color:var(--muted); font-size: clamp(14px, 2.2vw, 18px); line-height:1.9; }
-    .homeDate{ margin:8px 0 0; color:rgba(255,255,255,.78); font-weight:800; letter-spacing:.5px; }
+/* ✅ FIX: لا نخلي body مقفول (كان overflow:hidden) */
+body{
+margin:0;
+font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans Arabic", "Noto Kufi Arabic", sans-serif;
+color:var(--txt);
+overflow:auto; /* ✅ مهم */
+background:
+radial-gradient(1100px 700px at 10% 10%, rgba(255,45,85,.18), transparent 60%),
+radial-gradient(900px 600px at 90% 20%, rgba(255,77,125,.16), transparent 60%),
+radial-gradient(1000px 700px at 70% 95%, rgba(255,45,85,.14), transparent 55%),
+linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+transition: background .35s ease;
+}
 
-    .divider{ height:1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent); margin:18px 0; }
+.vignette{
+position:fixed; inset:0;
+pointer-events:none;
+background: radial-gradient(900px 600px at 50% 0%, rgba(255,255,255,.06), transparent 60%),
+radial-gradient(900px 700px at 50% 100%, rgba(0,0,0,.35), transparent 55%);
+mix-blend-mode: screen;
+z-index:0;
+}
 
-    .loginPanel{
-      width:min(700px, 92vw);
-      margin:0 auto;
-      padding:20px;
-      border-radius:22px;
-      background: rgba(0,0,0,.12);
-      border:1px solid rgba(255,255,255,.12);
-    }
-    .inputs{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
-    @media (max-width:700px){ .inputs{grid-template-columns:1fr} }
-    .inp{
-      width:100%; padding:14px;
-      border-radius:16px; border:1px solid rgba(255,255,255,.14);
-      outline:none; background: rgba(0,0,0,.18); color:var(--txt); font-size:16px;
-    }
-    .inp::placeholder{ color: rgba(255,255,255,.55); }
-    .btn{
-      width:100%; margin-top:14px; padding:14px 16px;
-      border:0; border-radius:18px; font-weight:800; font-size:18px;
-      cursor:pointer; background:#fff; color:#111;
-      box-shadow: 0 14px 35px rgba(0,0,0,.35);
-    }
-    .msg{ margin-top:10px; font-size:14px; color:var(--muted); text-align:center; min-height:20px; }
-    .msg.bad{ color: rgba(239,68,68,.95); }
-    .msg.ok{ color: rgba(34,197,94,.95); }
+.hearts{
+position:fixed; inset:-20vh 0 0 0;
+pointer-events:none;
+overflow:hidden;
+filter: drop-shadow(0 8px 18px rgba(0,0,0,.35));
+transition: opacity .25s ease;
+z-index:2;
+}
+.heart{
+position:absolute;
+top:-20vh;
+font-size:22px;
+opacity:.95;
+animation: fall linear infinite;
+will-change: transform;
+text-shadow: 0 12px 24px rgba(0,0,0,.35);
+}
+@keyframes fall{
+to{ transform: translateY(130vh) rotate(25deg); }
+}
 
-    .topbar{
-      position:sticky; top:0; z-index:30;
-      display:flex; align-items:center; justify-content:space-between; gap:14px;
-      padding:16px 18px;
-      border-bottom:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.20);
-      backdrop-filter: blur(14px);
-    }
-    .pill{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:10px 14px; border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      font-weight:700;
-    }
-    .menuBtn{
-      width:48px; height:44px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.08);
-      color:var(--txt);
-      cursor:pointer;
-      display:grid; place-items:center;
-      font-size:20px;
-    }
+body.seaTheme{
+background:
+radial-gradient(1100px 700px at 20% 10%, var(--seaGlow), transparent 60%),
+radial-gradient(900px 600px at 80% 20%, rgba(0,210,255,.12), transparent 60%),
+radial-gradient(1000px 700px at 60% 95%, rgba(0,150,255,.10), transparent 55%),
+linear-gradient(135deg, var(--sea1), var(--sea2), var(--sea3));
+}
+body.seaTheme .hearts{ opacity:.12; }
 
-    .homeBox{ padding:22px 22px 26px; text-align:center; }
-    .homeTitle{ font-size: clamp(26px, 4vw, 40px); font-weight:900; margin:0 0 6px; letter-spacing:.6px; }
-    .homeTitle span{ color: var(--accent); }
-    .homeSmall{ margin:0; color:var(--muted); font-size: 15px; }
-    .homeText{ margin:16px auto 0; width:min(700px, 92%); color:rgba(255,255,255,.88); line-height:2; font-size: 18px; }
-    .homePledge{ margin:12px auto 0; width:min(720px, 92%); color:rgba(255,255,255,.62); font-size: 13px; line-height:2; }
-    .homeLove{ margin:10px 0 0; color:rgba(255,255,255,.62); font-size: 12px; }
-    .hint{ margin-top:12px; color:rgba(255,255,255,.65); font-size:13px; line-height:2; text-align:center; }
+.rain{
+position:fixed; inset:-20vh 0 0 0;
+pointer-events:none;
+overflow:hidden;
+display:none;
+opacity:0;
+transition: opacity .25s ease;
+filter: drop-shadow(0 14px 25px rgba(0,0,0,.35));
+z-index:1;
+}
+body.seaTheme .rain{
+display:block;
+opacity:1;
+}
+.drop{
+position:absolute;
+top:-25vh;
+width:2px;
+height:18px;
+background: linear-gradient(to bottom, rgba(255,255,255,0), var(--rain), rgba(255,255,255,0));
+border-radius:999px;
+animation: rainFall linear infinite;
+will-change: transform;
+opacity:.7;
+}
+@keyframes rainFall{
+to{ transform: translateY(140vh) translateX(6vw); }
+}
 
-    .modal{
-      position:fixed; inset:0; display:none;
-      align-items:center; justify-content:center;
-      background: rgba(0,0,0,.55);
-      z-index:50; padding:18px;
-    }
-    .modal.show{ display:flex; }
-    .modalCard{
-      width:min(820px, 96vw);
-      border-radius:26px;
-      background: rgba(20,8,16,.82);
-      border:1px solid rgba(255,255,255,.16);
-      box-shadow: 0 22px 70px rgba(0,0,0,.6);
-      backdrop-filter: blur(18px);
-      overflow:hidden;
-      max-height: calc(100vh - 40px);
-      display:flex; flex-direction:column;
-    }
-    .modalHead{
-      padding:16px 18px;
-      display:flex; align-items:center; justify-content:space-between;
-      border-bottom:1px solid rgba(255,255,255,.10);
-    }
-    .modalHead h3{ margin:0; font-size:18px; font-weight:900; }
-    .closeBtn{
-      width:44px; height:40px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.08);
-      color:var(--txt);
-      cursor:pointer;
-      font-size:18px;
-    }
-    .grid{ padding:18px; display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; overflow:auto; }
-    @media (max-width:760px){ .grid{ grid-template-columns:1fr; } }
-    .opt{
-      padding:16px 14px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.06);
-      color:var(--txt);
-      font-weight:900;
-      cursor:pointer;
-      display:flex; align-items:center; justify-content:center; gap:10px;
-      min-height:56px;
-    }
-    .opt small{ font-weight:800; color:rgba(255,255,255,.65); }
-    .hide{display:none !important;}
-  </style>
+.seaEmojis{
+position:fixed; inset:-22vh 0 0 0;
+pointer-events:none;
+overflow:hidden;
+display:none;
+opacity:0;
+transition: opacity .25s ease;
+filter: drop-shadow(0 14px 25px rgba(0,0,0,.35));
+z-index:3;
+}
+body.seaTheme .seaEmojis{
+display:block;
+opacity:1;
+}
+.seaEmoji{
+position:absolute;
+top:-25vh;
+font-size:22px;
+opacity:.95;
+animation: emojiFall linear infinite;
+will-change: transform;
+text-shadow: 0 12px 24px rgba(0,0,0,.35);
+}
+@keyframes emojiFall{
+to{ transform: translateY(140vh) translateX(8vw) rotate(25deg); }
+}
+
+.waves{
+position:fixed; left:0; right:0; bottom:-12vh; height:40vh;
+pointer-events:none;
+display:none;
+opacity:0;
+transition: opacity .25s ease;
+background:
+radial-gradient(60% 70% at 10% 40%, rgba(255,255,255,.08), transparent 60%),
+radial-gradient(55% 65% at 35% 55%, rgba(255,255,255,.06), transparent 60%),
+radial-gradient(60% 70% at 65% 45%, rgba(255,255,255,.07), transparent 60%),
+radial-gradient(55% 65% at 90% 55%, rgba(255,255,255,.06), transparent 60%);
+filter: blur(8px);
+mix-blend-mode: screen;
+animation: waveMove 7s ease-in-out infinite;
+z-index:1;
+}
+@keyframes waveMove{
+0%{ transform: translateY(0) translateX(0); }
+50%{ transform: translateY(-10px) translateX(-12px); }
+100%{ transform: translateY(0) translateX(0); }
+}
+body.seaTheme .waves{
+display:block;
+opacity:1;
+}
+
+body.puzzleTheme{
+background:
+radial-gradient(950px 620px at 15% 10%, var(--puzGlow), transparent 62%),
+radial-gradient(900px 600px at 85% 22%, rgba(110,230,255,.10), transparent 62%),
+radial-gradient(1000px 700px at 65% 96%, rgba(255,90,190,.10), transparent 58%),
+linear-gradient(135deg, var(--puz1), var(--puz2), var(--puz3));
+}
+body.puzzleTheme .hearts{ opacity:.10; }
+body.puzzleTheme .rain{ opacity:0; display:none; }
+body.puzzleTheme .seaEmojis{ opacity:0; display:none; }
+body.puzzleTheme .waves{ opacity:0; display:none; }
+
+.puzzleRain{
+position:fixed; inset:-20vh 0 0 0;
+pointer-events:none;
+overflow:hidden;
+display:none;
+opacity:0;
+transition: opacity .25s ease;
+filter: drop-shadow(0 14px 25px rgba(0,0,0,.35));
+z-index:1;
+}
+body.puzzleTheme .puzzleRain{
+display:block;
+opacity:1;
+}
+.puzDrop{
+position:absolute;
+top:-25vh;
+width:16px;
+height:16px;
+border-radius:6px;
+background:
+radial-gradient(12px 12px at 30% 30%, rgba(255,255,255,.18), transparent 60%),
+linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+border:1px solid rgba(255,255,255,.12);
+animation: puzFall linear infinite;
+will-change: transform;
+opacity:.65;
+transform: rotate(15deg);
+box-shadow: 0 10px 25px rgba(0,0,0,.20);
+}
+.puzDrop::after{
+content:"";
+position:absolute;
+width:6px; height:6px;
+border-radius:999px;
+left:50%; top:-3px;
+transform: translateX(-50%);
+background: rgba(255,255,255,.12);
+border:1px solid rgba(255,255,255,.10);
+filter: blur(.2px);
+}
+@keyframes puzFall{
+to{ transform: translateY(145vh) translateX(8vw) rotate(120deg); }
+}
+
+/* ✅ FIX: wrap يسمح بالتمرير + safe area */
+.wrap{
+position:relative;
+min-height:100%;
+display:flex;
+align-items:flex-start;
+justify-content:center;
+padding: calc(22px + env(safe-area-inset-top)) 22px calc(22px + env(safe-area-inset-bottom));
+z-index:5;
+}
+
+/* ✅ FIX: card = عمود + inner scroll */
+.card{
+width:min(860px, 96vw);
+max-height: calc(100vh - 44px);
+display:flex;
+flex-direction:column;
+border-radius:26px;
+background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+border:1px solid var(--stroke);
+box-shadow: 0 18px 60px rgba(0,0,0,.45);
+backdrop-filter: blur(16px);
+-webkit-backdrop-filter: blur(16px);
+overflow:hidden;
+}
+
+/* ✅ inner يصير قابل للسكرول */
+.inner{
+padding:28px 28px 22px;
+overflow:auto;
+-webkit-overflow-scrolling: touch;
+flex:1;
+}
+@media (max-width:520px){
+.inner{ padding:18px 16px 18px; }
+.card{ max-height: calc(100vh - 24px); }
+}
+
+.center{text-align:center}
+
+.titleBig{
+font-size: clamp(30px, 4.1vw, 44px);
+letter-spacing:.5px;
+margin:0 0 8px;
+font-weight:800;
+}
+.sub{
+margin:0;
+color:var(--muted);
+font-size: clamp(14px, 2.2vw, 18px);
+line-height:1.9;
+}
+
+.divider{
+height:1px;
+background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+margin:18px 0;
+}
+
+.loginPanel{
+width:min(700px, 92vw);
+margin:0 auto;
+padding:20px;
+border-radius:22px;
+background: rgba(0,0,0,.12);
+border:1px solid rgba(255,255,255,.12);
+}
+.inputs{
+display:grid;
+grid-template-columns: 1fr 1fr;
+gap:12px;
+margin-top:14px;
+}
+@media (max-width:700px){
+.inputs{ grid-template-columns:1fr; }
+}
+.inp{
+width:100%;
+padding:14px 14px;
+border-radius:16px;
+border:1px solid rgba(255,255,255,.14);
+outline:none;
+background: rgba(0,0,0,.18);
+color:var(--txt);
+font-size:16px;
+}
+.inp::placeholder{ color: rgba(255,255,255,.55); }
+.btn{
+width:100%;
+margin-top:14px;
+padding:14px 16px;
+border:0;
+border-radius:18px;
+font-weight:800;
+font-size:18px;
+cursor:pointer;
+background: #ffffff;
+color:#111;
+box-shadow: 0 14px 35px rgba(0,0,0,.35);
+}
+.btn:active{ transform: translateY(1px); }
+
+.msg{
+margin-top:10px;
+font-size:14px;
+color:var(--muted);
+text-align:center;
+min-height:20px;
+}
+.msg.bad{ color: rgba(239,68,68,.95); }
+.msg.ok{ color: rgba(34,197,94,.95); }
+
+/* ✅ FIX: topbar sticky داخل الكرت */
+.topbar{
+position:sticky;
+top:0;
+z-index:30;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:14px;
+padding:16px 18px;
+border-bottom:1px solid rgba(255,255,255,.10);
+background: rgba(0,0,0,.20);
+backdrop-filter: blur(14px);
+-webkit-backdrop-filter: blur(14px);
+}
+.pill{
+display:inline-flex;
+align-items:center;
+gap:10px;
+padding:10px 14px;
+border-radius:999px;
+border:1px solid rgba(255,255,255,.14);
+background: rgba(255,255,255,.06);
+color:var(--txt);
+font-weight:700;
+max-width: 62vw;
+overflow:hidden;
+text-overflow: ellipsis;
+white-space:nowrap;
+}
+.leftGroup,.rightGroup{
+display:flex;
+align-items:center;
+gap:10px;
+}
+.menuBtn{
+width:48px; height:44px;
+border-radius:16px;
+border:1px solid rgba(255,255,255,.16);
+background: rgba(255,255,255,.08);
+color:var(--txt);
+cursor:pointer;
+display:grid;
+place-items:center;
+font-size:20px;
+}
+
+.select{
+padding:10px 14px;
+border-radius:999px;
+border:1px solid rgba(255,255,255,.16);
+background: rgba(255,255,255,.06);
+color:var(--txt);
+outline:none;
+font-weight:800;
+}
+
+.page{ display:none; }
+.page.active{ display:block; }
+
+.homeBox{
+padding:22px 22px 26px;
+text-align:center;
+}
+.homeTitle{
+font-size: clamp(26px, 4vw, 40px);
+font-weight:900;
+margin:0 0 6px;
+letter-spacing:.6px;
+}
+.homeTitle span{
+color: var(--accent);
+text-shadow: 0 10px 24px rgba(255,45,85,.22);
+}
+.homeSmall{ margin:0; color:var(--muted); font-size: 15px; }
+.homeDate{
+margin:8px 0 0;
+color:rgba(255,255,255,.78);
+font-weight:800;
+letter-spacing:.5px;
+}
+.homeText{
+margin:16px auto 0;
+width:min(700px, 92%);
+color:rgba(255,255,255,.88);
+line-height:2;
+font-size: 18px;
+}
+.homePledge{
+margin:12px auto 0;
+width:min(720px, 92%);
+color:rgba(255,255,255,.62);
+font-size: 13px;
+line-height:2;
+}
+.homeLove{
+margin:10px 0 0;
+color:rgba(255,255,255,.62);
+font-size: 12px;
+}
+
+.modal{
+position:fixed; inset:0;
+display:none;
+align-items:center;
+justify-content:center;
+background: rgba(0,0,0,.55);
+z-index:50;
+padding:18px;
+}
+.modal.show{ display:flex; }
+.modalCard{
+width:min(820px, 96vw);
+border-radius:26px;
+background: rgba(20,8,16,.82);
+border:1px solid rgba(255,255,255,.16);
+box-shadow: 0 22px 70px rgba(0,0,0,.6);
+backdrop-filter: blur(18px);
+-webkit-backdrop-filter: blur(18px);
+overflow:hidden;
+max-height: calc(100vh - 40px);
+display:flex;
+flex-direction:column;
+}
+.modalHead{
+padding:16px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+border-bottom:1px solid rgba(255,255,255,.10);
+}
+.modalHead h3{
+margin:0;
+font-size:18px;
+font-weight:900;
+color:rgba(255,255,255,.92);
+}
+.closeBtn{
+width:44px; height:40px;
+border-radius:14px;
+border:1px solid rgba(255,255,255,.16);
+background: rgba(255,255,255,.08);
+color:var(--txt);
+cursor:pointer;
+font-size:18px;
+}
+.grid{
+padding:18px;
+display:grid;
+grid-template-columns: repeat(3, 1fr);
+gap:12px;
+overflow:auto;
+-webkit-overflow-scrolling: touch;
+}
+@media (max-width:760px){
+.grid{ grid-template-columns:1fr; }
+}
+.opt{
+padding:16px 14px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,.16);
+background: rgba(255,255,255,.06);
+color:var(--txt);
+font-weight:900;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+min-height:56px;
+transition: transform .12s ease, background .12s ease;
+}
+.opt:hover{ transform: translateY(-1px); background: rgba(255,255,255,.09); }
+.opt small{ font-weight:800; color:rgba(255,255,255,.65); }
+
+.contentBox{
+padding:18px 18px 24px;
+}
+.backBtn{
+padding:10px 14px;
+border-radius:14px;
+border:1px solid rgba(255,255,255,.16);
+background: rgba(255,255,255,.08);
+color:var(--txt);
+cursor:pointer;
+font-weight:900;
+display:inline-flex;
+align-items:center;
+gap:8px;
+}
+.hint{
+margin-top:12px;
+color:rgba(255,255,255,.65);
+font-size:13px;
+line-height:2;
+text-align:center;
+}
+
+.gameBox{ padding:18px 18px 24px; }
+.gameTop{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+margin-bottom:12px;
+flex-wrap:wrap;
+}
+.promptCard{
+margin-top:12px;
+border-radius:22px;
+background: rgba(0,0,0,.16);
+border:1px solid rgba(255,255,255,.14);
+padding:18px;
+min-height:120px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+font-size:22px;
+line-height:1.8;
+}
+.actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:12px;
+}
+.actionBtn{
+flex:1 1 160px;
+padding:12px 14px;
+border-radius:16px;
+border:1px solid rgba(255,255,255,.16);
+background: rgba(255,255,255,.08);
+color:var(--txt);
+cursor:pointer;
+font-weight:900;
+}
+.actionBtn:active{ transform: translateY(1px); }
+.statusLine{
+margin-top:10px;
+color:rgba(255,255,255,.55);
+font-size:13px;
+text-align:center;
+}
+
+/* ===== OPTION 2 ===== */
+.amkWrap{ margin-top:12px; }
+.amkQ{
+margin:12px 0 0;
+border-radius:22px;
+background: rgba(0,0,0,.16);
+border:1px solid rgba(255,255,255,.14);
+padding:16px 14px;
+text-align:center;
+font-size:20px;
+line-height:1.9;
+}
+.amkGrid{
+display:grid;
+grid-template-columns: 1fr 1fr;
+gap:12px;
+margin-top:12px;
+}
+@media (max-width:760px){
+.amkGrid{ grid-template-columns:1fr; }
+}
+.amkCard{
+border-radius:22px;
+background: rgba(0,0,0,.14);
+border:1px solid rgba(255,255,255,.12);
+padding:14px;
+}
+.amkHead{
+font-weight:900;
+margin-bottom:10px;
+color:rgba(255,255,255,.90);
+text-align:center;
+line-height:1.8;
+}
+.amkArea{
+width:100%;
+min-height:120px;
+resize:vertical;
+padding:12px 12px;
+border-radius:16px;
+border:1px solid rgba(255,255,255,.14);
+outline:none;
+background: rgba(0,0,0,.18);
+color:var(--txt);
+font-size:16px;
+line-height:1.9;
+}
+.amkArea::placeholder{ color: rgba(255,255,255,.55); }
+.amkRow{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:12px;
+}
+.amkRow .actionBtn{ flex:1 1 180px; }
+
+/* ===== OPTION 3 ===== */
+.fishWrap{ margin-top:12px; }
+.fishTopRow{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+align-items:center;
+justify-content:space-between;
+margin-top:10px;
+}
+.fishBadge{
+display:inline-flex;
+align-items:center;
+gap:10px;
+padding:10px 14px;
+border-radius:999px;
+border:1px solid rgba(255,255,255,.14);
+background: rgba(255,255,255,.06);
+color:var(--txt);
+font-weight:900;
+max-width: 92%;
+overflow:hidden;
+text-overflow: ellipsis;
+white-space:nowrap;
+}
+.fishCard{
+margin-top:12px;
+border-radius:22px;
+background: rgba(0,0,0,.16);
+border:1px solid rgba(255,255,255,.14);
+padding:16px 14px;
+text-align:center;
+line-height:1.9;
+position:relative;
+overflow:hidden;
+}
+body.seaTheme .fishCard{
+background: rgba(0,10,18,.20);
+border-color: rgba(255,255,255,.18);
+}
+.fishCard::after{
+content:"";
+position:absolute; inset:-20%;
+background:
+radial-gradient(40% 30% at 30% 35%, rgba(255,255,255,.08), transparent 60%),
+radial-gradient(35% 30% at 70% 55%, rgba(255,255,255,.06), transparent 60%);
+opacity:0;
+transition: opacity .25s ease;
+pointer-events:none;
+}
+body.seaTheme .fishCard::after{ opacity:1; }
+
+.fishQ{
+font-size:20px;
+font-weight:900;
+margin:0;
+position:relative;
+z-index:1;
+}
+.fishChoices{
+margin-top:12px;
+display:grid;
+grid-template-columns: 1fr 1fr;
+gap:12px;
+position:relative;
+z-index:1;
+}
+@media (max-width:760px){
+.fishChoices{ grid-template-columns:1fr; }
+}
+.fishChoiceBtn{
+padding:14px 14px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,.16);
+background: rgba(255,255,255,.08);
+color:var(--txt);
+cursor:pointer;
+font-weight:900;
+text-align:center;
+line-height:1.8;
+min-height:56px;
+transition: transform .12s ease, background .12s ease;
+}
+.fishChoiceBtn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); }
+.fishChoiceBtn.disabled{
+opacity:.55;
+cursor:not-allowed;
+transform:none !important;
+pointer-events:none;
+}
+
+.fishResult{
+margin-top:12px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,.14);
+background: rgba(0,0,0,.12);
+padding:12px 12px;
+text-align:center;
+color:rgba(255,255,255,.88);
+white-space:pre-wrap;
+line-height:2;
+min-height:48px;
+position:relative;
+z-index:1;
+}
+.fishLove{
+margin-top:12px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,.14);
+background: rgba(255,45,85,.10);
+padding:12px 12px;
+text-align:center;
+color:rgba(255,255,255,.92);
+white-space:pre-wrap;
+line-height:2;
+display:none;
+position:relative;
+z-index:1;
+}
+.fishLove.show{ display:block; }
+
+.fishActions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:12px;
+position:relative;
+z-index:1;
+}
+.fishActions .actionBtn{ flex:1 1 160px; }
+
+.confirmLine{
+margin-top:10px;
+color:rgba(255,255,255,.72);
+font-size:12px;
+text-align:center;
+line-height:1.9;
+position:relative;
+z-index:1;
+}
+
+.hide{ display:none !important; }
+
+/* ✅ OPTION 4: PUZZLE */
+.puzWrap{ margin-top:12px; }
+.puzTopRow{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+align-items:center;
+justify-content:space-between;
+margin-top:10px;
+}
+.puzBadge{
+display:inline-flex;
+align-items:center;
+gap:10px;
+padding:10px 14px;
+border-radius:999px;
+border:1px solid rgba(255,255,255,.14);
+background: rgba(255,255,255,.06);
+color:var(--txt);
+font-weight:900;
+max-width: 100%;
+overflow:hidden;
+text-overflow: ellipsis;
+white-space:nowrap;
+}
+.puzCard{
+margin-top:12px;
+border-radius:22px;
+background: rgba(0,0,0,.16);
+border:1px solid rgba(255,255,255,.14);
+padding:14px;
+position:relative;
+overflow:hidden;
+}
+body.puzzleTheme .puzCard{
+background: rgba(5,8,18,.18);
+border-color: rgba(255,255,255,.16);
+}
+
+.puzLayout{
+display:grid;
+grid-template-columns: 1fr;
+gap:12px;
+}
+
+.puzPanel{
+border-radius:18px;
+border:1px solid rgba(255,255,255,.14);
+background: rgba(255,255,255,.06);
+padding:12px;
+}
+.puzPanelTitle{
+font-weight:900;
+margin:0 0 10px;
+color:rgba(255,255,255,.92);
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+flex-wrap:wrap;
+}
+.puzMini{
+font-size:12px;
+color:rgba(255,255,255,.70);
+font-weight:800;
+}
+
+.puzImageBox{
+width:100%;
+aspect-ratio: 1 / 1;
+border-radius:18px;
+border:1px solid rgba(255,255,255,.14);
+overflow:hidden;
+background: rgba(0,0,0,.15);
+position:relative;
+}
+.puzImageBox img{
+width:100%;
+height:100%;
+object-fit: cover;
+display:block;
+user-select:none;
+-webkit-user-drag:none;
+pointer-events:none;
+}
+.puzImageGlow{
+position:absolute; inset:0;
+background:
+radial-gradient(60% 55% at 30% 25%, rgba(255,255,255,.10), transparent 62%),
+radial-gradient(55% 55% at 70% 75%, rgba(255,255,255,.08), transparent 62%);
+mix-blend-mode: screen;
+pointer-events:none;
+opacity:.9;
+}
+
+.puzBoard{
+width:100%;
+aspect-ratio: 1 / 1;
+border-radius:18px;
+border:1px solid rgba(255,255,255,.14);
+background: rgba(0,0,0,.12);
+padding:10px;
+display:grid;
+gap:8px;
+}
+body.puzzleTheme .puzBoard{
+background: rgba(0,0,0,.10);
+}
+.puzSlot{
+border-radius:14px;
+border:1px dashed rgba(255,255,255,.18);
+background: rgba(255,255,255,.04);
+position:relative;
+overflow:hidden;
+display:grid;
+place-items:center;
+min-height:0;
+user-select:none;
+-webkit-user-select:none;
+touch-action: manipulation;
+}
+.puzSlot.filled{
+border-style:solid;
+border-color: rgba(255,255,255,.14);
+background: rgba(255,255,255,.06);
+}
+
+.puzPiece{
+width:100%;
+height:100%;
+border-radius:12px;
+border:1px solid rgba(255,255,255,.12);
+background-repeat:no-repeat;
+background-size: 100% 100%;
+box-shadow: 0 10px 25px rgba(0,0,0,.22);
+position:relative;
+overflow:hidden;
+touch-action: manipulation;
+}
+.puzPiece::after{
+content:"";
+position:absolute; inset:-20%;
+background:
+radial-gradient(40% 30% at 30% 25%, rgba(255,255,255,.10), transparent 60%),
+radial-gradient(40% 30% at 70% 75%, rgba(255,255,255,.08), transparent 60%);
+opacity:.7;
+pointer-events:none;
+}
+
+.puzTray{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+justify-content:center;
+}
+.puzTile{
+width:60px;
+aspect-ratio: 1/1;
+border-radius:14px;
+border:1px solid rgba(255,255,255,.14);
+background: rgba(255,255,255,.06);
+overflow:hidden;
+cursor:pointer;
+position:relative;
+user-select:none;
+-webkit-user-select:none;
+touch-action: manipulation;
+box-shadow: 0 12px 28px rgba(0,0,0,.22);
+}
+@media (max-width:520px){
+.puzTile{ width:56px; }
+}
+.puzTile.selected{
+outline: 2px solid rgba(255,255,255,.85);
+transform: translateY(-1px);
+}
+.puzTile .puzPiece{ border-radius:13px; border:0; box-shadow:none; }
+
+.puzStatus{
+margin-top:10px;
+border-radius:16px;
+border:1px solid rgba(255,255,255,.14);
+background: rgba(0,0,0,.10);
+padding:10px 12px;
+color:rgba(255,255,255,.85);
+white-space:pre-wrap;
+line-height:2;
+font-size:13px;
+text-align:center;
+}
+.puzSuccess{
+margin-top:10px;
+border-radius:16px;
+border:1px solid rgba(34,197,94,.30);
+background: rgba(34,197,94,.10);
+padding:10px 12px;
+color:rgba(255,255,255,.92);
+white-space:pre-wrap;
+line-height:2;
+font-size:13px;
+text-align:center;
+display:none;
+}
+.puzSuccess.show{ display:block; }
+
+/* ✅ Tabs */
+.puzTabs{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+align-items:center;
+justify-content:space-between;
+margin-top:10px;
+}
+.seg{
+display:flex;
+gap:6px;
+padding:6px;
+border-radius:999px;
+border:1px solid rgba(255,255,255,.14);
+background: rgba(255,255,255,.06);
+}
+.segBtn{
+padding:10px 14px;
+border-radius:999px;
+border:0;
+cursor:pointer;
+font-weight:900;
+color:rgba(255,255,255,.88);
+background: transparent;
+}
+.segBtn.active{
+background: rgba(255,255,255,.14);
+color:#fff;
+box-shadow: 0 10px 25px rgba(0,0,0,.18);
+}
+
+/* ✅ Mini board */
+.puzMiniBoardWrap{
+margin-top:12px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,.14);
+background: rgba(0,0,0,.10);
+padding:10px;
+}
+.puzMiniBoardTitle{
+font-weight:900;
+font-size:13px;
+color:rgba(255,255,255,.88);
+display:flex;
+justify-content:space-between;
+gap:10px;
+margin-bottom:8px;
+}
+.puzMiniBoard{
+width:100%;
+aspect-ratio: 1/1;
+border-radius:16px;
+border:1px solid rgba(255,255,255,.12);
+background: rgba(0,0,0,.08);
+padding:8px;
+display:grid;
+gap:6px;
+pointer-events:none;
+opacity:.98;
+}
+.puzMiniSlot{
+border-radius:12px;
+border:1px dashed rgba(255,255,255,.18);
+background: rgba(255,255,255,.03);
+display:grid;
+place-items:center;
+overflow:hidden;
+}
+.puzMiniSlot.filled{
+border-style:solid;
+border-color: rgba(255,255,255,.12);
+background: rgba(255,255,255,.05);
+}
+.puzMiniPiece{
+width:100%;
+height:100%;
+border-radius:10px;
+background-repeat:no-repeat;
+box-shadow:none;
+border:0;
+}
+/* ===== OPTION 5: KITCHEN ===== */
+.kitWrap{ margin-top:12px; }
+.kitTopRow{ display:flex; gap:10px; flex-wrap:wrap; justify-content:space-between; margin-top:10px; }
+.kitBadge{
+display:inline-flex; align-items:center; gap:10px;
+padding:10px 14px; border-radius:999px;
+border:1px solid rgba(255,255,255,.14);
+background: rgba(255,255,255,.06);
+color:var(--txt); font-weight:900;
+max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.kitTabs{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; margin-top:10px; }
+.kitAlbumBtn{ flex: 0 0 auto; min-width:140px; }
+
+.kitChars{
+margin-top:12px;
+display:grid;
+grid-template-columns: 1fr 1.6fr 1fr;
+gap:12px;
+align-items:stretch;
+}
+@media (max-width:760px){
+.kitChars{ grid-template-columns:1fr; }
+}
+.kitCharCard{
+border-radius:22px;
+background: rgba(0,0,0,.14);
+border:1px solid rgba(255,255,255,.12);
+padding:14px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+gap:6px;
+}
+.kitCharEmoji{ font-size:48px; }
+.kitCharName{ font-weight:900; letter-spacing:.5px; }
+.kitCharSub{ color:rgba(255,255,255,.65); font-weight:800; font-size:12px; }
+
+.kitTable{
+border-radius:22px;
+background: rgba(0,0,0,.12);
+border:1px solid rgba(255,255,255,.12);
+padding:14px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+.kitTableTop{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+.kitTableTitle{ font-weight:900; }
+.kitMiniLine{ font-size:12px; color:rgba(255,255,255,.70); font-weight:800; line-height:1.9; }
+.kitProgress{
+margin-top:10px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,.14);
+background: rgba(255,45,85,.10);
+padding:12px;
+line-height:2;
+text-align:center;
+font-weight:900;
+}
+
+.kitPanel{
+margin-top:12px;
+border-radius:22px;
+background: rgba(0,0,0,.14);
+border:1px solid rgba(255,255,255,.12);
+padding:14px;
+}
+.kitPanelTitle{
+font-weight:900;
+margin:0 0 10px;
+color:rgba(255,255,255,.92);
+display:flex;
+justify-content:space-between;
+gap:10px;
+flex-wrap:wrap;
+}
+.kitMini{ font-size:12px; color:rgba(255,255,255,.70); font-weight:800; }
+
+.kitRecipeGrid{
+display:grid;
+grid-template-columns: repeat(2, 1fr);
+gap:10px;
+}
+@media (max-width:760px){
+.kitRecipeGrid{ grid-template-columns:1fr; }
+}
+.kitRecipeBtn{
+padding:14px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,.16);
+background: rgba(255,255,255,.08);
+color:var(--txt);
+cursor:pointer;
+font-weight:900;
+text-align:center;
+line-height:1.9;
+transition: transform .12s ease, background .12s ease;
+}
+.kitRecipeBtn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); }
+.kitRecipeBtn.selected{ outline:2px solid rgba(255,255,255,.85); }
+
+.kitConfirmRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+.kitConfirmRow .actionBtn{ flex:1 1 180px; }
+.kitConfirmLine{
+margin-top:10px;
+color:rgba(255,255,255,.72);
+font-size:12px;
+text-align:center;
+line-height:1.9;
+}
+
+.kitStepBar{
+display:flex; gap:8px; flex-wrap:wrap;
+justify-content:center;
+margin-bottom:10px;
+}
+.kitStepPill{
+padding:10px 12px;
+border-radius:999px;
+border:1px solid rgba(255,255,255,.14);
+background: rgba(255,255,255,.06);
+font-weight:900;
+font-size:12px;
+color:rgba(255,255,255,.85);
+}
+.kitStepPill.active{ background: rgba(255,255,255,.14); color:#fff; }
+.kitStepCard{
+border-radius:18px;
+border:1px solid rgba(255,255,255,.14);
+background: rgba(0,0,0,.10);
+padding:12px;
+}
+.kitStepTitle{ font-weight:900; margin-bottom:6px; }
+.kitStepDesc{ color:rgba(255,255,255,.80); line-height:2; font-size:13px; }
+.kitActions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+.kitActions .actionBtn{ flex:1 1 180px; }
+
+.kitDecoBoard{
+width:100%;
+aspect-ratio: 16 / 10;
+border-radius:18px;
+border:1px solid rgba(255,255,255,.14);
+background: rgba(0,0,0,.10);
+position:relative;
+overflow:hidden;
+display:block;
+}
+.kitDecoHint{
+position:absolute;
+inset:0;
+display:grid;
+place-items:center;
+text-align:center;
+padding:12px;
+color:rgba(255,255,255,.75);
+font-weight:900;
+line-height:2;
+}
+.kitDecoItem{
+position:absolute;
+user-select:none;
+-webkit-user-select:none;
+cursor:pointer;
+filter: drop-shadow(0 10px 18px rgba(0,0,0,.25));
+transform: translate(-50%, -50%);
+}
+.kitDecoTools{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+justify-content:center;
+margin-top:10px;
+}
+.kitTool{
+padding:10px 12px;
+border-radius:999px;
+border:1px solid rgba(255,255,255,.14);
+background: rgba(255,255,255,.06);
+color:rgba(255,255,255,.92);
+font-weight:900;
+cursor:pointer;
+}
+.kitTool:active{ transform: translateY(1px); }
+
+.kitStatus{
+margin-top:10px;
+border-radius:16px;
+border:1px solid rgba(255,255,255,.14);
+background: rgba(0,0,0,.10);
+padding:10px 12px;
+color:rgba(255,255,255,.85);
+white-space:pre-wrap;
+line-height:2;
+font-size:13px;
+text-align:center;
+}
+
+/* Album modal */
+.kitModal{
+position:fixed; inset:0;
+display:none;
+align-items:center;
+justify-content:center;
+background: rgba(0,0,0,.55);
+z-index:60;
+padding:18px;
+}
+.kitModal.show{ display:flex; }
+.kitModalCard{
+width:min(820px, 96vw);
+border-radius:26px;
+background: rgba(20,8,16,.82);
+border:1px solid rgba(255,255,255,.16);
+box-shadow: 0 22px 70px rgba(0,0,0,.6);
+backdrop-filter: blur(18px);
+-webkit-backdrop-filter: blur(18px);
+overflow:hidden;
+max-height: calc(100vh - 40px);
+display:flex;
+flex-direction:column;
+}
+.kitModalHead{
+padding:16px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+border-bottom:1px solid rgba(255,255,255,.10);
+}
+.kitAlbumGrid{
+padding:18px;
+display:grid;
+grid-template-columns: repeat(2, 1fr);
+gap:12px;
+overflow:auto;
+-webkit-overflow-scrolling: touch;
+}
+@media (max-width:760px){
+.kitAlbumGrid{ grid-template-columns:1fr; }
+}
+.kitAlbumCard{
+border-radius:18px;
+border:1px solid rgba(255,255,255,.16);
+background: rgba(255,255,255,.06);
+overflow:hidden;
+}
+.kitAlbumImg{ width:100%; display:block; aspect-ratio: 16/10; object-fit: cover; }
+.kitAlbumMeta{ padding:12px; line-height:2; color:rgba(255,255,255,.85); font-weight:900; font-size:12px; }
+.kitAlbumHint{ padding:12px 18px; color:rgba(255,255,255,.65); font-weight:800; font-size:12px; text-align:center; }
+
+</style>
 </head>
 
 <body>
-  <div class="hearts" id="hearts"></div>
+<div class="hearts" id="hearts"></div>
+<div class="rain" id="rain"></div>
+<div class="seaEmojis" id="seaEmojis"></div>
+<div class="puzzleRain" id="puzzleRain"></div>
 
-  <div class="wrap">
-    <div class="card">
-      <div class="topbar hide" id="topbar">
-        <div class="pill" id="whoPill">💗 ...</div>
-        <button class="menuBtn" id="menuBtn" title="القائمة">☰</button>
-      </div>
+<div class="waves"></div>
+<div class="vignette"></div>
 
-      <div class="inner">
-        <!-- LOGIN -->
-        <section id="pageLogin">
-          <div class="center">
-            <h1 class="titleBig">LANA <span style="color:var(--accent)">❤️</span> ANAS</h1>
-            <p class="sub">I love you</p>
-            <p class="homeDate">24/11</p>
-          </div>
-          <div class="divider"></div>
-          <div class="loginPanel">
-            <div class="inputs">
-              <input class="inp" id="loginUser" placeholder="اسم المستخدم" autocomplete="username" />
-              <input class="inp" id="loginPass" placeholder="كلمة المرور" type="password" autocomplete="current-password" />
-            </div>
-            <button class="btn" id="loginBtn">دخول</button>
-            <div class="msg" id="loginMsg"></div>
-          </div>
-        </section>
+<div class="wrap">
+<div class="card">
+<div class="topbar hide" id="topbar">
+<div class="leftGroup">
+<div class="pill" id="whoPill">💗 ...</div>
+</div>
+<div class="rightGroup">
+<button class="menuBtn" id="menuBtn" title="القائمة (Live)">☰</button>
+</div>
+</div>
 
-        <!-- HOME -->
-        <section id="pageHome" class="hide">
-          <div class="homeBox">
-            <p id="loveCounter" style="font-weight:900;font-size:22px;letter-spacing:2px;margin-bottom:10px;color:#fff;">💗 0 DAY</p>
+<div class="inner">
+<!-- LOGIN PAGE -->
+<section class="page active" id="pageLogin">
+<div class="center">
+<h1 class="titleBig">LANA <span style="color:var(--accent)">❤️</span> ANAS</h1>
+<p class="sub">I love you</p>
+<p class="homeDate">24/11</p>
+</div>
 
-            <h2 class="homeTitle">LANA <span>❤️</span> ANAS</h2>
-            <p class="homeSmall">I love you</p>
-            <p class="homeDate">24/11</p>
+<div class="divider"></div>
 
-            <p class="homeText" id="homeText">
-              أهلاً بك لولي بعالمنا الخاص الذي صُنع بكل حب… هنا نصنع ذكريات ومشاعر تخلّد بيننا،
-              وكل لحظة نكتبها تصبح علامة ما تنسى، تقوّينا وتزيدنا قرب وطمأنينة.
-              هذا المكان لنا فقط… نضحك، نتشارك، ونسند بعض حتى لو كنا بعيدين.
-            </p>
+<div class="loginPanel">
+<div class="inputs">
+<input class="inp" id="loginUser" placeholder="اسم المستخدم" autocomplete="username" />
+<input class="inp" id="loginPass" placeholder="كلمة المرور" type="password" autocomplete="current-password" />
+</div>
+<button class="btn" id="loginBtn">دخول</button>
+<div class="msg" id="loginMsg"></div>
+</div>
+</section>
 
-            <p class="homePledge" id="homePledge">
-              نتعهد بالإجابة وعدم الرفض لأي تحدي، ونسوي كل شيء بحب ومشاعر وإحساس… لأن هذا عالمنا الخاص.
-            </p>
+<!-- HOME PAGE -->
+<section class="page" id="pageHome">
+<div class="homeBox">
+<p id="loveCounter" style="
+font-weight:900;
+font-size:22px;
+letter-spacing:2px;
+margin-bottom:10px;
+color:#fff;
+">💗 0 DAY</p>
 
-            <p class="homeLove">أحبك لانا 🤍</p>
-            <div class="hint">💡 افتح القائمة (☰) واختر من 9 خيارات — كل شيء Live</div>
-          </div>
-        </section>
-      </div>
-    </div>
-  </div>
+<h2 class="homeTitle">LANA <span>❤️</span> ANAS</h2>
+<p class="homeSmall">I love you</p>
+<p class="homeDate">24/11</p>
 
-  <!-- MENU -->
-  <div class="modal" id="modal">
-    <div class="modalCard">
-      <div class="modalHead">
-        <h3>💗 اختَر من عالمنا (Live)</h3>
-        <button class="closeBtn" id="closeModal">✕</button>
-      </div>
-      <div class="grid">
-        <button class="opt" data-file="game1.html" data-page="pageGame">1) لعبة الأسئلة</button>
-        <button class="opt" data-file="game2.html" data-page="pageOpt2">2) أنا مكانك</button>
-        <button class="opt" data-file="game3.html" data-page="pageOpt3">3) ألغاز البحر <small>(Live)</small></button>
-        <button class="opt" data-file="game4.html" data-page="pageOpt4">4) بزل قسمين <small>(Live)</small></button>
-        <button class="opt" data-file="game5.html" data-page="pageOpt5">5) <small>(جاهز)</small></button>
-        <button class="opt" data-file="game6.html" data-page="pageOpt6">6) <small>(جاهز)</small></button>
-        <button class="opt" data-file="game7.html" data-page="pageOpt7">7) <small>(جاهز)</small></button>
-        <button class="opt" data-file="game8.html" data-page="pageOpt8">8) <small>(جاهز)</small></button>
-        <button class="opt" data-file="game9.html" data-page="pageOpt9">9) <small>(جاهز)</small></button>
-      </div>
-    </div>
-  </div>
+<p class="homeText" id="homeText">
+أهلاً بك لولي بعالمنا الخاص الذي صُنع بكل حب… هنا نصنع ذكريات ومشاعر تخلّد بيننا،
+وكل لحظة نكتبها تصبح علامة ما تنسى، تقوّينا وتزيدنا قرب وطمأنينة.
+هذا المكان لنا فقط… نضحك، نتشارك، ونسند بعض حتى لو كنا بعيدين.
+</p>
 
-  <!-- Firebase (Module) -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, updateDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+<p class="homePledge" id="homePledge">
+نتعهد بالإجابة وعدم الرفض لأي تحدي، ونسوي كل شيء بحب ومشاعر وإحساس… لأن هذا عالمنا الخاص.
+</p>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBTr4NrjrEq3Lh23PIJ_Zz-KRr6yqgafyU",
-      authDomain: "lanasnas-8de50.firebaseapp.com",
-      projectId: "lanasnas-8de50",
-      storageBucket: "lanasnas-8de50.firebasestorage.app",
-      messagingSenderId: "847037285771",
-      appId: "1:847037285771:web:096d4a14a984de41955b8e"
-    };
+<p class="homeLove">أحبك لانا 🤍</p>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+<div class="hint">💡 افتح القائمة (☰) من فوق واختر من 9 خيارات — كل شيء يتفازن بينكم Live</div>
+</div>
+</section>
 
-    window.fb = { auth, db, signInWithEmailAndPassword, onAuthStateChanged, doc, setDoc, updateDoc, onSnapshot, serverTimestamp };
-  </script>
+<!-- OPTION 1: GAME -->
+<section class="page" id="pageGame">
+<div class="gameBox">
+<div class="gameTop">
+<button class="backBtn" id="backHomeBtn">↩ رجوع للرئيسية</button>
 
-  <script>
-    // Hearts
-    const heartsEl = document.getElementById("hearts");
-    const HEARTS = ["❤️","💗","💞","💕","💓","💖","💘","💝","💟","🌹"];
-    function rand(min,max){ return Math.random()*(max-min)+min; }
-    function spawnHearts(){
-      heartsEl.innerHTML = "";
-      const count = 26;
-      for(let i=0;i<count;i++){
-        const s = document.createElement("div");
-        s.className = "heart";
-        s.textContent = HEARTS[Math.floor(Math.random()*HEARTS.length)];
-        s.style.left = rand(2,98)+"vw";
-        s.style.animationDuration = rand(7,16)+"s";
-        s.style.animationDelay = (-rand(0,10))+"s";
-        s.style.fontSize = rand(16,28)+"px";
-        s.style.opacity = rand(.55,.95);
-        heartsEl.appendChild(s);
-      }
-    }
-    spawnHearts();
-    setInterval(spawnHearts, 12000);
+<select class="select" id="modeSelect" title="تغيير المرحلة (Live)">
+<option value="lana1">LANA 1</option>
+<option value="lana2">LANA 2</option>
+<option value="lana3">LANA 3</option>
+<option value="lana4">LANA 4</option>
+</select>
 
-    // Love counter
-    function updateLoveCounter(){
-      const startDate = new Date(2025, 10, 24);
-      const today = new Date();
-      const diffDays = Math.floor((today.getTime() - startDate.getTime()) / (1000*60*60*24));
-      const el = document.getElementById("loveCounter");
-      if(el) el.textContent = `💗 ${diffDays} DAY`;
-    }
-    updateLoveCounter();
-    setInterval(updateLoveCounter, 1000*60*60);
+<div class="pill" id="roomPill">Room: our-world</div>
+</div>
 
-    // UI
-    const modal = document.getElementById("modal");
-    const menuBtn = document.getElementById("menuBtn");
-    const closeModal = document.getElementById("closeModal");
-    function openModal(){ modal.classList.add("show"); }
-    function closeModalFn(){ modal.classList.remove("show"); }
-    menuBtn?.addEventListener("click", openModal);
-    closeModal?.addEventListener("click", closeModalFn);
-    modal?.addEventListener("click", (e)=>{ if(e.target===modal) closeModalFn(); });
+<div class="promptCard" id="promptCard">ابدأ ✨ اختر (سؤال / تحدي)</div>
 
-    // Auth + Live room update (بس لتحديد الصفحة الحالية قبل التحويل)
-    const USER_MAP = { anas: "anas@love.local", lana: "lana@love.local" };
-    const ROOM_ID = "our-world";
-    const roomRef = ()=> window.fb.doc(window.fb.db, "rooms", ROOM_ID);
+<div class="actions">
+<button class="actionBtn" id="btnQ">💗 سؤال</button>
+<button class="actionBtn" id="btnC">🔥 تحدي</button>
+</div>
 
-    const loginUser = document.getElementById("loginUser");
-    const loginPass = document.getElementById("loginPass");
-    const loginBtn  = document.getElementById("loginBtn");
-    const loginMsg  = document.getElementById("loginMsg");
+<div class="statusLine" id="syncLine">…</div>
+</div>
+</section>
 
-    const topbar = document.getElementById("topbar");
-    const whoPill = document.getElementById("whoPill");
-    const pageLogin = document.getElementById("pageLogin");
-    const pageHome  = document.getElementById("pageHome");
+<!-- OPTION 2 -->
+<section class="page" id="pageOpt2">
+<div class="contentBox">
+<button class="backBtn backAny">🏠 رجوع للرئيسية</button>
+<div class="promptCard" style="font-size:20px">💥 لعبة “أنا مكانك”</div>
 
-    let currentName = null;
+<div class="amkWrap">
+<div class="amkQ" id="amkQuestion">…</div>
 
-    function setMsg(text, type=""){
-      loginMsg.className = "msg " + (type||"");
-      loginMsg.textContent = text || "";
-    }
-    function normalizeToEmail(v){
-      const raw = (v||"").trim().toLowerCase();
-      if(!raw) return "";
-      if(raw.includes("@")) return raw;
-      if(USER_MAP[raw]) return USER_MAP[raw];
-      return raw;
-    }
+<div class="amkGrid">
+<div class="amkCard">
+<div class="amkHead">أنا أجاوب كأني: <b id="amkMeAs">…</b></div>
+<textarea class="amkArea" id="amkMe" placeholder="اكتب إجابتك هنا…"></textarea>
+<button class="actionBtn" id="amkSave">💾 حفظ إجابتي (Live)</button>
+<div class="hint" id="amkHintMe"></div>
+</div>
 
-    async function ensureRoom(){
-      try{
-        await window.fb.setDoc(roomRef(), {
-          roomId: ROOM_ID,
-          currentPage: "pageHome",
-          updatedAt: window.fb.serverTimestamp(),
-          lastBy: "system"
-        }, { merge:true });
-      }catch(e){}
-    }
+<div class="amkCard">
+<div class="amkHead">الطرف الثاني يجاوب كأنه: <b id="amkOtherAs">…</b></div>
+<textarea class="amkArea" id="amkOther" placeholder="تظهر هنا إجابة الطرف الثاني بعد ما يحفظ..." readonly></textarea>
+<div class="hint" id="amkHintOther"></div>
+</div>
+</div>
 
-    async function pushRoomUpdate(payload){
-      try{
-        await window.fb.updateDoc(roomRef(), {
-          ...payload,
-          lastBy: currentName || "unknown",
-          updatedAt: window.fb.serverTimestamp()
-        });
-      }catch(e){}
-    }
+<div class="amkRow">
+<button class="actionBtn" id="amkNew">🌹 سؤال جديد</button>
+</div>
 
-    async function doLogin(){
-      const email = normalizeToEmail(loginUser.value);
-      const pass = (loginPass.value||"").trim();
-      if(!email || !pass){ setMsg("اكتب اسم المستخدم وكلمة المرور", "bad"); return; }
-      setMsg("… جاري الدخول");
-      try{
-        const cred = await window.fb.signInWithEmailAndPassword(window.fb.auth, email, pass);
-        const em = (cred.user.email||"").toLowerCase();
-        currentName = em.startsWith("lana") ? "LANA" : "ANAS";
-        setMsg("تم ✅", "ok");
-      }catch(err){
-        setMsg("الدخول غير صحيح", "bad");
-      }
-    }
+<div class="statusLine" id="amkStatus">…</div>
+</div>
+</div>
+</section>
 
-    loginBtn.addEventListener("click", doLogin);
-    loginPass.addEventListener("keydown", (e)=>{ if(e.key==="Enter") doLogin(); });
-    loginUser.addEventListener("keydown", (e)=>{ if(e.key==="Enter") doLogin(); });
+<!-- OPTION 3 -->
+<section class="page" id="pageOpt3">
+<div class="contentBox">
+<button class="backBtn backAny">🏠 رجوع للررئيسية</button>
 
-    // عند اختيار لعبة: نحدّث currentPage ثم نروح للملف
-    document.querySelectorAll(".opt").forEach(btn=>{
-      btn.addEventListener("click", async ()=>{
-        const file = btn.getAttribute("data-file");
-        const page = btn.getAttribute("data-page");
-        closeModalFn();
-        if(file && page){
-          await pushRoomUpdate({ currentPage: page });
-          location.href = file;
-        }
-      });
-    });
+<div class="promptCard" style="font-size:20px">🌧️🌊 ألغاز على البحر: احنا أقوى من السمكة ❓🐟❤️</div>
 
-    // Start
-    function waitForFb(){
-      return new Promise((resolve)=>{
-        const t = setInterval(()=>{ if(window.fb?.auth && window.fb?.db){ clearInterval(t); resolve(true); } }, 50);
-      });
-    }
+<div class="fishWrap">
+<div class="fishTopRow">
+<div class="fishBadge" id="fishStageBadge">المرحلة: 1 / 150</div>
+<button class="actionBtn" id="fishPunishBtn">⚠️ عقاب (عشوائي)</button>
+</div>
 
-    (async ()=>{
-      await waitForFb();
+<div class="fishCard">
+<p class="fishQ" id="fishQ">…</p>
 
-      window.fb.onAuthStateChanged(window.fb.auth, async (user)=>{
-        if(!user){
-          currentName = null;
-          topbar.classList.add("hide");
-          pageHome.classList.add("hide");
-          pageLogin.classList.remove("hide");
-          return;
-        }
+<div class="fishChoices">
+<button class="fishChoiceBtn" id="fishC0">…</button>
+<button class="fishChoiceBtn" id="fishC1">…</button>
+<button class="fishChoiceBtn" id="fishC2">…</button>
+<button class="fishChoiceBtn" id="fishC3">…</button>
+</div>
 
-        const em = (user.email||"").toLowerCase();
-        currentName = em.startsWith("lana") ? "LANA" : "ANAS";
-        whoPill.textContent = `💗 أنت: ${currentName}`;
-        topbar.classList.remove("hide");
+<div class="fishResult" id="fishResult">اختاروا جواب من الخيارات 👆 (Live)</div>
+<div class="fishLove" id="fishLove">…</div>
 
-        await ensureRoom();
+<div class="fishActions">
+<button class="actionBtn" id="fishConfirmBtn">✅ تأكيد الجواب (لازم الاثنين)</button>
+<button class="actionBtn hide" id="fishNextBtn">➡️ التالي</button>
+</div>
 
-        pageLogin.classList.add("hide");
-        pageHome.classList.remove("hide");
-      });
-    })();
-  </script>
+<div class="confirmLine" id="fishConfirmLine">…</div>
+<div class="statusLine" id="fishStatus">…</div>
+</div>
+
+<div class="hint">
+✅ أي واحد يختار → يظهر عند الثاني Live<br/>
+🔒 ما تطلع نتيجة صح/غلط إلا إذا **أنتم الاثنين** ضغطتم (تأكيد الجواب)<br/>
+✅ إذا طلعت صح: يكتب (تخسي السمكة احنا اقوى) وينقلكم تلقائيًا للمرحلة اللي بعدها
+</div>
+</div>
+</div>
+</section>
+
+<!-- ✅ OPTION 4 -->
+<section class="page" id="pageOpt4">
+<div class="contentBox">
+<button class="backBtn backAny">🏠 رجوع للرئيسية</button>
+<div class="promptCard" style="font-size:20px">🧩 بزل — قسمين (Live): مشترك + تحدّي</div>
+
+<div class="puzWrap">
+<div class="puzTabs">
+<div class="seg" aria-label="أقسام البزل">
+<button class="segBtn" id="puzTabCoop">🤝 مشترك (100)</button>
+<button class="segBtn" id="puzTabChallenge">🔥 تحدّي (100)</button>
+</div>
+<div class="puzBadge" id="puzSectionBadge">القسم: …</div>
+</div>
+
+<div class="puzTopRow">
+<div class="puzBadge" id="puzStageBadge">المرحلة: 1 / 100</div>
+<div class="puzBadge" id="puzRoleBadge">الدور: …</div>
+</div>
+
+<div class="puzTopRow">
+<button class="actionBtn" id="puzSwapBtn">🔁 تبديل الأدوار (Live)</button>
+<button class="actionBtn" id="puzResetBtn">🧹 تصفير المرحلة</button>
+<!-- ✅ FIX: الزر صار شغّال دايم -->
+<button class="actionBtn" id="puzNextBtn">✅ أنا جاهز للتالي</button>
+</div>
+
+<div class="puzCard">
+<div class="puzLayout">
+<div class="puzPanel" id="puzViewerPanel">
+<div class="puzPanelTitle">
+<span>👁️ الصورة الكاملة</span>
+<span class="puzMini" id="puzViewerMini">…</span>
+</div>
+<div class="puzImageBox">
+<img id="puzFullImg" alt="puzzle" loading="lazy" />
+<div class="puzImageGlow"></div>
+</div>
+
+<div class="puzMiniBoardWrap" id="puzMiniBoardWrap">
+<div class="puzMiniBoardTitle">
+<span>🪟 نافذة لمتابعة تركيب الطرف الثاني (Live)</span>
+<span style="color:rgba(255,255,255,.65);font-weight:800;font-size:12px" id="puzMiniBoardInfo">…</span>
+</div>
+<div class="puzMiniBoard" id="puzMiniBoard"></div>
+<div class="hint" style="margin-top:8px">هذا العرض قراءة فقط للمشاهد — عشان تساعده ويضبط القطع 💗</div>
+</div>
+
+<div class="hint" id="puzViewerHint">هذا القسم يظهر للشخص “المشاهد” فقط في وضع التحدّي.</div>
+</div>
+
+<div class="puzPanel" id="puzAssemblerPanel">
+<div class="puzPanelTitle">
+<span>🧩 التركيب</span>
+<span class="puzMini" id="puzAssemblerMini">…</span>
+</div>
+
+<div class="puzBoard" id="puzBoard"></div>
+<div class="hint">📌 اضغط قطعة من تحت → ثم اضغط مكان فاضي في اللوح. لإزالة قطعة: اضغط عليها داخل اللوح.</div>
+
+<div class="divider" style="margin:14px 0;"></div>
+
+<div class="puzTray" id="puzTray"></div>
+
+<div class="puzSuccess" id="puzSuccess">✅ برافو! خلصتوا المرحلة 💗</div>
+<div class="puzStatus" id="puzStatus">…</div>
+</div>
+</div>
+</div>
+
+<div class="hint">
+✅ قسم <b>مشترك</b>: الاثنين يركّبون سوا (بدون أدوار)<br/>
+🔥 قسم <b>تحدّي</b>: واحد يشوف كامل والثاني يركّب — وتقدرون تبدلون الأدوار<br/>
+🔒 الانتقال للمرحلة التالية: لازم <b>تأكيد الاثنين</b> + تكون المرحلة <b>محلولة</b>
+</div>
+</div>
+</div>
+</section>
+
+<section class="page" id="pageOpt5">
+<div class="contentBox">
+<button class="backBtn backAny">🏠 رجوع للرئيسية</button>
+
+<div class="promptCard" style="font-size:20px">🍰🍳 مطبخنا — لعبة طبخ وتزيين مشتركة (Live)</div>
+
+<div class="kitWrap">
+<!-- Top -->
+<div class="kitTopRow">
+<div class="kitBadge" id="kitStageBadge">المرحلة: …</div>
+<div class="kitBadge" id="kitRecipeBadge">الوصفة: …</div>
+</div>
+
+<!-- Tabs: sweets / savory -->
+<div class="kitTabs">
+<div class="seg" aria-label="أقسام المطبخ">
+<button class="segBtn" id="kitTabSweet">🍰 الحلويات</button>
+<button class="segBtn" id="kitTabSavory">🍳 الموالح</button>
+</div>
+
+<button class="actionBtn kitAlbumBtn" id="kitAlbumBtn">🖼️ الألبوم</button>
+</div>
+
+<!-- Characters -->
+<div class="kitChars">
+<div class="kitCharCard">
+<div class="kitCharEmoji">🎀🐱</div>
+<div class="kitCharName">HELLO KITTY</div>
+<div class="kitCharSub">لانا</div>
+</div>
+
+<div class="kitTable">
+<div class="kitTableTop">
+<div class="kitTableTitle">طاولة التحضير</div>
+<div class="kitMiniLine" id="kitLiveLine">…</div>
+</div>
+<div class="kitProgress" id="kitProgressText">اختاروا وصفة وابدأوا 👇</div>
+</div>
+
+<div class="kitCharCard">
+<div class="kitCharEmoji">🦇</div>
+<div class="kitCharName">BATMAN</div>
+<div class="kitCharSub">أنس</div>
+</div>
+</div>
+
+<!-- Recipe picker -->
+<div class="kitPanel">
+<div class="kitPanelTitle">
+<span>📖 اختيار الوصفة</span>
+<span class="kitMini" id="kitPickerHint">لازم اختيار الطرفين ✅</span>
+</div>
+
+<div class="kitRecipeGrid" id="kitRecipeGrid"></div>
+
+<div class="kitConfirmRow">
+<button class="actionBtn" id="kitConfirmRecipeBtn">✅ تأكيد الوصفة (لازم الاثنين)</button>
+<button class="actionBtn" id="kitResetAllBtn">🧹 تصفير اللعبة</button>
+</div>
+
+<div class="kitConfirmLine" id="kitRecipeConfirmLine">…</div>
+</div>
+
+<!-- Steps -->
+<div class="kitPanel">
+<div class="kitPanelTitle">
+<span>🧑‍🍳 مراحل الطبخ</span>
+<span class="kitMini" id="kitStepMini">…</span>
+</div>
+
+<div class="kitStepBar" id="kitStepBar"></div>
+
+<div class="kitStepCard">
+<div class="kitStepTitle" id="kitStepTitle">…</div>
+<div class="kitStepDesc" id="kitStepDesc">…</div>
+
+<!-- Step actions -->
+<div class="kitActions">
+<button class="actionBtn" id="kitDoStepBtn">✨ نفّذ المرحلة</button>
+<button class="actionBtn" id="kitReadyNextBtn">✅ أنا جاهز للي بعدها</button>
+</div>
+
+<div class="kitConfirmLine" id="kitStepConfirmLine">…</div>
+</div>
+</div>
+
+<!-- Decoration -->
+<div class="kitPanel">
+<div class="kitPanelTitle">
+<span>🎨 التزيين الحر</span>
+<span class="kitMini">اضغط لإضافة عناصر — Live</span>
+</div>
+
+<div class="kitDecoBoard" id="kitDecoBoard">
+<div class="kitDecoHint" id="kitDecoHint">ابدأوا التزيين بعد الوصول لمرحلة “التزيين” 💗</div>
+</div>
+
+<div class="kitDecoTools">
+<button class="kitTool" data-tool="layer">🍰 طبقة</button>
+<button class="kitTool" data-tool="cream">🍦 كريمة</button>
+<button class="kitTool" data-tool="sauce">🍫 صوص</button>
+<button class="kitTool" data-tool="fruit">🍓 فواكه</button>
+<button class="kitTool" data-tool="choco">🍪 شوكولاتة</button>
+<button class="kitTool" data-tool="sprinkle">✨ رشّات</button>
+<button class="kitTool" data-tool="candle">🕯️ شموع</button>
+<button class="kitTool" data-tool="heart">💗 قلوب</button>
+<button class="kitTool" data-tool="text">📝 اسم</button>
+<button class="kitTool" data-tool="random">🎲 عشوائي</button>
+</div>
+
+<div class="kitConfirmRow" style="margin-top:12px">
+<button class="actionBtn" id="kitMadeByUsBtn">💗 صنع يدنا</button>
+<button class="actionBtn" id="kitSaveBtn">📌 حفظ في الألبوم</button>
+</div>
+
+<div class="kitStatus" id="kitStatus">…</div>
+</div>
+</div>
+</div>
+
+<!-- Album modal (داخل الصفحة) -->
+<div class="kitModal" id="kitAlbumModal">
+<div class="kitModalCard">
+<div class="kitModalHead">
+<div style="font-weight:900">🖼️ ألبوم مطبخنا (Live)</div>
+<button class="closeBtn" id="kitAlbumClose">✕</button>
+</div>
+<div class="kitAlbumGrid" id="kitAlbumGrid"></div>
+<div class="kitAlbumHint">كل حفظ = صورة + اسم + تاريخ ✅</div>
+</div>
+</div>
+</section>
+
+<section class="page" id="pageOpt6">
+<div class="contentBox">
+<button class="backBtn backAny">🏠 رجوع للرئيسية</button>
+<div class="promptCard">الخيار 6 (جاهز للصق لعبتكم هنا)</div>
+</div>
+</section>
+
+<section class="page" id="pageOpt7">
+<div class="contentBox">
+<button class="backBtn backAny">🏠 رجوع للرئيسية</button>
+<div class="promptCard">الخيار 7 (جاهز للصق لعبتكم هنا)</div>
+</div>
+</section>
+
+<section class="page" id="pageOpt8">
+<div class="contentBox">
+<button class="backBtn backAny">🏠 رجوع للرئيسية</button>
+<div class="promptCard">الخيار 8 (جاهز للصق لعبتكم هنا)</div>
+</div>
+</section>
+
+<section class="page" id="pageOpt9">
+<div class="contentBox">
+<button class="backBtn backAny">🏠 رجوع للرئيسية</button>
+<div class="promptCard">الخيار 9 (جاهز للصق لعبتكم هنا)</div>
+</div>
+</section>
+
+</div>
+</div>
+</div>
+
+<!-- MENU MODAL -->
+<div class="modal" id="modal">
+<div class="modalCard">
+<div class="modalHead">
+<h3>💗 اختَر من عالمنا (Live)</h3>
+<button class="closeBtn" id="closeModal">✕</button>
+</div>
+<div class="grid">
+<button class="opt" data-go="pageGame">1) لعبة الأسئلة</button>
+<button class="opt" data-go="pageOpt2">2) <small>(جاهز)</small></button>
+<button class="opt" data-go="pageOpt3">3) ألغاز البحر <small>(Live)</small></button>
+<button class="opt" data-go="pageOpt4">4) بزل قسمين <small>(Live)</small></button>
+<button class="opt" data-go="pageOpt5">5) <small>(جاهز)</small></button>
+<button class="opt" data-go="pageOpt6">6) <small>(جاهز)</small></button>
+<button class="opt" data-go="pageOpt7">7) <small>(جاهز)</small></button>
+<button class="opt" data-go="pageOpt8">8) <small>(جاهز)</small></button>
+<button class="opt" data-go="pageOpt9">9) <small>(جاهز)</small></button>
+</div>
+</div>
+</div>
+
+<!-- 🔥 Firebase (Module) -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, updateDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyBTr4NrjrEq3Lh23PIJ_Zz-KRr6yqgafyU",
+authDomain: "lanasnas-8de50.firebaseapp.com",
+projectId: "lanasnas-8de50",
+storageBucket: "lanasnas-8de50.firebasestorage.app",
+messagingSenderId: "847037285771",
+appId: "1:847037285771:web:096d4a14a984de41955b8e"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+window.fb = { auth, db, signInWithEmailAndPassword, onAuthStateChanged, signOut, doc, setDoc, updateDoc, onSnapshot, serverTimestamp };
+</script>
+
+<script>
+/********************
+* Hearts generator
+********************/
+const heartsEl = document.getElementById("hearts");
+const HEARTS = ["❤️","💗","💞","💕","💓","💖","💘","💝","💟","🌹"];
+function rand(min,max){ return Math.random()*(max-min)+min; }
+function spawnHearts(){
+heartsEl.innerHTML = "";
+const count = 26;
+for(let i=0;i<count;i++){
+const s = document.createElement("div");
+s.className = "heart";
+s.textContent = HEARTS[Math.floor(Math.random()*HEARTS.length)];
+const left = rand(2,98);
+const dur = rand(7,16);
+const delay = rand(0,10);
+const size = rand(16,28);
+s.style.left = left+"vw";
+s.style.animationDuration = dur+"s";
+s.style.animationDelay = (-delay)+"s";
+s.style.fontSize = size+"px";
+s.style.opacity = rand(.55,.95);
+heartsEl.appendChild(s);
+}
+}
+spawnHearts();
+setInterval(spawnHearts, 12000);
+
+/********************
+* Rain generator (Option 3 theme)
+********************/
+const rainEl = document.getElementById("rain");
+function spawnRain(){
+if(!rainEl) return;
+rainEl.innerHTML = "";
+const count = 70;
+for(let i=0;i<count;i++){
+const d = document.createElement("div");
+d.className = "drop";
+d.style.left = rand(0,100) + "vw";
+d.style.animationDuration = rand(0.7, 1.6) + "s";
+d.style.animationDelay = (-rand(0,2.5)) + "s";
+d.style.height = rand(10, 22) + "px";
+d.style.opacity = rand(0.25, 0.8);
+rainEl.appendChild(d);
+}
+}
+spawnRain();
+setInterval(spawnRain, 9000);
+
+/********************
+* Emoji rain (🐟❤️❓) for Option 3
+********************/
+const seaEmojisEl = document.getElementById("seaEmojis");
+const SEA_EMOJIS = ["🐟","❤️","❓","💗","🐠","💕","❔","💘"];
+function spawnSeaEmojis(){
+if(!seaEmojisEl) return;
+seaEmojisEl.innerHTML = "";
+const count = 34;
+for(let i=0;i<count;i++){
+const e = document.createElement("div");
+e.className = "seaEmoji";
+e.textContent = SEA_EMOJIS[Math.floor(Math.random()*SEA_EMOJIS.length)];
+e.style.left = rand(2,98) + "vw";
+e.style.animationDuration = rand(5.5, 11) + "s";
+e.style.animationDelay = (-rand(0,7)) + "s";
+e.style.fontSize = rand(16, 30) + "px";
+e.style.opacity = rand(.45,.95);
+seaEmojisEl.appendChild(e);
+}
+}
+spawnSeaEmojis();
+setInterval(spawnSeaEmojis, 11000);
+
+/********************
+* Puzzle-piece rain (Option 4)
+********************/
+const puzzleRainEl = document.getElementById("puzzleRain");
+function spawnPuzzleRain(){
+if(!puzzleRainEl) return;
+puzzleRainEl.innerHTML = "";
+const count = 40;
+for(let i=0;i<count;i++){
+const d = document.createElement("div");
+d.className = "puzDrop";
+d.style.left = rand(0,100) + "vw";
+d.style.animationDuration = rand(2.6, 6.2) + "s";
+d.style.animationDelay = (-rand(0,3.0)) + "s";
+const size = rand(12, 20);
+d.style.width = size + "px";
+d.style.height = size + "px";
+d.style.opacity = rand(0.30, 0.80);
+d.style.borderRadius = rand(5, 9) + "px";
+puzzleRainEl.appendChild(d);
+}
+}
+spawnPuzzleRain();
+setInterval(spawnPuzzleRain, 11000);
+
+/********************
+* Wait for Firebase
+********************/
+function waitForFb(){
+return new Promise((resolve)=>{
+const t = setInterval(()=>{
+if(window.fb && window.fb.auth && window.fb.db){
+clearInterval(t);
+resolve(true);
+}
+}, 50);
+});
+}
+
+/********************
+* Pages
+********************/
+const pages = Array.from(document.querySelectorAll(".page"));
+const topbar = document.getElementById("topbar");
+
+function showPageLocal(id){
+pages.forEach(p=>p.classList.remove("active"));
+const el = document.getElementById(id);
+if(el) el.classList.add("active");
+
+const isSea = (id === "pageOpt3");
+document.body.classList.toggle("seaTheme", isSea);
+if(isSea) spawnSeaEmojis();
+
+const isPuz = (id === "pageOpt4");
+document.body.classList.toggle("puzzleTheme", isPuz);
+if(isPuz) spawnPuzzleRain();
+
+// ✅ Helpful: نرجع أعلى المحتوى أول ما تفتح صفحة
+try{
+document.querySelector(".inner")?.scrollTo({ top: 0, behavior: "smooth" });
+}catch(e){}
+}
+
+/********************
+* Menu modal (UI only)
+********************/
+const modal = document.getElementById("modal");
+const menuBtn = document.getElementById("menuBtn");
+const closeModal = document.getElementById("closeModal");
+
+function openModal(){ modal.classList.add("show"); }
+function closeModalFn(){ modal.classList.remove("show"); }
+
+menuBtn?.addEventListener("click", openModal);
+closeModal?.addEventListener("click", closeModalFn);
+modal?.addEventListener("click", (e)=>{ if(e.target===modal) closeModalFn(); });
+
+/********************
+* Packs — لعبة 1
+********************/
+const lana1_questions = [
+"متى حسّيت إنك مرتاح معي بدون ما تمثّل؟",
+"وش الشي اللي تحبه فيّ وما تقوله كثير؟",
+"متى تحس إني أقرب لك: بالكلام ولا بالسكوت؟",
+"وش أكثر تصرف بسيط مني يأثر فيك؟",
+"وش شعورك لما أطوّل وما أرد؟",
+"كيف تحب أتعامل معك وقت زعلك؟",
+"وش الشي اللي تتردد تقوله لي؟",
+"متى حسّيت إني فهمتك فعلًا؟",
+"وش أكثر شي يطمنك بعلاقتنا؟",
+"وش أكثر شي يقلقك علينا؟",
+"لو نختلف، وش تتمنى ما يصير بينا؟",
+"وش الشي اللي تحب أحافظ عليه دايمًا؟",
+"متى تحس إنك تحتاجني أكثر؟",
+"وش أكثر شي تحب نسويه سوا؟",
+"وش شي تتمنى ألاحظه بدون ما تطلب؟",
+"كيف تحب أعبّر لك عن حبي؟",
+"وش موقف خلاك تتعلّق فيّ أكثر؟",
+"وش شعورك لما أكون مشغول؟",
+"وش أكثر كلمة تأثر فيك مني؟",
+"وش شي بينا تحب يكون خاص؟",
+"وش أكثر شي يخليك تحس بالأمان معي؟",
+"وش تخاف نخسره لو أهملناه؟",
+"وش ودك نطوّره في تواصلنا؟",
+"وش أكثر شي يوجعك لو صار بينا؟",
+"متى حسّيت إنك تحبني؟",
+"وش تتمنى أسويه لما تكون متضايق؟",
+"وش تصرف مني يفرق معك أكثر مما أتوقع؟",
+"وش شي تحبني أستمر أسويه؟",
+"وش شي تحبني أوقّف أسويه؟",
+"وش تحس إني أضيفه لحياتك؟",
+"لو وصفت علاقتنا بكلمة، وش تكون؟",
+"وش أكثر شي يخليك تشتاق لي؟",
+"وش لحظة بينا ما تنساها؟",
+"وش تحب في طريقة اهتمامي؟",
+"وش أكثر شي يطمنك في وجودي؟",
+"وش ودك أسمعه منك أكثر؟",
+"وش تحس إني أفهمه عنك؟",
+"وش تحس إني ما أفهمه عنك؟",
+"وش وعد تحب نلتزم فيه سوا؟",
+"وش شعورك لما تتخيل مستقبلنا؟",
+"وش أكثر شي تحبه في قربنا؟",
+"وش شي تتمنى نعيشه سوا؟",
+"وش أكثر شي يخليك تحس إنك مهم عندي؟",
+"وش تحب تسمعه مني قبل النوم؟",
+"وش أكثر شي يخليك تحس بالحب؟"
+];
+
+const lana1_challenges = [
+"قول بصوتك: شعورك الآن بصدق.",
+"قول: 3 أشياء تحسها بينا وما تحب تضيع.",
+"قول: جملة تحب تسمعها مني.",
+"قول بصوتك: لحظة حسّيت فيها إنك قريب مني.",
+"قول: شي يطمنك بعلاقتنا.",
+"صوّر: شيء حولك تحسّه يعبّر عن هدوء.",
+"قول: شي ودك أستمر أسويه.",
+"قول بصوتك: كيف تحب أواسيك.",
+"صوّر: شيء تحبه في مكانك الآن.",
+"قول: شي تخاف نخسره بينا.",
+"قول بصوتك: ليه وجودي مهم لك.",
+"صوّر: لون تحسّه يمثّل شعورك الآن.",
+"قول: شي تحب نسويه سوا كثير.",
+"صوّر: شيء بسيط يفرّحك.",
+"قول بصوتك: أجمل لحظة حسّيت فيها بالحب.",
+"قول: شي ودك أقوله لك أكثر.",
+"صوّر: شيء يذكّرك بالراحة.",
+"قول بصوتك: شي تحبني أقدّره فيك.",
+"صوّر: شيء تحسّه دافي.",
+"قول: شي يريحك لما تسمعه.",
+"قول بصوتك: وش تحس لما أكون جنبك.",
+"صوّر: شيء تحب وجوده بحياتك.",
+"قول: شي تحبني ألاحظه.",
+"صوّر: لقطة تعجبك الآن.",
+"قول بصوتك: كلمة تحسها بينا.",
+"قول: شي تتمنى نعيشه سوا.",
+"صوّر: شيء يخليك تبتسم.",
+"قول بصوتك: كيف تشوفنا.",
+"صوّر: شيء يعكس مزاجك.",
+"قول: شي يخليك تحس بالحب.",
+"قول بصوتك: وعد بسيط.",
+"صوّر: شيء ودك تشاركني إياه.",
+"قول: شي تحب تسمعه مني.",
+"صوّر: شيء تحسّه خاص.",
+"قول بصوتك: جملة من قلبك.",
+"قول: شي تحبني أحافظ عليه.",
+"صوّر: شيء تحب شكله.",
+"قول بصوتك: (أنا معك لأن…).",
+"صوّر: شيء يعبّر عنك اليوم.",
+"قول: شي يطمنك فيّ."
+];
+
+const lana2_questions = [
+"وش أكثر شي يطمنك في وجودي؟",
+"متى تحس إنك على طبيعتك معي؟",
+"وش الشي اللي تحب نثبّته بينا وما يتغيّر؟",
+"وش أكثر شي تحتاجه مني هالفترة؟",
+"كيف تحب أكون جنبك وقت الضغط؟",
+"وش يخليك تحس إنك مو لحالك؟",
+"وش أكثر تصرّف مني يعطيك أمان؟",
+"متى تحس إننا فريق واحد؟",
+"وش الشي اللي تحب أستمر أسويه مهما صار؟",
+"وش أكثر شي يخليك تثق؟",
+"كيف تحب نحل خلافاتنا؟",
+"وش الشي اللي يوجعك لو حسّيت إني تجاهلته؟",
+"وش أسوأ شعور تحب نتجنبه بينا؟",
+"وش التصرّف اللي يخليك تحس إني موجود فعلًا؟",
+"وش الشي اللي تحبني أنتبه له أكثر؟",
+"وش يخليك تحس بالاستقرار؟",
+"وش أكثر شي تخاف يأثر علينا لو ما انتبهنا له؟",
+"كيف تحب أرجّعك لنقطة الأمان لو توترت؟",
+"وش أسلوبك وقت الزعل وتحبني أتعامل معه كيف؟",
+"وش أكثر شي يريحك بالكلام؟",
+"وش الشي اللي تحب يكون واضح بينا دايمًا؟",
+"وش تحس إننا سويناه صح؟",
+"وش ودك نطوّره بدون ضغط؟",
+"وش يخليك تحس إنك مسموع؟",
+"وش أكثر شي تحب نشاركه مع بعض؟",
+"وش الشي اللي يخليك تحس إني معك حتى وأنا بعيد؟",
+"وش الحركة الصغيرة اللي تفرق معك كثير؟",
+"وش يخليك تطمئن للمستقبل بينا؟",
+"وش الشي اللي ودك نتفق عليه بوضوح؟",
+"وش أكثر شي تحب في طريقة تواصلنا؟",
+"وش يخليك تحس بالراحة وقت الصمت؟",
+"وش الشي اللي ودك أحميه لك؟",
+"وش أكثر شي يثبتك وقت القلق؟",
+"وش تحب يكون ردّي لو كنت محتاج؟",
+"وش الشي اللي يخليك تحس إنك مهم؟",
+"وش الشي اللي تحب نراجعه بين فترة وفترة؟",
+"وش يخليك تحس إننا ثابتين؟",
+"وش أكثر شي ودك أكونه لك؟",
+"وش الشي اللي تحب نكمّله سوا؟",
+"وش شعورك لما تحس إننا متفاهمين؟",
+"وش يخليك تحس بالطمأنينة الآن؟",
+"وش الشي اللي تحب أذكّرك فيه دايمًا؟",
+"وش أكثر شي يخفف عنك؟",
+"وش تحب نكون عليه بعد فترة؟",
+"وش إحساسك تجاهنا اليوم؟"
+];
+
+const lana2_challenges = [
+"ارسل فويس قصير تطمّن فيه الطرف الثاني.",
+"صوّر شيء قدامك تحسّه يعبّر عن الأمان.",
+"ارسل رسالة تقول فيها شي واحد يريحك.",
+"صوّر مكانك الآن لو كان هادئ.",
+"ارسل كلمة تطمّن الطرف الثاني.",
+"فويس: احكي عن شيء ريّحك اليوم.",
+"صوّر شيء تحب وجوده حولك.",
+"ارسل رسالة شكر قصيرة.",
+"صوّر لون تحسّه يمثّل مزاجك.",
+"فويس: احكي عن شعورك الآن.",
+"ارسل جملة تحب تسمعها من الطرف الثاني.",
+"صوّر شيء ثابت في يومك.",
+"فويس: قول شي يخليك تحس بالأمان.",
+"صوّر لقطة دافئة (ضوء، قهوة، مكان).",
+"ارسل رسالة دعم بسيطة.",
+"فويس: احكي متى تحس إنكم فريق.",
+"صوّر شيء يعبّر عن الهدوء.",
+"ارسل جملة تطمّن الطرف الثاني.",
+"صوّر شيء تحب شكله.",
+"فويس: احكي شي يخفف توترك.",
+"ارسل رسالة تقول فيها إنك موجود.",
+"صوّر شيء يعبّر عن القرب.",
+"فويس: احكي عن شي تحب نحافظ عليه.",
+"صوّر شيء بسيط يفرحك.",
+"ارسل كلمة تقدير.",
+"فويس: قول وعد صغير.",
+"صوّر شيء تحب وجوده بحياتك.",
+"ارسل رسالة قصيرة بدون سبب.",
+"صوّر شيء تحسّه آمن.",
+"فويس: احكي عن شي تحب نكمّله سوا.",
+"ارسل جملة تريح الطرف الثاني.",
+"صوّر شيء يعكس شعورك الآن.",
+"فويس: احكي عن شي خلاك تطمئن.",
+"صوّر شيء تحبه اليوم.",
+"ارسل كلمة تحسها بينكم.",
+"فويس: احكي عن شي يخليك تثق.",
+"صوّر شيء يعبّر عن الثبات.",
+"ارسل رسالة تقول فيها (أنا معك).",
+"صوّر شيء بسيط تحبه.",
+"فويس: احكي إحساسك تجاهكم."
+];
+
+const lana3_questions = [
+"أحس إن أكثر وقت نكون فيه على طبيعتنا هو لما ما نخطط.",
+"فيه أشياء بسيطة بينا صارت طبيعية مرة.",
+"أحيانًا الصمت بيننا مريح أكثر من الكلام.",
+"فيه تصرفات نسويها وما ننتبه لها لكنها تضحك.",
+"أرتاح لما يكون الجو خفيف بدون توقعات.",
+"أحب فكرة إننا نقدر نكون عفويين.",
+"فيه أشياء بينا ما تحتاج تفسير.",
+"الراحة الحقيقية لما ما أفكر وش أقول.",
+"أضحك لما أفتكر مواقف بسيطة صارت بينا.",
+"فيه أوقات أحس إننا نفهم بعض بدون كلام.",
+"العفوية بين شخصين نعمة.",
+"فيه عادات صغيرة تصنع الراحة.",
+"أحب لما يكون المزاج بسيط.",
+"أحيانًا السخافة تقرّب أكثر من الجدية.",
+"الراحة تظهر في التفاصيل الصغيرة.",
+"أحس إن الضحك بدون سبب علامة أمان.",
+"فيه أشياء نسويها وتكون عادية لنا وغريبة لغيرنا.",
+"الطبيعة تطلع لما نكون مرتاحين.",
+"أحب اللحظات اللي ما تكون مثالية.",
+"البساطة تخلي الجو دافي.",
+"أرتاح لما نكون على سجيتنا.",
+"فيه أشياء بينا ما تحتاج ترتيب.",
+"أحب المزاج اللي يجي بدون مقدمات.",
+"الضحك يخفف أي توتر.",
+"العفوية تحرر.",
+"فيه لحظات تكون خفيفة بس عميقة.",
+"أحب لما نكون صادقين بدون تفكير.",
+"أحس إن الراحة تزيد لما نضحك على نفسنا.",
+"فيه مواقف بسيطة تبقى في الذاكرة.",
+"أحب لما ما نحتاج نثبت شي.",
+"الراحة الحقيقية تكون بدون مجهود.",
+"أحب لما يكون الجو طبيعي.",
+"فيه أشياء بينا صارت جزء من اليوم.",
+"الضحك المشترك يقرب.",
+"العفوية تخلي الوقت يمشي أسرع.",
+"أرتاح لما ما نكون رسميين.",
+"فيه أوقات أحس إننا متفاهمين بدون شرح.",
+"البساطة تزيد القرب.",
+"أحب الجو اللي ما فيه أحكام.",
+"الراحة إحساس، مو تصرف."
+];
+
+const lana3_challenges = [
+"انبح خمس مرات والهث.",
+"قلّد صوت بقرة.",
+"قلّد صوت ثعبان.",
+"قلّد صوت عجوز.",
+"قلّد صوت معزة.",
+"قلّد صوت طفل (نونو).",
+"قلّد صوت سبونج بوب.",
+"قلّد صوت أسد.",
+"قلّد صوت ثور.",
+"قلّد صوت خنزير.",
+"سوّ أكثر حركة مقززة (تمثيل فقط) تكسر الجدية.",
+"ارقص رقصة غبية لمدة 10 ثواني.",
+"صوّر لسانك.",
+"صوّر وجهك بأغرب تعبير.",
+"صوّر لقطة وانت تسوي حركة غبية.",
+"مثّل حركة مقززة بدون لمس.",
+"قل جملة وانت تغيّر صوتك 3 مرات.",
+"مثّل أنك مستعجل جدًا بدون كلام."
+];
+
+const lana4_questions = ["تحبني."];
+const lana4_challenges = ["تحبني."];
+
+const PACKS = {
+lana1: { questions: lana1_questions, challenges: lana1_challenges },
+lana2: { questions: lana2_questions, challenges: lana2_challenges },
+lana3: { questions: lana3_questions, challenges: lana3_challenges },
+lana4: { questions: lana4_questions, challenges: lana4_challenges }
+};
+
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+/********************
+* Auth mapping (username -> email)
+********************/
+const USER_MAP = {
+anas: "anas@love.local",
+lana: "lana@love.local"
+};
+
+const loginUser = document.getElementById("loginUser");
+const loginPass = document.getElementById("loginPass");
+const loginBtn = document.getElementById("loginBtn");
+const loginMsg = document.getElementById("loginMsg");
+
+const whoPill = document.getElementById("whoPill");
+const modeSelect = document.getElementById("modeSelect");
+const promptCard = document.getElementById("promptCard");
+const syncLine = document.getElementById("syncLine");
+
+const ROOM_ID = "our-world";
+const roomRef = ()=> window.fb.doc(window.fb.db, "rooms", ROOM_ID);
+
+let currentName = null;
+let CURRENT_MODE = "lana1";
+
+function setMsg(text, type=""){
+loginMsg.className = "msg " + (type||"");
+loginMsg.textContent = text || "";
+}
+
+function normalizeToEmail(v){
+const raw = (v||"").trim().toLowerCase();
+if(!raw) return "";
+if(raw.includes("@")) return raw;
+if(USER_MAP[raw]) return USER_MAP[raw];
+return raw;
+}
+
+/********************
+* Ensure Room
+********************/
+async function ensureRoom() {
+try {
+await window.fb.setDoc(
+roomRef(),
+{
+roomId: ROOM_ID,
+currentPage: "pageHome",
+currentMode: CURRENT_MODE,
+promptText: "ابدأ ✨ اختر (سؤال / تحدي)",
+promptType: "init",
+lastBy: "system",
+updatedAt: window.fb.serverTimestamp(),
+
+opt2: {
+q: "",
+anas: "",
+lana: "",
+readyAnas: false,
+readyLana: false,
+updatedBy: "system",
+},
+
+opt3: {
+stage: 1,
+selected: -1,
+solved: false,
+lastText: "اختاروا جواب من الخيارات 👆 (Live)",
+loveText: "",
+showLove: false,
+punishText: "",
+confirmAnas: false,
+confirmLana: false,
+
+evaluatedStage: 0,
+autoNext: false,
+autoNextDone: false,
+updatedBy: "system",
+},
+
+opt4puz: {
+section: "challenge",
+stage: 1,
+grid: 3,
+img: "",
+shuffle: [],
+placed: {},
+sel: -1,
+solved: false,
+roles: { viewer: "ANAS", assembler: "LANA" },
+
+nextReadyAnas: false,
+nextReadyLana: false,
+gateStage: 1,
+gateDone: false,
+cheer: "",
+
+updatedBy: "system",
+},
+
+opt5kitchen: {
+section: "sweet",
+recipeId: "",
+recipeName: "",
+pickAnas: "",
+pickLana: "",
+confirmRecipeAnas: false,
+confirmRecipeLana: false,
+recipeLocked: false,
+
+stepIndex: 0,
+stepDone: false,
+readyNextAnas: false,
+readyNextLana: false,
+
+decoItems: [],
+madeByUs: false,
+
+album: [],
+updatedBy: "system",
+},
+},
+{ merge: true }
+);
+} catch (e) {}
+}
+
+
+
+async function doLogin(){
+const email = normalizeToEmail(loginUser.value);
+const pass = (loginPass.value||"").trim();
+if(!email || !pass){
+setMsg("اكتب اسم المستخدم وكلمة المرور", "bad");
+return;
+}
+setMsg("… جاري الدخول");
+try{
+const cred = await window.fb.signInWithEmailAndPassword(window.fb.auth, email, pass);
+const em = (cred.user.email||"").toLowerCase();
+currentName = em.startsWith("lana") ? "LANA" : "ANAS";
+setMsg("تم ✅", "ok");
+}catch(err){
+setMsg("الدخول غير صحيح", "bad");
+}
+}
+
+loginBtn.addEventListener("click", doLogin);
+loginPass.addEventListener("keydown", (e)=>{ if(e.key==="Enter") doLogin(); });
+loginUser.addEventListener("keydown", (e)=>{ if(e.key==="Enter") doLogin(); });
+
+/********************
+* Live sync helpers
+********************/
+let unsubRoom = null;
+
+async function pushRoomUpdate(payload){
+try{
+await window.fb.updateDoc(roomRef(),{
+...payload,
+lastBy: currentName || "unknown",
+updatedAt: window.fb.serverTimestamp()
+});
+}catch(e){}
+}
+
+function pushPage(pageId){
+pushRoomUpdate({ currentPage: pageId });
+}
+
+async function pushPrompt(type){
+const pack = PACKS[CURRENT_MODE] || PACKS.lana1;
+const list = (type==="q") ? pack.questions : pack.challenges;
+const icon = (type==="q") ? "💗" : "🔥";
+const text = `${icon} ${pick(list)}`;
+await pushRoomUpdate({
+currentMode: CURRENT_MODE,
+promptText: text,
+promptType: type
+});
+}
+
+/********************
+* Option 2
+********************/
+const amkQuestion = document.getElementById("amkQuestion");
+const amkMe = document.getElementById("amkMe");
+const amkOther = document.getElementById("amkOther");
+const amkSave = document.getElementById("amkSave");
+const amkNew = document.getElementById("amkNew");
+const amkStatus = document.getElementById("amkStatus");
+const amkMeAs = document.getElementById("amkMeAs");
+const amkOtherAs = document.getElementById("amkOtherAs");
+const amkHintMe = document.getElementById("amkHintMe");
+const amkHintOther = document.getElementById("amkHintOther");
+
+const AMK_QUESTIONS = [
+"لو كنت مكاني الآن… وش أكثر شيء تحتاجه مني اليوم؟",
+"أنا مكانك… وش الشيء اللي يطمنك فورًا؟",
+"أنا مكانك… وش الشيء اللي يوجعك وما تقوله؟",
+"أنا مكانك… وش تتوقع إني أفكر فيه الحين؟",
+"أنا مكانك… وش أمنية بسيطة تبغاني أحققها لك؟"
+];
+function pickAmkQ(){
+return AMK_QUESTIONS[Math.floor(Math.random()*AMK_QUESTIONS.length)];
+}
+
+function myKey(){ return (currentName === "ANAS") ? "anas" : "lana"; }
+function otherKey(){ return (currentName === "ANAS") ? "lana" : "anas"; }
+function myReadyKey(){ return (currentName === "ANAS") ? "readyAnas" : "readyLana"; }
+function otherReadyKey(){ return (currentName === "ANAS") ? "readyLana" : "readyAnas"; }
+
+function safeSetTextareaValue(el, nextValue){
+if(!el) return;
+if(document.activeElement === el) return;
+const v = (typeof nextValue === "string") ? nextValue : "";
+if(el.value !== v) el.value = v;
+}
+
+amkSave?.addEventListener("click", async ()=>{
+const txt = (amkMe?.value || "").trim();
+if(!txt){
+if(amkStatus) amkStatus.textContent = "اكتب إجابتك أولاً ✍️";
+return;
+}
+if(amkStatus) amkStatus.textContent = "… جاري الحفظ";
+
+if(currentName === "ANAS"){
+await pushRoomUpdate({
+"opt2.anas": txt,
+"opt2.readyAnas": true,
+"opt2.updatedBy": currentName || "unknown"
+});
+}else{
+await pushRoomUpdate({
+"opt2.lana": txt,
+"opt2.readyLana": true,
+"opt2.updatedBy": currentName || "unknown"
+});
+}
+
+if(amkStatus) amkStatus.textContent = "تم حفظ إجابتك ✅";
+});
+
+amkNew?.addEventListener("click", async ()=>{
+await pushRoomUpdate({
+"opt2.q": pickAmkQ(),
+"opt2.anas": "",
+"opt2.lana": "",
+"opt2.readyAnas": false,
+"opt2.readyLana": false,
+"opt2.updatedBy": currentName || "unknown"
+});
+if(amkStatus) amkStatus.textContent = "سؤال جديد 🌹";
+});
+
+/********************
+* OPTION 3: DATA
+********************/
+const FISH_PUNISH = [
+"صوّر 3 ثواني وأنت تسوي أغرب تعبير وجه 😵‍💫",
+"فويس 5 ثواني تقول: (أنا أحبك) بصوت تمثيلي 🤭",
+"صوّر يدك تسوي قلب بسرعة ❤️",
+"صوّر شيء قريب منك وقل: (هذا يذكرني فيك) 🥹",
+"فويس: قل كلمة (بخخخ) كأنك طفل 😭",
+"صوّر نفسك تسوي سلام عسكري 2 ثانية 🫡",
+"فويس: قلد صوت روبوت 5 ثواني 🤖",
+"صوّر ضحكتك بدون سبب 3 ثواني 😄",
+"صوّر حركة رقص غبية 2 ثانية 💃",
+"صوّر أقرب شي لونه أحمر 🔴"
+];
+
+const FISH_LOVE = [
+"أنس ولانا… كل مرحلة نعدّيها سوا تثبت إننا فريق واحد ❤️",
+"القرب مو مكان… القرب اختيار 💗",
+"ما يهم صعوبة اللغز… المهم إننا نحلّه سوا 🫶",
+"كل 4 مراحل = ذكرى صغيرة تترسخ بينكم 🌹",
+"أنتم أقوى من أي ظرف… لأنكم مع بعض 🤍",
+"هذا عالمكم… واللي بينكم أغلى من أي لغز 💗",
+"قلبين… بس نفس النبض ❤️",
+"حتى الغلط… يصير لطيف إذا أنتم سوا 🤭",
+"كل مرحلة… خطوة لمستقبل أجمل 🤍",
+"أقوى شي؟ إنكم ما تتركون بعض 💞"
+];
+
+const FISH_LEVELS = [
+["شيء كلما أخذت منه كبر، ما هو؟", ["الحفرة","الشمعة","الوقت","الظل"], 0],
+["شيء لا يُكسر إلا إذا نطقت اسمه، ما هو؟", ["الصمت","الزجاج","السر","الهواء"], 0],
+["بيت بلا أبواب ولا نوافذ، ما هو؟", ["صندوق","بيضة","قلب","كهف"], 1],
+["له أسنان ولا يعض، ما هو؟", ["المشط","الكلب","المنشار","الذئب"], 0],
+["يراك ولا تراه، ما هو؟", ["المرآة","الكاميرا","الظل","الهواء"], 1],
+
+["ما الشيء الذي يمشي بلا رجلين؟", ["الظل","المطر","النهر","الوقت"], 2],
+["ما الشيء الذي إذا زاد نقص؟", ["العمر","المال","الضوء","الماء"], 0],
+["كم شهر في السنة فيه 28 يوم؟", ["1","2","12","يعتمد"], 2],
+["شيء يكتب ولا يقرأ، ما هو؟", ["القلم","الكتاب","الحبر","المسطرة"], 0],
+["له وجه ويدان وليس إنسانًا، ما هو؟", ["ساعة","كرسي","ميزان","باب"], 0],
+
+["شيء إذا فتحته لا يغلق، ما هو؟", ["الباب","الكتاب","الفم","النافذة"], 2],
+["شيء يولد كبيرًا ويموت صغيرًا، ما هو؟", ["الشمعة","القمر","الظل","الطفل"], 0],
+["ما الشيء الذي يسمع بلا أذن ويتكلم بلا لسان؟", ["الصدى","الهاتف","الراديو","الرسالة"], 0],
+["شيء يملك مفاتيح ولا يفتح أبوابًا، ما هو؟", ["البيانو","القفل","السيارة","المفتاح"], 0],
+["شيء مصنوع من ماء وإذا وضعته في الماء مات، ما هو؟", ["الثلج","الملح","الزبد","البخار"], 0],
+
+["ما الشيء الذي يزداد كلما شاركته؟", ["المال","العلم","النار","الحزن"], 1],
+["شيء يقيس ولا يُوزن، ما هو؟", ["الساعة","الحرارة","الطول","الملح"], 0],
+["شيء له رقبة بلا رأس، ما هو؟", ["زجاجة","قميص","طاولة","زرافة"], 0],
+["ما الشيء الذي إذا لمسته صاح؟", ["جرس","حديد","باب","ظل"], 0],
+["شيء يختفي إذا قلت اسمه، ما هو؟", ["الصمت","الظل","النور","الهواء"], 0]
+];
+
+while(FISH_LEVELS.length < 150){
+const n = FISH_LEVELS.length + 1;
+FISH_LEVELS.push([
+`لغز ${n}: شيء يُرى ولا يُلمس، ما هو؟`,
+["الهواء","الظل","الصوت","الوقت"],
+1
+]);
+}
+if(FISH_LEVELS.length > 150) FISH_LEVELS.length = 150;
+
+function fishStageToIdx(stage){
+const s = Math.max(1, Math.min(150, parseInt(stage||1,10)));
+return s - 1;
+}
+function fishGetLevel(stage){
+return FISH_LEVELS[fishStageToIdx(stage)];
+}
+function fishLoveTextForStage(stage){
+if(stage % 4 !== 0) return "";
+const idx = Math.floor(stage/4) - 1;
+return FISH_LOVE[idx % FISH_LOVE.length];
+}
+function fishPickPunish(){
+return FISH_PUNISH[Math.floor(Math.random()*FISH_PUNISH.length)];
+}
+
+/********************
+* Option 3 DOM
+********************/
+const fishStageBadge = document.getElementById("fishStageBadge");
+const fishQ = document.getElementById("fishQ");
+const fishC0 = document.getElementById("fishC0");
+const fishC1 = document.getElementById("fishC1");
+const fishC2 = document.getElementById("fishC2");
+const fishC3 = document.getElementById("fishC3");
+const fishResult = document.getElementById("fishResult");
+const fishLove = document.getElementById("fishLove");
+const fishPunishBtn = document.getElementById("fishPunishBtn");
+const fishConfirmBtn = document.getElementById("fishConfirmBtn");
+const fishNextBtn = document.getElementById("fishNextBtn");
+const fishStatus = document.getElementById("fishStatus");
+const fishConfirmLine = document.getElementById("fishConfirmLine");
+
+function setChoicesEnabled(enabled){
+[fishC0,fishC1,fishC2,fishC3].forEach(btn=>{
+if(!btn) return;
+btn.classList.toggle("disabled", !enabled);
+});
+}
+
+function applyFishUI(opt3){
+const stage = Math.max(1, Math.min(150, parseInt(opt3?.stage||1,10)));
+const lvl = fishGetLevel(stage);
+const q = lvl?.[0] || "…";
+const choices = lvl?.[1] || ["…","…","…","…"];
+
+if(fishStageBadge) fishStageBadge.textContent = `المرحلة: ${stage} / 150`;
+if(fishQ) fishQ.textContent = `❓ ${q}`;
+
+if(fishC0) fishC0.textContent = choices[0] ?? "—";
+if(fishC1) fishC1.textContent = choices[1] ?? "—";
+if(fishC2) fishC2.textContent = choices[2] ?? "—";
+if(fishC3) fishC3.textContent = choices[3] ?? "—";
+
+if(fishResult) fishResult.textContent = (opt3?.lastText ?? "اختاروا جواب من الخيارات 👆 (Live)");
+
+const loveText = opt3?.loveText || "";
+const showLove = !!opt3?.showLove && !!loveText;
+if(fishLove){
+fishLove.textContent = loveText || "";
+fishLove.classList.toggle("show", showLove);
+}
+
+const cA = !!opt3?.confirmAnas;
+const cL = !!opt3?.confirmLana;
+if(fishConfirmLine){
+fishConfirmLine.textContent =
+`تأكيد أنس: ${cA ? "✅" : "—"} | تأكيد لانا: ${cL ? "✅" : "—"} | (النتيجة ما تطلع إلا إذا الاثنين ✅✅)`;
+}
+
+const locked = !!opt3?.autoNext && !opt3?.autoNextDone;
+setChoicesEnabled(!locked);
+
+if(fishNextBtn) fishNextBtn.disabled = true;
+}
+
+async function fishChoose(choiceIndex){
+await pushRoomUpdate({
+"opt3.selected": choiceIndex,
+"opt3.solved": false,
+"opt3.lastText": "✅ تم اختيار خيار.\nالآن اضغطوا (تأكيد الجواب) أنتم الاثنين عشان تطلع النتيجة.",
+"opt3.loveText": "",
+"opt3.showLove": false,
+
+"opt3.confirmAnas": false,
+"opt3.confirmLana": false,
+"opt3.evaluatedStage": 0,
+"opt3.autoNext": false,
+"opt3.autoNextDone": false,
+"opt3.updatedBy": currentName || "unknown"
+});
+}
+
+fishC0?.addEventListener("click", ()=> fishChoose(0));
+fishC1?.addEventListener("click", ()=> fishChoose(1));
+fishC2?.addEventListener("click", ()=> fishChoose(2));
+fishC3?.addEventListener("click", ()=> fishChoose(3));
+
+fishPunishBtn?.addEventListener("click", async ()=>{
+const p = fishPickPunish();
+await pushRoomUpdate({
+"opt3.punishText": `⚠️ عقاب: ${p}`,
+"opt3.lastText": `⚠️ عقاب طلع لكم:\n${p}`,
+"opt3.updatedBy": currentName || "unknown"
+});
+});
+
+fishConfirmBtn?.addEventListener("click", async ()=>{
+const sel = parseInt(window.__fishSelectedCache ?? -1, 10);
+if(sel < 0){
+await pushRoomUpdate({
+"opt3.lastText": "اختاروا خيار أولاً 👆 ثم اضغطوا تأكيد ✅",
+"opt3.updatedBy": currentName || "unknown"
+});
+return;
+}
+
+if(currentName === "ANAS"){
+await pushRoomUpdate({ "opt3.confirmAnas": true, "opt3.updatedBy": currentName || "unknown" });
+}else{
+await pushRoomUpdate({ "opt3.confirmLana": true, "opt3.updatedBy": currentName || "unknown" });
+}
+
+await pushRoomUpdate({
+"opt3.lastText": "✅ تم تأكيدك.\nنستنى تأكيد الطرف الثاني…",
+"opt3.updatedBy": currentName || "unknown"
+});
+});
+
+let __autoNextTimer = null;
+
+async function evaluateIfNeeded(opt3){
+if(!currentName) return;
+
+const stage = Math.max(1, Math.min(150, parseInt(opt3?.stage||1,10)));
+const selected = parseInt(opt3?.selected ?? -1, 10);
+
+const bothConfirmed = !!opt3?.confirmAnas && !!opt3?.confirmLana;
+if(!bothConfirmed) return;
+
+const evaluatedStage = parseInt(opt3?.evaluatedStage||0, 10);
+if(evaluatedStage === stage) return;
+
+if((opt3?.updatedBy || "") !== currentName) return;
+
+const lvl = fishGetLevel(stage);
+const correct = parseInt(lvl?.[2] ?? 0, 10);
+const isCorrect = (selected === correct);
+
+if(isCorrect){
+const love = fishLoveTextForStage(stage);
+await pushRoomUpdate({
+"opt3.solved": true,
+"opt3.lastText": "✅ تخسي السمكة احنا اقوى 🐟💪",
+"opt3.loveText": love || "",
+"opt3.showLove": !!love,
+"opt3.evaluatedStage": stage,
+"opt3.autoNext": true,
+"opt3.autoNextDone": false,
+"opt3.updatedBy": currentName || "unknown"
+});
+}else{
+await pushRoomUpdate({
+"opt3.solved": false,
+"opt3.lastText": "❌ غلط… جرّبوا خيار ثاني 👀\n(اختاروا من جديد ثم تأكيد الاثنين)",
+"opt3.loveText": "",
+"opt3.showLove": false,
+"opt3.evaluatedStage": stage,
+"opt3.confirmAnas": false,
+"opt3.confirmLana": false,
+"opt3.updatedBy": currentName || "unknown"
+});
+}
+}
+
+async function autoNextIfNeeded(opt3){
+if(!currentName) return;
+const stage = Math.max(1, Math.min(150, parseInt(opt3?.stage||1,10)));
+
+const shouldAuto = !!opt3?.autoNext && !opt3?.autoNextDone && !!opt3?.solved;
+if(!shouldAuto) return;
+
+if((opt3?.updatedBy || "") !== currentName) return;
+if(__autoNextTimer) return;
+
+__autoNextTimer = setTimeout(async ()=>{
+__autoNextTimer = null;
+
+if(stage >= 150){
+await pushRoomUpdate({
+"opt3.lastText": "🎉 خلصتوا الـ 150 مرحلة! أنتم أقوى من السمكة ومن كل شي ❤️",
+"opt3.showLove": true,
+"opt3.loveText": "أنس ولانا… وصلتوا للنهاية لأنكم ما تتركون بعض.\nأحبكم 💗",
+"opt3.autoNextDone": true,
+"opt3.updatedBy": currentName || "unknown"
+});
+return;
+}
+
+const nextStage = stage + 1;
+await pushRoomUpdate({
+"opt3.stage": nextStage,
+"opt3.selected": -1,
+"opt3.solved": false,
+"opt3.lastText": "اختاروا جواب من الخيارات 👆 (Live)",
+"opt3.loveText": "",
+"opt3.showLove": false,
+"opt3.punishText": "",
+"opt3.confirmAnas": false,
+"opt3.confirmLana": false,
+"opt3.evaluatedStage": 0,
+"opt3.autoNext": false,
+"opt3.autoNextDone": true,
+"opt3.updatedBy": currentName || "unknown"
+});
+}, 900);
+}
+
+/********************
+* ✅ OPTION 4: PUZZLE
+********************/
+const puzStageBadge = document.getElementById("puzStageBadge");
+const puzRoleBadge = document.getElementById("puzRoleBadge");
+const puzSwapBtn = document.getElementById("puzSwapBtn");
+const puzResetBtn = document.getElementById("puzResetBtn");
+const puzNextBtn = document.getElementById("puzNextBtn");
+const puzViewerPanel = document.getElementById("puzViewerPanel");
+const puzAssemblerPanel = document.getElementById("puzAssemblerPanel");
+const puzFullImg = document.getElementById("puzFullImg");
+const puzBoard = document.getElementById("puzBoard");
+const puzTray = document.getElementById("puzTray");
+const puzStatus = document.getElementById("puzStatus");
+const puzSuccess = document.getElementById("puzSuccess");
+const puzViewerMini = document.getElementById("puzViewerMini");
+const puzAssemblerMini = document.getElementById("puzAssemblerMini");
+
+const puzTabCoop = document.getElementById("puzTabCoop");
+const puzTabChallenge = document.getElementById("puzTabChallenge");
+const puzSectionBadge = document.getElementById("puzSectionBadge");
+
+const puzMiniBoard = document.getElementById("puzMiniBoard");
+const puzMiniBoardInfo = document.getElementById("puzMiniBoardInfo");
+const puzMiniBoardWrap = document.getElementById("puzMiniBoardWrap");
+const puzViewerHint = document.getElementById("puzViewerHint");
+
+const PUZ_PER_SECTION = 100;
+
+function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+
+/* ✅ صعّبنا البزل أكثر: يوصل 6×6 */
+function puzGridForStage(stage){
+if(stage <= 15) return 3;
+if(stage <= 55) return 4;
+if(stage <= 90) return 5;
+return 6;
+}
+
+// ✅ مراحل خاصة داخل الـ 200 (100 مشترك + 100 تحدي)
+const SPECIAL_BATMAN_GLOBAL = new Set([9, 50, 120, 180]);
+const SPECIAL_KITTY_GLOBAL = new Set([18, 70, 160, 199]);
+
+function puzGlobalStage(section, stage){
+const s = clamp(parseInt(stage||1,10), 1, PUZ_PER_SECTION);
+const base = (section === "coop") ? 0 : PUZ_PER_SECTION;
+return base + s; // 1..200
+}
+
+/* ✅ FIX: صور مستقرة جدًا بدل Unsplash */
+function picsumUrl(seed){
+return `https://picsum.photos/seed/${encodeURIComponent(seed)}/900/900`;
+}
+
+/* ✅ صور Batman / Hello Kitty مولدة Canvas (مضمونة تظهر) */
+const PUZ_IMG_CACHE = new Map();
+
+function makePosterDataUrl(opts){
+const { bg1, bg2, emoji, title, subtitle } = opts;
+const c = document.createElement("canvas");
+c.width = 900;
+c.height = 900;
+const ctx = c.getContext("2d");
+
+const grad = ctx.createLinearGradient(0, 0, 900, 900);
+grad.addColorStop(0, bg1);
+grad.addColorStop(1, bg2);
+ctx.fillStyle = grad;
+ctx.fillRect(0, 0, 900, 900);
+
+// dots
+ctx.globalAlpha = 0.18;
+for(let i=0;i<120;i++){
+ctx.beginPath();
+ctx.arc(rand(0,900), rand(0,900), rand(2,10), 0, Math.PI*2);
+ctx.fillStyle = "white";
+ctx.fill();
+}
+ctx.globalAlpha = 1;
+
+// emoji
+ctx.font = "160px system-ui, -apple-system, Segoe UI, Arial";
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+ctx.fillStyle = "rgba(255,255,255,.95)";
+ctx.fillText(emoji, 450, 330);
+
+// title
+ctx.font = "900 88px system-ui, -apple-system, Segoe UI, Arial";
+ctx.fillStyle = "rgba(255,255,255,.96)";
+ctx.fillText(title, 450, 520);
+
+// subtitle
+ctx.font = "700 34px system-ui, -apple-system, Segoe UI, Arial";
+ctx.fillStyle = "rgba(255,255,255,.78)";
+ctx.fillText(subtitle, 450, 600);
+
+// frame
+ctx.strokeStyle = "rgba(255,255,255,.18)";
+ctx.lineWidth = 10;
+ctx.strokeRect(30,30,840,840);
+
+return c.toDataURL("image/png");
+}
+
+function puzGetImage(section, stage){
+const g = puzGlobalStage(section, stage);
+if(PUZ_IMG_CACHE.has(g)) return PUZ_IMG_CACHE.get(g);
+
+let url = "";
+if(SPECIAL_BATMAN_GLOBAL.has(g)){
+url = makePosterDataUrl({
+bg1:"#0b0f1e", bg2:"#eab308",
+emoji:"🦇",
+title:"BATMAN",
+subtitle:"مرحلة خاصة لكم 💛"
+});
+}else if(SPECIAL_KITTY_GLOBAL.has(g)){
+url = makePosterDataUrl({
+bg1:"#ff4d7d", bg2:"#7c3aed",
+emoji:"🎀🐱",
+title:"HELLO KITTY",
+subtitle:"مرحلة خاصة لكم 💗"
+});
+}else{
+url = picsumUrl(`puz-${g}`);
+}
+
+PUZ_IMG_CACHE.set(g, url);
+return url;
+}
+
+function makeShuffle(n){
+const a = Array.from({length:n}, (_,i)=>i);
+for(let i=n-1;i>0;i--){
+const j = Math.floor(Math.random()*(i+1));
+[a[i],a[j]]=[a[j],a[i]];
+}
+return a;
+}
+
+function objKeysLen(obj){
+try{ return Object.keys(obj||{}).length; }catch(e){ return 0; }
+}
+
+function puzIsSolved(placed, n){
+for(let i=0;i<n;i++){
+const v = placed?.[String(i)];
+if(typeof v !== "number") return false;
+if(v !== i) return false;
+}
+return true;
+}
+
+function puzCreatePieceEl(grid, img, pieceIndex){
+const el = document.createElement("div");
+el.className = "puzPiece";
+el.dataset.piece = String(pieceIndex);
+el.style.backgroundImage = `url("${img}")`;
+const row = Math.floor(pieceIndex / grid);
+const col = pieceIndex % grid;
+el.style.backgroundSize = `${grid*100}% ${grid*100}%`;
+el.style.backgroundPosition = `${(col/(grid-1))*100}% ${(row/(grid-1))*100}%`;
+return el;
+}
+
+function puzSetTabsUI(section){
+if(puzTabCoop) puzTabCoop.classList.toggle("active", section==="coop");
+if(puzTabChallenge) puzTabChallenge.classList.toggle("active", section==="challenge");
+if(puzSectionBadge){
+puzSectionBadge.textContent = `القسم: ${section==="coop" ? "مشترك 🤝" : "تحدّي 🔥"}`;
+}
+}
+
+function canAssembleNow(section, roles){
+if(section === "coop") return true;
+const r = roles || {viewer:"ANAS", assembler:"LANA"};
+return (currentName === (r.assembler || "LANA"));
+}
+
+function isViewerNow(section, roles){
+if(section === "coop") return false;
+const r = roles || {viewer:"ANAS", assembler:"LANA"};
+return (currentName === (r.viewer || "ANAS"));
+}
+
+function puzSetRoleUI(section, roles){
+if(section === "coop"){
+if(puzRoleBadge) puzRoleBadge.textContent = `الدور: 🤝 الاثنين يركّبون سوا`;
+if(puzViewerPanel) puzViewerPanel.style.display = "block";
+if(puzAssemblerPanel) puzAssemblerPanel.style.display = "block";
+if(puzSwapBtn) puzSwapBtn.style.display = "none";
+if(puzMiniBoardWrap) puzMiniBoardWrap.style.display = "none";
+if(puzViewerHint) puzViewerHint.textContent = "في المشترك: الاثنين يركّبون سوا ✅";
+return;
+}
+
+if(puzSwapBtn) puzSwapBtn.style.display = "inline-flex";
+const v = roles?.viewer || "—";
+const a = roles?.assembler || "—";
+if(puzRoleBadge) puzRoleBadge.textContent = `الدور: 👁️ ${v} | 🧩 ${a}`;
+
+const viewer = isViewerNow(section, roles);
+if(puzViewerPanel) puzViewerPanel.style.display = viewer ? "block" : "none";
+if(puzAssemblerPanel) puzAssemblerPanel.style.display = viewer ? "none" : "block";
+if(puzMiniBoardWrap) puzMiniBoardWrap.style.display = viewer ? "block" : "none";
+if(puzViewerHint) puzViewerHint.textContent = "هذا القسم يظهر للشخص “المشاهد” فقط في وضع التحدّي.";
+}
+
+const PUZ_CHEERS = [
+"يا سلام عليكم… فريق واحد وقلب واحد 💗",
+"كل مرحلة تخلّصونها تثبت إنكم أقوى سوا 🤍",
+"أنتم ماشيين صح… كملوا بنفس الروح 🌹",
+"أنا فخور فيكم… كذا الحب يكون 🫶",
+"قربكم يكبر حتى وأنتم بعيدين ❤️",
+"برافو! اللي بينكم يلمع مع كل مرحلة ✨",
+"هذا عالمكم… وما فيه شي يوقفكم 💞",
+"يا حلو تعاونكم… يكسر أي صعوبة 🧩"
+];
+function pickCheer(stageGlobal){
+return PUZ_CHEERS[(stageGlobal * 3) % PUZ_CHEERS.length];
+}
+
+async function puzEnsureStageFields(opt4puz){
+
+const section = (opt4puz?.section === "coop") ? "coop" : "challenge";
+const stage = clamp(parseInt(opt4puz?.stage||1,10), 1, PUZ_PER_SECTION);
+const grid = puzGridForStage(stage);
+const n = grid*grid;
+
+const img = puzGetImage(section, stage);
+
+let shuffle = Array.isArray(opt4puz?.shuffle) ? opt4puz.shuffle.slice(0) : [];
+if(shuffle.length !== n){
+shuffle = makeShuffle(n);
+}
+
+const needUpdate =
+(opt4puz?.section !== section) ||
+(opt4puz?.grid !== grid) ||
+(opt4puz?.img !== img) ||
+(!Array.isArray(opt4puz?.shuffle) || opt4puz.shuffle.length !== n) ||
+(parseInt(opt4puz?.gateStage||0,10) !== stage);
+
+if(needUpdate){
+await pushRoomUpdate({
+"opt4puz.section": section,
+"opt4puz.grid": grid,
+"opt4puz.img": img,
+"opt4puz.shuffle": shuffle,
+
+// gate align
+"opt4puz.gateStage": stage,
+"opt4puz.gateDone": false,
+
+"opt4puz.updatedBy": currentName || "unknown"
+});
+}
+}
+
+function renderMiniBoard(section, grid, img, placed){
+if(!puzMiniBoard) return;
+if(section === "coop") return;
+
+puzMiniBoard.style.gridTemplateColumns = `repeat(${grid}, 1fr)`;
+puzMiniBoard.innerHTML = "";
+
+const n = grid*grid;
+let filled = 0;
+for(let s=0;s<n;s++){
+const slot = document.createElement("div");
+slot.className = "puzMiniSlot";
+const p = placed?.[String(s)];
+if(typeof p === "number"){
+filled++;
+slot.classList.add("filled");
+const piece = document.createElement("div");
+piece.className = "puzMiniPiece";
+piece.style.backgroundImage = `url("${img}")`;
+const row = Math.floor(p / grid);
+const col = p % grid;
+piece.style.backgroundSize = `${grid*100}% ${grid*100}%`;
+piece.style.backgroundPosition = `${(col/(grid-1))*100}% ${(row/(grid-1))*100}%`;
+slot.appendChild(piece);
+}
+puzMiniBoard.appendChild(slot);
+}
+
+if(puzMiniBoardInfo){
+puzMiniBoardInfo.textContent = `مركّب: ${filled}/${n}`;
+}
+}
+
+/* ✅ FIX: زر الجاهزية شغال دايم، بس الانتقال ما يصير إلا (حل + تأكيد الاثنين) */
+async function puzToggleReady(){
+const section = window.__puzSectionCache || "challenge";
+const stage = clamp(parseInt(window.__puzStageCache||1,10), 1, PUZ_PER_SECTION);
+
+const gStage = parseInt(window.__puzGateStageCache||stage,10);
+if(gStage !== stage){
+await pushRoomUpdate({
+"opt4puz.gateStage": stage,
+"opt4puz.gateDone": false,
+"opt4puz.updatedBy": currentName || "unknown"
+});
+}
+
+const isAnas = (currentName === "ANAS");
+const curA = !!window.__puzNextReadyAnasCache;
+const curL = !!window.__puzNextReadyLanaCache;
+
+const nextA = isAnas ? !curA : curA;
+const nextL = isAnas ? curL : !curL;
+
+await pushRoomUpdate({
+"opt4puz.nextReadyAnas": nextA,
+"opt4puz.nextReadyLana": nextL,
+"opt4puz.updatedBy": currentName || "unknown"
+});
+}
+
+let __puzGateTimer = null;
+async function puzAutoAdvanceIfReady(opt4puz){
+if(!currentName) return;
+
+const section = (opt4puz?.section === "coop") ? "coop" : "challenge";
+const stageNow = clamp(parseInt(opt4puz?.stage||1,10), 1, PUZ_PER_SECTION);
+const solvedNow = !!opt4puz?.solved;
+
+const gateStage = clamp(parseInt(opt4puz?.gateStage||stageNow,10), 1, PUZ_PER_SECTION);
+const gateDone = !!opt4puz?.gateDone;
+const readyA = !!opt4puz?.nextReadyAnas;
+const readyL = !!opt4puz?.nextReadyLana;
+
+// ✅ الانتقال فقط إذا المرحلة محلولة + الاثنين جاهزين
+if(!solvedNow) return;
+if(gateDone) return;
+if(gateStage !== stageNow) return;
+if(!(readyA && readyL)) return;
+
+// ✅ قائد الانتقال: ANAS فقط
+if(currentName !== "ANAS") return;
+if(__puzGateTimer) return;
+
+__puzGateTimer = setTimeout(async ()=>{
+__puzGateTimer = null;
+
+if(stageNow >= PUZ_PER_SECTION){
+const cheer = pickCheer(puzGlobalStage(section, stageNow));
+await pushRoomUpdate({
+"opt4puz.cheer": `🎉 خلصتوا قسم ${section==="coop" ? "مشترك" : "تحدّي"} بالكامل!\n${cheer}`,
+"opt4puz.gateDone": true,
+"opt4puz.updatedBy": currentName || "unknown"
+});
+return;
+}
+
+const nextStage = stageNow + 1;
+const grid = puzGridForStage(nextStage);
+const n = grid*grid;
+const img = puzGetImage(section, nextStage);
+const shuffle = makeShuffle(n);
+const cheer = pickCheer(puzGlobalStage(section, nextStage));
+
+await pushRoomUpdate({
+"opt4puz.stage": nextStage,
+"opt4puz.grid": grid,
+"opt4puz.img": img,
+"opt4puz.shuffle": shuffle,
+"opt4puz.placed": {},
+"opt4puz.sel": -1,
+"opt4puz.solved": false,
+
+// reset gate
+"opt4puz.nextReadyAnas": false,
+"opt4puz.nextReadyLana": false,
+"opt4puz.gateStage": nextStage,
+"opt4puz.gateDone": true,
+
+"opt4puz.cheer": cheer,
+
+"opt4puz.updatedBy": currentName || "unknown"
+});
+}, 350);
+}
+
+function puzApplyUI(opt4puz){
+const section = (opt4puz?.section === "coop") ? "coop" : "challenge";
+const stage = clamp(parseInt(opt4puz?.stage||1,10), 1, PUZ_PER_SECTION);
+const grid = puzGridForStage(stage);
+const n = grid*grid;
+
+puzSetTabsUI(section);
+
+if(puzStageBadge) puzStageBadge.textContent = `المرحلة: ${stage} / ${PUZ_PER_SECTION}`;
+const roles = opt4puz?.roles || {viewer:"ANAS", assembler:"LANA"};
+puzSetRoleUI(section, roles);
+
+const img = puzGetImage(section, stage);
+
+// ✅ FIX: لو فشل تحميل صورة (نادر)، نرجع Picsum
+if(puzFullImg){
+puzFullImg.onerror = null;
+puzFullImg.src = img;
+puzFullImg.onerror = ()=>{
+puzFullImg.onerror = null;
+puzFullImg.src = picsumUrl(`fallback-${section}-${stage}`);
+};
+}
+
+const placed = opt4puz?.placed || {};
+const sel = parseInt(opt4puz?.sel ?? -1, 10);
+const solved = !!opt4puz?.solved;
+
+const readyA = !!opt4puz?.nextReadyAnas;
+const readyL = !!opt4puz?.nextReadyLana;
+
+if(puzViewerMini){
+const g = puzGlobalStage(section, stage);
+puzViewerMini.textContent = `مرحلة ${stage} • Global ${g}`;
+}
+if(puzAssemblerMini){
+puzAssemblerMini.textContent = `اختيار: ${sel >= 0 ? (sel+1) : "—"} • قطع: ${n}`;
+}
+
+renderMiniBoard(section, grid, img, placed);
+
+// Board
+if(puzBoard){
+puzBoard.style.gridTemplateColumns = `repeat(${grid}, 1fr)`;
+puzBoard.innerHTML = "";
+for(let s=0;s<n;s++){
+const slot = document.createElement("div");
+slot.className = "puzSlot";
+slot.dataset.slot = String(s);
+
+const p = placed[String(s)];
+if(typeof p === "number"){
+slot.classList.add("filled");
+const piece = puzCreatePieceEl(grid, img, p);
+slot.appendChild(piece);
+
+slot.addEventListener("click", async ()=>{
+const rolesNow = window.__puzRolesCache || roles;
+const sectionNow = window.__puzSectionCache || section;
+if(!canAssembleNow(sectionNow, rolesNow)) return;
+
+const nextPlaced = {...(window.__puzPlacedCache||placed)};
+delete nextPlaced[String(s)];
+await pushRoomUpdate({
+"opt4puz.placed": nextPlaced,
+"opt4puz.sel": -1,
+"opt4puz.solved": false,
+
+// ✅ أي تغيير يصفّر الجاهزية للطرفين
+"opt4puz.nextReadyAnas": false,
+"opt4puz.nextReadyLana": false,
+"opt4puz.gateStage": stage,
+"opt4puz.gateDone": false,
+
+"opt4puz.updatedBy": currentName || "unknown"
+});
+});
+}else{
+slot.addEventListener("click", async ()=>{
+const rolesNow = window.__puzRolesCache || roles;
+const sectionNow = window.__puzSectionCache || section;
+if(!canAssembleNow(sectionNow, rolesNow)) return;
+
+const selected = parseInt(window.__puzSelCache ?? sel, 10);
+if(selected < 0) return;
+
+const nextPlaced = {...(window.__puzPlacedCache||placed)};
+for(const k of Object.keys(nextPlaced)){
+if(nextPlaced[k] === selected) delete nextPlaced[k];
+}
+nextPlaced[String(s)] = selected;
+
+const done = puzIsSolved(nextPlaced, n);
+
+await pushRoomUpdate({
+"opt4puz.placed": nextPlaced,
+"opt4puz.sel": -1,
+"opt4puz.solved": done,
+
+// ✅ gate stays until confirm both
+"opt4puz.nextReadyAnas": false,
+"opt4puz.nextReadyLana": false,
+"opt4puz.gateStage": stage,
+"opt4puz.gateDone": false,
+
+"opt4puz.updatedBy": currentName || "unknown"
+});
+});
+}
+
+puzBoard.appendChild(slot);
+}
+}
+
+// Tray
+if(puzTray){
+puzTray.innerHTML = "";
+const shuffle = Array.isArray(opt4puz?.shuffle) ? opt4puz.shuffle.slice(0) : Array.from({length:n},(_,i)=>i);
+
+const used = new Set();
+for(const k of Object.keys(placed||{})){
+const v = placed[k];
+if(typeof v === "number") used.add(v);
+}
+
+for(const pieceIndex of shuffle){
+if(used.has(pieceIndex)) continue;
+
+const tile = document.createElement("div");
+tile.className = "puzTile";
+tile.dataset.piece = String(pieceIndex);
+
+if(pieceIndex === sel) tile.classList.add("selected");
+
+const pieceEl = puzCreatePieceEl(grid, img, pieceIndex);
+tile.appendChild(pieceEl);
+
+tile.addEventListener("click", async ()=>{
+const rolesNow = window.__puzRolesCache || roles;
+const sectionNow = window.__puzSectionCache || section;
+if(!canAssembleNow(sectionNow, rolesNow)) return;
+
+const currentSel = parseInt(window.__puzSelCache ?? sel, 10);
+const nextSel = (currentSel === pieceIndex) ? -1 : pieceIndex;
+await pushRoomUpdate({
+"opt4puz.sel": nextSel,
+"opt4puz.updatedBy": currentName || "unknown"
+});
+});
+
+puzTray.appendChild(tile);
+}
+}
+
+const placedCount = objKeysLen(placed);
+const remain = Math.max(0, n - placedCount);
+
+if(puzSuccess){
+puzSuccess.classList.toggle("show", solved);
+if(solved){
+const cheer = (typeof opt4puz?.cheer === "string" && opt4puz.cheer.trim()) ? opt4puz.cheer.trim() : "";
+puzSuccess.textContent = cheer
+? `✅ برافو! خلصتوا المرحلة 💗\n${cheer}`
+: `✅ برافو! خلصتوا المرحلة 💗`;
+}else{
+puzSuccess.textContent = "✅ برافو! خلصتوا المرحلة 💗";
+}
+}
+
+/* ✅ FIX: زر جاهز دايم شغال */
+if(puzNextBtn){
+const myReady = (currentName === "ANAS") ? readyA : readyL;
+const bothReady = readyA && readyL;
+
+if(solved){
+puzNextBtn.textContent = myReady ? "✅ جاهز (تم) — انتظر الطرف الثاني" : "✅ أنا جاهز للتالي";
+}else{
+puzNextBtn.textContent = myReady ? "✅ جاهز (تم) — بس لازم تكملون التركيب" : "✅ أنا جاهز للتالي";
+}
+
+puzNextBtn.style.opacity = (bothReady ? 0.95 : 1);
+}
+
+if(puzStatus){
+const by = opt4puz?.updatedBy || "—";
+const gateLine = `جاهزية أنس: ${readyA ? "✅" : "—"} | جاهزية لانا: ${readyL ? "✅" : "—"}\n(الانتقال: لازم ✅✅ + حل البزل)`;
+puzStatus.textContent =
+`Live ✅ | آخر تحديث: ${by}\nقسم: ${section==="coop" ? "مشترك" : "تحدّي"} | شبكة: ${grid}x${grid} | باقي: ${remain} قطعة\n${gateLine}`;
+}
+}
+
+async function puzSwitchSection(nextSection){
+const section = (nextSection === "coop") ? "coop" : "challenge";
+const stage = 1;
+const grid = puzGridForStage(stage);
+const n = grid*grid;
+
+const img = puzGetImage(section, stage);
+const shuffle = makeShuffle(n);
+
+await pushRoomUpdate({
+"opt4puz.section": section,
+"opt4puz.stage": stage,
+"opt4puz.grid": grid,
+"opt4puz.img": img,
+"opt4puz.shuffle": shuffle,
+"opt4puz.placed": {},
+"opt4puz.sel": -1,
+"opt4puz.solved": false,
+
+"opt4puz.nextReadyAnas": false,
+"opt4puz.nextReadyLana": false,
+"opt4puz.gateStage": stage,
+"opt4puz.gateDone": false,
+"opt4puz.cheer": "",
+
+"opt4puz.updatedBy": currentName || "unknown"
+});
+}
+
+async function puzSwapRoles(){
+const section = window.__puzSectionCache || "challenge";
+if(section === "coop") return;
+
+const roles = window.__puzRolesCache || {viewer:"ANAS", assembler:"LANA"};
+const nextRoles = { viewer: roles.assembler || "LANA", assembler: roles.viewer || "ANAS" };
+await pushRoomUpdate({
+"opt4puz.roles": nextRoles,
+"opt4puz.sel": -1,
+"opt4puz.updatedBy": currentName || "unknown"
+});
+}
+
+async function puzResetStage(){
+const section = window.__puzSectionCache || "challenge";
+const stage = clamp(parseInt(window.__puzStageCache||1,10), 1, PUZ_PER_SECTION);
+const grid = puzGridForStage(stage);
+const n = grid*grid;
+
+const img = puzGetImage(section, stage);
+const shuffle = makeShuffle(n);
+
+await pushRoomUpdate({
+"opt4puz.grid": grid,
+"opt4puz.img": img,
+"opt4puz.shuffle": shuffle,
+"opt4puz.placed": {},
+"opt4puz.sel": -1,
+"opt4puz.solved": false,
+
+"opt4puz.nextReadyAnas": false,
+"opt4puz.nextReadyLana": false,
+"opt4puz.gateStage": stage,
+"opt4puz.gateDone": false,
+"opt4puz.cheer": "",
+
+"opt4puz.updatedBy": currentName || "unknown"
+});
+}
+
+puzTabCoop?.addEventListener("click", ()=> puzSwitchSection("coop"));
+puzTabChallenge?.addEventListener("click", ()=> puzSwitchSection("challenge"));
+puzSwapBtn?.addEventListener("click", puzSwapRoles);
+puzResetBtn?.addEventListener("click", puzResetStage);
+puzNextBtn?.addEventListener("click", puzToggleReady);
+
+
+
+/********************
+* ✅ OPTION 5: KITCHEN (Live)
+********************/
+const kitStageBadge = document.getElementById("kitStageBadge");
+const kitRecipeBadge = document.getElementById("kitRecipeBadge");
+const kitLiveLine = document.getElementById("kitLiveLine");
+const kitProgressText = document.getElementById("kitProgressText");
+
+const kitTabSweet = document.getElementById("kitTabSweet");
+const kitTabSavory = document.getElementById("kitTabSavory");
+
+const kitRecipeGrid = document.getElementById("kitRecipeGrid");
+const kitConfirmRecipeBtn = document.getElementById("kitConfirmRecipeBtn");
+const kitResetAllBtn = document.getElementById("kitResetAllBtn");
+const kitRecipeConfirmLine = document.getElementById("kitRecipeConfirmLine");
+
+const kitStepBar = document.getElementById("kitStepBar");
+const kitStepMini = document.getElementById("kitStepMini");
+const kitStepTitle = document.getElementById("kitStepTitle");
+const kitStepDesc = document.getElementById("kitStepDesc");
+const kitDoStepBtn = document.getElementById("kitDoStepBtn");
+const kitReadyNextBtn = document.getElementById("kitReadyNextBtn");
+const kitStepConfirmLine = document.getElementById("kitStepConfirmLine");
+
+const kitDecoBoard = document.getElementById("kitDecoBoard");
+const kitDecoHint = document.getElementById("kitDecoHint");
+const kitMadeByUsBtn = document.getElementById("kitMadeByUsBtn");
+const kitSaveBtn = document.getElementById("kitSaveBtn");
+const kitStatus = document.getElementById("kitStatus");
+
+const kitAlbumBtn = document.getElementById("kitAlbumBtn");
+const kitAlbumModal = document.getElementById("kitAlbumModal");
+const kitAlbumClose = document.getElementById("kitAlbumClose");
+const kitAlbumGrid = document.getElementById("kitAlbumGrid");
+
+const KIT_STEPS = [
+{ key:"pick", title:"📖 اختيار الوصفة", desc:"اختاروا وصفة… ثم لازم (تأكيد الوصفة) من الطرفين ✅" },
+{ key:"prep", title:"🔪 التحضير", desc:"جهزوا المكونات… ثم اضغط (نفّذ المرحلة) وبعدها جاهزية الاثنين ✅✅" },
+{ key:"cook", title:"🔥 الطبخ / الخَبز", desc:"سخّنوا/اخبزوا… اضغط (نفّذ المرحلة) ثم جاهزية الاثنين ✅✅" },
+{ key:"deco", title:"🎨 التزيين", desc:"الحين وقت التزيين الحر 💗 (الأدوات تحت) — كل شيء Live" },
+{ key:"serve", title:"🍽️ التقديم", desc:"سمّوا الطبق/الحلو… ثم (حفظ في الألبوم) عشان تنحفظ صورة + اسم + تاريخ ✅" }
+];
+
+const KIT_RECIPES = {
+sweet: [
+{id:"cake_choco", name:"🍫 كيك شوكولاتة"},
+{id:"pancake", name:"🥞 بان كيك"},
+{id:"waffle", name:"🧇 وافل"},
+{id:"cheesecake", name:"🍰 تشيز كيك"},
+{id:"cupcake", name:"🧁 كب كيك"},
+{id:"brownie", name:"🤎 براوني"},
+{id:"donut", name:"🍩 دونات"},
+{id:"cookies", name:"🍪 كوكيز"},
+{id:"tiramisu", name:"☕️ تيراميسو"},
+{id:"fruit_tart", name:"🥧 تارت فواكه"}
+],
+savory: [
+{id:"pizza", name:"🍕 بيتزا"},
+{id:"burger", name:"🍔 برجر"},
+{id:"eggs", name:"🍳 بيض"},
+{id:"kabsa", name:"🍛 كبسة"},
+{id:"zinger", name:"🍗 زنجر"},
+{id:"pasta", name:"🍝 باستا"},
+{id:"salad", name:"🥗 سلطة"},
+{id:"fries", name:"🍟 بطاطس"},
+{id:"sandwich", name:"🥪 ساندويتش"},
+{id:"soup", name:"🍜 شوربة"}
+]
+};
+
+const KIT_EMOJIS = {
+layer: ["🍰","🧁","🥞","🧇","🥧"],
+cream: ["🍦","🤍","🥛"],
+sauce: ["🍫","🍯","🍓"],
+fruit: ["🍓","🍌","🍒","🍍","🫐","🍇"],
+choco: ["🍪","🍫","🤎"],
+sprinkle: ["✨","⭐️","💫"],
+candle: ["🕯️","🔥"],
+heart: ["💗","❤️","💕","💖","💘"],
+text: ["📝"],
+random: ["🍓","🍫","💗","✨","🕯️","🍒","🍯","🧁","⭐️","🍪"]
+};
+
+function kitNowDateStr(){
+const d = new Date();
+const yy = d.getFullYear();
+const mm = String(d.getMonth()+1).padStart(2,"0");
+const dd = String(d.getDate()).padStart(2,"0");
+const hh = String(d.getHours()).padStart(2,"0");
+const mi = String(d.getMinutes()).padStart(2,"0");
+return `${yy}-${mm}-${dd} ${hh}:${mi}`;
+}
+
+function kitIsAnas(){ return currentName === "ANAS"; }
+function kitMyReadyKey(){ return kitIsAnas() ? "readyNextAnas" : "readyNextLana"; }
+function kitOtherReadyKey(){ return kitIsAnas() ? "readyNextLana" : "readyNextAnas"; }
+function kitMyConfirmKey(){ return kitIsAnas() ? "confirmRecipeAnas" : "confirmRecipeLana"; }
+function kitOtherConfirmKey(){ return kitIsAnas() ? "confirmRecipeLana" : "confirmRecipeAnas"; }
+function kitMyPickKey(){ return kitIsAnas() ? "pickAnas" : "pickLana"; }
+function kitOtherPickKey(){ return kitIsAnas() ? "pickLana" : "pickAnas"; }
+
+function kitClamp01(n){ return Math.max(0, Math.min(1, n)); }
+function kitRand(min,max){ return Math.random()*(max-min)+min; }
+function kitId(){ return Math.random().toString(36).slice(2) + Date.now().toString(36); }
+
+function kitPickEmoji(type){
+const arr = KIT_EMOJIS[type] || KIT_EMOJIS.random;
+return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function kitCanDecorate(stepIndex){
+return parseInt(stepIndex||0,10) === 3; // deco stage
+}
+
+function kitRenderRecipeGrid(section, selectedId){
+if(!kitRecipeGrid) return;
+kitRecipeGrid.innerHTML = "";
+
+const list = KIT_RECIPES[section] || KIT_RECIPES.sweet;
+list.forEach(r=>{
+const b = document.createElement("button");
+b.className = "kitRecipeBtn";
+b.textContent = r.name;
+b.dataset.rid = r.id;
+if(r.id === selectedId) b.classList.add("selected");
+b.addEventListener("click", async ()=>{
+// اختيار “نية” فقط (ما يقفل إلا بتأكيد الاثنين)
+await kitPickRecipe(r.id, r.name);
+});
+kitRecipeGrid.appendChild(b);
+});
+}
+
+async function kitPickRecipe(recipeId, recipeName){
+// إذا الوصفة مقفولة (بسبب تأكيد الاثنين) ما نسمح تغيرها إلا Reset
+const opt5 = window.__kitCache || {};
+if(opt5.recipeLocked) return;
+
+const payload = {
+"opt5kitchen.section": (opt5.section === "savory") ? "savory" : "sweet",
+"opt5kitchen.recipeId": recipeId,
+"opt5kitchen.recipeName": recipeName,
+
+// احفظ اختياري أنا
+[`opt5kitchen.${kitMyPickKey()}`]: recipeId,
+
+// صفّر التأكيدات (لو كان أحد أكد سابقًا)
+"opt5kitchen.confirmRecipeAnas": false,
+"opt5kitchen.confirmRecipeLana": false,
+
+// رجّع المراحل للأول (احتياط)
+"opt5kitchen.stepIndex": 0,
+"opt5kitchen.stepDone": false,
+"opt5kitchen.readyNextAnas": false,
+"opt5kitchen.readyNextLana": false,
+
+// صفّر التزيين
+"opt5kitchen.decoItems": [],
+"opt5kitchen.madeByUs": false,
+
+"opt5kitchen.updatedBy": currentName || "unknown"
+};
+
+await pushRoomUpdate(payload);
+}
+
+async function kitSwitchSection(section){
+const opt5 = window.__kitCache || {};
+if(opt5.recipeLocked) return; // لا تغير القسم بعد القفل
+
+const next = (section === "savory") ? "savory" : "sweet";
+await pushRoomUpdate({
+"opt5kitchen.section": next,
+"opt5kitchen.recipeId": "",
+"opt5kitchen.recipeName": "",
+
+"opt5kitchen.pickAnas": "",
+"opt5kitchen.pickLana": "",
+"opt5kitchen.confirmRecipeAnas": false,
+"opt5kitchen.confirmRecipeLana": false,
+"opt5kitchen.recipeLocked": false,
+
+"opt5kitchen.stepIndex": 0,
+"opt5kitchen.stepDone": false,
+"opt5kitchen.readyNextAnas": false,
+"opt5kitchen.readyNextLana": false,
+
+"opt5kitchen.decoItems": [],
+"opt5kitchen.madeByUs": false,
+
+"opt5kitchen.updatedBy": currentName || "unknown"
+});
+}
+
+async function kitConfirmRecipe(){
+const opt5 = window.__kitCache || {};
+const rid = (opt5.recipeId||"").trim();
+if(!rid){
+await pushRoomUpdate({
+"opt5kitchen.updatedBy": currentName || "unknown"
+});
+return;
+}
+if(opt5.recipeLocked) return;
+
+const minePick = opt5[kitMyPickKey()] || "";
+if(!minePick){
+// لازم أنت تختار أولاً (عشان يكون في “نية” عندك)
+return;
+}
+
+await pushRoomUpdate({
+[`opt5kitchen.${kitMyConfirmKey()}`]: true,
+"opt5kitchen.updatedBy": currentName || "unknown"
+});
+
+// قفل الوصفة تلقائيًا إذا الاثنين أكدوا (قائد القفل: ANAS)
+const nextOpt = window.__kitCache || opt5;
+const a = !!nextOpt.confirmRecipeAnas;
+const l = !!nextOpt.confirmRecipeLana;
+
+// ما نضمن تحديث cache فورًا، فالقفل الحقيقي يصير بالـ listener (auto)
+}
+
+async function kitAutoLockRecipeIfBoth(opt5){
+if(!currentName) return;
+if(opt5.recipeLocked) return;
+
+const both = !!opt5.confirmRecipeAnas && !!opt5.confirmRecipeLana;
+if(!both) return;
+
+// قائد القفل والانتقال: ANAS فقط
+if(currentName !== "ANAS") return;
+
+await pushRoomUpdate({
+"opt5kitchen.recipeLocked": true,
+"opt5kitchen.stepIndex": 1, // يبدأ التحضير
+"opt5kitchen.stepDone": false,
+"opt5kitchen.readyNextAnas": false,
+"opt5kitchen.readyNextLana": false,
+"opt5kitchen.updatedBy": currentName || "unknown"
+});
+}
+
+async function kitDoStep(){
+const opt5 = window.__kitCache || {};
+if(!opt5.recipeLocked) return;
+
+const idx = parseInt(opt5.stepIndex||0,10);
+if(idx <= 0) return; // لازم نكون بعد اختيار الوصفة
+if(idx >= KIT_STEPS.length) return;
+if(opt5.stepDone) return;
+
+await pushRoomUpdate({
+"opt5kitchen.stepDone": true,
+"opt5kitchen.readyNextAnas": false,
+"opt5kitchen.readyNextLana": false,
+"opt5kitchen.updatedBy": currentName || "unknown"
+});
+}
+
+async function kitToggleReadyNext(){
+const opt5 = window.__kitCache || {};
+if(!opt5.recipeLocked) return;
+
+const idx = parseInt(opt5.stepIndex||0,10);
+if(idx <= 0) return;
+
+const mine = !!opt5[kitMyReadyKey()];
+await pushRoomUpdate({
+[`opt5kitchen.${kitMyReadyKey()}`]: !mine,
+"opt5kitchen.updatedBy": currentName || "unknown"
+});
+}
+
+let __kitAdvanceTimer = null;
+async function kitAutoAdvanceIfReady(opt5){
+if(!currentName) return;
+if(!opt5.recipeLocked) return;
+
+const idx = parseInt(opt5.stepIndex||0,10);
+const done = !!opt5.stepDone;
+
+const rA = !!opt5.readyNextAnas;
+const rL = !!opt5.readyNextLana;
+const bothReady = rA && rL;
+
+// لا ينتقل إلا إذا: (تم تنفيذ المرحلة) + (جاهزية الاثنين)
+if(!done) return;
+if(!bothReady) return;
+
+// قائد الانتقال: ANAS فقط
+if(currentName !== "ANAS") return;
+if(__kitAdvanceTimer) return;
+
+__kitAdvanceTimer = setTimeout(async ()=>{
+__kitAdvanceTimer = null;
+
+const next = idx + 1;
+
+if(next >= KIT_STEPS.length){
+// وصلنا للنهاية (serve) — نخليها ثابتة
+await pushRoomUpdate({
+"opt5kitchen.stepIndex": KIT_STEPS.length-1,
+"opt5kitchen.stepDone": false,
+"opt5kitchen.readyNextAnas": false,
+"opt5kitchen.readyNextLana": false,
+"opt5kitchen.updatedBy": currentName || "unknown"
+});
+return;
+}
+
+await pushRoomUpdate({
+"opt5kitchen.stepIndex": next,
+"opt5kitchen.stepDone": false,
+"opt5kitchen.readyNextAnas": false,
+"opt5kitchen.readyNextLana": false,
+"opt5kitchen.updatedBy": currentName || "unknown"
+});
+}, 350);
+}
+
+function kitNormalizeXY(px, py, rect){
+const x = kitClamp01((px - rect.left) / rect.width);
+const y = kitClamp01((py - rect.top) / rect.height);
+return {x,y};
+}
+
+async function kitAddDeco(type){
+const opt5 = window.__kitCache || {};
+if(!opt5.recipeLocked) return;
+if(!kitCanDecorate(opt5.stepIndex)) return;
+
+let emoji = kitPickEmoji(type);
+let text = "";
+
+if(type === "text"){
+const nm = prompt("اكتب اسم / كلمة قصيرة للحلو 🍰:");
+if(nm === null) return;
+text = (nm||"").trim().slice(0, 18);
+if(!text) return;
+emoji = "📝";
+}
+
+const rect = kitDecoBoard?.getBoundingClientRect();
+let x = kitRand(0.25, 0.75);
+let y = kitRand(0.25, 0.75);
+if(rect){
+// يطلع في النص غالبًا
+x = kitRand(0.30, 0.70);
+y = kitRand(0.30, 0.70);
+}
+
+const item = {
+id: kitId(),
+type,
+emoji,
+text,
+x, y,
+scale: kitRand(0.85, 1.25),
+rot: kitRand(-18, 18)
+};
+
+const next = Array.isArray(opt5.decoItems) ? opt5.decoItems.slice(0) : [];
+next.push(item);
+
+await pushRoomUpdate({
+"opt5kitchen.decoItems": next,
+"opt5kitchen.madeByUs": false,
+"opt5kitchen.updatedBy": currentName || "unknown"
+});
+}
+
+async function kitRemoveDeco(itemId){
+const opt5 = window.__kitCache || {};
+if(!opt5.recipeLocked) return;
+if(!kitCanDecorate(opt5.stepIndex)) return;
+
+const list = Array.isArray(opt5.decoItems) ? opt5.decoItems : [];
+const next = list.filter(x=> x && x.id !== itemId);
+await pushRoomUpdate({
+"opt5kitchen.decoItems": next,
+"opt5kitchen.madeByUs": false,
+"opt5kitchen.updatedBy": currentName || "unknown"
+});
+}
+
+async function kitMadeByUs(){
+const opt5 = window.__kitCache || {};
+if(!opt5.recipeLocked) return;
+if(!kitCanDecorate(opt5.stepIndex)) return;
+
+await pushRoomUpdate({
+"opt5kitchen.madeByUs": true,
+"opt5kitchen.updatedBy": currentName || "unknown"
+});
+}
+
+function kitOpenAlbum(){
+if(!kitAlbumModal) return;
+kitAlbumModal.classList.add("show");
+}
+function kitCloseAlbum(){
+if(!kitAlbumModal) return;
+kitAlbumModal.classList.remove("show");
+}
+
+function kitRenderAlbum(album){
+if(!kitAlbumGrid) return;
+kitAlbumGrid.innerHTML = "";
+
+const list = Array.isArray(album) ? album.slice(0) : [];
+// الأحدث فوق
+list.sort((a,b)=> (b?.date||"").localeCompare(a?.date||""));
+
+if(list.length === 0){
+const div = document.createElement("div");
+div.className = "kitAlbumCard";
+div.innerHTML = `<div class="kitAlbumMeta">الألبوم فاضي… أول حفظ بيطلع هنا 💗</div>`;
+kitAlbumGrid.appendChild(div);
+return;
+}
+
+list.forEach(item=>{
+const card = document.createElement("div");
+card.className = "kitAlbumCard";
+
+const img = document.createElement("img");
+img.className = "kitAlbumImg";
+img.alt = "album";
+img.loading = "lazy";
+img.src = item.img || "";
+
+const meta = document.createElement("div");
+meta.className = "kitAlbumMeta";
+meta.textContent =
+`📌 ${item.name || "بدون اسم"}\n` +
+`🍽️ ${item.recipe || "—"}\n` +
+`🗓️ ${item.date || "—"}`;
+
+card.appendChild(img);
+card.appendChild(meta);
+kitAlbumGrid.appendChild(card);
+});
+}
+
+function kitBoardToDataURL(opt5){
+// يرسم صورة “حقيقية” من اللوحة + عناصر التزيين
+const board = kitDecoBoard;
+if(!board) return "";
+
+const W = 1200;
+const H = 750;
+const canvas = document.createElement("canvas");
+canvas.width = W;
+canvas.height = H;
+const ctx = canvas.getContext("2d");
+
+// خلفية ناعمة
+const g = ctx.createLinearGradient(0,0,W,H);
+g.addColorStop(0, "rgba(255,45,85,.25)");
+g.addColorStop(1, "rgba(255,255,255,.06)");
+ctx.fillStyle = g;
+ctx.fillRect(0,0,W,H);
+
+// إطار
+ctx.strokeStyle = "rgba(255,255,255,.22)";
+ctx.lineWidth = 10;
+ctx.strokeRect(22,22,W-44,H-44);
+
+// عنوان
+ctx.font = "900 44px system-ui, -apple-system, Segoe UI, Arial";
+ctx.fillStyle = "rgba(255,255,255,.95)";
+ctx.textAlign = "center";
+ctx.fillText("LANA ❤️ ANAS — مطبخنا", W/2, 80);
+
+// وصفة
+const recipeName = (opt5.recipeName || "وصفة");
+ctx.font = "800 30px system-ui, -apple-system, Segoe UI, Arial";
+ctx.fillStyle = "rgba(255,255,255,.85)";
+ctx.fillText(recipeName, W/2, 130);
+
+// منطقة اللوحة
+const pad = 80;
+const bx = pad;
+const by = 170;
+const bw = W - pad*2;
+const bh = H - 260;
+
+ctx.fillStyle = "rgba(0,0,0,.20)";
+ctx.strokeStyle = "rgba(255,255,255,.14)";
+ctx.lineWidth = 3;
+roundRect(ctx, bx, by, bw, bh, 26);
+ctx.fill();
+ctx.stroke();
+
+// تلميح MadeByUs
+if(opt5.madeByUs){
+ctx.font = "900 28px system-ui, -apple-system, Segoe UI, Arial";
+ctx.fillStyle = "rgba(255,255,255,.92)";
+ctx.fillText("💗 صنع يدنا", W/2, H-58);
+}
+
+// عناصر التزيين
+const items = Array.isArray(opt5.decoItems) ? opt5.decoItems : [];
+items.forEach(it=>{
+const x = bx + (it.x||0.5) * bw;
+const y = by + (it.y||0.5) * bh;
+const s = (it.scale||1);
+const rot = (it.rot||0) * Math.PI/180;
+
+ctx.save();
+ctx.translate(x, y);
+ctx.rotate(rot);
+
+// ظل
+ctx.globalAlpha = 0.25;
+ctx.fillStyle = "black";
+ctx.beginPath();
+ctx.ellipse(0, 18*s, 34*s, 14*s, 0, 0, Math.PI*2);
+ctx.fill();
+ctx.globalAlpha = 1;
+
+if(it.type === "text"){
+const t = (it.text||"").trim();
+ctx.font = `900 ${48*s}px system-ui, -apple-system, Segoe UI, Arial`;
+ctx.fillStyle = "rgba(255,255,255,.95)";
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+ctx.fillText(t, 0, 0);
+ctx.strokeStyle = "rgba(0,0,0,.28)";
+ctx.lineWidth = 6;
+ctx.strokeText(t, 0, 0);
+}else{
+const em = it.emoji || "✨";
+ctx.font = `72px system-ui, -apple-system, Segoe UI, Arial`;
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+ctx.fillText(em, 0, 0);
+}
+
+ctx.restore();
+});
+
+return canvas.toDataURL("image/png");
+
+function roundRect(ctx,x,y,w,h,r){
+const rr = Math.min(r, w/2, h/2);
+ctx.beginPath();
+ctx.moveTo(x+rr, y);
+ctx.arcTo(x+w, y, x+w, y+h, rr);
+ctx.arcTo(x+w, y+h, x, y+h, rr);
+ctx.arcTo(x, y+h, x, y, rr);
+ctx.arcTo(x, y, x+w, y, rr);
+ctx.closePath();
+}
+}
+
+async function kitSaveToAlbum(){
+const opt5 = window.__kitCache || {};
+if(!opt5.recipeLocked) return;
+
+// لازم نكون في مرحلة “التقديم”
+const idx = parseInt(opt5.stepIndex||0,10);
+if(idx < 4) return;
+
+const dishName = prompt("اكتب اسم الطبق / الحلو اللي سويتو 💗:");
+if(dishName === null) return;
+const name = (dishName||"").trim().slice(0, 40);
+if(!name) return;
+
+const img = kitBoardToDataURL(opt5);
+if(!img) return;
+
+const entry = {
+id: kitId(),
+name,
+date: kitNowDateStr(),
+recipe: opt5.recipeName || "—",
+section: (opt5.section === "savory") ? "🍳 الموالح" : "🍰 الحلويات",
+img
+};
+
+const album = Array.isArray(opt5.album) ? opt5.album.slice(0) : [];
+album.unshift(entry);
+
+// حد أقصى لتقليل تضخم Firestore (اختياري)
+if(album.length > 40) album.length = 40;
+
+await pushRoomUpdate({
+"opt5kitchen.album": album,
+"opt5kitchen.updatedBy": currentName || "unknown"
+});
+
+// افتح الألبوم تلقائيًا بعد الحفظ
+kitOpenAlbum();
+}
+
+function kitApplyUI(opt5){
+// tabs
+const section = (opt5.section === "savory") ? "savory" : "sweet";
+if(kitTabSweet) kitTabSweet.classList.toggle("active", section === "sweet");
+if(kitTabSavory) kitTabSavory.classList.toggle("active", section === "savory");
+
+// badges
+const idx = parseInt(opt5.stepIndex||0,10);
+const stepName = KIT_STEPS[idx]?.title || "…";
+if(kitStageBadge) kitStageBadge.textContent = `المرحلة: ${stepName}`;
+if(kitRecipeBadge){
+kitRecipeBadge.textContent = `الوصفة: ${opt5.recipeName ? opt5.recipeName : "—"}`;
+}
+
+// live line + progress
+const by = opt5.updatedBy || "—";
+const locked = !!opt5.recipeLocked;
+if(kitLiveLine) kitLiveLine.textContent = `Live ✅ | آخر تحديث: ${by} | مقفل: ${locked ? "✅" : "—"}`;
+
+// recipe grid
+kitRenderRecipeGrid(section, opt5.recipeId || "");
+
+// recipe confirm line
+const aPick = opt5.pickAnas || "";
+const lPick = opt5.pickLana || "";
+const aC = !!opt5.confirmRecipeAnas;
+const lC = !!opt5.confirmRecipeLana;
+if(kitRecipeConfirmLine){
+kitRecipeConfirmLine.textContent =
+`اختيار أنس: ${aPick ? "✅" : "—"} | اختيار لانا: ${lPick ? "✅" : "—"}\n` +
+`تأكيد أنس: ${aC ? "✅" : "—"} | تأكيد لانا: ${lC ? "✅" : "—"} | (القفل يبدأ بعد ✅✅)`;
+}
+
+if(kitConfirmRecipeBtn){
+kitConfirmRecipeBtn.disabled = locked;
+kitConfirmRecipeBtn.style.opacity = locked ? 0.6 : 1;
+}
+
+// steps bar
+if(kitStepBar){
+kitStepBar.innerHTML = "";
+KIT_STEPS.forEach((s,i)=>{
+const p = document.createElement("div");
+p.className = "kitStepPill";
+p.textContent = s.title.replace(/^[^ ]+ /,""); // يشيل الإيموجي في البِل
+p.classList.toggle("active", i === idx);
+kitStepBar.appendChild(p);
+});
+}
+
+// step info
+if(kitStepMini){
+kitStepMini.textContent = `خطوة ${idx+1} / ${KIT_STEPS.length} • تم التنفيذ: ${opt5.stepDone ? "✅" : "—"}`;
+}
+if(kitStepTitle) kitStepTitle.textContent = KIT_STEPS[idx]?.title || "…";
+if(kitStepDesc) kitStepDesc.textContent = KIT_STEPS[idx]?.desc || "…";
+
+if(kitProgressText){
+if(!locked){
+kitProgressText.textContent = "اختاروا وصفة من تحت… ثم (تأكيد الوصفة) من الطرفين ✅";
+}else{
+if(idx === 3) kitProgressText.textContent = "🎨 تزيين حر… اضغطوا الأدوات تحت! (Live) 💗";
+else if(idx === 4) kitProgressText.textContent = "🍽️ جاهزين للحفظ؟ اضغطوا (حفظ في الألبوم) ✅";
+else kitProgressText.textContent = "✨ نفّذوا المرحلة ثم جاهزية الاثنين للتقدم ✅✅";
+}
+}
+
+// do step button
+if(kitDoStepBtn){
+const can = locked && idx > 0 && idx < 4 && !opt5.stepDone; // ما نحتاج “نفذ” في التزيين/التقديم
+kitDoStepBtn.disabled = !can;
+kitDoStepBtn.style.opacity = can ? 1 : 0.6;
+}
+
+// ready button
+if(kitReadyNextBtn){
+const myReady = !!opt5[kitMyReadyKey()];
+const lockedOk = locked && idx > 0 && idx < 4; // جاهزية التقدم بين مراحل الطبخ
+kitReadyNextBtn.disabled = !lockedOk;
+kitReadyNextBtn.style.opacity = lockedOk ? 1 : 0.6;
+kitReadyNextBtn.textContent = myReady ? "✅ جاهز (تم) — انتظر الطرف الثاني" : "✅ أنا جاهز للي بعدها";
+}
+
+const rA = !!opt5.readyNextAnas;
+const rL = !!opt5.readyNextLana;
+if(kitStepConfirmLine){
+kitStepConfirmLine.textContent =
+`جاهزية أنس: ${rA ? "✅" : "—"} | جاهزية لانا: ${rL ? "✅" : "—"}\n` +
+`(الانتقال: لازم تنفيذ المرحلة ✅ + جاهزية الاثنين ✅✅)`;
+}
+
+// deco board
+const canDeco = locked && kitCanDecorate(idx);
+if(kitDecoHint){
+kitDecoHint.style.display = canDeco ? "none" : "grid";
+}
+
+// render deco items
+if(kitDecoBoard){
+// امسح كل العناصر القديمة (وخلي hint)
+Array.from(kitDecoBoard.querySelectorAll(".kitDecoItem")).forEach(n=>n.remove());
+
+const items = Array.isArray(opt5.decoItems) ? opt5.decoItems : [];
+items.forEach(it=>{
+const d = document.createElement("div");
+d.className = "kitDecoItem";
+d.dataset.id = it.id;
+
+const px = (it.x||0.5)*100;
+const py = (it.y||0.5)*100;
+
+d.style.left = px + "%";
+d.style.top = py + "%";
+
+const sc = it.scale || 1;
+const rot = it.rot || 0;
+
+d.style.transform = `translate(-50%,-50%) rotate(${rot}deg) scale(${sc})`;
+
+if(it.type === "text"){
+d.textContent = (it.text || ""); // نص
+d.style.fontWeight = "900";
+d.style.fontSize = "28px";
+d.style.padding = "10px 12px";
+d.style.borderRadius = "999px";
+d.style.border = "1px solid rgba(255,255,255,.18)";
+d.style.background = "rgba(0,0,0,.10)";
+}else{
+d.textContent = it.emoji || "✨";
+d.style.fontSize = "36px";
+}
+
+// حذف بالضغط (في مرحلة التزيين فقط)
+d.addEventListener("click", async ()=>{
+if(!canDeco) return;
+await kitRemoveDeco(it.id);
+});
+
+kitDecoBoard.appendChild(d);
+});
+}
+
+// status
+if(kitStatus){
+const recipeLine = opt5.recipeName ? `🍽️ ${opt5.recipeName}` : "🍽️ —";
+const decoCount = Array.isArray(opt5.decoItems) ? opt5.decoItems.length : 0;
+kitStatus.textContent =
+`Live ✅ | ${recipeLine}\n` +
+`تزيين: ${decoCount} عنصر | صنع يدنا: ${opt5.madeByUs ? "✅" : "—"}\n` +
+`ألبوم: ${(Array.isArray(opt5.album)?opt5.album.length:0)} حفظة`;
+}
+
+// album
+kitRenderAlbum(opt5.album);
+
+// auto behaviors
+kitAutoLockRecipeIfBoth(opt5);
+kitAutoAdvanceIfReady(opt5);
+}
+
+/********************
+* ✅ OPTION 5: Bind UI
+********************/
+(function bindKitchenUI(){
+// Tabs
+kitTabSweet?.addEventListener("click", ()=> kitSwitchSection("sweet"));
+kitTabSavory?.addEventListener("click", ()=> kitSwitchSection("savory"));
+
+// Confirm recipe + reset
+kitConfirmRecipeBtn?.addEventListener("click", kitConfirmRecipe);
+kitResetAllBtn?.addEventListener("click", async ()=>{
+await pushRoomUpdate({
+"opt5kitchen.section": "sweet",
+"opt5kitchen.recipeId": "",
+"opt5kitchen.recipeName": "",
+"opt5kitchen.pickAnas": "",
+"opt5kitchen.pickLana": "",
+"opt5kitchen.confirmRecipeAnas": false,
+"opt5kitchen.confirmRecipeLana": false,
+"opt5kitchen.recipeLocked": false,
+
+"opt5kitchen.stepIndex": 0,
+"opt5kitchen.stepDone": false,
+"opt5kitchen.readyNextAnas": false,
+"opt5kitchen.readyNextLana": false,
+
+"opt5kitchen.decoItems": [],
+"opt5kitchen.madeByUs": false,
+
+"opt5kitchen.updatedBy": currentName || "unknown"
+});
+});
+
+// Steps
+kitDoStepBtn?.addEventListener("click", kitDoStep);
+kitReadyNextBtn?.addEventListener("click", kitToggleReadyNext);
+
+// Tools
+document.querySelectorAll(".kitTool").forEach(btn=>{
+btn.addEventListener("click", async ()=>{
+const type = btn.getAttribute("data-tool") || "random";
+await kitAddDeco(type);
+});
+});
+
+// Made by us + Save
+kitMadeByUsBtn?.addEventListener("click", kitMadeByUs);
+kitSaveBtn?.addEventListener("click", kitSaveToAlbum);
+
+// Album modal
+kitAlbumBtn?.addEventListener("click", kitOpenAlbum);
+kitAlbumClose?.addEventListener("click", kitCloseAlbum);
+kitAlbumModal?.addEventListener("click", (e)=>{
+if(e.target === kitAlbumModal) kitCloseAlbum();
+});
+})();
+
+
+/********************
+* Room listener
+********************/
+function startRoomListener(){
+if(unsubRoom) return;
+
+unsubRoom = window.fb.onSnapshot(roomRef(), (snap)=>{
+const data = snap.data() || {};
+
+if(data.currentPage){
+showPageLocal(data.currentPage);
+}
+
+if(data.currentMode && modeSelect.value !== data.currentMode){
+modeSelect.value = data.currentMode;
+CURRENT_MODE = data.currentMode;
+}
+
+if(typeof data.promptText === "string" && promptCard){
+promptCard.textContent = data.promptText;
+}
+
+const by = data.lastBy || "—";
+if(syncLine){
+syncLine.textContent = `متزامن ✅ | آخر تحديث: ${by} | المرحلة: ${CURRENT_MODE}`;
+}
+
+// Option 2 sync
+const opt2 = data.opt2 || {};
+
+if(amkMeAs && amkOtherAs && currentName){
+amkMeAs.textContent = (currentName === "ANAS") ? "LANA" : "ANAS";
+amkOtherAs.textContent = (currentName === "ANAS") ? "ANAS" : "LANA";
+}
+
+if(amkHintMe) amkHintMe.textContent = "اكتب كأنك الطرف الثاني… بضميره ومشاعره.";
+if(amkHintOther) amkHintOther.textContent = "تظهر بعد حفظ الاثنين ✅";
+
+if(amkQuestion){
+amkQuestion.textContent = (typeof opt2.q === "string" && opt2.q) ? `❓ ${opt2.q}` : "❓ اضغط (سؤال جديد) 🌹";
+}
+
+const mine = (opt2[myKey()] || "");
+const other = (opt2[otherKey()] || "");
+
+safeSetTextareaValue(amkMe, mine);
+
+const bothReady = !!opt2[myReadyKey()] && !!opt2[otherReadyKey()];
+if(amkOther){
+if(bothReady){
+amkOther.value = other || "—";
+}else{
+amkOther.value = "🔒 لن تظهر إجابة الطرف الثاني حتى تحفظون أنتم الاثنين 💗";
+}
+}
+
+if(amkStatus){
+const by2 = opt2.updatedBy || data.lastBy || "—";
+amkStatus.textContent = `Live ✅ | حفظ أنس: ${opt2.readyAnas ? "✅" : "—"} | حفظ لانا: ${opt2.readyLana ? "✅" : "—"} | آخر تحديث: ${by2}`;
+}
+
+// Option 3 sync
+const opt3 = data.opt3 || {};
+const stage = Math.max(1, Math.min(150, parseInt(opt3.stage||1,10)));
+window.__fishStageCache = stage;
+window.__fishSelectedCache = parseInt(opt3.selected ?? -1, 10);
+
+applyFishUI(opt3);
+evaluateIfNeeded(opt3);
+autoNextIfNeeded(opt3);
+
+if(fishStatus){
+const who = opt3.updatedBy || data.lastBy || "—";
+fishStatus.textContent = `Live ✅ | آخر تحديث: ${who} | مرحلة: ${stage} | اختيار: ${window.__fishSelectedCache}`;
+}
+
+// ✅ Option 4 sync
+const opt4puz = data.opt4puz || {};
+const section = (opt4puz.section === "coop") ? "coop" : "challenge";
+const puzStage = clamp(parseInt(opt4puz.stage||1,10), 1, PUZ_PER_SECTION);
+
+window.__puzSectionCache = section;
+window.__puzStageCache = puzStage;
+window.__puzSelCache = parseInt(opt4puz.sel ?? -1, 10);
+window.__puzPlacedCache = opt4puz.placed || {};
+window.__puzRolesCache = opt4puz.roles || {viewer:"ANAS", assembler:"LANA"};
+window.__puzSolvedCache = !!opt4puz.solved;
+
+window.__puzNextReadyAnasCache = !!opt4puz.nextReadyAnas;
+window.__puzNextReadyLanaCache = !!opt4puz.nextReadyLana;
+window.__puzGateStageCache = parseInt(opt4puz.gateStage||puzStage,10);
+
+if((data.currentPage === "pageOpt4") && currentName){
+puzEnsureStageFields(opt4puz);
+}
+
+puzApplyUI(opt4puz);
+puzAutoAdvanceIfReady(opt4puz);
+
+// ✅ Option 5 sync (Kitchen)
+const opt5 = data.opt5kitchen || {};
+window.__kitCache = opt5;
+
+if(data.currentPage === "pageOpt5" && currentName){
+kitApplyUI(opt5);
+}else{
+// حتى لو مو فاتح الصفحة، نحدّث الألبوم للجاهزية
+kitRenderAlbum(opt5.album);
+}
+
+
+}); // ← يقفل onSnapshot
+} // ✅ يقفل startRoomListener
+
+/********************
+* Bind UI
+********************/
+document.getElementById("backHomeBtn")?.addEventListener("click", ()=> pushPage("pageHome"));
+document.querySelectorAll(".backAny").forEach(b=> b.addEventListener("click", ()=> pushPage("pageHome")));
+
+document.getElementById("btnQ")?.addEventListener("click", ()=> pushPrompt("q"));
+document.getElementById("btnC")?.addEventListener("click", ()=> pushPrompt("c"));
+
+modeSelect.addEventListener("change", async ()=>{
+CURRENT_MODE = modeSelect.value || "lana1";
+await pushRoomUpdate({ currentMode: CURRENT_MODE });
+});
+
+document.querySelectorAll(".opt").forEach(btn=>{
+btn.addEventListener("click", ()=>{
+const go = btn.getAttribute("data-go");
+closeModalFn();
+if(go) pushPage(go);
+});
+});
+
+/********************
+* Start after Firebase
+********************/
+(async ()=>{
+await waitForFb();
+
+window.fb.onAuthStateChanged(window.fb.auth, async (user)=>{
+if(!user){
+currentName = null;
+topbar.classList.add("hide");
+showPageLocal("pageLogin");
+return;
+}
+
+const em = (user.email||"").toLowerCase();
+currentName = em.startsWith("lana") ? "LANA" : "ANAS";
+
+whoPill.textContent = `💗 أنت: ${currentName}`;
+topbar.classList.remove("hide");
+
+CURRENT_MODE = modeSelect.value || "lana1";
+
+await ensureRoom();
+startRoomListener();
+
+pushPage("pageHome");
+});
+
+window.addEventListener("visibilitychange", ()=>{
+if(document.visibilityState==="visible" && window.fb?.auth?.currentUser){
+ensureRoom();
+}
+});
+})();
+</script>
+
+<script>
+function updateLoveCounter(){
+const startDate = new Date(2025, 10, 24);
+const today = new Date();
+const diffTime = today.getTime() - startDate.getTime();
+const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+const counterEl = document.getElementById("loveCounter");
+if(counterEl){
+counterEl.textContent = `💗 ${diffDays} DAY`;
+}
+}
+updateLoveCounter();
+setInterval(updateLoveCounter, 1000 * 60 * 60);
+</script>
+<script>
+										
+window.addEventListener("beforeunload", () => {
+try {
+if (window.fb?.auth?.currentUser) {
+window.fb.signOut(window.fb.auth);
+}
+} catch (e) {}
+});
+</script>
+
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
