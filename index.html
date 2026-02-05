@@ -1078,95 +1078,68 @@
       border:0;
     }
     /* ===== OPTION 5: KITCHEN ===== */
-.kitWrap{ margin-top:12px; }
-.kitTopRow{ display:flex; gap:10px; flex-wrap:wrap; justify-content:space-between; margin-top:10px; }
-.kitBadge{
-  display:inline-flex; align-items:center; gap:10px;
-  padding:10px 14px; border-radius:999px;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.06);
-  color:var(--txt); font-weight:900;
-  max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
-}
-.kitTabs{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; margin-top:10px; }
-.kitAlbumBtn{ flex: 0 0 auto; min-width:140px; }
+/* ===== OPTION 5 PRO ADD-ONS (Scenes + MiniGames) ===== */
+.kitSceneWrap{ margin-top:12px; }
+.kitScene{ display:none; }
+.kitScene.active{ display:block; }
 
-.kitChars{
+.kitKitchenBg,.kitCatBg,.kitRecipeBg,.kitStepBg{
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.14);
+  overflow:hidden;
+  padding:14px;
+}
+
+.kitKitchenHeader{ display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+.kitKitchenTitle{ font-weight:900; font-size:18px; }
+.kitKitchenSub{ color:rgba(255,255,255,.70); font-weight:800; font-size:12px; }
+
+.kitKitchenChars{
   margin-top:12px;
   display:grid;
-  grid-template-columns: 1fr 1.6fr 1fr;
+  grid-template-columns: 1fr 1.7fr 1fr;
   gap:12px;
-  align-items:stretch;
 }
-@media (max-width:760px){
-  .kitChars{ grid-template-columns:1fr; }
-}
-.kitCharCard{
-  border-radius:22px;
-  background: rgba(0,0,0,.14);
-  border:1px solid rgba(255,255,255,.12);
-  padding:14px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  gap:6px;
-}
-.kitCharEmoji{ font-size:48px; }
-.kitCharName{ font-weight:900; letter-spacing:.5px; }
-.kitCharSub{ color:rgba(255,255,255,.65); font-weight:800; font-size:12px; }
+@media (max-width:760px){ .kitKitchenChars{ grid-template-columns:1fr; } }
 
-.kitTable{
+.kitCounter{
   border-radius:22px;
+  border:1px solid rgba(255,255,255,.12);
   background: rgba(0,0,0,.12);
-  border:1px solid rgba(255,255,255,.12);
   padding:14px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
 }
-.kitTableTop{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; flex-wrap:wrap; }
-.kitTableTitle{ font-weight:900; }
-.kitMiniLine{ font-size:12px; color:rgba(255,255,255,.70); font-weight:800; line-height:1.9; }
-.kitProgress{
-  margin-top:10px;
+.kitCounterTitle{ font-weight:900; }
+.kitCounterHint{ margin-top:6px; color:rgba(255,255,255,.70); font-weight:800; font-size:12px; }
+
+.kitSectionRow{ margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:760px){ .kitSectionRow{ grid-template-columns:1fr; } }
+.kitSectionBtn{
+  padding:16px 14px;
   border-radius:18px;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(255,45,85,.10);
-  padding:12px;
-  line-height:2;
-  text-align:center;
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.08);
+  color:var(--txt);
+  cursor:pointer;
   font-weight:900;
+  text-align:right;
+  line-height:1.9;
+  transition: transform .12s ease, background .12s ease;
 }
+.kitSectionBtn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); }
+.kitSectionBtn small{ display:block; color:rgba(255,255,255,.65); font-weight:800; }
 
-.kitPanel{
-  margin-top:12px;
-  border-radius:22px;
-  background: rgba(0,0,0,.14);
-  border:1px solid rgba(255,255,255,.12);
-  padding:14px;
-}
-.kitPanelTitle{
-  font-weight:900;
-  margin:0 0 10px;
-  color:rgba(255,255,255,.92);
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
-}
-.kitMini{ font-size:12px; color:rgba(255,255,255,.70); font-weight:800; }
+.kitKitchenFooter{ margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; }
 
-.kitRecipeGrid{
+.kitCatTop{ display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
+
+.kitCatGrid{
   display:grid;
   grid-template-columns: repeat(2, 1fr);
   gap:10px;
 }
-@media (max-width:760px){
-  .kitRecipeGrid{ grid-template-columns:1fr; }
-}
-.kitRecipeBtn{
+@media (max-width:760px){ .kitCatGrid{ grid-template-columns:1fr; } }
+.kitCatBtn{
   padding:14px;
   border-radius:18px;
   border:1px solid rgba(255,255,255,.16);
@@ -1176,159 +1149,177 @@
   font-weight:900;
   text-align:center;
   line-height:1.9;
-  transition: transform .12s ease, background .12s ease;
-}
-.kitRecipeBtn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); }
-.kitRecipeBtn.selected{ outline:2px solid rgba(255,255,255,.85); }
-
-.kitConfirmRow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
-.kitConfirmRow .actionBtn{ flex:1 1 180px; }
-.kitConfirmLine{
-  margin-top:10px;
-  color:rgba(255,255,255,.72);
-  font-size:12px;
-  text-align:center;
-  line-height:1.9;
 }
 
-.kitStepBar{
-  display:flex; gap:8px; flex-wrap:wrap;
-  justify-content:center;
-  margin-bottom:10px;
+.kitCookLayout{
+  display:grid;
+  grid-template-columns: 1.3fr .7fr;
+  gap:12px;
+  align-items:start;
 }
-.kitStepPill{
-  padding:10px 12px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.06);
-  font-weight:900;
-  font-size:12px;
-  color:rgba(255,255,255,.85);
-}
-.kitStepPill.active{ background: rgba(255,255,255,.14); color:#fff; }
-.kitStepCard{
+@media (max-width:760px){ .kitCookLayout{ grid-template-columns:1fr; } }
+.kitCookStage{
   border-radius:18px;
   border:1px solid rgba(255,255,255,.14);
   background: rgba(0,0,0,.10);
   padding:12px;
 }
-.kitStepTitle{ font-weight:900; margin-bottom:6px; }
-.kitStepDesc{ color:rgba(255,255,255,.80); line-height:2; font-size:13px; }
-.kitActions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
-.kitActions .actionBtn{ flex:1 1 180px; }
-
-.kitDecoBoard{
-  width:100%;
-  aspect-ratio: 16 / 10;
+.kitCookTitle{ font-weight:900; margin-bottom:6px; }
+.kitCookDesc{ color:rgba(255,255,255,.82); font-size:13px; line-height:2; }
+.kitCookSide .kitCookCard{
   border-radius:18px;
   border:1px solid rgba(255,255,255,.14);
   background: rgba(0,0,0,.10);
-  position:relative;
-  overflow:hidden;
-  display:block;
+  padding:12px;
 }
-.kitDecoHint{
-  position:absolute;
-  inset:0;
+.kitCookSideTitle{ font-weight:900; margin-bottom:10px; }
+
+.kitMiniGame{ margin-top:12px; }
+.kitMiniHint{ color:rgba(255,255,255,.78); font-weight:900; font-size:12px; line-height:2; text-align:center; margin-bottom:8px; }
+
+.kitEggArea{
+  position:relative;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.10);
+  height:160px;
+  overflow:hidden;
   display:grid;
   place-items:center;
-  text-align:center;
+}
+.kitEgg{
+  position:absolute;
+  top:22px;
+  font-size:48px;
+  cursor:grab;
+  user-select:none; -webkit-user-select:none;
+  touch-action:none;
+}
+.kitBowl{ position:absolute; bottom:16px; font-size:54px; opacity:.95; }
+.kitEggFX{
+  position:absolute;
+  bottom:70px;
+  font-size:30px;
+  opacity:0;
+  transition: opacity .2s ease;
+}
+
+.kitMixArea{
+  position:relative;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.10);
+  height:160px;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+}
+.kitBowl2{ position:absolute; bottom:18px; font-size:56px; opacity:.95; }
+.kitSpoon{
+  position:absolute;
+  top:38px;
+  font-size:44px;
+  cursor:grab;
+  user-select:none; -webkit-user-select:none;
+  touch-action:none;
+}
+.kitMixMeter{
+  position:absolute; left:12px; right:12px; bottom:10px;
+  height:10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.06);
+  overflow:hidden;
+}
+.kitMixMeter span{
+  display:block; height:100%;
+  width:0%;
+  background: rgba(34,197,94,.65);
+  transition: width .12s ease;
+}
+
+.kitOven{
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.10);
   padding:12px;
-  color:rgba(255,255,255,.75);
-  font-weight:900;
-  line-height:2;
+}
+.kitOvenTop{ display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+.kitOvenTemp,.kitOvenTimer{
+  font-weight:900; padding:8px 10px; border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+}
+.kitOvenDoor{
+  margin-top:10px;
+  height:160px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.18);
+  position:relative;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+}
+.kitOvenFood{ font-size:58px; position:relative; z-index:2; }
+.kitOvenGlow{
+  position:absolute; inset:0;
+  background: radial-gradient(60% 55% at 50% 65%, rgba(255,120,0,.22), transparent 65%);
+  opacity:0;
+  transition: opacity .25s ease;
+}
+.kitRange{ width:100%; margin-top:10px; }
+.kitOvenBtns{ margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; }
+
+.kitDishBoard{
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.10);
+  overflow:hidden;
+  position:relative;
+  aspect-ratio:16/10;
+}
+.kitDishBoard img{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  opacity:.95;
+  user-select:none; -webkit-user-drag:none;
+}
+.kitDecoLayer{
+  position:absolute; inset:0;
 }
 .kitDecoItem{
   position:absolute;
-  user-select:none;
-  -webkit-user-select:none;
-  cursor:pointer;
+  user-select:none; -webkit-user-select:none;
+  cursor:grab;
   filter: drop-shadow(0 10px 18px rgba(0,0,0,.25));
   transform: translate(-50%, -50%);
+  touch-action:none;
 }
-.kitDecoTools{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  justify-content:center;
-  margin-top:10px;
-}
-.kitTool{
-  padding:10px 12px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.06);
-  color:rgba(255,255,255,.92);
-  font-weight:900;
-  cursor:pointer;
-}
-.kitTool:active{ transform: translateY(1px); }
 
-.kitStatus{
-  margin-top:10px;
-  border-radius:16px;
+.kitServeStage{
+  border-radius:18px;
   border:1px solid rgba(255,255,255,.14);
   background: rgba(0,0,0,.10);
-  padding:10px 12px;
-  color:rgba(255,255,255,.85);
-  white-space:pre-wrap;
-  line-height:2;
-  font-size:13px;
-  text-align:center;
+  padding:12px;
 }
-
-/* Album modal */
-.kitModal{
-  position:fixed; inset:0;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  background: rgba(0,0,0,.55);
-  z-index:60;
-  padding:18px;
-}
-.kitModal.show{ display:flex; }
-.kitModalCard{
-  width:min(820px, 96vw);
-  border-radius:26px;
-  background: rgba(20,8,16,.82);
-  border:1px solid rgba(255,255,255,.16);
-  box-shadow: 0 22px 70px rgba(0,0,0,.6);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  overflow:hidden;
-  max-height: calc(100vh - 40px);
-  display:flex;
-  flex-direction:column;
-}
-.kitModalHead{
-  padding:16px 18px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border-bottom:1px solid rgba(255,255,255,.10);
-}
-.kitAlbumGrid{
-  padding:18px;
+.kitServeChars{
   display:grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap:12px;
-  overflow:auto;
-  -webkit-overflow-scrolling: touch;
+  grid-template-columns: 1fr 1.6fr 1fr;
+  gap:10px;
+  align-items:center;
 }
-@media (max-width:760px){
-  .kitAlbumGrid{ grid-template-columns:1fr; }
-}
-.kitAlbumCard{
+@media (max-width:760px){ .kitServeChars{ grid-template-columns:1fr; } }
+.kitServeChar{ font-size:54px; text-align:center; }
+.kitServePlate{
   border-radius:18px;
-  border:1px solid rgba(255,255,255,.16);
-  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.12);
   overflow:hidden;
+  aspect-ratio:16/10;
 }
-.kitAlbumImg{ width:100%; display:block; aspect-ratio: 16/10; object-fit: cover; }
-.kitAlbumMeta{ padding:12px; line-height:2; color:rgba(255,255,255,.85); font-weight:900; font-size:12px; }
-.kitAlbumHint{ padding:12px 18px; color:rgba(255,255,255,.65); font-weight:800; font-size:12px; text-align:center; }
-
+.kitServePlate img{ width:100%; height:100%; object-fit:cover; display:block; }
   </style>
 </head>
 
@@ -1587,127 +1578,257 @@
           </div>
         </section>
 
+<!-- ✅ OPTION 5: KITCHEN (PRO / Multi-scenes) -->
 <section class="page" id="pageOpt5">
   <div class="contentBox">
     <button class="backBtn backAny">🏠 رجوع للرئيسية</button>
 
-    <div class="promptCard" style="font-size:20px">🍰🍳 مطبخنا — لعبة طبخ وتزيين مشتركة (Live)</div>
+    <div class="promptCard" style="font-size:20px">🍰🍳 مطبخنا — طبخ تفاعلي + تزيين + تقديم (Live)</div>
 
     <div class="kitWrap">
-      <!-- Top -->
+      <!-- Top badges -->
       <div class="kitTopRow">
-        <div class="kitBadge" id="kitStageBadge">المرحلة: …</div>
+        <div class="kitBadge" id="kitStageBadge">المشهد: …</div>
         <div class="kitBadge" id="kitRecipeBadge">الوصفة: …</div>
       </div>
 
-      <!-- Tabs: sweets / savory -->
-      <div class="kitTabs">
-        <div class="seg" aria-label="أقسام المطبخ">
-          <button class="segBtn" id="kitTabSweet">🍰 الحلويات</button>
-          <button class="segBtn" id="kitTabSavory">🍳 الموالح</button>
-        </div>
+      <!-- ✅ SCENES CONTAINER -->
+      <div class="kitSceneWrap">
 
-        <button class="actionBtn kitAlbumBtn" id="kitAlbumBtn">🖼️ الألبوم</button>
-      </div>
+        <!-- ===================== -->
+        <!-- SCENE 0: KITCHEN HOME -->
+        <!-- ===================== -->
+        <div class="kitScene active" id="kitSceneKitchen">
+          <div class="kitKitchenBg">
+            <div class="kitKitchenHeader">
+              <div class="kitKitchenTitle">🏡 المطبخ</div>
+              <div class="kitKitchenSub" id="kitLiveLine">…</div>
+            </div>
 
-      <!-- Characters -->
-      <div class="kitChars">
-        <div class="kitCharCard">
-          <div class="kitCharEmoji">🎀🐱</div>
-          <div class="kitCharName">HELLO KITTY</div>
-          <div class="kitCharSub">لانا</div>
-        </div>
+            <div class="kitKitchenChars">
+              <div class="kitCharCard">
+                <div class="kitCharEmoji">🎀🐱</div>
+                <div class="kitCharName">HELLO KITTY</div>
+                <div class="kitCharSub">لانا</div>
+              </div>
 
-        <div class="kitTable">
-          <div class="kitTableTop">
-            <div class="kitTableTitle">طاولة التحضير</div>
-            <div class="kitMiniLine" id="kitLiveLine">…</div>
+              <div class="kitCounter">
+                <div class="kitCounterTitle">🍽️ طاولة المطبخ</div>
+                <div class="kitCounterHint">اختاروا قسم واحد فقط 👇</div>
+
+                <div class="kitSectionRow">
+                  <button class="kitSectionBtn" id="kitGoSweet">
+                    🍰 الحلويات
+                    <small>كيك • وافل • بان كيك…</small>
+                  </button>
+                  <button class="kitSectionBtn" id="kitGoSavory">
+                    🍳 الموالح
+                    <small>بيتزا • برجر • باستا…</small>
+                  </button>
+                </div>
+
+                <div class="kitKitchenFooter">
+                  <button class="actionBtn" id="kitAlbumBtn">🖼️ الألبوم</button>
+                  <button class="actionBtn" id="kitResetAllBtn">🧹 تصفير اللعبة</button>
+                </div>
+              </div>
+
+              <div class="kitCharCard">
+                <div class="kitCharEmoji">🦇</div>
+                <div class="kitCharName">BATMAN</div>
+                <div class="kitCharSub">أنس</div>
+              </div>
+            </div>
           </div>
-          <div class="kitProgress" id="kitProgressText">اختاروا وصفة وابدأوا 👇</div>
         </div>
 
-        <div class="kitCharCard">
-          <div class="kitCharEmoji">🦇</div>
-          <div class="kitCharName">BATMAN</div>
-          <div class="kitCharSub">أنس</div>
-        </div>
-      </div>
+        <!-- ===================== -->
+        <!-- SCENE 1: CATEGORY      -->
+        <!-- ===================== -->
+        <div class="kitScene" id="kitSceneCategory">
+          <div class="kitCatBg">
+            <div class="kitCatTop">
+              <button class="backBtn" id="kitBackToKitchen">↩ رجوع للمطبخ</button>
+              <div class="kitBadge" id="kitCatBadge">القسم: …</div>
+            </div>
 
-      <!-- Recipe picker -->
-      <div class="kitPanel">
-        <div class="kitPanelTitle">
-          <span>📖 اختيار الوصفة</span>
-          <span class="kitMini" id="kitPickerHint">لازم اختيار الطرفين ✅</span>
-        </div>
+            <div class="kitPanel">
+              <div class="kitPanelTitle">
+                <span>🧁 الأصناف</span>
+                <span class="kitMini">اختاروا صنف ثم وصفة</span>
+              </div>
 
-        <div class="kitRecipeGrid" id="kitRecipeGrid"></div>
+              <div class="kitCatGrid" id="kitCatGrid"></div>
 
-        <div class="kitConfirmRow">
-          <button class="actionBtn" id="kitConfirmRecipeBtn">✅ تأكيد الوصفة (لازم الاثنين)</button>
-          <button class="actionBtn" id="kitResetAllBtn">🧹 تصفير اللعبة</button>
-        </div>
-
-        <div class="kitConfirmLine" id="kitRecipeConfirmLine">…</div>
-      </div>
-
-      <!-- Steps -->
-      <div class="kitPanel">
-        <div class="kitPanelTitle">
-          <span>🧑‍🍳 مراحل الطبخ</span>
-          <span class="kitMini" id="kitStepMini">…</span>
-        </div>
-
-        <div class="kitStepBar" id="kitStepBar"></div>
-
-        <div class="kitStepCard">
-          <div class="kitStepTitle" id="kitStepTitle">…</div>
-          <div class="kitStepDesc" id="kitStepDesc">…</div>
-
-          <!-- Step actions -->
-          <div class="kitActions">
-            <button class="actionBtn" id="kitDoStepBtn">✨ نفّذ المرحلة</button>
-            <button class="actionBtn" id="kitReadyNextBtn">✅ أنا جاهز للي بعدها</button>
+              <div class="kitConfirmLine" id="kitCatLine">…</div>
+            </div>
           </div>
-
-          <div class="kitConfirmLine" id="kitStepConfirmLine">…</div>
         </div>
+
+        <!-- ===================== -->
+        <!-- SCENE 2: RECIPES LIST  -->
+        <!-- ===================== -->
+        <div class="kitScene" id="kitSceneRecipes">
+          <div class="kitRecipeBg">
+            <div class="kitCatTop">
+              <button class="backBtn" id="kitBackToCategory">↩ رجوع للأصناف</button>
+              <div class="kitBadge" id="kitRecipeListBadge">…</div>
+            </div>
+
+            <div class="kitPanel">
+              <div class="kitPanelTitle">
+                <span>📖 اختاروا الوصفة</span>
+                <span class="kitMini" id="kitPickerHint">لازم اختيار الطرفين ✅</span>
+              </div>
+
+              <div class="kitRecipeGrid" id="kitRecipeGrid"></div>
+
+              <div class="kitConfirmRow">
+                <button class="actionBtn" id="kitConfirmRecipeBtn">✅ تأكيد الوصفة (لازم الاثنين)</button>
+                <button class="actionBtn" id="kitUnlockBtn">🔓 تغيير الوصفة</button>
+              </div>
+
+              <div class="kitConfirmLine" id="kitRecipeConfirmLine">…</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== -->
+        <!-- SCENE 3: COOKING STEPS -->
+        <!-- ===================== -->
+        <div class="kitScene" id="kitSceneSteps">
+          <div class="kitStepBg">
+            <div class="kitCatTop">
+              <button class="backBtn" id="kitBackToRecipes">↩ رجوع للوصفات</button>
+              <div class="kitBadge" id="kitStepBadge">المرحلة: …</div>
+            </div>
+
+            <div class="kitPanel">
+              <div class="kitPanelTitle">
+                <span>🧑‍🍳 مراحل الطبخ</span>
+                <span class="kitMini" id="kitStepMini">…</span>
+              </div>
+
+              <div class="kitStepBar" id="kitStepBar"></div>
+
+              <div class="kitCookLayout">
+                <!-- ✅ LEFT: Interactive -->
+                <div class="kitCookStage">
+                  <div class="kitCookTitle" id="kitStepTitle">…</div>
+                  <div class="kitCookDesc" id="kitStepDesc">…</div>
+
+                  <!-- PREP: Egg crack + mix -->
+                  <div class="kitMiniGame hide" id="kitMiniPrep">
+                    <div class="kitMiniHint">اسحب البيضة لأسفل عشان تنكسر 🥚⬇️</div>
+                    <div class="kitEggArea" id="kitEggArea">
+                      <div class="kitEgg" id="kitEgg">🥚</div>
+                      <div class="kitBowl">🥣</div>
+                      <div class="kitEggFX" id="kitEggFX">✨</div>
+                    </div>
+
+                    <div class="kitMiniHint" style="margin-top:10px">حرّك الملعقة داخل الوعاء عشان “تخلط” 🥄</div>
+                    <div class="kitMixArea" id="kitMixArea">
+                      <div class="kitBowl2">🥣</div>
+                      <div class="kitSpoon" id="kitSpoon">🥄</div>
+                      <div class="kitMixMeter"><span id="kitMixFill"></span></div>
+                    </div>
+                  </div>
+
+                  <!-- COOK: Oven -->
+                  <div class="kitMiniGame hide" id="kitMiniOven">
+                    <div class="kitMiniHint">اختر درجة الفرن ثم شغّل الخَبز 🔥</div>
+
+                    <div class="kitOven">
+                      <div class="kitOvenTop">
+                        <div class="kitOvenTemp" id="kitOvenTemp">180°C</div>
+                        <div class="kitOvenTimer" id="kitOvenTimer">00:20</div>
+                      </div>
+
+                      <div class="kitOvenDoor">
+                        <div class="kitOvenFood" id="kitOvenFood">🍰</div>
+                        <div class="kitOvenGlow" id="kitOvenGlow"></div>
+                      </div>
+
+                      <input class="kitRange" id="kitTempRange" type="range" min="140" max="240" value="180" />
+                      <div class="kitOvenBtns">
+                        <button class="actionBtn" id="kitOvenStart">▶️ تشغيل</button>
+                        <button class="actionBtn" id="kitOvenStop">⏹️ إيقاف</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- DECOR: (image + drag) -->
+                  <div class="kitMiniGame hide" id="kitMiniDeco">
+                    <div class="kitMiniHint">الآن التزيين: اسحب الزينة فوق “صورة الطبخة” 🎨👇</div>
+                    <div class="kitDishBoard" id="kitDishBoard">
+                      <img id="kitDishImg" alt="dish" />
+                      <div class="kitDecoLayer" id="kitDecoBoard"></div>
+                    </div>
+
+                    <div class="kitDecoTools">
+                      <button class="kitTool" data-tool="layer">🍰 طبقة</button>
+                      <button class="kitTool" data-tool="cream">🍦 كريمة</button>
+                      <button class="kitTool" data-tool="sauce">🍫 صوص</button>
+                      <button class="kitTool" data-tool="fruit">🍓 فواكه</button>
+                      <button class="kitTool" data-tool="choco">🍪 شوكولاتة</button>
+                      <button class="kitTool" data-tool="sprinkle">✨ رشّات</button>
+                      <button class="kitTool" data-tool="candle">🕯️ شموع</button>
+                      <button class="kitTool" data-tool="heart">💗 قلوب</button>
+                      <button class="kitTool" data-tool="text">📝 اسم</button>
+                      <button class="kitTool" data-tool="random">🎲 عشوائي</button>
+                    </div>
+                  </div>
+
+                  <!-- SERVE -->
+                  <div class="kitMiniGame hide" id="kitMiniServe">
+                    <div class="kitServeStage">
+                      <div class="kitServeChars">
+                        <div class="kitServeChar">🎀🐱</div>
+                        <div class="kitServePlate">
+                          <img id="kitServeImg" alt="final" />
+                        </div>
+                        <div class="kitServeChar">🦇</div>
+                      </div>
+
+                      <div class="kitConfirmRow" style="margin-top:10px">
+                        <button class="actionBtn" id="kitMadeByUsBtn">💗 صنع يدنا</button>
+                        <button class="actionBtn" id="kitSaveBtn">📌 حفظ في الألبوم</button>
+                        <button class="actionBtn" id="kitBackKitchenFromServe">🏡 رجوع للمطبخ</button>
+                      </div>
+
+                      <div class="kitStatus" id="kitStatus">…</div>
+                    </div>
+                  </div>
+
+                  <!-- General step actions -->
+                  <div class="kitActions">
+                    <button class="actionBtn" id="kitDoStepBtn">✨ نفّذ المرحلة</button>
+                    <button class="actionBtn" id="kitReadyNextBtn">✅ أنا جاهز للي بعدها</button>
+                  </div>
+
+                  <div class="kitConfirmLine" id="kitStepConfirmLine">…</div>
+                </div>
+
+                <!-- ✅ RIGHT: Progress -->
+                <div class="kitCookSide">
+                  <div class="kitCookCard">
+                    <div class="kitCookSideTitle">📌 تقدمكم</div>
+                    <div class="kitProgress" id="kitProgressText">…</div>
+                    <div class="kitMiniLine" id="kitSideNote">لا ينتقل للمرحلة التالية إلا إذا: نفذتوا ✅ + جاهزية الاثنين ✅✅</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
-
-      <!-- Decoration -->
-      <div class="kitPanel">
-        <div class="kitPanelTitle">
-          <span>🎨 التزيين الحر</span>
-          <span class="kitMini">اضغط لإضافة عناصر — Live</span>
-        </div>
-
-        <div class="kitDecoBoard" id="kitDecoBoard">
-          <div class="kitDecoHint" id="kitDecoHint">ابدأوا التزيين بعد الوصول لمرحلة “التزيين” 💗</div>
-        </div>
-
-        <div class="kitDecoTools">
-          <button class="kitTool" data-tool="layer">🍰 طبقة</button>
-          <button class="kitTool" data-tool="cream">🍦 كريمة</button>
-          <button class="kitTool" data-tool="sauce">🍫 صوص</button>
-          <button class="kitTool" data-tool="fruit">🍓 فواكه</button>
-          <button class="kitTool" data-tool="choco">🍪 شوكولاتة</button>
-          <button class="kitTool" data-tool="sprinkle">✨ رشّات</button>
-          <button class="kitTool" data-tool="candle">🕯️ شموع</button>
-          <button class="kitTool" data-tool="heart">💗 قلوب</button>
-          <button class="kitTool" data-tool="text">📝 اسم</button>
-          <button class="kitTool" data-tool="random">🎲 عشوائي</button>
-        </div>
-
-        <div class="kitConfirmRow" style="margin-top:12px">
-          <button class="actionBtn" id="kitMadeByUsBtn">💗 صنع يدنا</button>
-          <button class="actionBtn" id="kitSaveBtn">📌 حفظ في الألبوم</button>
-        </div>
-
-        <div class="kitStatus" id="kitStatus">…</div>
-      </div>
+      <!-- ✅ END scenes -->
     </div>
   </div>
 
-  <!-- Album modal (داخل الصفحة) -->
+  <!-- Album modal -->
   <div class="kitModal" id="kitAlbumModal">
     <div class="kitModalCard">
       <div class="kitModalHead">
@@ -1719,7 +1840,6 @@
     </div>
   </div>
 </section>
-
         <section class="page" id="pageOpt6">
           <div class="contentBox">
             <button class="backBtn backAny">🏠 رجوع للرئيسية</button>
@@ -3402,21 +3522,38 @@ async function ensureRoom() {
              
 
           /********************
- * ✅ OPTION 5: KITCHEN (Live)
+/********************
+ * ✅ OPTION 5: KITCHEN (PRO / Scenes + MiniGames) — Live
  ********************/
 const kitStageBadge = document.getElementById("kitStageBadge");
 const kitRecipeBadge = document.getElementById("kitRecipeBadge");
 const kitLiveLine = document.getElementById("kitLiveLine");
-const kitProgressText = document.getElementById("kitProgressText");
 
-const kitTabSweet = document.getElementById("kitTabSweet");
-const kitTabSavory = document.getElementById("kitTabSavory");
+const kitSceneKitchen = document.getElementById("kitSceneKitchen");
+const kitSceneCategory = document.getElementById("kitSceneCategory");
+const kitSceneRecipes = document.getElementById("kitSceneRecipes");
+const kitSceneSteps = document.getElementById("kitSceneSteps");
+
+const kitGoSweet = document.getElementById("kitGoSweet");
+const kitGoSavory = document.getElementById("kitGoSavory");
+const kitBackToKitchen = document.getElementById("kitBackToKitchen");
+const kitBackToCategory = document.getElementById("kitBackToCategory");
+const kitBackToRecipes = document.getElementById("kitBackToRecipes");
+const kitBackKitchenFromServe = document.getElementById("kitBackKitchenFromServe");
+
+const kitCatGrid = document.getElementById("kitCatGrid");
+const kitCatBadge = document.getElementById("kitCatBadge");
+const kitCatLine = document.getElementById("kitCatLine");
+const kitRecipeListBadge = document.getElementById("kitRecipeListBadge");
 
 const kitRecipeGrid = document.getElementById("kitRecipeGrid");
+const kitPickerHint = document.getElementById("kitPickerHint");
 const kitConfirmRecipeBtn = document.getElementById("kitConfirmRecipeBtn");
+const kitUnlockBtn = document.getElementById("kitUnlockBtn");
 const kitResetAllBtn = document.getElementById("kitResetAllBtn");
 const kitRecipeConfirmLine = document.getElementById("kitRecipeConfirmLine");
 
+const kitStepBadge = document.getElementById("kitStepBadge");
 const kitStepBar = document.getElementById("kitStepBar");
 const kitStepMini = document.getElementById("kitStepMini");
 const kitStepTitle = document.getElementById("kitStepTitle");
@@ -3425,52 +3562,146 @@ const kitDoStepBtn = document.getElementById("kitDoStepBtn");
 const kitReadyNextBtn = document.getElementById("kitReadyNextBtn");
 const kitStepConfirmLine = document.getElementById("kitStepConfirmLine");
 
-const kitDecoBoard = document.getElementById("kitDecoBoard");
-const kitDecoHint = document.getElementById("kitDecoHint");
+const kitProgressText = document.getElementById("kitProgressText");
+const kitSideNote = document.getElementById("kitSideNote");
+
+const kitMiniPrep = document.getElementById("kitMiniPrep");
+const kitMiniOven = document.getElementById("kitMiniOven");
+const kitMiniDeco = document.getElementById("kitMiniDeco");
+const kitMiniServe = document.getElementById("kitMiniServe");
+
+const kitEggArea = document.getElementById("kitEggArea");
+const kitEgg = document.getElementById("kitEgg");
+const kitEggFX = document.getElementById("kitEggFX");
+
+const kitMixArea = document.getElementById("kitMixArea");
+const kitSpoon = document.getElementById("kitSpoon");
+const kitMixFill = document.getElementById("kitMixFill");
+
+const kitOvenTemp = document.getElementById("kitOvenTemp");
+const kitOvenTimer = document.getElementById("kitOvenTimer");
+const kitOvenFood = document.getElementById("kitOvenFood");
+const kitOvenGlow = document.getElementById("kitOvenGlow");
+const kitTempRange = document.getElementById("kitTempRange");
+const kitOvenStart = document.getElementById("kitOvenStart");
+const kitOvenStop = document.getElementById("kitOvenStop");
+
+const kitDishImg = document.getElementById("kitDishImg");
+const kitDecoBoard = document.getElementById("kitDecoBoard"); // layer
 const kitMadeByUsBtn = document.getElementById("kitMadeByUsBtn");
 const kitSaveBtn = document.getElementById("kitSaveBtn");
 const kitStatus = document.getElementById("kitStatus");
+
+const kitServeImg = document.getElementById("kitServeImg");
 
 const kitAlbumBtn = document.getElementById("kitAlbumBtn");
 const kitAlbumModal = document.getElementById("kitAlbumModal");
 const kitAlbumClose = document.getElementById("kitAlbumClose");
 const kitAlbumGrid = document.getElementById("kitAlbumGrid");
 
-const KIT_STEPS = [
-  { key:"pick", title:"📖 اختيار الوصفة", desc:"اختاروا وصفة… ثم لازم (تأكيد الوصفة) من الطرفين ✅" },
-  { key:"prep", title:"🔪 التحضير", desc:"جهزوا المكونات… ثم اضغط (نفّذ المرحلة) وبعدها جاهزية الاثنين ✅✅" },
-  { key:"cook", title:"🔥 الطبخ / الخَبز", desc:"سخّنوا/اخبزوا… اضغط (نفّذ المرحلة) ثم جاهزية الاثنين ✅✅" },
-  { key:"deco", title:"🎨 التزيين", desc:"الحين وقت التزيين الحر 💗 (الأدوات تحت) — كل شيء Live" },
-  { key:"serve", title:"🍽️ التقديم", desc:"سمّوا الطبق/الحلو… ثم (حفظ في الألبوم) عشان تنحفظ صورة + اسم + تاريخ ✅" }
-];
+function kitNowDateStr(){
+  const d = new Date();
+  const yy = d.getFullYear();
+  const mm = String(d.getMonth()+1).padStart(2,"0");
+  const dd = String(d.getDate()).padStart(2,"0");
+  const hh = String(d.getHours()).padStart(2,"0");
+  const mi = String(d.getMinutes()).padStart(2,"0");
+  return `${yy}-${mm}-${dd} ${hh}:${mi}`;
+}
+function kitIsAnas(){ return currentName === "ANAS"; }
+function kitMyConfirmKey(){ return kitIsAnas() ? "confirmRecipeAnas" : "confirmRecipeLana"; }
+function kitOtherConfirmKey(){ return kitIsAnas() ? "confirmRecipeLana" : "confirmRecipeAnas"; }
+function kitMyPickKey(){ return kitIsAnas() ? "pickAnas" : "pickLana"; }
+function kitOtherPickKey(){ return kitIsAnas() ? "pickLana" : "pickAnas"; }
+function kitMyReadyKey(){ return kitIsAnas() ? "readyNextAnas" : "readyNextLana"; }
+function kitOtherReadyKey(){ return kitIsAnas() ? "readyNextLana" : "readyNextAnas"; }
 
-const KIT_RECIPES = {
+function kitId(){ return Math.random().toString(36).slice(2) + Date.now().toString(36); }
+function kitClamp01(n){ return Math.max(0, Math.min(1, n)); }
+function kitRand(min,max){ return Math.random()*(max-min)+min; }
+
+function kitSetScene(name){
+  const all = [kitSceneKitchen, kitSceneCategory, kitSceneRecipes, kitSceneSteps];
+  all.forEach(x=> x && x.classList.remove("active"));
+
+  if(name==="kitchen") kitSceneKitchen?.classList.add("active");
+  else if(name==="category") kitSceneCategory?.classList.add("active");
+  else if(name==="recipes") kitSceneRecipes?.classList.add("active");
+  else if(name==="steps") kitSceneSteps?.classList.add("active");
+}
+
+function kitSetMiniGame(which){
+  [kitMiniPrep,kitMiniOven,kitMiniDeco,kitMiniServe].forEach(x=> x && x.classList.add("hide"));
+  if(which==="prep") kitMiniPrep?.classList.remove("hide");
+  if(which==="oven") kitMiniOven?.classList.remove("hide");
+  if(which==="deco") kitMiniDeco?.classList.remove("hide");
+  if(which==="serve") kitMiniServe?.classList.remove("hide");
+}
+
+/* ========= CATEGORIES / RECIPES ========= */
+const KIT_CATS = {
   sweet: [
-    {id:"cake_choco", name:"🍫 كيك شوكولاتة"},
-    {id:"pancake", name:"🥞 بان كيك"},
-    {id:"waffle", name:"🧇 وافل"},
-    {id:"cheesecake", name:"🍰 تشيز كيك"},
-    {id:"cupcake", name:"🧁 كب كيك"},
-    {id:"brownie", name:"🤎 براوني"},
-    {id:"donut", name:"🍩 دونات"},
-    {id:"cookies", name:"🍪 كوكيز"},
-    {id:"tiramisu", name:"☕️ تيراميسو"},
-    {id:"fruit_tart", name:"🥧 تارت فواكه"}
+    { id:"cakes", name:"🍰 كيك", desc:"كيك شوكولاتة • تشيز كيك • كب كيك" },
+    { id:"breakfast", name:"🥞 فطور حلو", desc:"بان كيك • وافل" },
+    { id:"baked", name:"🍪 مخبوزات", desc:"كوكيز • براوني • دونات" },
+    { id:"fruity", name:"🥧 فواكه", desc:"تارت فواكه • إضافات فواكه" }
   ],
   savory: [
-    {id:"pizza", name:"🍕 بيتزا"},
-    {id:"burger", name:"🍔 برجر"},
-    {id:"eggs", name:"🍳 بيض"},
-    {id:"kabsa", name:"🍛 كبسة"},
-    {id:"zinger", name:"🍗 زنجر"},
-    {id:"pasta", name:"🍝 باستا"},
-    {id:"salad", name:"🥗 سلطة"},
-    {id:"fries", name:"🍟 بطاطس"},
-    {id:"sandwich", name:"🥪 ساندويتش"},
-    {id:"soup", name:"🍜 شوربة"}
+    { id:"fast", name:"🍔 فاست فود", desc:"برجر • زنجر • ساندويتش" },
+    { id:"italy", name:"🍕 إيطالي", desc:"بيتزا • باستا" },
+    { id:"home", name:"🍳 بيت", desc:"بيض • شوربة" },
+    { id:"saudi", name:"🍛 سعودي", desc:"كبسة" }
   ]
 };
 
+const KIT_RECIPES = {
+  sweet: {
+    cakes: [
+      { id:"cake_choco", name:"🍫 كيك شوكولاتة", dishEmoji:"🍰" },
+      { id:"cheesecake", name:"🍰 تشيز كيك", dishEmoji:"🍰" },
+      { id:"cupcake", name:"🧁 كب كيك", dishEmoji:"🧁" }
+    ],
+    breakfast: [
+      { id:"pancake", name:"🥞 بان كيك", dishEmoji:"🥞" },
+      { id:"waffle", name:"🧇 وافل", dishEmoji:"🧇" }
+    ],
+    baked: [
+      { id:"cookies", name:"🍪 كوكيز", dishEmoji:"🍪" },
+      { id:"brownie", name:"🤎 براوني", dishEmoji:"🤎" },
+      { id:"donut", name:"🍩 دونات", dishEmoji:"🍩" }
+    ],
+    fruity: [
+      { id:"fruit_tart", name:"🥧 تارت فواكه", dishEmoji:"🥧" }
+    ]
+  },
+  savory: {
+    fast: [
+      { id:"burger", name:"🍔 برجر", dishEmoji:"🍔" },
+      { id:"zinger", name:"🍗 زنجر", dishEmoji:"🍗" },
+      { id:"sandwich", name:"🥪 ساندويتش", dishEmoji:"🥪" }
+    ],
+    italy: [
+      { id:"pizza", name:"🍕 بيتزا", dishEmoji:"🍕" },
+      { id:"pasta", name:"🍝 باستا", dishEmoji:"🍝" }
+    ],
+    home: [
+      { id:"eggs", name:"🍳 بيض", dishEmoji:"🍳" },
+      { id:"soup", name:"🍜 شوربة", dishEmoji:"🍜" }
+    ],
+    saudi: [
+      { id:"kabsa", name:"🍛 كبسة", dishEmoji:"🍛" }
+    ]
+  }
+};
+
+const KIT_STEPS = [
+  { key:"prep",  title:"🔪 التحضير",  mini:"prep",  desc:"كسر بيض + خلط تفاعلي. لازم تكمل العدّادين ثم نفّذ ✅" },
+  { key:"cook",  title:"🔥 الخَبز/الطبخ", mini:"oven", desc:"اختيار درجة الفرن + تشغيل مؤقت. بعد ما يخلص تقدّر تنفذ ✅" },
+  { key:"deco",  title:"🎨 التزيين",  mini:"deco",  desc:"اسحب الزينة فوق صورة الطبخة (Drag). اضغط على عنصر لإزالته." },
+  { key:"serve", title:"🍽️ التقديم", mini:"serve", desc:"شوفوا الطبخة النهائية واحفظوها بالألبوم 💗" }
+];
+
+/* ========= DECOR EMOJIS ========= */
 const KIT_EMOJIS = {
   layer: ["🍰","🧁","🥞","🧇","🥧"],
   cream: ["🍦","🤍","🥛"],
@@ -3483,110 +3714,200 @@ const KIT_EMOJIS = {
   text: ["📝"],
   random: ["🍓","🍫","💗","✨","🕯️","🍒","🍯","🧁","⭐️","🍪"]
 };
-
-function kitNowDateStr(){
-  const d = new Date();
-  const yy = d.getFullYear();
-  const mm = String(d.getMonth()+1).padStart(2,"0");
-  const dd = String(d.getDate()).padStart(2,"0");
-  const hh = String(d.getHours()).padStart(2,"0");
-  const mi = String(d.getMinutes()).padStart(2,"0");
-  return `${yy}-${mm}-${dd} ${hh}:${mi}`;
-}
-
-function kitIsAnas(){ return currentName === "ANAS"; }
-function kitMyReadyKey(){ return kitIsAnas() ? "readyNextAnas" : "readyNextLana"; }
-function kitOtherReadyKey(){ return kitIsAnas() ? "readyNextLana" : "readyNextAnas"; }
-function kitMyConfirmKey(){ return kitIsAnas() ? "confirmRecipeAnas" : "confirmRecipeLana"; }
-function kitOtherConfirmKey(){ return kitIsAnas() ? "confirmRecipeLana" : "confirmRecipeAnas"; }
-function kitMyPickKey(){ return kitIsAnas() ? "pickAnas" : "pickLana"; }
-function kitOtherPickKey(){ return kitIsAnas() ? "pickLana" : "pickAnas"; }
-
-function kitClamp01(n){ return Math.max(0, Math.min(1, n)); }
-function kitRand(min,max){ return Math.random()*(max-min)+min; }
-function kitId(){ return Math.random().toString(36).slice(2) + Date.now().toString(36); }
-
 function kitPickEmoji(type){
   const arr = KIT_EMOJIS[type] || KIT_EMOJIS.random;
   return arr[Math.floor(Math.random()*arr.length)];
 }
 
-function kitCanDecorate(stepIndex){
-  return parseInt(stepIndex||0,10) === 3; // deco stage
+/* ========= IMAGE GENERATION (Dish background) ========= */
+function kitMakeDishPoster(recipeName){
+  const c = document.createElement("canvas");
+  c.width = 1200; c.height = 750;
+  const ctx = c.getContext("2d");
+
+  const g = ctx.createLinearGradient(0,0,1200,750);
+  g.addColorStop(0, "rgba(255,45,85,.22)");
+  g.addColorStop(1, "rgba(110,230,255,.10)");
+  ctx.fillStyle = g;
+  ctx.fillRect(0,0,1200,750);
+
+  // soft lights
+  ctx.globalAlpha = 0.12;
+  for(let i=0;i<90;i++){
+    ctx.beginPath();
+    ctx.arc(kitRand(0,1200), kitRand(0,750), kitRand(10,80), 0, Math.PI*2);
+    ctx.fillStyle = "white";
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+
+  // plate
+  ctx.fillStyle = "rgba(0,0,0,.22)";
+  roundRect(ctx, 160, 160, 880, 470, 46);
+  ctx.fill();
+
+  ctx.strokeStyle = "rgba(255,255,255,.18)";
+  ctx.lineWidth = 10;
+  roundRect(ctx, 180, 180, 840, 430, 40);
+  ctx.stroke();
+
+  // title
+  ctx.font = "900 46px system-ui, -apple-system, Segoe UI, Arial";
+  ctx.fillStyle = "rgba(255,255,255,.95)";
+  ctx.textAlign = "center";
+  ctx.fillText("LANA ❤️ ANAS — مطبخنا", 600, 90);
+
+  ctx.font = "800 34px system-ui, -apple-system, Segoe UI, Arial";
+  ctx.fillStyle = "rgba(255,255,255,.85)";
+  ctx.fillText(recipeName || "وصفة", 600, 135);
+
+  // hint
+  ctx.font = "800 22px system-ui, -apple-system, Segoe UI, Arial";
+  ctx.fillStyle = "rgba(255,255,255,.70)";
+  ctx.fillText("اسحب الزينة فوق الطبق ✨", 600, 680);
+
+  return c.toDataURL("image/png");
 }
 
-function kitRenderRecipeGrid(section, selectedId){
-  if(!kitRecipeGrid) return;
-  kitRecipeGrid.innerHTML = "";
+/* ========= Firestore state contract =========
+opt5kitchen: {
+  scene: "kitchen"|"category"|"recipes"|"steps",
+  section: "sweet"|"savory",
+  catId: "",
+  recipeId:"",
+  recipeName:"",
+  recipeLocked:false,
+  pickAnas:"", pickLana:"",
+  confirmRecipeAnas:false, confirmRecipeLana:false,
 
-  const list = KIT_RECIPES[section] || KIT_RECIPES.sweet;
-  list.forEach(r=>{
-    const b = document.createElement("button");
-    b.className = "kitRecipeBtn";
-    b.textContent = r.name;
-    b.dataset.rid = r.id;
-    if(r.id === selectedId) b.classList.add("selected");
-    b.addEventListener("click", async ()=>{
-      // اختيار “نية” فقط (ما يقفل إلا بتأكيد الاثنين)
-      await kitPickRecipe(r.id, r.name);
-    });
-    kitRecipeGrid.appendChild(b);
+  stepIndex:0,
+  stepDone:false,
+  readyNextAnas:false, readyNextLana:false,
+
+  // mini-game progress
+  eggDone:false,
+  mixPct:0,
+  ovenDone:false,
+  ovenTemp:180,
+  ovenLeft:20,
+
+  decoItems:[],
+  madeByUs:false,
+
+  album:[]
+}
+=========================================== */
+
+function kitDefaultState(){
+  return {
+    scene:"kitchen",
+    section:"sweet",
+    catId:"",
+    recipeId:"",
+    recipeName:"",
+    recipeLocked:false,
+    pickAnas:"",
+    pickLana:"",
+    confirmRecipeAnas:false,
+    confirmRecipeLana:false,
+
+    stepIndex:0,
+    stepDone:false,
+    readyNextAnas:false,
+    readyNextLana:false,
+
+    eggDone:false,
+    mixPct:0,
+    ovenDone:false,
+    ovenTemp:180,
+    ovenLeft:20,
+
+    decoItems:[],
+    madeByUs:false,
+
+    album:[]
+  };
+}
+
+async function kitResetAll(){
+  const base = kitDefaultState();
+  await pushRoomUpdate(Object.fromEntries(Object.entries(base).map(([k,v])=> [`opt5kitchen.${k}`, v]).concat([
+    ["opt5kitchen.updatedBy", currentName || "unknown"]
+  ])));
+}
+
+async function kitGoScene(sceneName){
+  await pushRoomUpdate({
+    "opt5kitchen.scene": sceneName,
+    "opt5kitchen.updatedBy": currentName || "unknown"
   });
 }
 
-async function kitPickRecipe(recipeId, recipeName){
-  // إذا الوصفة مقفولة (بسبب تأكيد الاثنين) ما نسمح تغيرها إلا Reset
-  const opt5 = window.__kitCache || {};
-  if(opt5.recipeLocked) return;
-
-  const payload = {
-    "opt5kitchen.section": (opt5.section === "savory") ? "savory" : "sweet",
-    "opt5kitchen.recipeId": recipeId,
-    "opt5kitchen.recipeName": recipeName,
-
-    // احفظ اختياري أنا
-    [`opt5kitchen.${kitMyPickKey()}`]: recipeId,
-
-    // صفّر التأكيدات (لو كان أحد أكد سابقًا)
-    "opt5kitchen.confirmRecipeAnas": false,
-    "opt5kitchen.confirmRecipeLana": false,
-
-    // رجّع المراحل للأول (احتياط)
-    "opt5kitchen.stepIndex": 0,
-    "opt5kitchen.stepDone": false,
-    "opt5kitchen.readyNextAnas": false,
-    "opt5kitchen.readyNextLana": false,
-
-    // صفّر التزيين
-    "opt5kitchen.decoItems": [],
-    "opt5kitchen.madeByUs": false,
-
-    "opt5kitchen.updatedBy": currentName || "unknown"
-  };
-
-  await pushRoomUpdate(payload);
-}
-
-async function kitSwitchSection(section){
-  const opt5 = window.__kitCache || {};
-  if(opt5.recipeLocked) return; // لا تغير القسم بعد القفل
-
-  const next = (section === "savory") ? "savory" : "sweet";
+async function kitChooseSection(section){
+  const next = (section==="savory") ? "savory" : "sweet";
   await pushRoomUpdate({
     "opt5kitchen.section": next,
+    "opt5kitchen.scene": "category",
+
+    "opt5kitchen.catId": "",
     "opt5kitchen.recipeId": "",
     "opt5kitchen.recipeName": "",
-
+    "opt5kitchen.recipeLocked": false,
     "opt5kitchen.pickAnas": "",
     "opt5kitchen.pickLana": "",
     "opt5kitchen.confirmRecipeAnas": false,
     "opt5kitchen.confirmRecipeLana": false,
-    "opt5kitchen.recipeLocked": false,
 
     "opt5kitchen.stepIndex": 0,
     "opt5kitchen.stepDone": false,
     "opt5kitchen.readyNextAnas": false,
     "opt5kitchen.readyNextLana": false,
+
+    "opt5kitchen.eggDone": false,
+    "opt5kitchen.mixPct": 0,
+    "opt5kitchen.ovenDone": false,
+    "opt5kitchen.ovenTemp": 180,
+    "opt5kitchen.ovenLeft": 20,
+
+    "opt5kitchen.decoItems": [],
+    "opt5kitchen.madeByUs": false,
+
+    "opt5kitchen.updatedBy": currentName || "unknown"
+  });
+}
+
+async function kitChooseCategory(catId){
+  const opt5 = window.__kitCache || kitDefaultState();
+  await pushRoomUpdate({
+    "opt5kitchen.catId": catId || "",
+    "opt5kitchen.scene": "recipes",
+    "opt5kitchen.updatedBy": currentName || "unknown"
+  });
+}
+
+async function kitPickRecipe(recipeId, recipeName){
+  const opt5 = window.__kitCache || kitDefaultState();
+  if(opt5.recipeLocked) return;
+
+  await pushRoomUpdate({
+    "opt5kitchen.recipeId": recipeId,
+    "opt5kitchen.recipeName": recipeName,
+
+    [`opt5kitchen.${kitMyPickKey()}`]: recipeId,
+
+    "opt5kitchen.confirmRecipeAnas": false,
+    "opt5kitchen.confirmRecipeLana": false,
+
+    "opt5kitchen.stepIndex": 0,
+    "opt5kitchen.stepDone": false,
+    "opt5kitchen.readyNextAnas": false,
+    "opt5kitchen.readyNextLana": false,
+
+    "opt5kitchen.eggDone": false,
+    "opt5kitchen.mixPct": 0,
+    "opt5kitchen.ovenDone": false,
+    "opt5kitchen.ovenTemp": 180,
+    "opt5kitchen.ovenLeft": 20,
 
     "opt5kitchen.decoItems": [],
     "opt5kitchen.madeByUs": false,
@@ -3596,63 +3917,80 @@ async function kitSwitchSection(section){
 }
 
 async function kitConfirmRecipe(){
-  const opt5 = window.__kitCache || {};
-  const rid = (opt5.recipeId||"").trim();
-  if(!rid){
-    await pushRoomUpdate({
-      "opt5kitchen.updatedBy": currentName || "unknown"
-    });
-    return;
-  }
+  const opt5 = window.__kitCache || kitDefaultState();
   if(opt5.recipeLocked) return;
 
+  const rid = (opt5.recipeId||"").trim();
+  if(!rid) return;
+
   const minePick = opt5[kitMyPickKey()] || "";
-  if(!minePick){
-    // لازم أنت تختار أولاً (عشان يكون في “نية” عندك)
-    return;
-  }
+  if(!minePick) return;
 
   await pushRoomUpdate({
     [`opt5kitchen.${kitMyConfirmKey()}`]: true,
     "opt5kitchen.updatedBy": currentName || "unknown"
   });
-
-  // قفل الوصفة تلقائيًا إذا الاثنين أكدوا (قائد القفل: ANAS)
-  const nextOpt = window.__kitCache || opt5;
-  const a = !!nextOpt.confirmRecipeAnas;
-  const l = !!nextOpt.confirmRecipeLana;
-
-  // ما نضمن تحديث cache فورًا، فالقفل الحقيقي يصير بالـ listener (auto)
 }
 
-async function kitAutoLockRecipeIfBoth(opt5){
+async function kitAutoLockIfBoth(opt5){
   if(!currentName) return;
   if(opt5.recipeLocked) return;
 
   const both = !!opt5.confirmRecipeAnas && !!opt5.confirmRecipeLana;
   if(!both) return;
 
-  // قائد القفل والانتقال: ANAS فقط
   if(currentName !== "ANAS") return;
 
+  // lock and jump to steps scene + step 0
   await pushRoomUpdate({
     "opt5kitchen.recipeLocked": true,
-    "opt5kitchen.stepIndex": 1,      // يبدأ التحضير
+    "opt5kitchen.scene": "steps",
+
+    "opt5kitchen.stepIndex": 0,
     "opt5kitchen.stepDone": false,
     "opt5kitchen.readyNextAnas": false,
     "opt5kitchen.readyNextLana": false,
+
+    "opt5kitchen.updatedBy": currentName || "unknown"
+  });
+}
+
+async function kitUnlockRecipe(){
+  const opt5 = window.__kitCache || kitDefaultState();
+  if(!opt5.recipeLocked) return;
+
+  await pushRoomUpdate({
+    "opt5kitchen.recipeLocked": false,
+    "opt5kitchen.scene": "recipes",
+
+    "opt5kitchen.confirmRecipeAnas": false,
+    "opt5kitchen.confirmRecipeLana": false,
+
+    "opt5kitchen.stepIndex": 0,
+    "opt5kitchen.stepDone": false,
+    "opt5kitchen.readyNextAnas": false,
+    "opt5kitchen.readyNextLana": false,
+
     "opt5kitchen.updatedBy": currentName || "unknown"
   });
 }
 
 async function kitDoStep(){
-  const opt5 = window.__kitCache || {};
+  const opt5 = window.__kitCache || kitDefaultState();
   if(!opt5.recipeLocked) return;
 
   const idx = parseInt(opt5.stepIndex||0,10);
-  if(idx <= 0) return; // لازم نكون بعد اختيار الوصفة
-  if(idx >= KIT_STEPS.length) return;
+  const step = KIT_STEPS[idx];
+  if(!step) return;
   if(opt5.stepDone) return;
+
+  // ✅ شرط كل مرحلة:
+  if(step.key === "prep"){
+    if(!opt5.eggDone || (opt5.mixPct||0) < 100) return;
+  }
+  if(step.key === "cook"){
+    if(!opt5.ovenDone) return;
+  }
 
   await pushRoomUpdate({
     "opt5kitchen.stepDone": true,
@@ -3663,11 +4001,8 @@ async function kitDoStep(){
 }
 
 async function kitToggleReadyNext(){
-  const opt5 = window.__kitCache || {};
+  const opt5 = window.__kitCache || kitDefaultState();
   if(!opt5.recipeLocked) return;
-
-  const idx = parseInt(opt5.stepIndex||0,10);
-  if(idx <= 0) return;
 
   const mine = !!opt5[kitMyReadyKey()];
   await pushRoomUpdate({
@@ -3683,16 +4018,10 @@ async function kitAutoAdvanceIfReady(opt5){
 
   const idx = parseInt(opt5.stepIndex||0,10);
   const done = !!opt5.stepDone;
+  const bothReady = !!opt5.readyNextAnas && !!opt5.readyNextLana;
 
-  const rA = !!opt5.readyNextAnas;
-  const rL = !!opt5.readyNextLana;
-  const bothReady = rA && rL;
+  if(!done || !bothReady) return;
 
-  // لا ينتقل إلا إذا: (تم تنفيذ المرحلة) + (جاهزية الاثنين)
-  if(!done) return;
-  if(!bothReady) return;
-
-  // قائد الانتقال: ANAS فقط
   if(currentName !== "ANAS") return;
   if(__kitAdvanceTimer) return;
 
@@ -3700,11 +4029,9 @@ async function kitAutoAdvanceIfReady(opt5){
     __kitAdvanceTimer = null;
 
     const next = idx + 1;
-
     if(next >= KIT_STEPS.length){
-      // وصلنا للنهاية (serve) — نخليها ثابتة
       await pushRoomUpdate({
-        "opt5kitchen.stepIndex": KIT_STEPS.length-1,
+        "opt5kitchen.stepIndex": KIT_STEPS.length - 1,
         "opt5kitchen.stepDone": false,
         "opt5kitchen.readyNextAnas": false,
         "opt5kitchen.readyNextLana": false,
@@ -3720,19 +4047,81 @@ async function kitAutoAdvanceIfReady(opt5){
       "opt5kitchen.readyNextLana": false,
       "opt5kitchen.updatedBy": currentName || "unknown"
     });
-  }, 350);
+  }, 320);
 }
 
-function kitNormalizeXY(px, py, rect){
-  const x = kitClamp01((px - rect.left) / rect.width);
-  const y = kitClamp01((py - rect.top) / rect.height);
-  return {x,y};
+/* ========= DECOR (Drag items) ========= */
+function kitBoardToDataURL(opt5){
+  const W = 1200, H = 750;
+  const canvas = document.createElement("canvas");
+  canvas.width=W; canvas.height=H;
+  const ctx = canvas.getContext("2d");
+
+  // base
+  const baseImg = new Image();
+  const src = kitMakeDishPoster(opt5.recipeName || "وصفة");
+  // sync draw (dataURL)
+  // (simple approach: draw after load)
+  return new Promise((resolve)=>{
+    baseImg.onload = ()=>{
+      ctx.drawImage(baseImg,0,0,W,H);
+
+      // draw deco items
+      const items = Array.isArray(opt5.decoItems) ? opt5.decoItems : [];
+      items.forEach(it=>{
+        const x = (it.x||0.5) * W;
+        const y = (it.y||0.5) * H;
+        const s = (it.scale||1);
+        const rot = (it.rot||0) * Math.PI/180;
+
+        ctx.save();
+        ctx.translate(x,y);
+        ctx.rotate(rot);
+
+        ctx.globalAlpha = 0.25;
+        ctx.fillStyle="black";
+        ctx.beginPath();
+        ctx.ellipse(0, 18*s, 34*s, 14*s, 0, 0, Math.PI*2);
+        ctx.fill();
+        ctx.globalAlpha=1;
+
+        if(it.type==="text"){
+          const t = (it.text||"").trim();
+          ctx.font = `900 ${52*s}px system-ui, -apple-system, Segoe UI, Arial`;
+          ctx.textAlign="center"; ctx.textBaseline="middle";
+          ctx.fillStyle="rgba(255,255,255,.95)";
+          ctx.fillText(t,0,0);
+          ctx.strokeStyle="rgba(0,0,0,.28)";
+          ctx.lineWidth=6;
+          ctx.strokeText(t,0,0);
+        }else{
+          const em = it.emoji || "✨";
+          ctx.font = `78px system-ui, -apple-system, Segoe UI, Arial`;
+          ctx.textAlign="center"; ctx.textBaseline="middle";
+          ctx.fillText(em,0,0);
+        }
+        ctx.restore();
+      });
+
+      if(opt5.madeByUs){
+        ctx.font = "900 30px system-ui, -apple-system, Segoe UI, Arial";
+        ctx.fillStyle="rgba(255,255,255,.92)";
+        ctx.textAlign="center";
+        ctx.fillText("💗 صنع يدنا", W/2, H-36);
+      }
+
+      resolve(canvas.toDataURL("image/png"));
+    };
+    baseImg.src = src;
+  });
 }
 
 async function kitAddDeco(type){
-  const opt5 = window.__kitCache || {};
+  const opt5 = window.__kitCache || kitDefaultState();
   if(!opt5.recipeLocked) return;
-  if(!kitCanDecorate(opt5.stepIndex)) return;
+  const idx = parseInt(opt5.stepIndex||0,10);
+  const step = KIT_STEPS[idx];
+  if(!step || step.key!=="deco") return;
 
   let emoji = kitPickEmoji(type);
   let text = "";
@@ -3745,21 +4134,13 @@ async function kitAddDeco(type){
     emoji = "📝";
   }
 
-  const rect = kitDecoBoard?.getBoundingClientRect();
-  let x = kitRand(0.25, 0.75);
-  let y = kitRand(0.25, 0.75);
-  if(rect){
-    // يطلع في النص غالبًا
-    x = kitRand(0.30, 0.70);
-    y = kitRand(0.30, 0.70);
-  }
-
   const item = {
     id: kitId(),
     type,
     emoji,
     text,
-    x, y,
+    x: kitRand(0.35, 0.65),
+    y: kitRand(0.35, 0.65),
     scale: kitRand(0.85, 1.25),
     rot: kitRand(-18, 18)
   };
@@ -3775,12 +4156,8 @@ async function kitAddDeco(type){
 }
 
 async function kitRemoveDeco(itemId){
-  const opt5 = window.__kitCache || {};
-  if(!opt5.recipeLocked) return;
-  if(!kitCanDecorate(opt5.stepIndex)) return;
-
-  const list = Array.isArray(opt5.decoItems) ? opt5.decoItems : [];
-  const next = list.filter(x=> x && x.id !== itemId);
+  const opt5 = window.__kitCache || kitDefaultState();
+  const next = (Array.isArray(opt5.decoItems)? opt5.decoItems : []).filter(x=> x && x.id !== itemId);
   await pushRoomUpdate({
     "opt5kitchen.decoItems": next,
     "opt5kitchen.madeByUs": false,
@@ -3789,31 +4166,21 @@ async function kitRemoveDeco(itemId){
 }
 
 async function kitMadeByUs(){
-  const opt5 = window.__kitCache || {};
-  if(!opt5.recipeLocked) return;
-  if(!kitCanDecorate(opt5.stepIndex)) return;
-
+  const opt5 = window.__kitCache || kitDefaultState();
   await pushRoomUpdate({
     "opt5kitchen.madeByUs": true,
     "opt5kitchen.updatedBy": currentName || "unknown"
   });
 }
 
-function kitOpenAlbum(){
-  if(!kitAlbumModal) return;
-  kitAlbumModal.classList.add("show");
-}
-function kitCloseAlbum(){
-  if(!kitAlbumModal) return;
-  kitAlbumModal.classList.remove("show");
-}
+/* ========= ALBUM ========= */
+function kitOpenAlbum(){ kitAlbumModal?.classList.add("show"); }
+function kitCloseAlbum(){ kitAlbumModal?.classList.remove("show"); }
 
 function kitRenderAlbum(album){
   if(!kitAlbumGrid) return;
   kitAlbumGrid.innerHTML = "";
-
   const list = Array.isArray(album) ? album.slice(0) : [];
-  // الأحدث فوق
   list.sort((a,b)=> (b?.date||"").localeCompare(a?.date||""));
 
   if(list.length === 0){
@@ -3847,374 +4214,449 @@ function kitRenderAlbum(album){
   });
 }
 
-function kitBoardToDataURL(opt5){
-  // يرسم صورة “حقيقية” من اللوحة + عناصر التزيين
-  const board = kitDecoBoard;
-  if(!board) return "";
-
-  const W = 1200;
-  const H = 750;
-  const canvas = document.createElement("canvas");
-  canvas.width = W;
-  canvas.height = H;
-  const ctx = canvas.getContext("2d");
-
-  // خلفية ناعمة
-  const g = ctx.createLinearGradient(0,0,W,H);
-  g.addColorStop(0, "rgba(255,45,85,.25)");
-  g.addColorStop(1, "rgba(255,255,255,.06)");
-  ctx.fillStyle = g;
-  ctx.fillRect(0,0,W,H);
-
-  // إطار
-  ctx.strokeStyle = "rgba(255,255,255,.22)";
-  ctx.lineWidth = 10;
-  ctx.strokeRect(22,22,W-44,H-44);
-
-  // عنوان
-  ctx.font = "900 44px system-ui, -apple-system, Segoe UI, Arial";
-  ctx.fillStyle = "rgba(255,255,255,.95)";
-  ctx.textAlign = "center";
-  ctx.fillText("LANA ❤️ ANAS — مطبخنا", W/2, 80);
-
-  // وصفة
-  const recipeName = (opt5.recipeName || "وصفة");
-  ctx.font = "800 30px system-ui, -apple-system, Segoe UI, Arial";
-  ctx.fillStyle = "rgba(255,255,255,.85)";
-  ctx.fillText(recipeName, W/2, 130);
-
-  // منطقة اللوحة
-  const pad = 80;
-  const bx = pad;
-  const by = 170;
-  const bw = W - pad*2;
-  const bh = H - 260;
-
-  ctx.fillStyle = "rgba(0,0,0,.20)";
-  ctx.strokeStyle = "rgba(255,255,255,.14)";
-  ctx.lineWidth = 3;
-  roundRect(ctx, bx, by, bw, bh, 26);
-  ctx.fill();
-  ctx.stroke();
-
-  // تلميح MadeByUs
-  if(opt5.madeByUs){
-    ctx.font = "900 28px system-ui, -apple-system, Segoe UI, Arial";
-    ctx.fillStyle = "rgba(255,255,255,.92)";
-    ctx.fillText("💗 صنع يدنا", W/2, H-58);
-  }
-
-  // عناصر التزيين
-  const items = Array.isArray(opt5.decoItems) ? opt5.decoItems : [];
-  items.forEach(it=>{
-    const x = bx + (it.x||0.5) * bw;
-    const y = by + (it.y||0.5) * bh;
-    const s = (it.scale||1);
-    const rot = (it.rot||0) * Math.PI/180;
-
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.rotate(rot);
-
-    // ظل
-    ctx.globalAlpha = 0.25;
-    ctx.fillStyle = "black";
-    ctx.beginPath();
-    ctx.ellipse(0, 18*s, 34*s, 14*s, 0, 0, Math.PI*2);
-    ctx.fill();
-    ctx.globalAlpha = 1;
-
-    if(it.type === "text"){
-      const t = (it.text||"").trim();
-      ctx.font = `900 ${48*s}px system-ui, -apple-system, Segoe UI, Arial`;
-      ctx.fillStyle = "rgba(255,255,255,.95)";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText(t, 0, 0);
-      ctx.strokeStyle = "rgba(0,0,0,.28)";
-      ctx.lineWidth = 6;
-      ctx.strokeText(t, 0, 0);
-    }else{
-      const em = it.emoji || "✨";
-      ctx.font = `72px system-ui, -apple-system, Segoe UI, Arial`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText(em, 0, 0);
-    }
-
-    ctx.restore();
-  });
-
-  return canvas.toDataURL("image/png");
-
-  function roundRect(ctx,x,y,w,h,r){
-    const rr = Math.min(r, w/2, h/2);
-    ctx.beginPath();
-    ctx.moveTo(x+rr, y);
-    ctx.arcTo(x+w, y, x+w, y+h, rr);
-    ctx.arcTo(x+w, y+h, x, y+h, rr);
-    ctx.arcTo(x, y+h, x, y, rr);
-    ctx.arcTo(x, y, x+w, y, rr);
-    ctx.closePath();
-  }
-}
-
 async function kitSaveToAlbum(){
-  const opt5 = window.__kitCache || {};
+  const opt5 = window.__kitCache || kitDefaultState();
   if(!opt5.recipeLocked) return;
 
-  // لازم نكون في مرحلة “التقديم”
   const idx = parseInt(opt5.stepIndex||0,10);
-  if(idx < 4) return;
+  const step = KIT_STEPS[idx];
+  if(!step || step.key!=="serve") return;
 
-  const dishName = prompt("اكتب اسم الطبق / الحلو اللي سويتو 💗:");
-  if(dishName === null) return;
-  const name = (dishName||"").trim().slice(0, 40);
-  if(!name) return;
+  const nm = prompt("سمّوا الطبخة باسم لطيف 🍰:");
+  if(nm === null) return;
+  const name = (nm||"").trim().slice(0, 28) || "طبختنا";
 
-  const img = kitBoardToDataURL(opt5);
-  if(!img) return;
+  const dataUrl = await kitBoardToDataURL(opt5);
 
-  const entry = {
+  const item = {
     id: kitId(),
     name,
-    date: kitNowDateStr(),
     recipe: opt5.recipeName || "—",
-    section: (opt5.section === "savory") ? "🍳 الموالح" : "🍰 الحلويات",
-    img
+    date: kitNowDateStr(),
+    img: dataUrl
   };
 
   const album = Array.isArray(opt5.album) ? opt5.album.slice(0) : [];
-  album.unshift(entry);
-
-  // حد أقصى لتقليل تضخم Firestore (اختياري)
-  if(album.length > 40) album.length = 40;
+  album.unshift(item);
+  if(album.length > 30) album.length = 30;
 
   await pushRoomUpdate({
     "opt5kitchen.album": album,
     "opt5kitchen.updatedBy": currentName || "unknown"
   });
-
-  // افتح الألبوم تلقائيًا بعد الحفظ
-  kitOpenAlbum();
 }
 
-function kitApplyUI(opt5){
-  // tabs
-  const section = (opt5.section === "savory") ? "savory" : "sweet";
-  if(kitTabSweet) kitTabSweet.classList.toggle("active", section === "sweet");
-  if(kitTabSavory) kitTabSavory.classList.toggle("active", section === "savory");
+/* ========= UI RENDER ========= */
+function kitRenderCats(section){
+  if(!kitCatGrid) return;
+  kitCatGrid.innerHTML = "";
+  const list = KIT_CATS[section] || KIT_CATS.sweet;
 
-  // badges
-  const idx = parseInt(opt5.stepIndex||0,10);
-  const stepName = KIT_STEPS[idx]?.title || "…";
-  if(kitStageBadge) kitStageBadge.textContent = `المرحلة: ${stepName}`;
-  if(kitRecipeBadge){
-    kitRecipeBadge.textContent = `الوصفة: ${opt5.recipeName ? opt5.recipeName : "—"}`;
+  list.forEach(c=>{
+    const b = document.createElement("button");
+    b.className = "kitCatBtn";
+    b.innerHTML = `${c.name}<div style="font-size:12px;color:rgba(255,255,255,.65);font-weight:800;margin-top:6px;line-height:1.7">${c.desc}</div>`;
+    b.addEventListener("click", ()=> kitChooseCategory(c.id));
+    kitCatGrid.appendChild(b);
+  });
+}
+
+function kitRenderRecipes(section, catId, selectedId){
+  if(!kitRecipeGrid) return;
+  kitRecipeGrid.innerHTML = "";
+
+  const list = ((KIT_RECIPES[section]||{})[catId] || []);
+  list.forEach(r=>{
+    const b = document.createElement("button");
+    b.className = "kitRecipeBtn";
+    b.textContent = r.name;
+    if(r.id === selectedId) b.classList.add("selected");
+    b.addEventListener("click", ()=> kitPickRecipe(r.id, r.name));
+    kitRecipeGrid.appendChild(b);
+  });
+
+  if(list.length === 0){
+    const x = document.createElement("div");
+    x.className = "hint";
+    x.textContent = "ما فيه وصفات هنا… اختر صنف ثاني.";
+    kitRecipeGrid.appendChild(x);
+  }
+}
+
+function kitRenderStepsBar(stepIndex){
+  if(!kitStepBar) return;
+  kitStepBar.innerHTML = "";
+  KIT_STEPS.forEach((s,i)=>{
+    const pill = document.createElement("div");
+    pill.className = "kitStepPill" + (i===stepIndex ? " active" : "");
+    pill.textContent = `${i+1}) ${s.title}`;
+    kitStepBar.appendChild(pill);
+  });
+}
+
+function kitApplyOpt5UI(opt5){
+  const scene = opt5.scene || "kitchen";
+  kitSetScene(scene);
+
+  const section = (opt5.section==="savory") ? "savory" : "sweet";
+  const secLabel = section==="sweet" ? "🍰 الحلويات" : "🍳 الموالح";
+
+  if(kitStageBadge) kitStageBadge.textContent = `المشهد: ${scene==="kitchen"?"🏡 المطبخ":scene==="category"?"🧁 الأصناف":scene==="recipes"?"📖 الوصفات":"🧑‍🍳 الطبخ"}`;
+  if(kitRecipeBadge) kitRecipeBadge.textContent = `الوصفة: ${opt5.recipeName ? opt5.recipeName : "—"}`;
+
+  if(kitCatBadge) kitCatBadge.textContent = `القسم: ${secLabel}`;
+  if(kitRecipeListBadge) kitRecipeListBadge.textContent = `📖 ${secLabel} • صنف: ${opt5.catId || "—"}`;
+
+  if(kitLiveLine){
+    const by = opt5.updatedBy || "—";
+    kitLiveLine.textContent = `Live ✅ آخر تحديث: ${by}`;
   }
 
-  // live line + progress
-  const by = opt5.updatedBy || "—";
-  const locked = !!opt5.recipeLocked;
-  if(kitLiveLine) kitLiveLine.textContent = `Live ✅ | آخر تحديث: ${by} | مقفل: ${locked ? "✅" : "—"}`;
+  // category
+  kitRenderCats(section);
+  if(kitCatLine){
+    kitCatLine.textContent = `اختروا صنف… ثم نروح للوصفات ✅`;
+  }
 
-  // recipe grid
-  kitRenderRecipeGrid(section, opt5.recipeId || "");
+  // recipes
+  kitRenderRecipes(section, opt5.catId, opt5.recipeId);
+  if(kitPickerHint){
+    kitPickerHint.textContent = opt5.recipeLocked ? "🔒 الوصفة مقفولة" : "لازم اختيار الطرفين ✅";
+  }
 
-  // recipe confirm line
   const aPick = opt5.pickAnas || "";
   const lPick = opt5.pickLana || "";
   const aC = !!opt5.confirmRecipeAnas;
   const lC = !!opt5.confirmRecipeLana;
   if(kitRecipeConfirmLine){
     kitRecipeConfirmLine.textContent =
-      `اختيار أنس: ${aPick ? "✅" : "—"} | اختيار لانا: ${lPick ? "✅" : "—"}\n` +
-      `تأكيد أنس: ${aC ? "✅" : "—"} | تأكيد لانا: ${lC ? "✅" : "—"} | (القفل يبدأ بعد ✅✅)`;
+      `اختيار أنس: ${aPick? "✅" : "—"} | اختيار لانا: ${lPick? "✅" : "—"}\n` +
+      `تأكيد أنس: ${aC? "✅" : "—"} | تأكيد لانا: ${lC? "✅" : "—"}`;
   }
 
-  if(kitConfirmRecipeBtn){
-    kitConfirmRecipeBtn.disabled = locked;
-    kitConfirmRecipeBtn.style.opacity = locked ? 0.6 : 1;
-  }
+  // steps
+  const stepIndex = parseInt(opt5.stepIndex||0,10);
+  const step = KIT_STEPS[stepIndex] || KIT_STEPS[0];
 
-  // steps bar
-  if(kitStepBar){
-    kitStepBar.innerHTML = "";
-    KIT_STEPS.forEach((s,i)=>{
-      const p = document.createElement("div");
-      p.className = "kitStepPill";
-      p.textContent = s.title.replace(/^[^ ]+ /,""); // يشيل الإيموجي في البِل
-      p.classList.toggle("active", i === idx);
-      kitStepBar.appendChild(p);
-    });
-  }
+  if(kitStepBadge) kitStepBadge.textContent = `المرحلة: ${stepIndex+1} / ${KIT_STEPS.length}`;
+  kitRenderStepsBar(stepIndex);
 
-  // step info
-  if(kitStepMini){
-    kitStepMini.textContent = `خطوة ${idx+1} / ${KIT_STEPS.length} • تم التنفيذ: ${opt5.stepDone ? "✅" : "—"}`;
-  }
-  if(kitStepTitle) kitStepTitle.textContent = KIT_STEPS[idx]?.title || "…";
-  if(kitStepDesc) kitStepDesc.textContent = KIT_STEPS[idx]?.desc || "…";
+  if(kitStepMini) kitStepMini.textContent = opt5.stepDone ? "تم تنفيذ المرحلة ✅" : "نفّذ ثم جاهزية الاثنين ✅✅";
+  if(kitStepTitle) kitStepTitle.textContent = step.title;
+  if(kitStepDesc) kitStepDesc.textContent = step.desc;
 
+  // show mini-game per step
+  kitSetMiniGame(step.mini);
+
+  // progress & buttons hints
   if(kitProgressText){
-    if(!locked){
-      kitProgressText.textContent = "اختاروا وصفة من تحت… ثم (تأكيد الوصفة) من الطرفين ✅";
-    }else{
-      if(idx === 3) kitProgressText.textContent = "🎨 تزيين حر… اضغطوا الأدوات تحت! (Live) 💗";
-      else if(idx === 4) kitProgressText.textContent = "🍽️ جاهزين للحفظ؟ اضغطوا (حفظ في الألبوم) ✅";
-      else kitProgressText.textContent = "✨ نفّذوا المرحلة ثم جاهزية الاثنين للتقدم ✅✅";
-    }
+    const doneTxt = opt5.stepDone ? "✅ تم تنفيذ المرحلة" : "— لم تُنفّذ بعد";
+    kitProgressText.textContent =
+      `${secLabel}\n` +
+      `${opt5.recipeName || "اختاروا وصفة"}\n` +
+      `المرحلة الحالية: ${step.title}\n` +
+      `${doneTxt}`;
   }
 
-  // do step button
-  if(kitDoStepBtn){
-    const can = locked && idx > 0 && idx < 4 && !opt5.stepDone; // ما نحتاج “نفذ” في التزيين/التقديم
-    kitDoStepBtn.disabled = !can;
-    kitDoStepBtn.style.opacity = can ? 1 : 0.6;
-  }
-
-  // ready button
-  if(kitReadyNextBtn){
-    const myReady = !!opt5[kitMyReadyKey()];
-    const lockedOk = locked && idx > 0 && idx < 4; // جاهزية التقدم بين مراحل الطبخ
-    kitReadyNextBtn.disabled = !lockedOk;
-    kitReadyNextBtn.style.opacity = lockedOk ? 1 : 0.6;
-    kitReadyNextBtn.textContent = myReady ? "✅ جاهز (تم) — انتظر الطرف الثاني" : "✅ أنا جاهز للي بعدها";
-  }
-
+  // confirm line
   const rA = !!opt5.readyNextAnas;
   const rL = !!opt5.readyNextLana;
   if(kitStepConfirmLine){
     kitStepConfirmLine.textContent =
       `جاهزية أنس: ${rA ? "✅" : "—"} | جاهزية لانا: ${rL ? "✅" : "—"}\n` +
-      `(الانتقال: لازم تنفيذ المرحلة ✅ + جاهزية الاثنين ✅✅)`;
+      `الانتقال: لازم (نفّذ ✅) + (جاهزية الاثنين ✅✅)`;
   }
 
-  // deco board
-  const canDeco = locked && kitCanDecorate(idx);
-  if(kitDecoHint){
-    kitDecoHint.style.display = canDeco ? "none" : "grid";
-  }
+  // dish image base for deco/serve
+  const baseImg = kitMakeDishPoster(opt5.recipeName || "وصفة");
+  if(kitDishImg) kitDishImg.src = baseImg;
+  if(kitServeImg) kitServeImg.src = baseImg;
 
-  // render deco items
-  if(kitDecoBoard){
-    // امسح كل العناصر القديمة (وخلي hint)
-    Array.from(kitDecoBoard.querySelectorAll(".kitDecoItem")).forEach(n=>n.remove());
+  // oven UI
+  const t = parseInt(opt5.ovenTemp||180,10);
+  if(kitOvenTemp) kitOvenTemp.textContent = `${t}°C`;
+  if(kitTempRange && String(kitTempRange.value) !== String(t)) kitTempRange.value = String(t);
 
-    const items = Array.isArray(opt5.decoItems) ? opt5.decoItems : [];
-    items.forEach(it=>{
-      const d = document.createElement("div");
-      d.className = "kitDecoItem";
-      d.dataset.id = it.id;
+  const left = Math.max(0, parseInt(opt5.ovenLeft||20,10));
+  if(kitOvenTimer) kitOvenTimer.textContent = `00:${String(left).padStart(2,"0")}`;
+  if(kitOvenGlow) kitOvenGlow.style.opacity = opt5.ovenDone ? 0.0 : 0.0;
 
-      const px = (it.x||0.5)*100;
-      const py = (it.y||0.5)*100;
+  // egg / mix meters
+  if(kitEggFX) kitEggFX.style.opacity = opt5.eggDone ? 1 : 0;
+  if(kitMixFill) kitMixFill.style.width = `${Math.max(0, Math.min(100, parseInt(opt5.mixPct||0,10)))}%`;
 
-      d.style.left = px + "%";
-      d.style.top = py + "%";
-
-      const sc = it.scale || 1;
-      const rot = it.rot || 0;
-
-      d.style.transform = `translate(-50%,-50%) rotate(${rot}deg) scale(${sc})`;
-
-      if(it.type === "text"){
-        d.textContent = (it.text || ""); // نص
-        d.style.fontWeight = "900";
-        d.style.fontSize = "28px";
-        d.style.padding = "10px 12px";
-        d.style.borderRadius = "999px";
-        d.style.border = "1px solid rgba(255,255,255,.18)";
-        d.style.background = "rgba(0,0,0,.10)";
-      }else{
-        d.textContent = it.emoji || "✨";
-        d.style.fontSize = "36px";
-      }
-
-      // حذف بالضغط (في مرحلة التزيين فقط)
-      d.addEventListener("click", async ()=>{
-        if(!canDeco) return;
-        await kitRemoveDeco(it.id);
-      });
-
-      kitDecoBoard.appendChild(d);
-    });
-  }
-
-  // status
-  if(kitStatus){
-    const recipeLine = opt5.recipeName ? `🍽️ ${opt5.recipeName}` : "🍽️ —";
-    const decoCount = Array.isArray(opt5.decoItems) ? opt5.decoItems.length : 0;
-    kitStatus.textContent =
-      `Live ✅ | ${recipeLine}\n` +
-      `تزيين: ${decoCount} عنصر | صنع يدنا: ${opt5.madeByUs ? "✅" : "—"}\n` +
-      `ألبوم: ${(Array.isArray(opt5.album)?opt5.album.length:0)} حفظة`;
-  }
-
-  // album
-  kitRenderAlbum(opt5.album);
-
-  // auto behaviors
-  kitAutoLockRecipeIfBoth(opt5);
-  kitAutoAdvanceIfReady(opt5);
+  // deco render
+  kitRenderDeco(opt5);
+  kitRenderAlbum(opt5.album || []);
 }
 
-    /********************
- * ✅ OPTION 5: Bind UI
- ********************/
-(function bindKitchenUI(){
-  // Tabs
-  kitTabSweet?.addEventListener("click", ()=> kitSwitchSection("sweet"));
-  kitTabSavory?.addEventListener("click", ()=> kitSwitchSection("savory"));
+function kitRenderDeco(opt5){
+  if(!kitDecoBoard) return;
+  kitDecoBoard.innerHTML = "";
 
-  // Confirm recipe + reset
-  kitConfirmRecipeBtn?.addEventListener("click", kitConfirmRecipe);
-  kitResetAllBtn?.addEventListener("click", async ()=>{
-    await pushRoomUpdate({
-      "opt5kitchen.section": "sweet",
-      "opt5kitchen.recipeId": "",
-      "opt5kitchen.recipeName": "",
-      "opt5kitchen.pickAnas": "",
-      "opt5kitchen.pickLana": "",
-      "opt5kitchen.confirmRecipeAnas": false,
-      "opt5kitchen.confirmRecipeLana": false,
-      "opt5kitchen.recipeLocked": false,
+  const items = Array.isArray(opt5.decoItems) ? opt5.decoItems : [];
+  items.forEach(it=>{
+    const d = document.createElement("div");
+    d.className = "kitDecoItem";
+    d.dataset.id = it.id;
 
-      "opt5kitchen.stepIndex": 0,
-      "opt5kitchen.stepDone": false,
-      "opt5kitchen.readyNextAnas": false,
-      "opt5kitchen.readyNextLana": false,
+    d.style.left = `${(it.x||0.5)*100}%`;
+    d.style.top  = `${(it.y||0.5)*100}%`;
+    d.style.transform = `translate(-50%,-50%) rotate(${it.rot||0}deg) scale(${it.scale||1})`;
 
-      "opt5kitchen.decoItems": [],
-      "opt5kitchen.madeByUs": false,
+    d.textContent = (it.type==="text") ? (it.text || "") : (it.emoji || "✨");
 
-      "opt5kitchen.updatedBy": currentName || "unknown"
+    // click remove
+    d.addEventListener("click", (e)=>{
+      e.stopPropagation();
+      kitRemoveDeco(it.id);
     });
+
+    // drag move (pointer)
+    d.addEventListener("pointerdown", (e)=>{
+      e.preventDefault();
+      e.stopPropagation();
+      d.setPointerCapture(e.pointerId);
+
+      const rect = kitDecoBoard.getBoundingClientRect();
+      const start = { x: e.clientX, y: e.clientY };
+      const startXY = { x: it.x||0.5, y: it.y||0.5 };
+
+      const move = (ev)=>{
+        const nx = kitClamp01((ev.clientX - rect.left) / rect.width);
+        const ny = kitClamp01((ev.clientY - rect.top) / rect.height);
+        // live local preview
+        d.style.left = `${nx*100}%`;
+        d.style.top  = `${ny*100}%`;
+        d.style.transform = `translate(-50%,-50%) rotate(${it.rot||0}deg) scale(${it.scale||1})`;
+      };
+
+      const up = async (ev)=>{
+        d.releasePointerCapture(e.pointerId);
+        window.removeEventListener("pointermove", move);
+        window.removeEventListener("pointerup", up);
+
+        const nx = kitClamp01((ev.clientX - rect.left) / rect.width);
+        const ny = kitClamp01((ev.clientY - rect.top) / rect.height);
+
+        // commit to firestore
+        const opt = window.__kitCache || kitDefaultState();
+        const next = (Array.isArray(opt.decoItems)? opt.decoItems.slice(0) : []).map(x=>{
+          if(x && x.id === it.id) return {...x, x:nx, y:ny};
+          return x;
+        });
+
+        await pushRoomUpdate({
+          "opt5kitchen.decoItems": next,
+          "opt5kitchen.updatedBy": currentName || "unknown"
+        });
+      };
+
+      window.addEventListener("pointermove", move);
+      window.addEventListener("pointerup", up);
+    });
+
+    kitDecoBoard.appendChild(d);
   });
 
-  // Steps
-  kitDoStepBtn?.addEventListener("click", kitDoStep);
-  kitReadyNextBtn?.addEventListener("click", kitToggleReadyNext);
-
-  // Tools
+  // tools click
   document.querySelectorAll(".kitTool").forEach(btn=>{
-    btn.addEventListener("click", async ()=>{
-      const type = btn.getAttribute("data-tool") || "random";
-      await kitAddDeco(type);
-    });
+    btn.onclick = ()=> kitAddDeco(btn.dataset.tool || "random");
+  });
+}
+
+/* ========= PREP mini-games ========= */
+// Egg crack: drag egg down to bowl
+(function(){
+  if(!kitEgg || !kitEggArea) return;
+  let startY = 0;
+  let eggStartTop = 22;
+
+  kitEgg.addEventListener("pointerdown", (e)=>{
+    e.preventDefault();
+    kitEgg.setPointerCapture(e.pointerId);
+    startY = e.clientY;
+    eggStartTop = parseFloat(getComputedStyle(kitEgg).top || "22");
   });
 
-  // Made by us + Save
-  kitMadeByUsBtn?.addEventListener("click", kitMadeByUs);
-  kitSaveBtn?.addEventListener("click", kitSaveToAlbum);
+  kitEgg.addEventListener("pointermove", async (e)=>{
+    if(!kitEgg.hasPointerCapture(e.pointerId)) return;
+    const dy = e.clientY - startY;
+    const top = Math.max(10, Math.min(100, eggStartTop + dy));
+    kitEgg.style.top = `${top}px`;
 
-  // Album modal
-  kitAlbumBtn?.addEventListener("click", kitOpenAlbum);
-  kitAlbumClose?.addEventListener("click", kitCloseAlbum);
-  kitAlbumModal?.addEventListener("click", (e)=>{
-    if(e.target === kitAlbumModal) kitCloseAlbum();
+    // crack threshold
+    if(top >= 92){
+      const opt5 = window.__kitCache || kitDefaultState();
+      if(!opt5.eggDone){
+        kitEggFX && (kitEggFX.style.opacity = 1);
+
+        await pushRoomUpdate({
+          "opt5kitchen.eggDone": true,
+          "opt5kitchen.updatedBy": currentName || "unknown"
+        });
+
+        // reset egg pos softly
+        setTimeout(()=>{ kitEgg.style.top = "22px"; }, 150);
+      }
+    }
+  });
+
+  kitEgg.addEventListener("pointerup", (e)=>{
+    try{ kitEgg.releasePointerCapture(e.pointerId); }catch(_){}
+    // snap back
+    kitEgg.style.top = "22px";
   });
 })();
+
+// Mix: drag spoon around; fill meter
+(function(){
+  if(!kitSpoon || !kitMixArea) return;
+  let mixing = false;
+  let lastPt = null;
+
+  kitSpoon.addEventListener("pointerdown", (e)=>{
+    e.preventDefault();
+    kitSpoon.setPointerCapture(e.pointerId);
+    mixing = true;
+    lastPt = {x:e.clientX, y:e.clientY};
+  });
+
+  kitSpoon.addEventListener("pointermove", async (e)=>{
+    if(!mixing || !kitSpoon.hasPointerCapture(e.pointerId)) return;
+    const rect = kitMixArea.getBoundingClientRect();
+    const nx = kitClamp01((e.clientX - rect.left) / rect.width);
+    const ny = kitClamp01((e.clientY - rect.top) / rect.height);
+
+    kitSpoon.style.left = `${nx*100}%`;
+    kitSpoon.style.top  = `${ny*100}%`;
+
+    // accumulate mixing by travel distance
+    const opt5 = window.__kitCache || kitDefaultState();
+    const cur = Math.max(0, Math.min(100, parseInt(opt5.mixPct||0,10)));
+
+    const dx = e.clientX - (lastPt?.x||e.clientX);
+    const dy = e.clientY - (lastPt?.y||e.clientY);
+    lastPt = {x:e.clientX, y:e.clientY};
+
+    const add = Math.min(3, Math.max(0, (Math.abs(dx)+Math.abs(dy))/18));
+    const next = Math.min(100, cur + add);
+
+    if(next !== cur){
+      await pushRoomUpdate({
+        "opt5kitchen.mixPct": Math.round(next),
+        "opt5kitchen.updatedBy": currentName || "unknown"
+      });
+    }
+  });
+
+  kitSpoon.addEventListener("pointerup", (e)=>{
+    mixing = false;
+    lastPt = null;
+    try{ kitSpoon.releasePointerCapture(e.pointerId); }catch(_){}
+    // snap spoon to top
+    kitSpoon.style.left = "50%";
+    kitSpoon.style.top  = "38px";
+  });
+})();
+
+/* ========= OVEN mini-game ========= */
+let __ovenInterval = null;
+function kitStopOvenLocal(){
+  if(__ovenInterval){ clearInterval(__ovenInterval); __ovenInterval=null; }
+  if(kitOvenGlow) kitOvenGlow.style.opacity = 0;
+}
+function kitStartOvenLocal(){
+  const opt5 = window.__kitCache || kitDefaultState();
+  if(opt5.ovenDone) return;
+
+  kitStopOvenLocal();
+  if(kitOvenGlow) kitOvenGlow.style.opacity = 1;
+
+  __ovenInterval = setInterval(async ()=>{
+    const o = window.__kitCache || kitDefaultState();
+    let left = Math.max(0, parseInt(o.ovenLeft||20,10));
+    if(left <= 0){
+      kitStopOvenLocal();
+      await pushRoomUpdate({
+        "opt5kitchen.ovenDone": true,
+        "opt5kitchen.updatedBy": currentName || "unknown"
+      });
+      return;
+    }
+    left -= 1;
+    await pushRoomUpdate({
+      "opt5kitchen.ovenLeft": left,
+      "opt5kitchen.updatedBy": currentName || "unknown"
+    });
+  }, 1000);
+}
+
+kitTempRange?.addEventListener("input", async ()=>{
+  const t = parseInt(kitTempRange.value||"180",10);
+  await pushRoomUpdate({
+    "opt5kitchen.ovenTemp": t,
+    "opt5kitchen.updatedBy": currentName || "unknown"
+  });
+});
+
+kitOvenStart?.addEventListener("click", ()=>{
+  kitStartOvenLocal();
+});
+kitOvenStop?.addEventListener("click", async ()=>{
+  kitStopOvenLocal();
+  // reset oven to re-try
+  await pushRoomUpdate({
+    "opt5kitchen.ovenLeft": 20,
+    "opt5kitchen.ovenDone": false,
+    "opt5kitchen.updatedBy": currentName || "unknown"
+  });
+});
+
+/* ========= Buttons ========= */
+kitGoSweet?.addEventListener("click", ()=> kitChooseSection("sweet"));
+kitGoSavory?.addEventListener("click", ()=> kitChooseSection("savory"));
+
+kitBackToKitchen?.addEventListener("click", ()=> kitGoScene("kitchen"));
+kitBackToCategory?.addEventListener("click", ()=> kitGoScene("category"));
+kitBackToRecipes?.addEventListener("click", ()=> kitGoScene("recipes"));
+
+kitConfirmRecipeBtn?.addEventListener("click", kitConfirmRecipe);
+kitUnlockBtn?.addEventListener("click", kitUnlockRecipe);
+
+kitDoStepBtn?.addEventListener("click", kitDoStep);
+kitReadyNextBtn?.addEventListener("click", kitToggleReadyNext);
+
+kitMadeByUsBtn?.addEventListener("click", kitMadeByUs);
+kitSaveBtn?.addEventListener("click", kitSaveToAlbum);
+
+kitBackKitchenFromServe?.addEventListener("click", ()=> kitGoScene("kitchen"));
+
+kitAlbumBtn?.addEventListener("click", kitOpenAlbum);
+kitAlbumClose?.addEventListener("click", kitCloseAlbum);
+kitAlbumModal?.addEventListener("click", (e)=>{ if(e.target===kitAlbumModal) kitCloseAlbum(); });
+
+kitResetAllBtn?.addEventListener("click", kitResetAll);
+
+/* ========= Hook into main room listener =========
+داخل onSnapshot حق الغرفة (اللي عندك) لازم تضيف:
+- window.__kitCache = data.opt5kitchen
+- ثم kitApplyOpt5UI(data.opt5kitchen)
+- ثم kitAutoLockIfBoth(data.opt5kitchen)
+- ثم kitAutoAdvanceIfReady(data.opt5kitchen)
+*/
+
+/* ========= Helper: roundRect ========= */
+function roundRect(ctx, x, y, w, h, r){
+  const rr = Math.min(r, w/2, h/2);
+  ctx.beginPath();
+  ctx.moveTo(x+rr, y);
+  ctx.arcTo(x+w, y, x+w, y+h, rr);
+  ctx.arcTo(x+w, y+h, x, y+h, rr);
+  ctx.arcTo(x, y+h, x, y, rr);
+  ctx.arcTo(x, y, x+w, y, rr);
+  ctx.closePath();
+}
 
 
     /********************
@@ -4225,6 +4667,11 @@ function kitApplyUI(opt5){
 
       unsubRoom = window.fb.onSnapshot(roomRef(), (snap)=>{
         const data = snap.data() || {};
+        // ✅ OPTION 5 UI + Autos
+window.__kitCache = data.opt5kitchen || {};
+kitApplyOpt5UI(window.__kitCache);
+kitAutoLockIfBoth(window.__kitCache);
+kitAutoAdvanceIfReady(window.__kitCache);
 
         if(data.currentPage){
           showPageLocal(data.currentPage);
@@ -4416,6 +4863,7 @@ puzAutoAdvanceIfReady(opt4puz);
 
 </body>
 </html>
+
 
 
 
