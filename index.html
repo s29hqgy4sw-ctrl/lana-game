@@ -1551,10 +1551,9 @@
           <div class="contentBox">
             <button class="backBtn backAny">🏠 رجوع للرئيسية</button>
             <div class="promptCard" style="font-size:20px">🧩 بزل — قسمين (Live): مشترك + تحدّي</div>
-
             <div class="puzWrap">
               <div class="puzTabs">
-                <div class="seg" aria-label="أقسام البزل">
+                <div class="seg" aria-label="أقسام البزل"> 
                   <button class="segBtn" id="puzTabCoop">🤝 مشترك (100)</button>
                   <button class="segBtn" id="puzTabChallenge">🔥 تحدّي (100)</button>
                 </div>
@@ -1950,8 +1949,8 @@
         <button class="opt" data-go="pageOpt9">9) <small>(جاهز)</small></button>
       </div>
     </div>
+  
   </div>
-
   <!-- 🔥 Firebase (Module) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
@@ -4669,36 +4668,35 @@ function kitRenderDeco(opt5){
 })();
 
 /* ========= OVEN mini-game ========= */
-let __ovenInterval = null;
-function kitStopOvenLocal(){
-  if(__ovenInterval){ clearInterval(__ovenInterval); __ovenInterval=null; }
-  if(kitOvenGlow) kitOvenGlow.style.opacity = 0;
-}
-function kitStartOvenLocal(){
-  const opt5 = window.__kitCache || kitDefaultState();
-  if(opt5.ovenDone) return;
+function startOven(){
+  // مدة الفرن (ثواني)
+  const durationMs = 15000; // 15 ثانية
 
-  kitStopOvenLocal();
-  if(kitOvenGlow) kitOvenGlow.style.opacity = 1;
+  // لا تشغل عداد ثاني
+  if(kitOvenInterval) return;
 
-  __ovenInterval = setInterval(async ()=>{
-    const o = window.__kitCache || kitDefaultState();
-    let left = Math.max(0, parseInt(o.ovenLeft||20,10));
-    if(left <= 0){
-      kitStopOvenLocal();
+  const endAt = Date.now() + durationMs;
+
+  kitOvenInterval = setInterval(async ()=>{
+    const remaining = Math.max(0, endAt - Date.now());
+
+    // تحديث العداد على الشاشة
+    ovenCounter.textContent = Math.ceil(remaining / 1000);
+
+    // 🔥 هنا الحل
+    if(remaining <= 0){
+      clearInterval(kitOvenInterval);
+      kitOvenInterval = null;
+
       await pushRoomUpdate({
         "opt5kitchen.ovenDone": true,
+        "opt5kitchen.stepDone": true,
         "opt5kitchen.updatedBy": currentName || "unknown"
       });
-      return;
     }
-    left -= 1;
-    await pushRoomUpdate({
-      "opt5kitchen.ovenLeft": left,
-      "opt5kitchen.updatedBy": currentName || "unknown"
-    });
-  }, 1000);
+  }, 250);
 }
+
 
 kitTempRange?.addEventListener("input", async ()=>{
   const t = parseInt(kitTempRange.value||"180",10);
@@ -4708,8 +4706,15 @@ kitTempRange?.addEventListener("input", async ()=>{
   });
 });
 
-kitOvenStart?.addEventListener("click", ()=>{
-  kitStartOvenLocal();
+ovenBtn.addEventListener("click", async ()=>{
+  await pushRoomUpdate({
+    "opt5kitchen.ovenDone": false,
+    "opt5kitchen.stepDone": false,
+    "opt5kitchen.updatedBy": currentName || "unknown"
+  });
+
+  startOven();
+});
 });
 kitOvenStop?.addEventListener("click", async ()=>{
   kitStopOvenLocal();
@@ -4971,6 +4976,7 @@ puzAutoAdvanceIfReady(opt4puz);
 
 </body>
 </html>
+
 
 
 
