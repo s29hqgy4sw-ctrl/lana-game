@@ -4436,16 +4436,43 @@ ensureRoom();
 }
 });
 })();
-	/* ===============================
-   منع القفز للأعلى في الجوال
-   =============================== */
-document.addEventListener("click", function(e){
-  const t = e.target.closest("button, a");
-  if(!t) return;
 
-  e.preventDefault();     // يمنع submit / href
-  e.stopPropagation();    // يمنع bubbling
-}, { passive:false });
+document.addEventListener("submit", function(e){
+  e.preventDefault();
+  e.stopPropagation();
+}, true);
+
+// B) امنع روابط # و الروابط الفاضية
+document.addEventListener("click", function(e){
+  const a = e.target.closest("a");
+  if(a){
+    const href = (a.getAttribute("href") || "").trim();
+    if(href === "" || href === "#" || href.startsWith("#")){
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
+}, true);
+
+// C) امنع أزرار بدون type من أنها تسوي submit
+document.addEventListener("click", function(e){
+  const btn = e.target.closest("button");
+  if(!btn) return;
+
+  // إذا ما فيه type اعتبره submit بالجوال/المتصفح
+  if(!btn.hasAttribute("type")){
+    btn.setAttribute("type","button");
+  }
+}, true);
+
+// D) إذا صار hashchange يرجع للأعلى، رجّع نفس مكانك
+(function(){
+  let lastY = 0;
+  window.addEventListener("scroll", ()=>{ lastY = window.scrollY || 0; }, {passive:true});
+  window.addEventListener("hashchange", ()=>{
+    window.scrollTo(0, lastY);
+  });
+})();
 </script>
 
 <script>
@@ -4475,6 +4502,7 @@ window.fb.signOut(window.fb.auth);
 
 </body>
 </html>
+
 
 
 
