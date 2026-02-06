@@ -1275,6 +1275,53 @@ line-height:2;
 font-size:13px;
 text-align:center;
 }
+	/* ✅ Cake graphics */
+.kitCakePlate{
+  position:absolute;
+  left:50%; bottom:10px;
+  transform: translateX(-50%);
+  width: 72%;
+  height: 18%;
+  border-radius: 999px;
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow: 0 16px 35px rgba(0,0,0,.35);
+  background: linear-gradient(180deg, rgba(255,255,255,.20), rgba(0,0,0,.08));
+}
+.kitCakePlate[data-c="pink"]{ background: linear-gradient(180deg, rgba(255,105,180,.35), rgba(0,0,0,.10)); }
+.kitCakePlate[data-c="red"]{ background: linear-gradient(180deg, rgba(255,60,60,.35), rgba(0,0,0,.10)); }
+.kitCakePlate[data-c="black"]{ background: linear-gradient(180deg, rgba(20,20,20,.55), rgba(0,0,0,.10)); }
+.kitCakePlate[data-c="white"]{ background: linear-gradient(180deg, rgba(255,255,255,.35), rgba(0,0,0,.10)); }
+.kitCakePlate[data-c="purple"]{ background: linear-gradient(180deg, rgba(160,90,255,.35), rgba(0,0,0,.10)); }
+
+.kitCakeLayer{
+  position:absolute;
+  left:50%;
+  transform: translateX(-50%);
+  width: 52%;
+  height: 14%;
+  border-radius: 18px;
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow: 0 18px 35px rgba(0,0,0,.30);
+  animation: popIn .22s ease-out;
+}
+@keyframes popIn{ from{ transform:translateX(-50%) scale(.92); opacity:.2 } to{ transform:translateX(-50%) scale(1); opacity:1 } }
+
+.kitCakeLayer[data-c="pink"]{ background: linear-gradient(180deg, rgba(255,105,180,.40), rgba(0,0,0,.12)); }
+.kitCakeLayer[data-c="red"]{ background: linear-gradient(180deg, rgba(255,60,60,.40), rgba(0,0,0,.12)); }
+.kitCakeLayer[data-c="black"]{ background: linear-gradient(180deg, rgba(25,25,25,.65), rgba(0,0,0,.14)); }
+.kitCakeLayer[data-c="white"]{ background: linear-gradient(180deg, rgba(255,255,255,.40), rgba(0,0,0,.12)); }
+.kitCakeLayer[data-c="brown"]{ background: linear-gradient(180deg, rgba(120,72,45,.55), rgba(0,0,0,.14)); }
+
+.kitCakeFilling{
+  position:absolute;
+  top:12px; left:12px;
+  padding:10px 12px;
+  border-radius: 999px;
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(0,0,0,.16);
+  font-weight:900;
+  color: rgba(255,255,255,.92);
+}
 
 /* Album modal */
 .kitModal{
@@ -1599,22 +1646,31 @@ color:#fff;
 <div class="kitBadge" id="kitRecipeBadge">الوصفة: …</div>
 </div>
 
-<!-- Tabs: sweets / savory -->
 <div class="kitTabs">
-<div class="seg" aria-label="أقسام المطبخ">
-<button class="segBtn" id="kitTabSweet">🍰 الحلويات</button>
-<button class="segBtn" id="kitTabSavory">🍳 الموالح</button>
+  <div class="kitBadge" style="margin-top:10px">🍰 حلويات فقط — رومنسي & Live 💗</div>
+  <button class="actionBtn kitAlbumBtn" id="kitAlbumBtn">🖼️ الألبوم</button>
 </div>
 
-<button class="actionBtn kitAlbumBtn" id="kitAlbumBtn">🖼️ الألبوم</button>
-</div>
-
-<!-- Characters -->
 <div class="kitChars">
-<div class="kitCharCard">
-<div class="kitCharEmoji">🎀🐱</div>
-<div class="kitCharName">HELLO KITTY</div>
-<div class="kitCharSub">لانا</div>
+  <div class="kitCharCard">
+    <div class="kitCharEmoji">👩‍🍳🎀</div>
+    <div class="kitCharName">CHEF GIRL</div>
+    <div class="kitCharSub">لانا</div>
+  </div>
+
+  <div class="kitTable">
+    <div class="kitTableTop">
+      <div class="kitTableTitle">مطبخ الحلويات</div>
+      <div class="kitMiniLine" id="kitLiveLine">…</div>
+    </div>
+    <div class="kitProgress" id="kitProgressText">اختاروا وصفة وابدأوا 👇</div>
+  </div>
+
+  <div class="kitCharCard">
+    <div class="kitCharEmoji">👨‍🍳🧑‍❤️‍🧑</div>
+    <div class="kitCharName">CHEF BOY</div>
+    <div class="kitCharSub">أنس</div>
+  </div>
 </div>
 
 <div class="kitTable">
@@ -1649,27 +1705,36 @@ color:#fff;
 <div class="kitConfirmLine" id="kitRecipeConfirmLine">…</div>
 </div>
 
-<!-- Steps -->
+<!-- ✅ Build (Layers + Filling + Plate colors) -->
 <div class="kitPanel">
-<div class="kitPanelTitle">
-<span>🧑‍🍳 مراحل الطبخ</span>
-<span class="kitMini" id="kitStepMini">…</span>
-</div>
+  <div class="kitPanelTitle">
+    <span>🍰 بناء الحلو</span>
+    <span class="kitMini" id="kitBuildMini">…</span>
+  </div>
 
-<div class="kitStepBar" id="kitStepBar"></div>
+  <div class="kitStepCard">
+    <div class="kitStepTitle" id="kitBuildTitle">…</div>
+    <div class="kitStepDesc" id="kitBuildDesc">…</div>
 
-<div class="kitStepCard">
-<div class="kitStepTitle" id="kitStepTitle">…</div>
-<div class="kitStepDesc" id="kitStepDesc">…</div>
+    <!-- Visual cake preview -->
+    <div class="kitDecoBoard" id="kitCakeBoard" style="aspect-ratio:16/9; margin-top:12px">
+      <div class="kitDecoHint" id="kitCakeHint">اختاروا وصفة أولًا… بعدين تبدأون بناء الطبقات 💗</div>
+    </div>
 
-<!-- Step actions -->
-<div class="kitActions">
-<button class="actionBtn" id="kitDoStepBtn">✨ نفّذ المرحلة</button>
-<button class="actionBtn" id="kitReadyNextBtn">✅ أنا جاهز للي بعدها</button>
-</div>
+    <div class="kitDecoTools" style="margin-top:12px">
+      <button class="kitTool" data-build="addLayer">➕ طبقة</button>
+      <button class="kitTool" data-build="addFilling">🥛 حشوة</button>
+      <button class="kitTool" data-build="plateColor">🎨 تلوين الطبق</button>
+      <button class="kitTool" data-build="undo">↩️ تراجع</button>
+      <button class="kitTool" data-build="resetBuild">🧹 تصفير البناء</button>
+    </div>
 
-<div class="kitConfirmLine" id="kitStepConfirmLine">…</div>
-</div>
+    <div class="kitActions" style="margin-top:12px">
+      <button class="actionBtn" id="kitReadyBuildBtn">✅ أنا جاهز للانتقال</button>
+    </div>
+
+    <div class="kitConfirmLine" id="kitBuildConfirmLine">…</div>
+  </div>
 </div>
 
 <!-- Decoration -->
@@ -2308,25 +2373,40 @@ updatedBy: "system",
 },
 
 opt5kitchen: {
-section: "sweet",
-recipeId: "",
-recipeName: "",
-pickAnas: "",
-pickLana: "",
-confirmRecipeAnas: false,
-confirmRecipeLana: false,
-recipeLocked: false,
+  // ✅ Desserts only
+  section: "sweet",
 
-stepIndex: 0,
-stepDone: false,
-readyNextAnas: false,
-readyNextLana: false,
+  // recipe
+  recipeId: "",
+  recipeName: "",
+  recipeType: "", // "cake" | "donut"
 
-decoItems: [],
-madeByUs: false,
+  pickAnas: "",
+  pickLana: "",
+  confirmRecipeAnas: false,
+  confirmRecipeLana: false,
+  recipeLocked: false,
 
-album: [],
-updatedBy: "system",
+  // ✅ phases: 0=pick, 1=build (cake only), 2=decorate, 3=serve
+  phase: 0,
+
+  // gate ready for next (both)
+  readyNextAnas: false,
+  readyNextLana: false,
+
+  // ✅ cake build state (Live)
+  build: {
+    plate: "pink",     // pink | red | black | white | purple
+    layers: [],        // each: { color:"red|black|pink|white|brown", height: 18 }
+    filling: ""        // "vanilla|choco|strawberry|none"
+  },
+
+  // decoration (same idea as before)
+  decoItems: [],
+  madeByUs: false,
+
+  album: [],
+  updatedBy: "system",
 },
 },
 { merge: true }
@@ -3408,8 +3488,7 @@ const kitRecipeBadge = document.getElementById("kitRecipeBadge");
 const kitLiveLine = document.getElementById("kitLiveLine");
 const kitProgressText = document.getElementById("kitProgressText");
 
-const kitTabSweet = document.getElementById("kitTabSweet");
-const kitTabSavory = document.getElementById("kitTabSavory");
+
 
 const kitRecipeGrid = document.getElementById("kitRecipeGrid");
 const kitConfirmRecipeBtn = document.getElementById("kitConfirmRecipeBtn");
@@ -3435,40 +3514,34 @@ const kitAlbumModal = document.getElementById("kitAlbumModal");
 const kitAlbumClose = document.getElementById("kitAlbumClose");
 const kitAlbumGrid = document.getElementById("kitAlbumGrid");
 
-const KIT_STEPS = [
-{ key:"pick", title:"📖 اختيار الوصفة", desc:"اختاروا وصفة… ثم لازم (تأكيد الوصفة) من الطرفين ✅" },
-{ key:"prep", title:"🔪 التحضير", desc:"جهزوا المكونات… ثم اضغط (نفّذ المرحلة) وبعدها جاهزية الاثنين ✅✅" },
-{ key:"cook", title:"🔥 الطبخ / الخَبز", desc:"سخّنوا/اخبزوا… اضغط (نفّذ المرحلة) ثم جاهزية الاثنين ✅✅" },
-{ key:"deco", title:"🎨 التزيين", desc:"الحين وقت التزيين الحر 💗 (الأدوات تحت) — كل شيء Live" },
-{ key:"serve", title:"🍽️ التقديم", desc:"سمّوا الطبق/الحلو… ثم (حفظ في الألبوم) عشان تنحفظ صورة + اسم + تاريخ ✅" }
+// ✅ Desserts-only phases
+const KIT_PHASES = [
+  { title:"📖 اختيار الوصفة", desc:"اختاروا وصفة… ثم لازم (تأكيد الوصفة) من الطرفين ✅" },   // 0
+  { title:"🍰 بناء الطبقات", desc:"أضيفوا طبقات + حشوة + لون الطبق… ثم جاهزية الاثنين ✅✅" }, // 1 (cake only)
+  { title:"🎨 تزيين", desc:"تزيين كبير: شموع/قلوب/فواكه/حروف/صوصات… كل شيء Live 💗" },      // 2
+  { title:"🍽️ تقديم + حفظ", desc:"اكتبوا اسم الحلو واحفظوه في الألبوم ✅" }                // 3
 ];
 
-const KIT_RECIPES = {
-sweet: [
-{id:"cake_choco", name:"🍫 كيك شوكولاتة"},
-{id:"pancake", name:"🥞 بان كيك"},
-{id:"waffle", name:"🧇 وافل"},
-{id:"cheesecake", name:"🍰 تشيز كيك"},
-{id:"cupcake", name:"🧁 كب كيك"},
-{id:"brownie", name:"🤎 براوني"},
-{id:"donut", name:"🍩 دونات"},
-{id:"cookies", name:"🍪 كوكيز"},
-{id:"tiramisu", name:"☕️ تيراميسو"},
-{id:"fruit_tart", name:"🥧 تارت فواكه"}
-],
-savory: [
-{id:"pizza", name:"🍕 بيتزا"},
-{id:"burger", name:"🍔 برجر"},
-{id:"eggs", name:"🍳 بيض"},
-{id:"kabsa", name:"🍛 كبسة"},
-{id:"zinger", name:"🍗 زنجر"},
-{id:"pasta", name:"🍝 باستا"},
-{id:"salad", name:"🥗 سلطة"},
-{id:"fries", name:"🍟 بطاطس"},
-{id:"sandwich", name:"🥪 ساندويتش"},
-{id:"soup", name:"🍜 شوربة"}
-]
-};
+const BUILD_COLORS = ["pink","red","black","white","brown"];
+const PLATE_COLORS = ["pink","red","black","white","purple"];
+const FILLINGS = ["vanilla","choco","strawberry","none"];
+
+function nicePlate(c){
+  return ({pink:"🌸 وردي", red:"❤️ أحمر", black:"🖤 أسود", white:"🤍 أبيض", purple:"💜 بنفسجي"})[c] || c;
+}
+function niceFill(c){
+  return ({vanilla:"🍦 فانيلا", choco:"🍫 شوكولاتة", strawberry:"🍓 فراولة", none:"— بدون"})[c] || c;
+}
+function layerEmoji(c){
+  return ({pink:"🌸", red:"❤️", black:"🖤", white:"🤍", brown:"🤎"})[c] || "🍰";
+}
+const KIT_RECIPES = [
+  { id:"cake_layers", name:"🎂 كيك طبقات", type:"cake" },
+  { id:"cake_redvelvet", name:"❤️ كيك ريد فيلفت", type:"cake" },
+  { id:"cake_choco", name:"🍫 كيك شوكولاتة", type:"cake" },
+  { id:"cake_strawberry", name:"🍓 كيك فراولة", type:"cake" },
+  { id:"donut", name:"🍩 دونات (تزيين فقط)", type:"donut" },
+];
 
 const KIT_EMOJIS = {
 layer: ["🍰","🧁","🥞","🧇","🥧"],
@@ -3510,9 +3583,7 @@ const arr = KIT_EMOJIS[type] || KIT_EMOJIS.random;
 return arr[Math.floor(Math.random()*arr.length)];
 }
 
-function kitCanDecorate(stepIndex){
-return parseInt(stepIndex||0,10) === 3; // deco stage
-}
+
 
 function kitRenderRecipeGrid(section, selectedId){
 if(!kitRecipeGrid) return;
@@ -3534,87 +3605,39 @@ kitRecipeGrid.appendChild(b);
 }
 
 async function kitPickRecipe(recipeId, recipeName){
-// إذا الوصفة مقفولة (بسبب تأكيد الاثنين) ما نسمح تغيرها إلا Reset
-const opt5 = window.__kitCache || {};
-if(opt5.recipeLocked) return;
+  const opt5 = window.__kitCache || {};
+  if(opt5.recipeLocked) return;
 
-const payload = {
-"opt5kitchen.section": (opt5.section === "savory") ? "savory" : "sweet",
-"opt5kitchen.recipeId": recipeId,
-"opt5kitchen.recipeName": recipeName,
+  const r = KIT_RECIPES.find(x=>x.id===recipeId);
+  const type = r?.type || "cake";
 
-// احفظ اختياري أنا
-[`opt5kitchen.${kitMyPickKey()}`]: recipeId,
+  await pushRoomUpdate({
+    "opt5kitchen.section": "sweet",
 
-// صفّر التأكيدات (لو كان أحد أكد سابقًا)
-"opt5kitchen.confirmRecipeAnas": false,
-"opt5kitchen.confirmRecipeLana": false,
+    "opt5kitchen.recipeId": recipeId,
+    "opt5kitchen.recipeName": recipeName,
+    "opt5kitchen.recipeType": type,
 
-// رجّع المراحل للأول (احتياط)
-"opt5kitchen.stepIndex": 0,
-"opt5kitchen.stepDone": false,
-"opt5kitchen.readyNextAnas": false,
-"opt5kitchen.readyNextLana": false,
+    [`opt5kitchen.${kitMyPickKey()}`]: recipeId,
 
-// صفّر التزيين
-"opt5kitchen.decoItems": [],
-"opt5kitchen.madeByUs": false,
+    "opt5kitchen.confirmRecipeAnas": false,
+    "opt5kitchen.confirmRecipeLana": false,
+    "opt5kitchen.recipeLocked": false,
 
-"opt5kitchen.updatedBy": currentName || "unknown"
-};
+    // reset phases
+    "opt5kitchen.phase": 0,
 
-await pushRoomUpdate(payload);
+    "opt5kitchen.readyNextAnas": false,
+    "opt5kitchen.readyNextLana": false,
+
+    // reset build + deco
+    "opt5kitchen.build": { plate:"pink", layers:[], filling:"" },
+    "opt5kitchen.decoItems": [],
+    "opt5kitchen.madeByUs": false,
+
+    "opt5kitchen.updatedBy": currentName || "unknown"
+  });
 }
-
-async function kitSwitchSection(section){
-const opt5 = window.__kitCache || {};
-if(opt5.recipeLocked) return; // لا تغير القسم بعد القفل
-
-const next = (section === "savory") ? "savory" : "sweet";
-await pushRoomUpdate({
-"opt5kitchen.section": next,
-"opt5kitchen.recipeId": "",
-"opt5kitchen.recipeName": "",
-
-"opt5kitchen.pickAnas": "",
-"opt5kitchen.pickLana": "",
-"opt5kitchen.confirmRecipeAnas": false,
-"opt5kitchen.confirmRecipeLana": false,
-"opt5kitchen.recipeLocked": false,
-
-"opt5kitchen.stepIndex": 0,
-"opt5kitchen.stepDone": false,
-"opt5kitchen.readyNextAnas": false,
-"opt5kitchen.readyNextLana": false,
-
-"opt5kitchen.decoItems": [],
-"opt5kitchen.madeByUs": false,
-
-"opt5kitchen.updatedBy": currentName || "unknown"
-});
-}
-
-async function kitConfirmRecipe(){
-const opt5 = window.__kitCache || {};
-const rid = (opt5.recipeId||"").trim();
-if(!rid){
-await pushRoomUpdate({
-"opt5kitchen.updatedBy": currentName || "unknown"
-});
-return;
-}
-if(opt5.recipeLocked) return;
-
-const minePick = opt5[kitMyPickKey()] || "";
-if(!minePick){
-// لازم أنت تختار أولاً (عشان يكون في “نية” عندك)
-return;
-}
-
-await pushRoomUpdate({
-[`opt5kitchen.${kitMyConfirmKey()}`]: true,
-"opt5kitchen.updatedBy": currentName || "unknown"
-});
 
 // قفل الوصفة تلقائيًا إذا الاثنين أكدوا (قائد القفل: ANAS)
 const nextOpt = window.__kitCache || opt5;
@@ -3625,30 +3648,33 @@ const l = !!nextOpt.confirmRecipeLana;
 }
 
 async function kitAutoLockRecipeIfBoth(opt5){
-if(!currentName) return;
-if(opt5.recipeLocked) return;
+  if(!currentName) return;
+  if(opt5.recipeLocked) return;
 
-const both = !!opt5.confirmRecipeAnas && !!opt5.confirmRecipeLana;
-if(!both) return;
+  const both = !!opt5.confirmRecipeAnas && !!opt5.confirmRecipeLana;
+  if(!both) return;
 
-// قائد القفل والانتقال: ANAS فقط
-if(currentName !== "ANAS") return;
+  // قائد القفل: ANAS
+  if(currentName !== "ANAS") return;
 
-await pushRoomUpdate({
-"opt5kitchen.recipeLocked": true,
-"opt5kitchen.stepIndex": 1, // يبدأ التحضير
-"opt5kitchen.stepDone": false,
-"opt5kitchen.readyNextAnas": false,
-"opt5kitchen.readyNextLana": false,
-"opt5kitchen.updatedBy": currentName || "unknown"
-});
+  const type = opt5.recipeType || "cake";
+  const nextPhase = (type === "donut") ? 2 : 1; // donut skips build
+
+  await pushRoomUpdate({
+    "opt5kitchen.recipeLocked": true,
+    "opt5kitchen.phase": nextPhase,
+
+    "opt5kitchen.readyNextAnas": false,
+    "opt5kitchen.readyNextLana": false,
+
+    "opt5kitchen.updatedBy": currentName || "unknown"
+  });
 }
-
 async function kitDoStep(){
 const opt5 = window.__kitCache || {};
 if(!opt5.recipeLocked) return;
 
-const idx = parseInt(opt5.stepIndex||0,10);
+const phase = parseInt(opt5.phase||0,10);
 if(idx <= 0) return; // لازم نكون بعد اختيار الوصفة
 if(idx >= KIT_STEPS.length) return;
 if(opt5.stepDone) return;
@@ -3731,8 +3757,8 @@ return {x,y};
 async function kitAddDeco(type){
 const opt5 = window.__kitCache || {};
 if(!opt5.recipeLocked) return;
-if(!kitCanDecorate(opt5.stepIndex)) return;
-
+if(!kitCanDecoratePhase(opt5)) return;
+	
 let emoji = kitPickEmoji(type);
 let text = "";
 
@@ -3776,7 +3802,7 @@ await pushRoomUpdate({
 async function kitRemoveDeco(itemId){
 const opt5 = window.__kitCache || {};
 if(!opt5.recipeLocked) return;
-if(!kitCanDecorate(opt5.stepIndex)) return;
+if(!kitCanDecoratePhase(opt5)) return;
 
 const list = Array.isArray(opt5.decoItems) ? opt5.decoItems : [];
 const next = list.filter(x=> x && x.id !== itemId);
@@ -3790,7 +3816,7 @@ await pushRoomUpdate({
 async function kitMadeByUs(){
 const opt5 = window.__kitCache || {};
 if(!opt5.recipeLocked) return;
-if(!kitCanDecorate(opt5.stepIndex)) return;
+if(!kitCanDecoratePhase(opt5)) return;
 
 await pushRoomUpdate({
 "opt5kitchen.madeByUs": true,
@@ -3993,20 +4019,115 @@ await pushRoomUpdate({
 "opt5kitchen.album": album,
 "opt5kitchen.updatedBy": currentName || "unknown"
 });
+function kitCanBuild(opt5){
+  return !!opt5.recipeLocked && (opt5.recipeType !== "donut") && parseInt(opt5.phase||0,10) === 1;
+}
+function kitCanDecoratePhase(opt5){
+  return !!opt5.recipeLocked && parseInt(opt5.phase||0,10) === 2;
+}
+function kitCanServe(opt5){
+  return !!opt5.recipeLocked && parseInt(opt5.phase||0,10) === 3;
+}
 
+async function kitToggleReadyPhase(){
+  const opt5 = window.__kitCache || {};
+  if(!opt5.recipeLocked) return;
+
+  const mine = !!opt5[kitMyReadyKey()];
+  await pushRoomUpdate({
+    [`opt5kitchen.${kitMyReadyKey()}`]: !mine,
+    "opt5kitchen.updatedBy": currentName || "unknown"
+  });
+}
+
+let __kitPhaseTimer = null;
+async function kitAutoAdvancePhase(opt5){
+  if(!currentName) return;
+  if(!opt5.recipeLocked) return;
+
+  const phase = parseInt(opt5.phase||0,10);
+  const rA = !!opt5.readyNextAnas;
+  const rL = !!opt5.readyNextLana;
+  if(!(rA && rL)) return;
+
+  // قائد الانتقال: ANAS فقط
+  if(currentName !== "ANAS") return;
+  if(__kitPhaseTimer) return;
+
+  __kitPhaseTimer = setTimeout(async ()=>{
+    __kitPhaseTimer = null;
+
+    let next = phase + 1;
+
+    // donut: لو كان phase=2 (decorate) يروح للـ serve
+    // cake: 1(build)->2(decorate)->3(serve)
+    if(next > 3) next = 3;
+
+    await pushRoomUpdate({
+      "opt5kitchen.phase": next,
+      "opt5kitchen.readyNextAnas": false,
+      "opt5kitchen.readyNextLana": false,
+      "opt5kitchen.updatedBy": currentName || "unknown"
+    });
+  }, 350);
+}
+
+async function kitBuildAction(action){
+  const opt5 = window.__kitCache || {};
+  if(!kitCanBuild(opt5)) return;
+
+  const build = opt5.build || { plate:"pink", layers:[], filling:"" };
+  const next = {
+    plate: build.plate || "pink",
+    layers: Array.isArray(build.layers) ? build.layers.slice(0) : [],
+    filling: build.filling || ""
+  };
+
+  if(action === "addLayer"){
+    // طبقتين/ثلاث — خله حر… كل ضغطة تضيف طبقة
+    const c = BUILD_COLORS[Math.floor(Math.random()*BUILD_COLORS.length)];
+    next.layers.push({ color: c, height: 18 });
+  }
+
+  if(action === "addFilling"){
+    const f = FILLINGS[Math.floor(Math.random()*FILLINGS.length)];
+    next.filling = f;
+  }
+
+  if(action === "plateColor"){
+    const p = PLATE_COLORS[Math.floor(Math.random()*PLATE_COLORS.length)];
+    next.plate = p;
+  }
+
+  if(action === "undo"){
+    if(next.layers.length > 0) next.layers.pop();
+    else next.filling = "";
+  }
+
+  if(action === "resetBuild"){
+    next.plate = "pink";
+    next.layers = [];
+    next.filling = "";
+  }
+
+  await pushRoomUpdate({
+    "opt5kitchen.build": next,
+    // أي تغيير = صفّر جاهزية الانتقال
+    "opt5kitchen.readyNextAnas": false,
+    "opt5kitchen.readyNextLana": false,
+    "opt5kitchen.updatedBy": currentName || "unknown"
+  });
+}
 // افتح الألبوم تلقائيًا بعد الحفظ
 kitOpenAlbum();
 }
 
 function kitApplyUI(opt5){
 // tabs
-const section = (opt5.section === "savory") ? "savory" : "sweet";
-if(kitTabSweet) kitTabSweet.classList.toggle("active", section === "sweet");
-if(kitTabSavory) kitTabSavory.classList.toggle("active", section === "savory");
 
 // badges
 const idx = parseInt(opt5.stepIndex||0,10);
-const stepName = KIT_STEPS[idx]?.title || "…";
+const stepName = KIT_PHASES[phase]?.title || "…";
 if(kitStageBadge) kitStageBadge.textContent = `المرحلة: ${stepName}`;
 if(kitRecipeBadge){
 kitRecipeBadge.textContent = `الوصفة: ${opt5.recipeName ? opt5.recipeName : "—"}`;
@@ -4052,8 +4173,8 @@ kitStepBar.appendChild(p);
 if(kitStepMini){
 kitStepMini.textContent = `خطوة ${idx+1} / ${KIT_STEPS.length} • تم التنفيذ: ${opt5.stepDone ? "✅" : "—"}`;
 }
-if(kitStepTitle) kitStepTitle.textContent = KIT_STEPS[idx]?.title || "…";
-if(kitStepDesc) kitStepDesc.textContent = KIT_STEPS[idx]?.desc || "…";
+if(kitStepTitle) kitStepTitle.textContent = KIT_PHASES[phase]?.title || "…";
+if(kitStepDesc) kitStepDesc.textContent = KIT_PHASES[phase]?.desc || "…";
 
 if(kitProgressText){
 if(!locked){
@@ -4139,7 +4260,86 @@ await kitRemoveDeco(it.id);
 kitDecoBoard.appendChild(d);
 });
 }
+// ✅ Cake preview (layers)
+const board = document.getElementById("kitCakeBoard");
+const hint = document.getElementById("kitCakeHint");
+const mini = document.getElementById("kitBuildMini");
+const title = document.getElementById("kitBuildTitle");
+const desc = document.getElementById("kitBuildDesc");
+const conf = document.getElementById("kitBuildConfirmLine");
+const readyBtn = document.getElementById("kitReadyBuildBtn");
 
+if(title) title.textContent = KIT_PHASES[phase]?.title || "…";
+if(desc) desc.textContent = KIT_PHASES[phase]?.desc || "…";
+
+if(mini){
+  const b = opt5.build || {plate:"pink", layers:[], filling:""};
+  mini.textContent = `طبقات: ${(b.layers||[]).length} | حشوة: ${niceFill(b.filling||"none")} | طبق: ${nicePlate(b.plate||"pink")}`;
+}
+
+// confirm line
+if(conf){
+  const rA = !!opt5.readyNextAnas;
+  const rL = !!opt5.readyNextLana;
+  conf.textContent = `جاهزية أنس: ${rA?"✅":"—"} | جاهزية لانا: ${rL?"✅":"—"} | (الانتقال لازم ✅✅)`;
+}
+
+// Ready button
+if(readyBtn){
+  const myReady = !!opt5[kitMyReadyKey()];
+  const can = !!opt5.recipeLocked && (phase >= 1 && phase <= 2); // build/decorate
+  readyBtn.disabled = !can;
+  readyBtn.style.opacity = can ? 1 : 0.6;
+  readyBtn.textContent = myReady ? "✅ جاهز (تم) — انتظر الطرف الثاني" : "✅ أنا جاهز للانتقال";
+}
+
+// draw cake on board
+if(board){
+  // امسح عناصر قديمة (وخلي hint)
+  Array.from(board.querySelectorAll(".kitCakeLayer,.kitCakePlate,.kitCakeFilling")).forEach(n=>n.remove());
+
+  const locked = !!opt5.recipeLocked;
+  const b = opt5.build || {plate:"pink", layers:[], filling:""};
+  const layers = Array.isArray(b.layers)? b.layers : [];
+  const canBuildNow = kitCanBuild(opt5);
+
+  if(hint){
+    hint.style.display = (locked && phase === 1) ? "none" : "grid";
+    hint.textContent = locked
+      ? (phase===2 ? "الآن تزيين ✨" : (phase===3 ? "جاهزين للحفظ بالألبوم 💗" : "…"))
+      : "اختاروا وصفة أولًا… بعدين تبدأون بناء الطبقات 💗";
+  }
+
+  // plate
+  const plate = document.createElement("div");
+  plate.className = "kitCakePlate";
+  plate.dataset.c = b.plate || "pink";
+  board.appendChild(plate);
+
+  // stack layers (bottom->top)
+  let baseY = 78; // نسبة تقريبية
+  layers.forEach((ly, i)=>{
+    const d = document.createElement("div");
+    d.className = "kitCakeLayer";
+    d.dataset.c = ly.color || "pink";
+    d.style.bottom = (18 + i*16) + "px";
+    board.appendChild(d);
+  });
+
+  // filling label (simple)
+  if(b.filling && b.filling !== "none"){
+    const f = document.createElement("div");
+    f.className = "kitCakeFilling";
+    f.textContent = `حشوة: ${niceFill(b.filling)}`;
+    board.appendChild(f);
+  }
+
+  // lock build tools if not phase=1
+  document.querySelectorAll('[data-build]').forEach(btn=>{
+    btn.disabled = !canBuildNow;
+    btn.style.opacity = canBuildNow ? 1 : 0.55;
+  });
+}
 // status
 if(kitStatus){
 const recipeLine = opt5.recipeName ? `🍽️ ${opt5.recipeName}` : "🍽️ —";
@@ -4163,8 +4363,6 @@ kitAutoAdvanceIfReady(opt5);
 ********************/
 (function bindKitchenUI(){
 // Tabs
-kitTabSweet?.addEventListener("click", ()=> kitSwitchSection("sweet"));
-kitTabSavory?.addEventListener("click", ()=> kitSwitchSection("savory"));
 
 // Confirm recipe + reset
 kitConfirmRecipeBtn?.addEventListener("click", kitConfirmRecipe);
@@ -4193,14 +4391,23 @@ await pushRoomUpdate({
 
 // Steps
 kitDoStepBtn?.addEventListener("click", kitDoStep);
-kitReadyNextBtn?.addEventListener("click", kitToggleReadyNext);
+	document.getElementById("kitReadyBuildBtn")?.addEventListener("click", kitToggleReadyPhase);
 
 // Tools
 document.querySelectorAll(".kitTool").forEach(btn=>{
-btn.addEventListener("click", async ()=>{
-const type = btn.getAttribute("data-tool") || "random";
-await kitAddDeco(type);
-});
+  btn.addEventListener("click", async ()=>{
+    const buildAct = btn.getAttribute("data-build");
+    const decoType = btn.getAttribute("data-tool");
+
+    if(buildAct){
+      await kitBuildAction(buildAct);
+      return;
+    }
+    if(decoType){
+      await kitAddDeco(decoType);
+      return;
+    }
+  });
 });
 
 // Made by us + Save
@@ -4415,6 +4622,7 @@ window.fb.signOut(window.fb.auth);
 
 </body>
 </html>
+
 
 
 
