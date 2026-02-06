@@ -4121,12 +4121,15 @@ function kitBoardToDataURL(opt5){
 
 // (اختصرنا الحفظ: يعتمد على kitBoardToDataURL الموجودة عندك)
 // المهم: لا تكون داخلها دوال ثانية أو أقواس ناقصة
-async function kitSaveToAlbum(){
+async function kitSaveToAlbum(){if(__savingAlbum) return;
+__savingAlbum = true;
+let __savingAlbum = false;
   const opt5 = window.__kitCache || {};
-  if(!kitCanServe(opt5)){
-    alert("لازم توصلون لمرحلة (🍽️ تقديم + حفظ) أولاً ✅");
-    return;
-  }
+  const phase = parseInt(opt5.phase||0,10);
+if(phase < 2){ // 2 = التزيين
+  alert("كمّلوا التزيين أولاً 🎨");
+  return;
+}
 
   const dishName = prompt("اكتب اسم الطبق / الحلو اللي سويتو 💗:");
   if(dishName === null) return;
@@ -4433,6 +4436,16 @@ ensureRoom();
 }
 });
 })();
+	/* ===============================
+   منع القفز للأعلى في الجوال
+   =============================== */
+document.addEventListener("click", function(e){
+  const t = e.target.closest("button, a");
+  if(!t) return;
+
+  e.preventDefault();     // يمنع submit / href
+  e.stopPropagation();    // يمنع bubbling
+}, { passive:false });
 </script>
 
 <script>
@@ -4462,6 +4475,7 @@ window.fb.signOut(window.fb.auth);
 
 </body>
 </html>
+
 
 
 
