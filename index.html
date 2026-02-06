@@ -5,6 +5,56 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <title>LANA ❤️ ANAS</title>
 <style>
+	.kitCakeStage{position:relative; width:100%; height:100%;}
+
+.kitCakePlate{
+  position:absolute; left:50%; bottom:6%;
+  transform:translateX(-50%);
+  width:72%; height:16%;
+  border-radius:999px;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+  filter:saturate(1.05);
+}
+.kitCakeLayer{
+  position:absolute; left:50%;
+  transform:translateX(-50%);
+  width:56%; height:10%;
+  border-radius:18px;
+  box-shadow:0 10px 18px rgba(0,0,0,.22);
+  background-image:
+    linear-gradient(to bottom, rgba(255,255,255,.20), rgba(0,0,0,.18));
+}
+.kitCakeCream{
+  position:absolute; left:50%;
+  transform:translateX(-50%);
+  width:56%; height:3.5%;
+  border-radius:999px;
+  box-shadow:0 6px 12px rgba(0,0,0,.18);
+  opacity:.95;
+}
+
+.kitCakeFilling{
+  position:absolute; top:10px; left:10px;
+  padding:8px 10px;
+  background:rgba(0,0,0,.25);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:14px;
+  backdrop-filter: blur(8px);
+  font-weight:700;
+  color:#fff;
+}
+
+/* mini (deco board) */
+.kitMiniWrap{width:100%; height:100%;}
+.kitCakePlate.kitMini{width:66%; height:14%;}
+.kitCakeLayer.kitMini{width:52%; height:9%;}
+.kitCakeCream.kitMini{width:52%; height:3%;}
+.kitCakeFilling.kitMini{transform:scale(.9); transform-origin:top left;}
+
+.kitDecoStage{position:relative; width:100%; height:100%;}
+.kitDecoOverlay{
+  position:absolute; inset:0;
+}
 :root{
 --bg1:#160614;
 --bg2:#2a0b22;
@@ -3753,71 +3803,107 @@ const kitCakeBoard = document.getElementById("kitCakeBoard");
 const kitCakeHint = document.getElementById("kitCakeHint");
 
 // 1) Render cake build preview
-function kitRenderCake(opt5){
-  if(!kitCakeBoard) return;
+function kitFillingColor(f){
+  if(f==="vanilla") return "#fff3c4";
+  if(f==="choco") return "#6b3f2a";
+  if(f==="strawberry") return "#ff7aa5";
+  return "transparent";
+}
+function kitLayerColor(c){
+  if(c==="red") return "#ff5a6a";
+  if(c==="black") return "#2a2a2a";
+  if(c==="white") return "#f3f3f3";
+  if(c==="brown") return "#8b5a3c";
+  return "#ff6fb1";
+}
+function kitPlateColor(p){
+  if(p==="red") return "#ff4b4b";
+  if(p==="black") return "#1c1c1c";
+  if(p==="white") return "#eaeaea";
+  if(p==="purple") return "#a855f7";
+  return "#ff6fb1";
+}
 
+function kitDrawCakeInto(container, opt5, {mini=false} = {}){
   const build = opt5?.build || { plate:"pink", layers:[], filling:"none" };
   const plate = build.plate || "pink";
   const layers = Array.isArray(build.layers) ? build.layers : [];
   const filling = build.filling || "none";
 
-  // reset
-  kitCakeBoard.innerHTML = `<div class="kitDecoHint" id="kitCakeHint"></div>`;
-  const hintEl = kitCakeBoard.querySelector("#kitCakeHint");
+  container.innerHTML = "";
 
-  // if not in build phase
-  if(!kitCanBuild(opt5)){
-    if(hintEl) hintEl.textContent = "اختاروا وصفة أولًا… بعدين تبدأون بناء الطبقات 💗";
-    return;
-  } else {
-    if(hintEl) hintEl.style.display = "none";
+  // plate
+  const plateEl = document.createElement("div");
+  plateEl.className = mini ? "kitCakePlate kitMini" : "kitCakePlate";
+  plateEl.style.background = kitPlateColor(plate);
+  container.appendChild(plateEl);
+
+  // stack
+  const max = Math.min(layers.length, 6);
+  const baseBottom = mini ? 18 : 22;
+  const gap = mini ? 10 : 11;
+
+  for(let i=0;i<max;i++){
+    const c = layers[i]?.color || "pink";
+
+    const layerEl = document.createElement("div");
+    layerEl.className = mini ? "kitCakeLayer kitMini" : "kitCakeLayer";
+    layerEl.style.background = kitLayerColor(c);
+    layerEl.style.bottom = (baseBottom + i*gap) + "%";
+    container.appendChild(layerEl);
+
+    // filling between layers (except after last)
+    if(i < max-1 && filling !== "none"){
+      const cream = document.createElement("div");
+      cream.className = mini ? "kitCakeCream kitMini" : "kitCakeCream";
+      cream.style.background = kitFillingColor(filling);
+      cream.style.bottom = (baseBottom + i*gap + (mini?7:8)) + "%";
+      container.appendChild(cream);
+    }
   }
 
-  // filling badge
+  // label
   const fillTxt = (filling==="vanilla") ? "🥛 فانيلا"
                : (filling==="choco") ? "🍫 شوكولاتة"
                : (filling==="strawberry") ? "🍓 فراولة"
                : "🚫 بدون حشوة";
 
-  const fill = document.createElement("div");
-  fill.className = "kitCakeFilling";
-  fill.textContent = fillTxt;
-  kitCakeBoard.appendChild(fill);
+  const badge = document.createElement("div");
+  badge.className = mini ? "kitCakeFilling kitMini" : "kitCakeFilling";
+  badge.textContent = fillTxt;
+  container.appendChild(badge);
+}
 
-  // plate
-  const plateEl = document.createElement("div");
-  plateEl.className = "kitCakePlate";
-  plateEl.setAttribute("data-c", plate);
-  kitCakeBoard.appendChild(plateEl);
+function kitRenderCake(opt5){
+  if(!kitCakeBoard) return;
 
-  // layers stack (from bottom up)
-  // we'll place up to 6 nicely
-  const max = Math.min(layers.length, 6);
-  const baseBottom = 22; // %
-  const gap = 11;        // %
-  for(let i=0;i<max;i++){
-    const layer = layers[i];
-    const c = layer?.color || "pink";
-
-    const el = document.createElement("div");
-    el.className = "kitCakeLayer";
-    el.setAttribute("data-c", c);
-
-    // bottom stacking
-    const bottom = baseBottom + (i * gap);
-    el.style.bottom = bottom + "%";
-    kitCakeBoard.appendChild(el);
+  // لو وصلنا مرحلة التزيين: لا تعرض “اختاروا وصفة”
+  if(kitCanDecoratePhase(opt5)){
+    kitCakeBoard.innerHTML = `<div class="kitDecoHint">✅ تم نقل الكيكة إلى مربع “التزيين”</div>`;
+    return;
   }
 
-  // if no layers
-  if(max === 0){
+  // بناء فقط
+  if(!kitCanBuild(opt5)){
+    kitCakeBoard.innerHTML = `<div class="kitDecoHint">اختاروا وصفة أولًا… بعدين تبدأون بناء الطبقات 💗</div>`;
+    return;
+  }
+
+  kitCakeBoard.innerHTML = "";
+  const holder = document.createElement("div");
+  holder.className = "kitCakeStage";
+  kitCakeBoard.appendChild(holder);
+
+  kitDrawCakeInto(holder, opt5, {mini:false});
+
+  const layers = Array.isArray(opt5?.build?.layers) ? opt5.build.layers : [];
+  if(layers.length === 0){
     const note = document.createElement("div");
     note.className = "kitDecoHint";
     note.textContent = "ابدأوا: اضغطوا ➕ طبقة عشان يطلع الكيك هنا 🍰";
     kitCakeBoard.appendChild(note);
   }
 }
-
 // 2) Decoration: add emojis as draggable-ish items
 function kitAddDeco(type){
   const opt5 = window.__kitCache || {};
@@ -3883,7 +3969,7 @@ function kitMadeByUs(){
     "opt5kitchen.updatedBy": currentName || "unknown"
   });
 }
-
+const kitDecoBoard = document.getElementById("kitDecoBoard");
 // Render deco items to board
 function kitRenderDeco(opt5){
   if(!kitDecoBoard) return;
@@ -3897,6 +3983,22 @@ function kitRenderDeco(opt5){
   }
   if(hint) hint.style.display = "none";
 
+  // base cake in deco board (mini)
+  const stage = document.createElement("div");
+  stage.className = "kitDecoStage";
+  kitDecoBoard.appendChild(stage);
+
+  const cakeBase = document.createElement("div");
+  cakeBase.className = "kitCakeStage kitMiniWrap";
+  stage.appendChild(cakeBase);
+
+  kitDrawCakeInto(cakeBase, opt5, {mini:true});
+
+  // deco overlay
+  const overlay = document.createElement("div");
+  overlay.className = "kitDecoOverlay";
+  stage.appendChild(overlay);
+
   const items = Array.isArray(opt5.decoItems) ? opt5.decoItems : [];
   items.forEach(it=>{
     const d = document.createElement("div");
@@ -3905,9 +4007,8 @@ function kitRenderDeco(opt5){
     d.style.left = (it.x || 50) + "%";
     d.style.top  = (it.y || 50) + "%";
     d.style.fontSize = (it.s || 28) + "px";
-    kitDecoBoard.appendChild(d);
+    overlay.appendChild(d);
 
-    // click to remove
     d.addEventListener("click", async ()=>{
       const cur = window.__kitCache || {};
       const arr = Array.isArray(cur.decoItems) ? cur.decoItems.slice(0) : [];
@@ -3919,15 +4020,13 @@ function kitRenderDeco(opt5){
     });
   });
 
-  // show madeByUs
   if(opt5.madeByUs){
     const badge = document.createElement("div");
-    badge.className = "kitCakeFilling";
+    badge.className = "kitCakeFilling kitMini";
     badge.textContent = "💗 صنع يدنا";
     kitDecoBoard.appendChild(badge);
   }
 }
-
 // 4) Export board to image (simple canvas drawing)
 function kitBoardToDataURL(opt5){
   try{
@@ -4080,6 +4179,8 @@ function kitApplyUI(opt5){
   if(kitConfirmRecipeBtn){
     kitConfirmRecipeBtn.disabled = !!opt5.recipeLocked;
     kitConfirmRecipeBtn.style.opacity = opt5.recipeLocked ? 0.6 : 1;
+	  kitRenderCake(opt5);
+kitRenderDeco(opt5);
   }
 
   // hint in deco board
@@ -4361,6 +4462,7 @@ window.fb.signOut(window.fb.auth);
 
 </body>
 </html>
+
 
 
 
