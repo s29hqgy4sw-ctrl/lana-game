@@ -4436,48 +4436,58 @@ ensureRoom();
 }
 });
 })();
+/* =========================================
+   LOCK SCROLL – حل نهائي لقفزة الجوال
+   ========================================= */
+(function lockScrollJump(){
+  let lockedY = window.scrollY || 0;
 
+  // حفظ مكان السكرول دائمًا
+  window.addEventListener("scroll", () => {
+    lockedY = window.scrollY || document.documentElement.scrollTop || 0;
+  }, { passive:true });
+
+  // منع submit (أكبر سبب)
+  document.addEventListener("submit", e => {
+    e.preventDefault();
+    e.stopPropagation();
+    requestAnimationFrame(() => window.scrollTo(0, lockedY));
+  }, true);
+
+  // منع روابط # أو روابط فاضية
+  document.addEventListener("click", e => {
+    const a = e.target.closest("a");
+    if(!a) return;
+    const href = (a.getAttribute("href") || "").trim();
+    if(href === "" || href === "#" || href.startsWith("#")){
+      e.preventDefault();
+      e.stopPropagation();
+      requestAnimationFrame(() => window.scrollTo(0, lockedY));
+    }
+  }, true);
+
+  // أي زر بدون type خليه button
+  document.addEventListener("click", e => {
+    const btn = e.target.closest("button");
+    if(!btn) return;
+    if(!btn.hasAttribute("type")){
+      btn.type = "button";
+    }
+  }, true);
+
+  // منع focus اللي يطلع الصفحة
+  document.addEventListener("focusin", e => {
+    const t = e.target;
+    if(t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA")) return;
+    requestAnimationFrame(() => window.scrollTo(0, lockedY));
+  }, true);
+
+})();
 document.addEventListener("submit", function(e){
   e.preventDefault();
   e.stopPropagation();
 }, true);
 
-// B) امنع روابط # و الروابط الفاضية
-document.addEventListener("click", function(e){
-  const a = e.target.closest("a");
-  if(a){
-    const href = (a.getAttribute("href") || "").trim();
-    if(href === "" || href === "#" || href.startsWith("#")){
-      e.preventDefault();
-      e.stopPropagation();
-    }
-  }
-}, true);
-
-// C) امنع أزرار بدون type من أنها تسوي submit
-document.addEventListener("click", function(e){
-  const btn = e.target.closest("button");
-  if(!btn) return;
-
-  // إذا ما فيه type اعتبره submit بالجوال/المتصفح
-  if(!btn.hasAttribute("type")){
-    btn.setAttribute("type","button");
-  }
-}, true);
-
-// D) إذا صار hashchange يرجع للأعلى، رجّع نفس مكانك
-(function(){
-  let lastY = 0;
-  window.addEventListener("scroll", ()=>{ lastY = window.scrollY || 0; }, {passive:true});
-  window.addEventListener("hashchange", ()=>{
-    window.scrollTo(0, lastY);
-  });
-})();
-// اجعل كل الأزرار "button" حتى ما تسوي submit
-window.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("button:not([type])").forEach(b => b.type = "button");
-});
-	
 </script>
 
 <script>
@@ -4507,6 +4517,7 @@ window.fb.signOut(window.fb.auth);
 
 </body>
 </html>
+
 
 
 
