@@ -3745,6 +3745,280 @@ function kitRenderAlbum(album){
     kitAlbumGrid.appendChild(card);
   });
 }
+	/********************
+* ✅ KITCHEN MISSING FUNCS (RENDER + DECO + EXPORT)
+********************/
+
+const kitCakeBoard = document.getElementById("kitCakeBoard");
+const kitCakeHint = document.getElementById("kitCakeHint");
+
+// 1) Render cake build preview
+function kitRenderCake(opt5){
+  if(!kitCakeBoard) return;
+
+  const build = opt5?.build || { plate:"pink", layers:[], filling:"none" };
+  const plate = build.plate || "pink";
+  const layers = Array.isArray(build.layers) ? build.layers : [];
+  const filling = build.filling || "none";
+
+  // reset
+  kitCakeBoard.innerHTML = `<div class="kitDecoHint" id="kitCakeHint"></div>`;
+  const hintEl = kitCakeBoard.querySelector("#kitCakeHint");
+
+  // if not in build phase
+  if(!kitCanBuild(opt5)){
+    if(hintEl) hintEl.textContent = "اختاروا وصفة أولًا… بعدين تبدأون بناء الطبقات 💗";
+    return;
+  } else {
+    if(hintEl) hintEl.style.display = "none";
+  }
+
+  // filling badge
+  const fillTxt = (filling==="vanilla") ? "🥛 فانيلا"
+               : (filling==="choco") ? "🍫 شوكولاتة"
+               : (filling==="strawberry") ? "🍓 فراولة"
+               : "🚫 بدون حشوة";
+
+  const fill = document.createElement("div");
+  fill.className = "kitCakeFilling";
+  fill.textContent = fillTxt;
+  kitCakeBoard.appendChild(fill);
+
+  // plate
+  const plateEl = document.createElement("div");
+  plateEl.className = "kitCakePlate";
+  plateEl.setAttribute("data-c", plate);
+  kitCakeBoard.appendChild(plateEl);
+
+  // layers stack (from bottom up)
+  // we'll place up to 6 nicely
+  const max = Math.min(layers.length, 6);
+  const baseBottom = 22; // %
+  const gap = 11;        // %
+  for(let i=0;i<max;i++){
+    const layer = layers[i];
+    const c = layer?.color || "pink";
+
+    const el = document.createElement("div");
+    el.className = "kitCakeLayer";
+    el.setAttribute("data-c", c);
+
+    // bottom stacking
+    const bottom = baseBottom + (i * gap);
+    el.style.bottom = bottom + "%";
+    kitCakeBoard.appendChild(el);
+  }
+
+  // if no layers
+  if(max === 0){
+    const note = document.createElement("div");
+    note.className = "kitDecoHint";
+    note.textContent = "ابدأوا: اضغطوا ➕ طبقة عشان يطلع الكيك هنا 🍰";
+    kitCakeBoard.appendChild(note);
+  }
+}
+
+// 2) Decoration: add emojis as draggable-ish items
+function kitAddDeco(type){
+  const opt5 = window.__kitCache || {};
+  if(!kitCanDecoratePhase(opt5)){
+    alert("التزيين يفتح في مرحلة (🎨 تزيين) ✅\nخلّصوا البناء ثم جاهزية الاثنين.");
+    return;
+  }
+
+  const map = {
+    layer: "🍰",
+    cream: "🍦",
+    sauce: "🍫",
+    fruit: "🍓",
+    choco: "🍪",
+    sprinkle: "✨",
+    candle: "🕯️",
+    heart: "💗",
+    text: "📝",
+    random: "🎲"
+  };
+
+  let emoji = map[type] || "✨";
+  if(type === "random"){
+    const arr = ["🍓","🍫","🍪","✨","💗","🕯️","🍒","🧁","🍬"];
+    emoji = arr[Math.floor(Math.random()*arr.length)];
+  }
+
+  let txt = "";
+  if(type === "text"){
+    txt = prompt("اكتب اسم/كلمة قصيرة للتزيين:");
+    if(txt === null) return;
+    txt = (txt || "").trim().slice(0, 12);
+    if(!txt) return;
+  }
+
+  const item = {
+    id: kitId(),
+    t: type,
+    v: (type === "text") ? txt : emoji,
+    x: Math.floor(rand(15, 85)),
+    y: Math.floor(rand(20, 75)),
+    s: Math.floor(rand(20, 42))
+  };
+
+  const list = Array.isArray(opt5.decoItems) ? opt5.decoItems.slice(0) : [];
+  list.push(item);
+
+  return pushRoomUpdate({
+    "opt5kitchen.decoItems": list,
+    "opt5kitchen.updatedBy": currentName || "unknown"
+  });
+}
+
+// 3) “Made by us”
+function kitMadeByUs(){
+  const opt5 = window.__kitCache || {};
+  if(!kitCanDecoratePhase(opt5)){
+    alert("زر (صنع يدنا) يشتغل في مرحلة التزيين ✅");
+    return;
+  }
+  return pushRoomUpdate({
+    "opt5kitchen.madeByUs": true,
+    "opt5kitchen.updatedBy": currentName || "unknown"
+  });
+}
+
+// Render deco items to board
+function kitRenderDeco(opt5){
+  if(!kitDecoBoard) return;
+
+  kitDecoBoard.innerHTML = `<div class="kitDecoHint" id="kitDecoHint"></div>`;
+  const hint = kitDecoBoard.querySelector("#kitDecoHint");
+
+  if(!kitCanDecoratePhase(opt5)){
+    if(hint) hint.textContent = "ابدأوا التزيين بعد الوصول لمرحلة “التزيين” 💗";
+    return;
+  }
+  if(hint) hint.style.display = "none";
+
+  const items = Array.isArray(opt5.decoItems) ? opt5.decoItems : [];
+  items.forEach(it=>{
+    const d = document.createElement("div");
+    d.className = "kitDecoItem";
+    d.textContent = it.v || "✨";
+    d.style.left = (it.x || 50) + "%";
+    d.style.top  = (it.y || 50) + "%";
+    d.style.fontSize = (it.s || 28) + "px";
+    kitDecoBoard.appendChild(d);
+
+    // click to remove
+    d.addEventListener("click", async ()=>{
+      const cur = window.__kitCache || {};
+      const arr = Array.isArray(cur.decoItems) ? cur.decoItems.slice(0) : [];
+      const next = arr.filter(x=> x.id !== it.id);
+      await pushRoomUpdate({
+        "opt5kitchen.decoItems": next,
+        "opt5kitchen.updatedBy": currentName || "unknown"
+      });
+    });
+  });
+
+  // show madeByUs
+  if(opt5.madeByUs){
+    const badge = document.createElement("div");
+    badge.className = "kitCakeFilling";
+    badge.textContent = "💗 صنع يدنا";
+    kitDecoBoard.appendChild(badge);
+  }
+}
+
+// 4) Export board to image (simple canvas drawing)
+function kitBoardToDataURL(opt5){
+  try{
+    const c = document.createElement("canvas");
+    c.width = 900; c.height = 560;
+    const ctx = c.getContext("2d");
+
+    // background
+    const g = ctx.createLinearGradient(0,0,900,560);
+    g.addColorStop(0, "rgba(255,255,255,.08)");
+    g.addColorStop(1, "rgba(0,0,0,.18)");
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,900,560);
+
+    // title
+    ctx.fillStyle = "rgba(255,255,255,.95)";
+    ctx.font = "700 28px system-ui, -apple-system, Segoe UI, Arial";
+    ctx.fillText("Our Kitchen 💗", 22, 44);
+
+    // recipe
+    ctx.fillStyle = "rgba(255,255,255,.80)";
+    ctx.font = "700 18px system-ui, -apple-system, Segoe UI, Arial";
+    ctx.fillText(opt5?.recipeName || "—", 22, 76);
+
+    // draw cake simplified
+    const build = opt5?.build || { plate:"pink", layers:[], filling:"none" };
+    const layers = Array.isArray(build.layers) ? build.layers : [];
+    const plate = build.plate || "pink";
+    const filling = build.filling || "none";
+
+    function plateColor(p){
+      if(p==="red") return "#ff4b4b";
+      if(p==="black") return "#1c1c1c";
+      if(p==="white") return "#eaeaea";
+      if(p==="purple") return "#a855f7";
+      return "#ff6fb1";
+    }
+    function layerColor(c){
+      if(c==="red") return "#ff5a5a";
+      if(c==="black") return "#242424";
+      if(c==="white") return "#f1f1f1";
+      if(c==="brown") return "#8b5a3c";
+      return "#ff6fb1";
+    }
+
+    // plate
+    ctx.fillStyle = plateColor(plate);
+    ctx.globalAlpha = 0.85;
+    ctx.beginPath();
+    ctx.ellipse(450, 470, 260, 46, 0, 0, Math.PI*2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+
+    // layers
+    const max = Math.min(layers.length, 6);
+    for(let i=0;i<max;i++){
+      const y = 420 - i*48;
+      ctx.fillStyle = layerColor(layers[i]?.color || "pink");
+      ctx.globalAlpha = 0.9;
+      ctx.fillRect(320, y, 260, 40);
+      ctx.globalAlpha = 1;
+    }
+
+    // filling label
+    ctx.fillStyle = "rgba(255,255,255,.85)";
+    ctx.font = "800 18px system-ui, -apple-system, Segoe UI, Arial";
+    const fillTxt = (filling==="vanilla") ? "Vanilla"
+                 : (filling==="choco") ? "Choco"
+                 : (filling==="strawberry") ? "Strawberry"
+                 : "None";
+    ctx.fillText("Filling: " + fillTxt, 22, 110);
+
+    // deco items text
+    const items = Array.isArray(opt5?.decoItems) ? opt5.decoItems : [];
+    ctx.font = "40px system-ui, -apple-system, Segoe UI, Arial";
+    items.slice(0,14).forEach(it=>{
+      const x = 140 + (it.x||50)/100 * 620;
+      const y = 160 + (it.y||50)/100 * 330;
+      ctx.fillText(it.v || "✨", x, y);
+    });
+
+    // footer
+    ctx.fillStyle = "rgba(255,255,255,.75)";
+    ctx.font = "700 16px system-ui, -apple-system, Segoe UI, Arial";
+    ctx.fillText(kitNowDateStr(), 22, 540);
+
+    return c.toDataURL("image/png");
+  }catch(e){
+    return "";
+  }
+}
 
 // (اختصرنا الحفظ: يعتمد على kitBoardToDataURL الموجودة عندك)
 // المهم: لا تكون داخلها دوال ثانية أو أقواس ناقصة
@@ -3836,6 +4110,9 @@ function kitApplyUI(opt5){
   }
 
   kitRenderAlbum(opt5.album);
+
+	kitRenderCake(opt5);
+kitRenderDeco(opt5);
 
   // autos
   kitAutoLockRecipeIfBoth(opt5);
@@ -4084,6 +4361,7 @@ window.fb.signOut(window.fb.auth);
 
 </body>
 </html>
+
 
 
 
