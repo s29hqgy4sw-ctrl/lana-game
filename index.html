@@ -1426,61 +1426,6 @@ overflow:hidden;
 .kitAlbumHint{ padding:12px 18px; color:rgba(255,255,255,.65); font-weight:800; font-size:12px; text-align:center; }
 
 </style>
-	<style>
-/* ====== CAKE VISUAL FIX ====== */
-
-/* الطبق */
-.kitCakePlate{
-  position:absolute;
-  left:50%;
-  bottom:6%;
-  transform:translateX(-50%);
-  width:72%;
-  height:16%;
-  border-radius:999px;
-  box-shadow:0 10px 30px rgba(0,0,0,.25);
-}
-
-/* كل الطبقات نفس الحجم */
-.kitCakeLayer{
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  width:56% !important;   /* مهم */
-  height:10%;
-  border-radius:18px;
-  box-shadow:0 10px 18px rgba(0,0,0,.22);
-  background-image: linear-gradient(
-    to bottom,
-    rgba(255,255,255,.18),
-    rgba(0,0,0,.18)
-  );
-}
-
-/* ألوان الطبقات */
-.kitCakeLayer[data-c="pink"]{ background-color:#ff6fb1; }
-.kitCakeLayer[data-c="red"]{ background-color:#ff5a6a; }
-.kitCakeLayer[data-c="black"]{ background-color:#2a2a2a; }
-.kitCakeLayer[data-c="white"]{ background-color:#f3f3f3; }
-.kitCakeLayer[data-c="brown"]{ background-color:#8b5a3c; }
-.kitCakeLayer[data-c="purple"]{ background-color:#a855f7; }
-
-/* الحشوة بين الطبقات */
-.kitCakeCream{
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  width:56%;
-  height:3.5%;
-  border-radius:999px;
-  box-shadow:0 6px 12px rgba(0,0,0,.18);
-  opacity:.95;
-}
-
-.kitCakeCream[data-f="vanilla"]{ background:#fff3c4; }
-.kitCakeCream[data-f="choco"]{ background:#6b3f2a; }
-.kitCakeCream[data-f="strawberry"]{ background:#ff7aa5; }
-</style>
 </head>
 
 <body>
@@ -4136,52 +4081,44 @@ function kitBoardToDataURL(opt5){
     ctx.globalAlpha = 1;
 
     // layers
-   // layers + filling between layers (bottom -> top)
-  const max = Math.min(layers.length, 6);
-  const baseBottom = 22; // %
-  const gap = 11;        // %
-
-  // helper colors (inline to avoid CSS issues)
-  const layerColor = (c)=>{
-    if(c==="red") return "#ff5a6a";
-    if(c==="black") return "#2a2a2a";
-    if(c==="white") return "#f3f3f3";
-    if(c==="brown") return "#8b5a3c";
-    return "#ff6fb1";
-  };
-  const fillingColor = (f)=>{
-    if(f==="vanilla") return "#fff3c4";
-    if(f==="choco") return "#6b3f2a";
-    if(f==="strawberry") return "#ff7aa5";
-    return "transparent";
-  };
-
-  for(let i=0;i<max;i++){
-    const c = layers[i]?.color || "pink";
-    const bottom = baseBottom + (i * gap);
-
-    // layer
-    const el = document.createElement("div");
-    el.className = "kitCakeLayer";
-    el.style.bottom = bottom + "%";
-    el.style.background = layerColor(c);     // ✅ كل طبقة تتلون صح
-    el.style.width = "56%";                  // ✅ نفس المقاس لكل الطبقات
-    el.style.left = "50%";
-    el.style.transform = "translateX(-50%)";
-    kitCakeBoard.appendChild(el);
-
-    // filling between layers (except above last)
-    if(i < max - 1 && filling !== "none"){
-      const cream = document.createElement("div");
-      cream.className = "kitCakeCream";
-      cream.style.bottom = (bottom + 7.5) + "%";  // بين الطبقتين
-      cream.style.background = fillingColor(filling);
-      cream.style.width = "56%";
-      cream.style.left = "50%";
-      cream.style.transform = "translateX(-50%)";
-      kitCakeBoard.appendChild(cream);
+    const max = Math.min(layers.length, 6);
+    for(let i=0;i<max;i++){
+      const y = 420 - i*48;
+      ctx.fillStyle = layerColor(layers[i]?.color || "pink");
+      ctx.globalAlpha = 0.9;
+      ctx.fillRect(320, y, 260, 40);
+      ctx.globalAlpha = 1;
     }
+
+    // filling label
+    ctx.fillStyle = "rgba(255,255,255,.85)";
+    ctx.font = "800 18px system-ui, -apple-system, Segoe UI, Arial";
+    const fillTxt = (filling==="vanilla") ? "Vanilla"
+                 : (filling==="choco") ? "Choco"
+                 : (filling==="strawberry") ? "Strawberry"
+                 : "None";
+    ctx.fillText("Filling: " + fillTxt, 22, 110);
+
+    // deco items text
+    const items = Array.isArray(opt5?.decoItems) ? opt5.decoItems : [];
+    ctx.font = "40px system-ui, -apple-system, Segoe UI, Arial";
+    items.slice(0,14).forEach(it=>{
+      const x = 140 + (it.x||50)/100 * 620;
+      const y = 160 + (it.y||50)/100 * 330;
+      ctx.fillText(it.v || "✨", x, y);
+    });
+
+    // footer
+    ctx.fillStyle = "rgba(255,255,255,.75)";
+    ctx.font = "700 16px system-ui, -apple-system, Segoe UI, Arial";
+    ctx.fillText(kitNowDateStr(), 22, 540);
+
+    return c.toDataURL("image/png");
+  }catch(e){
+    return "";
   }
+}
+
 // (اختصرنا الحفظ: يعتمد على kitBoardToDataURL الموجودة عندك)
 // المهم: لا تكون داخلها دوال ثانية أو أقواس ناقصة
 async function kitSaveToAlbum(){
@@ -4525,7 +4462,6 @@ window.fb.signOut(window.fb.auth);
 
 </body>
 </html>
-
 
 
 
