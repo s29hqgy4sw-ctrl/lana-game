@@ -19,15 +19,13 @@ body {
   touch-action: pan-y;
 }
 
-.page,
-.contentBox,
-.fishWrap,
-.container,
-.app,
-#app {
-  height: auto !important;
-  min-height: 100vh !important;
-  overflow: visible !important;
+.page {
+  position: relative;      /* ✅ بدل fixed */
+  width: 100%;
+  min-height: 100vh;       /* ✅ بدل height */
+  overflow-y: auto;        /* ✅ */
+  overflow-x: hidden;
+}
 }
 	.kitCakeStage{position:relative; width:100%; height:100%;}
 
@@ -1557,6 +1555,13 @@ overflow:hidden;
   white-space:pre-wrap;
   line-height:2;
   font-weight:900;
+}
+	@media (max-width: 768px){
+  .page {
+    min-height: 100vh !important;
+    height: auto !important;
+    overflow-y: auto !important;
+  }
 }
 </style>
 </head>
@@ -5344,6 +5349,7 @@ window.fb.signOut(window.fb.auth);
 
 </body>
 </html>
+
 
 
 
