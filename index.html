@@ -1424,7 +1424,116 @@ overflow:hidden;
 .kitAlbumImg{ width:100%; display:block; aspect-ratio: 16/10; object-fit: cover; }
 .kitAlbumMeta{ padding:12px; line-height:2; color:rgba(255,255,255,.85); font-weight:900; font-size:12px; }
 .kitAlbumHint{ padding:12px 18px; color:rgba(255,255,255,.65); font-weight:800; font-size:12px; text-align:center; }
-
+/* ===== OPTION 6: INVESTIGATION (Court Paper) ===== */
+.casePaper{
+  margin-top:12px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.18);
+  background:
+    radial-gradient(120px 80px at 20% 20%, rgba(0,0,0,.06), transparent 60%),
+    radial-gradient(140px 90px at 80% 70%, rgba(0,0,0,.05), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.95), rgba(245,245,245,.88));
+  color:#111;
+  box-shadow: 0 14px 40px rgba(0,0,0,.28);
+  padding:14px 14px 12px;
+  position:relative;
+  overflow:hidden;
+}
+.casePaper::after{
+  content:"";
+  position:absolute; inset:-40%;
+  background:
+    radial-gradient(220px 160px at 40% 30%, rgba(0,0,0,.06), transparent 60%),
+    radial-gradient(260px 180px at 70% 60%, rgba(0,0,0,.04), transparent 62%);
+  transform: rotate(-8deg);
+  opacity:.55;
+  pointer-events:none;
+}
+.casePaperTop{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:10px;
+}
+.caseStamp{
+  font-weight:900;
+  letter-spacing:2px;
+  font-size:12px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:2px solid rgba(239,68,68,.55);
+  color:rgba(239,68,68,.95);
+  background: rgba(239,68,68,.08);
+  transform: rotate(-8deg);
+}
+.caseTitle{
+  font-weight:1000;
+  font-size:14px;
+  color:#111;
+  opacity:.92;
+}
+.caseChargeRow{
+  display:grid;
+  grid-template-columns: 92px 1fr;
+  gap:10px;
+  align-items:flex-start;
+}
+.caseLabel{
+  font-weight:1000;
+  font-size:13px;
+  color:#111;
+  opacity:.85;
+}
+.caseCharge{
+  font-weight:1000;
+  font-size:16px;
+  line-height:1.8;
+  color:#0f172a;
+}
+.invGrid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:12px;
+  margin-top:12px;
+}
+@media (max-width:900px){
+  .invGrid{ grid-template-columns:1fr; }
+}
+.invCard{
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.10);
+  padding:12px;
+}
+.invHead{
+  font-weight:1000;
+  margin-bottom:8px;
+  color:rgba(255,255,255,.92);
+}
+.invText{
+  white-space:pre-wrap;
+  line-height:2;
+  color:rgba(255,255,255,.88);
+  font-size:14px;
+}
+.invTruthBox{
+  margin-top:10px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(255,45,85,.10);
+  padding:10px;
+  display:none;
+}
+.invTruthHead{
+  font-weight:1000;
+  margin-bottom:6px;
+}
+.invTruth{
+  white-space:pre-wrap;
+  line-height:2;
+  font-weight:900;
+}
 </style>
 </head>
 
@@ -1835,12 +1944,71 @@ color:#fff;
 </section>
 
 <section class="page" id="pageOpt6">
-<div class="contentBox">
-<button class="backBtn backAny">🏠 رجوع للرئيسية</button>
-<div class="promptCard">الخيار 6 (جاهز للصق لعبتكم هنا)</div>
-</div>
-</section>
+  <div class="contentBox">
+    <button class="backBtn backAny">🏠 رجوع للرئيسية</button>
 
+    <div class="promptCard" style="font-size:20px">⚖️ تحقيق نفسي — 100 قضية (Live) 🐟</div>
+
+    <div class="fishWrap" style="margin-top:12px">
+      <div class="fishTopRow">
+        <div class="fishBadge" id="invStageBadge">القضية: 1 / 100</div>
+        <div class="fishBadge" id="invRoleBadge">الدور: …</div>
+      </div>
+
+      <!-- 🐟 القاضي -->
+      <div class="fishCard" style="text-align:right">
+        <p class="fishQ" id="invJudgeLine">🐟⚖️ السمكة القاضي: …</p>
+
+        <!-- ورقة القضية (التهمة) -->
+        <div class="casePaper" id="invChargePaper">
+          <div class="casePaperTop">
+            <div class="caseStamp">OFFICIAL</div>
+            <div class="caseTitle" id="invCaseTitle">قضية رقم …</div>
+          </div>
+          <div class="caseChargeRow">
+            <div class="caseLabel">التهمة</div>
+            <div class="caseCharge" id="invCharge">…</div>
+          </div>
+        </div>
+
+        <!-- محتوى حسب الدور -->
+        <div class="invGrid">
+          <div class="invCard">
+            <div class="invHead">👮‍♂️ ملف المحقق (مختصر بدون تفسير)</div>
+            <div class="invText" id="invBrief">…</div>
+          </div>
+
+          <div class="invCard">
+            <div class="invHead">🕵️‍♀️ ملف المتهم (سيناريو كامل + دوافع)</div>
+            <div class="invText" id="invFull">…</div>
+
+            <div class="invTruthBox" id="invTruthBox">
+              <div class="invTruthHead">🔒 الحقيقة (للمتهم فقط)</div>
+              <div class="invTruth" id="invTruth">…</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- أزرار الحكم (للمحقق فقط) -->
+        <div class="fishActions" id="invActions">
+          <button class="actionBtn" id="invBtnGuilty">🔨 مذنب</button>
+          <button class="actionBtn" id="invBtnInnocent">🕊️ بريء</button>
+        </div>
+
+        <div class="fishResult" id="invResult">…</div>
+
+        <div class="confirmLine" id="invLockLine">🔒 لا رجعة: …</div>
+        <div class="statusLine" id="invStatus">…</div>
+      </div>
+
+      <div class="hint">
+        ✅ المتهم يعرف الحقيقة من البداية — المحقق لا يعرف شيئًا عنها<br/>
+        🔒 الحكم فوري ونهائي — ما تقدرون ترجعون لقضية قديمة حتى بعد أيام<br/>
+        🔁 الدور ينقلب تلقائيًا كل قضية
+      </div>
+    </div>
+  </div>
+</section>
 <section class="page" id="pageOpt7">
 <div class="contentBox">
 <button class="backBtn backAny">🏠 رجوع للرئيسية</button>
@@ -2456,6 +2624,17 @@ opt5kitchen: {
   madeByUs: false,
 
   album: [],
+  updatedBy: "system",
+},
+	opt6invest: {
+  stage: 1,                 // 1..100
+  maxDone: 0,               // أكبر قضية انحكمت (قفل الرجوع)
+  decided: false,           // هل تم الحكم في هذه القضية؟
+  decidedBy: "",            // من حكم
+  verdict: "",              // "guilty" | "innocent"
+  win: null,                // true/false للمحقق
+  reveal: "",               // نص كشف الحقيقة
+  judgeLine: "🐟⚖️ جاهزين… افتحوا ملفاتكم وابدأوا التحقيق.",
   updatedBy: "system",
 },
 },
@@ -4265,6 +4444,313 @@ kitRenderDeco(opt5);
   kitAlbumClose?.addEventListener("click", kitCloseAlbum);
   kitAlbumModal?.addEventListener("click", (e)=>{ if(e.target === kitAlbumModal) kitCloseAlbum(); });
 })();
+	/********************
+* ✅ OPTION 6: INVESTIGATION — 100 CASES (Live + No-back)
+********************/
+const invStageBadge = document.getElementById("invStageBadge");
+const invRoleBadge  = document.getElementById("invRoleBadge");
+const invJudgeLine  = document.getElementById("invJudgeLine");
+const invCaseTitle  = document.getElementById("invCaseTitle");
+const invCharge     = document.getElementById("invCharge");
+const invBrief      = document.getElementById("invBrief");
+const invFull       = document.getElementById("invFull");
+const invTruthBox   = document.getElementById("invTruthBox");
+const invTruth      = document.getElementById("invTruth");
+const invActions    = document.getElementById("invActions");
+const invBtnGuilty  = document.getElementById("invBtnGuilty");
+const invBtnInnocent= document.getElementById("invBtnInnocent");
+const invResult     = document.getElementById("invResult");
+const invLockLine   = document.getElementById("invLockLine");
+const invStatus     = document.getElementById("invStatus");
+
+function invIsAnas(){ return currentName === "ANAS"; }
+function invInvestigatorForStage(stage){
+  // يتبدل تلقائيًا كل قضية
+  // قضية 1: المحقق ANAS، قضية 2: المحقق LANA، وهكذا
+  return (stage % 2 === 1) ? "ANAS" : "LANA";
+}
+function invAccusedForStage(stage){
+  return invInvestigatorForStage(stage) === "ANAS" ? "LANA" : "ANAS";
+}
+function invAmIInvestigator(stage){ return currentName === invInvestigatorForStage(stage); }
+function invAmIAccused(stage){ return currentName === invAccusedForStage(stage); }
+
+function invSeededRng(seed){
+  let t = seed >>> 0;
+  return function(){
+    t += 0x6D2B79F5;
+    let x = Math.imul(t ^ (t >>> 15), 1 | t);
+    x ^= x + Math.imul(x ^ (x >>> 7), 61 | x);
+    return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function invPick(rng, arr){ return arr[Math.floor(rng()*arr.length)]; }
+function invClamp(n,a,b){ return Math.max(a, Math.min(b, n)); }
+
+function invGenerateCase(stage){
+  const s = invClamp(parseInt(stage||1,10), 1, 100);
+  const rng = invSeededRng(1000 + s*777);
+
+  const cities = ["جدة","الرياض","الدمام","المدينة","مكة","أبها","الطائف","الخبر"];
+  const places = ["مقهى هادئ","عيادة خاصة","مكتب محاسبة","شقة مفروشة","ورشة سيارات","مستودع صغير","صالة رياضة","فندق"];
+  const victims = ["مدير","شريك","زميل","قريب","عميل","جار","صديق قديم","موظف"];
+  const charges = [
+    "سرقة أموال/عهدة",
+    "تزوير مستند رسمي",
+    "ابتزاز وتهديد",
+    "إتلاف ممتلكات عمدًا",
+    "اختراق حساب/بيانات",
+    "اعتداء بالضرب",
+    "خيانة أمانة",
+    "تلاعب بفواتير ومحاسبة"
+  ];
+
+  const emotions = ["بارد جدًا","متوتر لكن ثابت","يتجنب النظر","كثير الكلام","يضحك وقت غلط","يرتبك عند التفاصيل الصغيرة","يظهر كأنه ضحية"];
+  const tells = [
+    "يغيّر القصة في نقطة صغيرة كل مرة",
+    "يذكر تفاصيل كثيرة غير مهمة ويتجاهل الأهم",
+    "يركز على تبرير شعوره بدل تبرير فعله",
+    "يستخدم جمل عامة: (أكيد… يمكن… ما أتذكر)",
+    "ينفعل عند سؤال بسيط",
+    "يحاول يقلب الهجوم على المحقق"
+  ];
+
+  const twistSoft = [
+    "في شاهد واحد كلامه متناقض",
+    "في كاميرا فيها دقيقة مفقودة",
+    "في إيصال ناقص رقم",
+    "في رسالة محذوفة ترجع من النسخ الاحتياطي",
+    "في تسجيل صوتي مقطوع آخره"
+  ];
+
+  const twistHard = [
+    "الدليل الرئيسي صحيح لكن تفسيره خاطئ",
+    "في طرف ثالث يستفيد من الإدانة",
+    "المتهم عنده سبب يخليه يكذب حتى لو بريء",
+    "المتهم مذنب لكن مو بالقضية اللي تتوقعها",
+    "المتهم بريء لكن تصرفاته تخليه يبدو مذنب"
+  ];
+
+  const city = invPick(rng, cities);
+  const place = invPick(rng, places);
+  const vic = invPick(rng, victims);
+  const charge = invPick(rng, charges);
+
+  // الحقيقة تتدرج: بالبدايات بسيطة، بالنهايات أعقد (لكن تظل عشوائية)
+  const guiltChance = (s <= 20) ? 0.55 : (s <= 60) ? 0.50 : 0.48;
+  const guilty = rng() < guiltChance;
+
+  const mood = invPick(rng, emotions);
+  const tell = invPick(rng, tells);
+
+  const soft = invPick(rng, twistSoft);
+  const hard = (s >= 35) ? invPick(rng, twistHard) : "";
+
+  const title = `قضية (${s}) — ${charge}`;
+  const timeLine =
+`الزمان: ليلة متأخرة (بعد 10م)
+المكان: ${city} — ${place}
+الطرف المتضرر: ${vic}`;
+
+  // سيناريو طويل (للمتهم)
+  const full =
+`[ملف المتهم — سيناريو كامل]
+${timeLine}
+
+الحدث الظاهر:
+صار تصعيد مفاجئ بعد خلاف بسيط. في يومين قبل الواقعة كان فيه توتر وتراكم كلام، وفي الليلة نفسها صار موقف كأنه “ينفجر” دفعة وحدة.
+
+سلوكك العام:
+أنت اليوم ظاهر عليك: ${mood}.
+وفيك عادة وقت الضغط: ${tell}.
+
+تفاصيل مهمّة (أحداث + مشاعر + دوافع):
+- قبل ما توصل للمكان كان عندك شيء يشغلك: خوف من انك تنكشف/أو تخسر شيء مهم/أو تنرفض.
+- وقت الوصول كان فيه شيء غريب: ${soft}.
+- أنت ما تحب تدخل في مواجهة مباشرة… لكن هذه المرة سويت تصرف خلاك تندم/أو تتمادى.
+- في لحظة حاسمة: قلت جملة/سويت فعل ترك أثر واضح على الطرف الثاني.
+- بعد الواقعة مباشرة: حاولت “تصلّح” أو “تخفي” أو “تبرر” بطريقة تخليك تبدو أسوأ.
+
+التوتر النفسي:
+المحقق لو ركّز على (سببك) أكثر من (قصة الفعل) ممكن يطيحك.  
+ولو ركّز على التسلسل المنطقي للأحداث ممكن يكشف وين صار الانكسار.
+
+${hard ? `تعقيد متأخر (صعوبة أعلى): ${hard}\n` : ""}
+
+ممنوع تقول الحقيقة بشكل مباشر لو أنت مذنب، وممنوع تبالغ بالبراءة لو أنت بريء — خلك واقعي واثبت على نفس المنطق.
+`;
+
+  // ملخص محقق (بدون تفسير داخلي)
+  const brief =
+`[ملف المحقق — ملخص بلا تفسير]
+${timeLine}
+
+المشهد العام:
+خلاف ثم تصعيد. فيه “ثغرة” في التسلسل: ${soft}.
+
+ملاحظات على سلوك المتهم:
+ظاهر عليه: ${mood}.
+ممكن يبان عليه: ${tell}.
+
+نقاط تحقيق ذكية:
+1) اطلب تسلسل زمني بالدقائق (قبل/أثناء/بعد).
+2) ركّز على “تفصيلة واحدة ثابتة” وشوف هل تتغير مع الضغط.
+3) اسأل: ليش هذا التصرف صار الآن بالذات؟
+4) اربط الدليل بالمنطق: هل الدليل يثبت الفعل؟ ولا يثبت وجوده فقط؟
+
+هدفك:
+تحكم بناء على الترابط + منطق الدوافع + التفاصيل الصغيرة.
+`;
+
+  const truth =
+guilty
+? `✅ الحقيقة: أنت مذنب.\nالسبب الحقيقي: كان عندك دافع واضح (مصلحة/خوف/انتقام) وخطوت خطوة زيادة وحاولت تغطيها.`
+: `❌ الحقيقة: أنت بريء.\nلكن: في تصرفاتك شيء يخلّي الناس تشك فيك (خوف/ستر/حرج)، وهذا اللي يصعّب القضية.`;
+
+  return { title, charge, brief, full, truth, guilty };
+}
+
+function invApplyUI(opt6){
+  const stage = invClamp(parseInt(opt6?.stage||1,10), 1, 100);
+  const maxDone = Math.max(0, parseInt(opt6?.maxDone||0,10));
+  const decided = !!opt6?.decided;
+
+  const invName = invInvestigatorForStage(stage);
+  const accName = invAccusedForStage(stage);
+
+  const isInv = invAmIInvestigator(stage);
+  const isAcc = invAmIAccused(stage);
+
+  const c = invGenerateCase(stage);
+
+  if(invStageBadge) invStageBadge.textContent = `القضية: ${stage} / 100`;
+  if(invRoleBadge) invRoleBadge.textContent = `الدور: 👮‍♂️ المحقق = ${invName} | 🧑‍⚖️ المتهم = ${accName}`;
+
+  if(invJudgeLine) invJudgeLine.textContent = opt6?.judgeLine || "🐟⚖️ افتحوا ملفاتكم… التحقيق حر.";
+  if(invCaseTitle) invCaseTitle.textContent = c.title;
+  if(invCharge) invCharge.textContent = c.charge;
+
+  // عرض الملفات حسب الدور
+  if(invBrief) invBrief.textContent = isInv ? c.brief : "🔒 هذا الملف للمحقق فقط.";
+  if(invFull) invFull.textContent  = isAcc ? c.full  : "🔒 هذا الملف للمتهم فقط.";
+
+  // الحقيقة تظهر فقط للمتهم
+  if(invTruthBox) invTruthBox.style.display = isAcc ? "block" : "none";
+  if(invTruth) invTruth.textContent = isAcc ? c.truth : "";
+
+  // أزرار الحكم: للمحقق فقط + تتقفل بعد القرار
+  if(invActions) invActions.style.display = isInv ? "flex" : "none";
+  if(invBtnGuilty) invBtnGuilty.disabled = decided;
+  if(invBtnInnocent) invBtnInnocent.disabled = decided;
+
+  // الحالة / النتيجة
+  if(invResult){
+    if(decided){
+      invResult.textContent = opt6?.reveal || "🐟⚖️ تم الحكم…";
+    }else{
+      invResult.textContent = "🎙️ التحقيق مفتوح… اسأل/اضغط/اسكت… وفي أي لحظة احكم (مذنب/بريء).";
+    }
+  }
+
+  if(invLockLine){
+    const lockMsg = (maxDone <= 0)
+      ? "🔒 لا رجعة: ما فيه قضايا منتهية بعد."
+      : `🔒 لا رجعة: آخر قضية منتهية = ${maxDone}. أي رجوع مستحيل حتى بعد أيام.`;
+    invLockLine.textContent = lockMsg;
+  }
+
+  if(invStatus){
+    invStatus.textContent =
+      `Live ✅ | آخر تحديث: ${(opt6?.updatedBy||"—")}\n` +
+      `Stage=${stage} | maxDone=${maxDone} | decided=${decided ? "✅" : "—"}`;
+  }
+}
+
+async function invForceNoBack(opt6){
+  if(!currentName) return;
+
+  const stage = invClamp(parseInt(opt6?.stage||1,10), 1, 100);
+  const maxDone = Math.max(0, parseInt(opt6?.maxDone||0,10));
+
+  // لو حاول أحد يرجع: نرجعه تلقائيًا للأمام
+  if(stage <= maxDone){
+    // القائد: ANAS فقط
+    if(currentName !== "ANAS") return;
+
+    const nextStage = invClamp(maxDone + 1, 1, 100);
+    await pushRoomUpdate({
+      "opt6invest.stage": nextStage,
+      "opt6invest.decided": false,
+      "opt6invest.decidedBy": "",
+      "opt6invest.verdict": "",
+      "opt6invest.win": null,
+      "opt6invest.reveal": "",
+      "opt6invest.judgeLine": "🐟⚖️ ممنوع الرجوع… نفتح القضية التالية.",
+      "opt6invest.updatedBy": currentName || "unknown"
+    });
+  }
+}
+
+async function invDecide(verdict){
+  const opt6 = window.__invCache || {};
+  const stage = invClamp(parseInt(opt6.stage||1,10), 1, 100);
+  if(!invAmIInvestigator(stage)) return;     // فقط المحقق يحكم
+  if(opt6.decided) return;
+
+  const c = invGenerateCase(stage);
+  const pickGuilty = (verdict === "guilty");
+  const correct = (pickGuilty === !!c.guilty);
+
+  const reveal =
+correct
+? `✅ حكم صحيح!\n🐟⚖️ السمكة: المحقق كسب.\n\n${c.truth}\n\n➡️ ننتقل تلقائيًا للقضية التالية…`
+: `❌ حكم غلط!\n🐟⚖️ السمكة: المحقق خسر.\n\n${c.truth}\n\n➡️ ننتقل تلقائيًا للقضية التالية…`;
+
+  // تحديث نهائي
+  await pushRoomUpdate({
+    "opt6invest.decided": true,
+    "opt6invest.decidedBy": currentName || "unknown",
+    "opt6invest.verdict": verdict,
+    "opt6invest.win": correct,
+    "opt6invest.reveal": reveal,
+    "opt6invest.judgeLine": "🐟⚖️ الحكم صدر… لا رجعة.",
+    "opt6invest.updatedBy": currentName || "unknown"
+  });
+
+  // تقدم تلقائي للأمام (قائد: ANAS)
+  if(currentName !== "ANAS") return;
+
+  const maxDone = Math.max(0, parseInt(opt6.maxDone||0,10));
+  const nextMax = Math.max(maxDone, stage);
+
+  // نهاية 100
+  if(stage >= 100){
+    await pushRoomUpdate({
+      "opt6invest.maxDone": nextMax,
+      "opt6invest.judgeLine": "🎉🐟⚖️ خلصتوا 100 قضية… أنتم وحوش!",
+      "opt6invest.updatedBy": currentName || "unknown"
+    });
+    return;
+  }
+
+  setTimeout(async ()=>{
+    await pushRoomUpdate({
+      "opt6invest.maxDone": nextMax,
+      "opt6invest.stage": stage + 1,
+      "opt6invest.decided": false,
+      "opt6invest.decidedBy": "",
+      "opt6invest.verdict": "",
+      "opt6invest.win": null,
+      "opt6invest.reveal": "",
+      "opt6invest.judgeLine": "🐟⚖️ قضية جديدة… الدور انقلب تلقائيًا. افتحوا الملفات.",
+      "opt6invest.updatedBy": currentName || "unknown"
+    });
+  }, 800);
+}
+	
+
+invBtnGuilty?.addEventListener("click", ()=> invDecide("guilty"));
+invBtnInnocent?.addEventListener("click", ()=> invDecide("innocent"));
 
 /********************
 * Room listener
@@ -4274,7 +4760,10 @@ if(unsubRoom) return;
 
 unsubRoom = window.fb.onSnapshot(roomRef(), (snap)=>{
 const data = snap.data() || {};
-
+// ===== OPT6 cache + UI =====
+window.__invCache = data.opt6invest || {};
+invApplyUI(window.__invCache);
+invForceNoBack(window.__invCache);
 if(data.currentPage){
 showPageLocal(data.currentPage);
 }
@@ -4505,7 +4994,312 @@ updateLoveCounter();
 setInterval(updateLoveCounter, 1000 * 60 * 60);
 </script>
 <script>
-										
+/********************
+* ✅ OPTION 6: INVESTIGATION — 100 CASES (Live + No-back)
+********************/
+const invStageBadge = document.getElementById("invStageBadge");
+const invRoleBadge  = document.getElementById("invRoleBadge");
+const invJudgeLine  = document.getElementById("invJudgeLine");
+const invCaseTitle  = document.getElementById("invCaseTitle");
+const invCharge     = document.getElementById("invCharge");
+const invBrief      = document.getElementById("invBrief");
+const invFull       = document.getElementById("invFull");
+const invTruthBox   = document.getElementById("invTruthBox");
+const invTruth      = document.getElementById("invTruth");
+const invActions    = document.getElementById("invActions");
+const invBtnGuilty  = document.getElementById("invBtnGuilty");
+const invBtnInnocent= document.getElementById("invBtnInnocent");
+const invResult     = document.getElementById("invResult");
+const invLockLine   = document.getElementById("invLockLine");
+const invStatus     = document.getElementById("invStatus");
+
+function invIsAnas(){ return currentName === "ANAS"; }
+function invInvestigatorForStage(stage){
+  // يتبدل تلقائيًا كل قضية
+  // قضية 1: المحقق ANAS، قضية 2: المحقق LANA، وهكذا
+  return (stage % 2 === 1) ? "ANAS" : "LANA";
+}
+function invAccusedForStage(stage){
+  return invInvestigatorForStage(stage) === "ANAS" ? "LANA" : "ANAS";
+}
+function invAmIInvestigator(stage){ return currentName === invInvestigatorForStage(stage); }
+function invAmIAccused(stage){ return currentName === invAccusedForStage(stage); }
+
+function invSeededRng(seed){
+  let t = seed >>> 0;
+  return function(){
+    t += 0x6D2B79F5;
+    let x = Math.imul(t ^ (t >>> 15), 1 | t);
+    x ^= x + Math.imul(x ^ (x >>> 7), 61 | x);
+    return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function invPick(rng, arr){ return arr[Math.floor(rng()*arr.length)]; }
+function invClamp(n,a,b){ return Math.max(a, Math.min(b, n)); }
+
+function invGenerateCase(stage){
+  const s = invClamp(parseInt(stage||1,10), 1, 100);
+  const rng = invSeededRng(1000 + s*777);
+
+  const cities = ["جدة","الرياض","الدمام","المدينة","مكة","أبها","الطائف","الخبر"];
+  const places = ["مقهى هادئ","عيادة خاصة","مكتب محاسبة","شقة مفروشة","ورشة سيارات","مستودع صغير","صالة رياضة","فندق"];
+  const victims = ["مدير","شريك","زميل","قريب","عميل","جار","صديق قديم","موظف"];
+  const charges = [
+    "سرقة أموال/عهدة",
+    "تزوير مستند رسمي",
+    "ابتزاز وتهديد",
+    "إتلاف ممتلكات عمدًا",
+    "اختراق حساب/بيانات",
+    "اعتداء بالضرب",
+    "خيانة أمانة",
+    "تلاعب بفواتير ومحاسبة"
+  ];
+
+  const emotions = ["بارد جدًا","متوتر لكن ثابت","يتجنب النظر","كثير الكلام","يضحك وقت غلط","يرتبك عند التفاصيل الصغيرة","يظهر كأنه ضحية"];
+  const tells = [
+    "يغيّر القصة في نقطة صغيرة كل مرة",
+    "يذكر تفاصيل كثيرة غير مهمة ويتجاهل الأهم",
+    "يركز على تبرير شعوره بدل تبرير فعله",
+    "يستخدم جمل عامة: (أكيد… يمكن… ما أتذكر)",
+    "ينفعل عند سؤال بسيط",
+    "يحاول يقلب الهجوم على المحقق"
+  ];
+
+  const twistSoft = [
+    "في شاهد واحد كلامه متناقض",
+    "في كاميرا فيها دقيقة مفقودة",
+    "في إيصال ناقص رقم",
+    "في رسالة محذوفة ترجع من النسخ الاحتياطي",
+    "في تسجيل صوتي مقطوع آخره"
+  ];
+
+  const twistHard = [
+    "الدليل الرئيسي صحيح لكن تفسيره خاطئ",
+    "في طرف ثالث يستفيد من الإدانة",
+    "المتهم عنده سبب يخليه يكذب حتى لو بريء",
+    "المتهم مذنب لكن مو بالقضية اللي تتوقعها",
+    "المتهم بريء لكن تصرفاته تخليه يبدو مذنب"
+  ];
+
+  const city = invPick(rng, cities);
+  const place = invPick(rng, places);
+  const vic = invPick(rng, victims);
+  const charge = invPick(rng, charges);
+
+  // الحقيقة تتدرج: بالبدايات بسيطة، بالنهايات أعقد (لكن تظل عشوائية)
+  const guiltChance = (s <= 20) ? 0.55 : (s <= 60) ? 0.50 : 0.48;
+  const guilty = rng() < guiltChance;
+
+  const mood = invPick(rng, emotions);
+  const tell = invPick(rng, tells);
+
+  const soft = invPick(rng, twistSoft);
+  const hard = (s >= 35) ? invPick(rng, twistHard) : "";
+
+  const title = `قضية (${s}) — ${charge}`;
+  const timeLine =
+`الزمان: ليلة متأخرة (بعد 10م)
+المكان: ${city} — ${place}
+الطرف المتضرر: ${vic}`;
+
+  // سيناريو طويل (للمتهم)
+  const full =
+`[ملف المتهم — سيناريو كامل]
+${timeLine}
+
+الحدث الظاهر:
+صار تصعيد مفاجئ بعد خلاف بسيط. في يومين قبل الواقعة كان فيه توتر وتراكم كلام، وفي الليلة نفسها صار موقف كأنه “ينفجر” دفعة وحدة.
+
+سلوكك العام:
+أنت اليوم ظاهر عليك: ${mood}.
+وفيك عادة وقت الضغط: ${tell}.
+
+تفاصيل مهمّة (أحداث + مشاعر + دوافع):
+- قبل ما توصل للمكان كان عندك شيء يشغلك: خوف من انك تنكشف/أو تخسر شيء مهم/أو تنرفض.
+- وقت الوصول كان فيه شيء غريب: ${soft}.
+- أنت ما تحب تدخل في مواجهة مباشرة… لكن هذه المرة سويت تصرف خلاك تندم/أو تتمادى.
+- في لحظة حاسمة: قلت جملة/سويت فعل ترك أثر واضح على الطرف الثاني.
+- بعد الواقعة مباشرة: حاولت “تصلّح” أو “تخفي” أو “تبرر” بطريقة تخليك تبدو أسوأ.
+
+التوتر النفسي:
+المحقق لو ركّز على (سببك) أكثر من (قصة الفعل) ممكن يطيحك.  
+ولو ركّز على التسلسل المنطقي للأحداث ممكن يكشف وين صار الانكسار.
+
+${hard ? `تعقيد متأخر (صعوبة أعلى): ${hard}\n` : ""}
+
+ممنوع تقول الحقيقة بشكل مباشر لو أنت مذنب، وممنوع تبالغ بالبراءة لو أنت بريء — خلك واقعي واثبت على نفس المنطق.
+`;
+
+  // ملخص محقق (بدون تفسير داخلي)
+  const brief =
+`[ملف المحقق — ملخص بلا تفسير]
+${timeLine}
+
+المشهد العام:
+خلاف ثم تصعيد. فيه “ثغرة” في التسلسل: ${soft}.
+
+ملاحظات على سلوك المتهم:
+ظاهر عليه: ${mood}.
+ممكن يبان عليه: ${tell}.
+
+نقاط تحقيق ذكية:
+1) اطلب تسلسل زمني بالدقائق (قبل/أثناء/بعد).
+2) ركّز على “تفصيلة واحدة ثابتة” وشوف هل تتغير مع الضغط.
+3) اسأل: ليش هذا التصرف صار الآن بالذات؟
+4) اربط الدليل بالمنطق: هل الدليل يثبت الفعل؟ ولا يثبت وجوده فقط؟
+
+هدفك:
+تحكم بناء على الترابط + منطق الدوافع + التفاصيل الصغيرة.
+`;
+
+  const truth =
+guilty
+? `✅ الحقيقة: أنت مذنب.\nالسبب الحقيقي: كان عندك دافع واضح (مصلحة/خوف/انتقام) وخطوت خطوة زيادة وحاولت تغطيها.`
+: `❌ الحقيقة: أنت بريء.\nلكن: في تصرفاتك شيء يخلّي الناس تشك فيك (خوف/ستر/حرج)، وهذا اللي يصعّب القضية.`;
+
+  return { title, charge, brief, full, truth, guilty };
+}
+
+function invApplyUI(opt6){
+  const stage = invClamp(parseInt(opt6?.stage||1,10), 1, 100);
+  const maxDone = Math.max(0, parseInt(opt6?.maxDone||0,10));
+  const decided = !!opt6?.decided;
+
+  const invName = invInvestigatorForStage(stage);
+  const accName = invAccusedForStage(stage);
+
+  const isInv = invAmIInvestigator(stage);
+  const isAcc = invAmIAccused(stage);
+
+  const c = invGenerateCase(stage);
+
+  if(invStageBadge) invStageBadge.textContent = `القضية: ${stage} / 100`;
+  if(invRoleBadge) invRoleBadge.textContent = `الدور: 👮‍♂️ المحقق = ${invName} | 🧑‍⚖️ المتهم = ${accName}`;
+
+  if(invJudgeLine) invJudgeLine.textContent = opt6?.judgeLine || "🐟⚖️ افتحوا ملفاتكم… التحقيق حر.";
+  if(invCaseTitle) invCaseTitle.textContent = c.title;
+  if(invCharge) invCharge.textContent = c.charge;
+
+  // عرض الملفات حسب الدور
+  if(invBrief) invBrief.textContent = isInv ? c.brief : "🔒 هذا الملف للمحقق فقط.";
+  if(invFull) invFull.textContent  = isAcc ? c.full  : "🔒 هذا الملف للمتهم فقط.";
+
+  // الحقيقة تظهر فقط للمتهم
+  if(invTruthBox) invTruthBox.style.display = isAcc ? "block" : "none";
+  if(invTruth) invTruth.textContent = isAcc ? c.truth : "";
+
+  // أزرار الحكم: للمحقق فقط + تتقفل بعد القرار
+  if(invActions) invActions.style.display = isInv ? "flex" : "none";
+  if(invBtnGuilty) invBtnGuilty.disabled = decided;
+  if(invBtnInnocent) invBtnInnocent.disabled = decided;
+
+  // الحالة / النتيجة
+  if(invResult){
+    if(decided){
+      invResult.textContent = opt6?.reveal || "🐟⚖️ تم الحكم…";
+    }else{
+      invResult.textContent = "🎙️ التحقيق مفتوح… اسأل/اضغط/اسكت… وفي أي لحظة احكم (مذنب/بريء).";
+    }
+  }
+
+  if(invLockLine){
+    const lockMsg = (maxDone <= 0)
+      ? "🔒 لا رجعة: ما فيه قضايا منتهية بعد."
+      : `🔒 لا رجعة: آخر قضية منتهية = ${maxDone}. أي رجوع مستحيل حتى بعد أيام.`;
+    invLockLine.textContent = lockMsg;
+  }
+
+  if(invStatus){
+    invStatus.textContent =
+      `Live ✅ | آخر تحديث: ${(opt6?.updatedBy||"—")}\n` +
+      `Stage=${stage} | maxDone=${maxDone} | decided=${decided ? "✅" : "—"}`;
+  }
+}
+
+async function invForceNoBack(opt6){
+  if(!currentName) return;
+
+  const stage = invClamp(parseInt(opt6?.stage||1,10), 1, 100);
+  const maxDone = Math.max(0, parseInt(opt6?.maxDone||0,10));
+
+  // لو حاول أحد يرجع: نرجعه تلقائيًا للأمام
+  if(stage <= maxDone){
+    // القائد: ANAS فقط
+    if(currentName !== "ANAS") return;
+
+    const nextStage = invClamp(maxDone + 1, 1, 100);
+    await pushRoomUpdate({
+      "opt6invest.stage": nextStage,
+      "opt6invest.decided": false,
+      "opt6invest.decidedBy": "",
+      "opt6invest.verdict": "",
+      "opt6invest.win": null,
+      "opt6invest.reveal": "",
+      "opt6invest.judgeLine": "🐟⚖️ ممنوع الرجوع… نفتح القضية التالية.",
+      "opt6invest.updatedBy": currentName || "unknown"
+    });
+  }
+}
+
+async function invDecide(verdict){
+  const opt6 = window.__invCache || {};
+  const stage = invClamp(parseInt(opt6.stage||1,10), 1, 100);
+  if(!invAmIInvestigator(stage)) return;     // فقط المحقق يحكم
+  if(opt6.decided) return;
+
+  const c = invGenerateCase(stage);
+  const pickGuilty = (verdict === "guilty");
+  const correct = (pickGuilty === !!c.guilty);
+
+  const reveal =
+correct
+? `✅ حكم صحيح!\n🐟⚖️ السمكة: المحقق كسب.\n\n${c.truth}\n\n➡️ ننتقل تلقائيًا للقضية التالية…`
+: `❌ حكم غلط!\n🐟⚖️ السمكة: المحقق خسر.\n\n${c.truth}\n\n➡️ ننتقل تلقائيًا للقضية التالية…`;
+
+  // تحديث نهائي
+  await pushRoomUpdate({
+    "opt6invest.decided": true,
+    "opt6invest.decidedBy": currentName || "unknown",
+    "opt6invest.verdict": verdict,
+    "opt6invest.win": correct,
+    "opt6invest.reveal": reveal,
+    "opt6invest.judgeLine": "🐟⚖️ الحكم صدر… لا رجعة.",
+    "opt6invest.updatedBy": currentName || "unknown"
+  });
+
+  // تقدم تلقائي للأمام (قائد: ANAS)
+  if(currentName !== "ANAS") return;
+
+  const maxDone = Math.max(0, parseInt(opt6.maxDone||0,10));
+  const nextMax = Math.max(maxDone, stage);
+
+  // نهاية 100
+  if(stage >= 100){
+    await pushRoomUpdate({
+      "opt6invest.maxDone": nextMax,
+      "opt6invest.judgeLine": "🎉🐟⚖️ خلصتوا 100 قضية… أنتم وحوش!",
+      "opt6invest.updatedBy": currentName || "unknown"
+    });
+    return;
+  }
+
+  setTimeout(async ()=>{
+    await pushRoomUpdate({
+      "opt6invest.maxDone": nextMax,
+      "opt6invest.stage": stage + 1,
+      "opt6invest.decided": false,
+      "opt6invest.decidedBy": "",
+      "opt6invest.verdict": "",
+      "opt6invest.win": null,
+      "opt6invest.reveal": "",
+      "opt6invest.judgeLine": "🐟⚖️ قضية جديدة… الدور انقلب تلقائيًا. افتحوا الملفات.",
+      "opt6invest.updatedBy": currentName || "unknown"
+    });
+  }, 800);
+}
+
+invBtnGuilty?.addEventListener("click", ()=> invDecide("guilty"));
+invBtnInnocent?.addEventListener("click", ()=> invDecide("innocent"));										
 window.addEventListener("beforeunload", () => {
 try {
 if (window.fb?.auth?.currentUser) {
@@ -4517,6 +5311,7 @@ window.fb.signOut(window.fb.auth);
 
 </body>
 </html>
+
 
 
 
