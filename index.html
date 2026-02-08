@@ -5,6 +5,30 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <title>LANA ❤️ ANAS</title>
 <style>
+	/* ===== FIX MOBILE SCROLL (OPTION 6) ===== */
+html, body {
+  height: auto !important;
+  min-height: 100% !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  position: relative !important;
+  touch-action: pan-y;
+}
+
+.page,
+.contentBox,
+.fishWrap,
+.container,
+.app,
+#app {
+  height: auto !important;
+  min-height: 100vh !important;
+  overflow: visible !important;
+}
 	.kitCakeStage{position:relative; width:100%; height:100%;}
 
 .kitCakePlate{
@@ -5299,7 +5323,16 @@ correct
 }
 
 invBtnGuilty?.addEventListener("click", ()=> invDecide("guilty"));
-invBtnInnocent?.addEventListener("click", ()=> invDecide("innocent"));										
+invBtnInnocent?.addEventListener("click", ()=> invDecide("innocent"));	
+	// ===== FIX MOBILE AUTO SCROLL =====
+document.addEventListener('click', (e) => {
+  const el = e.target.closest('button, a');
+  if (!el) return;
+
+  if (el.tagName === 'A' && el.getAttribute('href') === '#') {
+    e.preventDefault();
+  }
+}, true);
 window.addEventListener("beforeunload", () => {
 try {
 if (window.fb?.auth?.currentUser) {
@@ -5311,6 +5344,7 @@ window.fb.signOut(window.fb.auth);
 
 </body>
 </html>
+
 
 
 
