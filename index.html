@@ -5075,7 +5075,39 @@ document.addEventListener("submit", function(e){
   e.preventDefault();
   e.stopPropagation();
 }, true);
+/********************
+* ✅ NO JUMP TO TOP (GLOBAL)
+********************/
+(function preventJumpToTop(){
+  let lastY = 0;
+  const saveY = () => { lastY = window.scrollY || document.documentElement.scrollTop || 0; };
 
+  window.addEventListener("touchstart", saveY, {passive:true});
+  window.addEventListener("pointerdown", saveY, {passive:true});
+  window.addEventListener("mousedown", saveY, {passive:true});
+
+  document.addEventListener("click", (e)=>{
+    const a = e.target.closest("a");
+    if(!a) return;
+
+    const href = (a.getAttribute("href") || "").trim();
+
+    // هذا السبب الأكثر شيوعًا للقفزة لفوق
+    if(href === "" || href === "#" || href.startsWith("#")){
+      e.preventDefault();
+      e.stopPropagation();
+      // نشيل الهاش إذا انحط
+      if(location.hash) history.replaceState(null, "", location.pathname + location.search);
+      requestAnimationFrame(()=> window.scrollTo(0, lastY));
+    }
+  }, true);
+
+  // لو كودك يغير hash بالغلط
+  window.addEventListener("hashchange", ()=>{
+    history.replaceState(null, "", location.pathname + location.search);
+    requestAnimationFrame(()=> window.scrollTo(0, lastY));
+  });
+})();
 </script>
 
 <script>
@@ -5419,6 +5451,7 @@ window.fb.signOut(window.fb.auth);
 
 </body>
 </html>
+
 
 
 
