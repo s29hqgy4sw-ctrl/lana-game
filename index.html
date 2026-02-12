@@ -3247,10 +3247,14 @@ function puzIsSolved(placed, n){
 /* ✅ يمنع “طلوع الصفحة لفوق” على الجوال */
 function puzNoScroll(e){
   if(!e) return;
-  e.preventDefault();
-  e.stopPropagation();
-}
 
+  // أهم شيء: نخلي اللمس يشتغل (لا نمنع اللمس)
+  // ونمنع بس السلوك اللي يسبب قفزة/لينك
+  e.stopPropagation();
+
+  // نمنع الـ default فقط في "click" (عشان لو فيه a href أو شي)
+  if(e.type === "click" && e.cancelable) e.preventDefault();
+}
 /* ✅ قطعة */
 function puzCreatePieceEl(grid, img, pieceIndex){
   const el = document.createElement("div");
@@ -3526,18 +3530,12 @@ function puzApplyUI(opt4puz){
   renderMiniBoard(section, grid, img, placed);
 
   // ✅ منع القفزة: أي لمس/ضغط داخل لوح البزل ما يرجّع الصفحة لفوق
-  if(puzBoard){
-    puzBoard.style.touchAction = "manipulation";
-    puzBoard.onpointerdown = puzNoScroll;
-    puzBoard.ontouchstart = puzNoScroll;
-    puzBoard.onmousedown = puzNoScroll;
-  }
-  if(puzTray){
-    puzTray.style.touchAction = "manipulation";
-    puzTray.onpointerdown = puzNoScroll;
-    puzTray.ontouchstart = puzNoScroll;
-    puzTray.onmousedown = puzNoScroll;
-  }
+if(puzBoard){
+  puzBoard.style.touchAction = "manipulation";
+}
+if(puzTray){
+  puzTray.style.touchAction = "manipulation";
+}
 
   // Board
   if(puzBoard){
@@ -5390,6 +5388,7 @@ window.fb.signOut(window.fb.auth);
 
 </body>
 </html>
+
 
 
 
